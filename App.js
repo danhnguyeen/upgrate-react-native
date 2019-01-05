@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, StatusBar, View } from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
 
 import AppContainer from './navigators';
@@ -18,7 +18,13 @@ export default class App extends Component {
   }
   render() {
     return (
-      <AppContainer />
+      <View style={{ flex: 1 }}>
+        <StatusBar
+          backgroundColor={'#2488c4'}
+          barStyle="light-content"
+        />
+        <AppContainer />
+      </View>
     );
   }
 }
