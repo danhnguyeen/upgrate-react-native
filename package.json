@@ -12,6 +12,7 @@
     "react-native-facebook-account-kit": "^1.0.1",
     "react-native-gesture-handler": "^1.0.12",
     "react-native-maps": "^0.22.1",
+    "react-native-splash-screen": "^3.1.1",
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
