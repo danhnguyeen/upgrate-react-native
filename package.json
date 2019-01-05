@@ -10,6 +10,7 @@
     "react": "16.6.3",
     "react-native": "0.57.8",
     "react-native-facebook-account-kit": "^1.0.1",
+    "react-native-fcm": "^16.2.4",
     "react-native-gesture-handler": "^1.0.12",
     "react-native-maps": "^0.22.1",
     "react-native-splash-screen": "^3.1.1",

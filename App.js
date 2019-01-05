@@ -7,16 +7,27 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, StatusBar, View } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
+import { NavigationActions } from 'react-navigation';
+import FCM from "react-native-fcm";
 
 import AppContainer from './navigators';
+import PushNotification from './notifications';
 
 export default class App extends Component {
   componentDidMount() {
     SplashScreen.hide();
+    FCM.requestPermissions({ badge: true, sound: true, alert: true });
   }
   render() {
+    const callNavigate = (routeName, params) => {
+      this.navigator.dispatch({
+        type: NavigationActions.NAVIGATE,
+        routeName: routeName,
+        params: params
+      })
+    };
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
@@ -24,6 +35,7 @@ export default class App extends Component {
           barStyle="light-content"
         />
         <AppContainer />
+        <PushNotification callNavigate={callNavigate}></PushNotification>
       </View>
     );
   }

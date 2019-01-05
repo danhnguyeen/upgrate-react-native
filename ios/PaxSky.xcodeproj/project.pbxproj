@@ -13,7 +13,10 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* PaxSkyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PaxSkyTests.m */; };
+		04D23E2FF8E82D5840417559 /* libPods-PaxSky.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FBB9F2990350566EFC0A3F /* libPods-PaxSky.a */; };
 		0820A43F21E0BBF80043C171 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0820A43E21E0BBF10043C171 /* libSplashScreen.a */; };
+		0820A4FA21E0FFDA0043C171 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0820A4F921E0FF7E0043C171 /* libRNFIRMessaging.a */; };
+		0820A4FC21E100950043C171 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0820A4FB21E100940043C171 /* GoogleService-Info.plist */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
@@ -37,7 +40,6 @@
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* PaxSkyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PaxSkyTests.m */; };
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
-		71EC8647285EB6F0D4287930 /* libPods-PaxSky.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75C6437C8D284B9662979F8C /* libPods-PaxSky.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 /* End PBXBuildFile section */
@@ -91,6 +93,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 3D7682761D8E76B80014119E;
 			remoteInfo = SplashScreen;
+		};
+		0820A4F821E0FF7E0043C171 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0820A4F421E0FF7E0043C171 /* RNFIRMessaging.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNFIRMessaging;
 		};
 		139105C01AF99BAD00B5F7CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -336,6 +345,8 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PaxSkyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaxSkyTests.m; sourceTree = "<group>"; };
 		0820A43921E0BBF10043C171 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
+		0820A4F421E0FF7E0043C171 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
+		0820A4FB21E100940043C171 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "PaxSky/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* PaxSky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaxSky.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -345,19 +356,17 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = PaxSky/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = PaxSky/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = PaxSky/main.m; sourceTree = "<group>"; };
-		13B0BB3CF08B74D02E52DC45 /* Pods-PaxSky.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PaxSky.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PaxSky/Pods-PaxSky.debug.xcconfig"; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* PaxSky-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PaxSky-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* PaxSky-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PaxSky-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B26D30C21AD9323E7732772 /* libPods-PaxSky-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PaxSky-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		462B4A0F1448E1F423BDF687 /* libPods-PaxSkyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PaxSkyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DFADCCF08D6618FD135EC2E /* Pods-PaxSky.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PaxSky.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PaxSky/Pods-PaxSky.debug.xcconfig"; sourceTree = "<group>"; };
+		42C95C62998391C5DF1A3D83 /* Pods-PaxSky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PaxSky.release.xcconfig"; path = "Pods/Target Support Files/Pods-PaxSky/Pods-PaxSky.release.xcconfig"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
-		7281CA6A0DB0669BCCA93FB3 /* Pods-PaxSky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PaxSky.release.xcconfig"; path = "Pods/Target Support Files/Pods-PaxSky/Pods-PaxSky.release.xcconfig"; sourceTree = "<group>"; };
-		75C6437C8D284B9662979F8C /* libPods-PaxSky.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PaxSky.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		E5FBB9F2990350566EFC0A3F /* libPods-PaxSky.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PaxSky.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -373,6 +382,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0820A4FA21E0FFDA0043C171 /* libRNFIRMessaging.a in Frameworks */,
 				0820A43F21E0BBF80043C171 /* libSplashScreen.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
@@ -386,7 +396,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				71EC8647285EB6F0D4287930 /* libPods-PaxSky.a in Frameworks */,
+				04D23E2FF8E82D5840417559 /* libPods-PaxSky.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,19 +485,18 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		07C5A3B13D9A0690C8386107 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				13B0BB3CF08B74D02E52DC45 /* Pods-PaxSky.debug.xcconfig */,
-				7281CA6A0DB0669BCCA93FB3 /* Pods-PaxSky.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		0820A43A21E0BBF10043C171 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				0820A43E21E0BBF10043C171 /* libSplashScreen.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0820A4F521E0FF7E0043C171 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0820A4F921E0FF7E0043C171 /* libRNFIRMessaging.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -515,6 +524,7 @@
 		13B07FAE1A68108700A75B9A /* PaxSky */ = {
 			isa = PBXGroup;
 			children = (
+				0820A4FB21E100940043C171 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -549,14 +559,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		28DFC56433043D84F88FDFB4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3DFADCCF08D6618FD135EC2E /* Pods-PaxSky.debug.xcconfig */,
+				42C95C62998391C5DF1A3D83 /* Pods-PaxSky.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				0820A43921E0BBF10043C171 /* SplashScreen.xcodeproj */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				75C6437C8D284B9662979F8C /* libPods-PaxSky.a */,
-				3B26D30C21AD9323E7732772 /* libPods-PaxSky-tvOSTests.a */,
-				462B4A0F1448E1F423BDF687 /* libPods-PaxSkyTests.a */,
+				E5FBB9F2990350566EFC0A3F /* libPods-PaxSky.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -582,6 +599,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				0820A4F421E0FF7E0043C171 /* RNFIRMessaging.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -615,7 +633,7 @@
 				00E356EF1AD99517003FC87E /* PaxSkyTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				07C5A3B13D9A0690C8386107 /* Pods */,
+				28DFC56433043D84F88FDFB4 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -667,12 +685,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "PaxSky" */;
 			buildPhases = (
-				53E9501CDD8FFD3CE3DFFFA2 /* [CP] Check Pods Manifest.lock */,
+				F41C4F525D9B092CF23855B3 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				1E07D9D73F9446843DF331C8 /* [CP] Copy Pods Resources */,
+				87A0284C671E3B315F00CE3F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -807,6 +825,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 0820A4F521E0FF7E0043C171 /* Products */;
+					ProjectRef = 0820A4F421E0FF7E0043C171 /* RNFIRMessaging.xcodeproj */;
+				},
+				{
 					ProductGroup = 0820A43A21E0BBF10043C171 /* Products */;
 					ProjectRef = 0820A43921E0BBF10043C171 /* SplashScreen.xcodeproj */;
 				},
@@ -862,6 +884,13 @@
 			fileType = archive.ar;
 			path = libSplashScreen.a;
 			remoteRef = 0820A43D21E0BBF10043C171 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0820A4F921E0FF7E0043C171 /* libRNFIRMessaging.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFIRMessaging.a;
+			remoteRef = 0820A4F821E0FF7E0043C171 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		139105C11AF99BAD00B5F7CC /* libRCTSettings.a */ = {
@@ -1104,6 +1133,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				0820A4FC21E100950043C171 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1139,7 +1169,21 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		1E07D9D73F9446843DF331C8 /* [CP] Copy Pods Resources */ = {
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		87A0284C671E3B315F00CE3F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1161,21 +1205,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PaxSky/Pods-PaxSky-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		53E9501CDD8FFD3CE3DFFFA2 /* [CP] Check Pods Manifest.lock */ = {
+		F41C4F525D9B092CF23855B3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1303,7 +1333,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13B0BB3CF08B74D02E52DC45 /* Pods-PaxSky.debug.xcconfig */;
+			baseConfigurationReference = 3DFADCCF08D6618FD135EC2E /* Pods-PaxSky.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1320,7 +1350,8 @@
 					"\"${PODS_ROOT}/Headers/Public/glog\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-maps\"",
 					"\"${PODS_ROOT}/Headers/Public/yoga\"",
-					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios\n\n$(SRCROOT)/../node_modules/react-native-splash-screen/ios\n\n$(SRCROOT)/../node_modules/react-native-splash-screen/ios\n\n$(SRCROOT)/../node_modules/react-native-splash-screen/ios\n\n$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = PaxSky/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1337,7 +1368,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7281CA6A0DB0669BCCA93FB3 /* Pods-PaxSky.release.xcconfig */;
+			baseConfigurationReference = 42C95C62998391C5DF1A3D83 /* Pods-PaxSky.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1353,7 +1384,8 @@
 					"\"${PODS_ROOT}/Headers/Public/glog\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-maps\"",
 					"\"${PODS_ROOT}/Headers/Public/yoga\"",
-					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios\n\n$(SRCROOT)/../node_modules/react-native-splash-screen/ios\n\n$(SRCROOT)/../node_modules/react-native-splash-screen/ios\n\n$(SRCROOT)/../node_modules/react-native-splash-screen/ios\n\n$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = PaxSky/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -41,6 +41,8 @@ target 'PaxSky' do
 
   # react-facebook-account-kit dependencies
   pod 'RNAccountKit', :path => '../node_modules/react-native-facebook-account-kit/ios'
-  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+  # pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'Firebase'
+  pod 'Firebase/Messaging'
 end
