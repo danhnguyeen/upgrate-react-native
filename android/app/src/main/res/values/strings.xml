@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PaxSky</string>
+    <string name="fb_app_id">276313173033941</string>
+    <string name="ak_client_token">46a9f1dfa1dd879c752894bca133214f</string>
 </resources>
