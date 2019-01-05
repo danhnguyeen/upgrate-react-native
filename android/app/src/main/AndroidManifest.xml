@@ -10,6 +10,10 @@
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <!-- react native maps -->
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyAEW29FWyfSPSur-RyDKWFUVecshAsp_c8"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
