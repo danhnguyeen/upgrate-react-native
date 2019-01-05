@@ -3,6 +3,7 @@ package com.paxsky;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;
+import android.content.Intent;
 
 public class MainActivity extends ReactActivity {
     @Override
@@ -17,5 +18,10 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "PaxSky";
+    }
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 }
