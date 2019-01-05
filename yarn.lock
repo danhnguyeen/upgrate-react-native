@@ -4610,6 +4610,13 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-facebook-account-kit@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-facebook-account-kit/-/react-native-facebook-account-kit-1.0.1.tgz#7d36cab610f678ac04c87d4a92ef0de81c81b336"
+  integrity sha512-lJ7OdNKju2ijFq2vXuEKffNd8e7/n+emIQ7JCruLIDDkKx3w4wb76GaEeRkkBBBu5CM0dY1wOxcIg6uufrf2eA==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-gesture-handler@^1.0.0, react-native-gesture-handler@^1.0.12:
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.12.tgz#99a22f90212df299245357dbd3a9a01c788f310b"

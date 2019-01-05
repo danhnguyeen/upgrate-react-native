@@ -1,4 +1,5 @@
 PODS:
+  - AccountKit (4.35.0)
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
   - Folly (2016.10.31.00):
@@ -53,6 +54,9 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNAccountKit (1.0.1):
+    - AccountKit
+    - React
   - RNGestureHandler (1.0.12):
     - React
   - yoga (0.57.8.React)
@@ -74,11 +78,13 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNAccountKit (from `../node_modules/react-native-facebook-account-kit/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - AccountKit
     - boost-for-react-native
 
 EXTERNAL SOURCES:
@@ -92,21 +98,25 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  RNAccountKit:
+    :path: "../node_modules/react-native-facebook-account-kit/ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AccountKit: 870ccaf5d33facda9408783e28fbe68c5211e069
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
+  RNAccountKit: 3dd31fff73c90378ac89dc7611da0dc22b29f84b
   RNGestureHandler: 282af6ea58ed8483612365159c58a3ca5f55e7da
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 7ff1f1a4f4223e6938c7ba1cdb49b0c262cfd368
+PODFILE CHECKSUM: 7daee26c320b8fa855d22f10f6f871125beff86f
 
 COCOAPODS: 1.5.3
