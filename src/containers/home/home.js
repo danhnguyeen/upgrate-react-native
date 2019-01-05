@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import RNAccountKit from 'react-native-facebook-account-kit'
+import SplashScreen from 'react-native-splash-screen'
 
 class Home extends Component {
   componentDidMount() {
     this.configureAccountKit();
+    // alert('1')
+    // SplashScreen.hide();
   }
   loginWithPhone = () => {
     RNAccountKit.loginWithPhone()
@@ -27,7 +30,7 @@ class Home extends Component {
   render() {
     return (
       <View>
-        <Text>Home</Text>
+        <Text>Homefwe</Text>
         <Button onPress={this.loginWithPhone} title="Login With Phone" />
       </View>
     );
