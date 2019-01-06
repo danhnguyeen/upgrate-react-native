@@ -139,7 +139,10 @@ android {
 dependencies {
     implementation project(':react-native-fcm')
     implementation project(':react-native-splash-screen')
-    implementation project(':react-native-facebook-account-kit')
+    implementation(project(':react-native-facebook-account-kit')){
+        exclude group: 'com.facebook.android', module: 'account-kit-sdk'
+    }
+    implementation 'com.facebook.android:account-kit-sdk:4.23.0'
     implementation project(':react-native-maps')
     implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -147,6 +150,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.google.firebase:firebase-core'
     implementation 'com.google.firebase:firebase-messaging'
+    
 }
 
 // Run this once to be able to run the application with BUCK
