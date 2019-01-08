@@ -4,8 +4,6 @@ import { Header } from 'react-navigation';
 export const DEVICE_HEIGTH = Dimensions.get('window').height;
 export const DEVICE_WIDTH = Dimensions.get('window').width;
 export const platform = Platform.OS;
-// export const isIphoneX =
-//   platform === 'ios' && DEVICE_HEIGTH === 812 && DEVICE_WIDTH === 375;
 
 const dimen = Dimensions.get('window');
 export const isIphoneX = Platform.OS === 'ios' &&
@@ -76,18 +74,3 @@ export const shadowProperties = {
   shadowOffset: { width: 0, height: 10 },
   shadowRadius: 10
 }
-export const toastOption = {
-  duration: 4000,
-  position: -49,
-  shadow: false,
-  animation: true,
-  hideOnPress: true,
-  // delay: 1000,
-  containerStyle: {
-    // paddingVertical: 1,
-    paddingTop: 4,
-    paddingBottom: 6,
-    width: DEVICE_WIDTH,
-    borderRadius: 0
-  }
-};

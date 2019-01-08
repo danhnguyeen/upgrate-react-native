@@ -122,6 +122,8 @@ PODS:
     - React
   - RNGestureHandler (1.0.12):
     - React
+  - RNI18n (2.0.15):
+    - React
   - yoga (0.57.8.React)
 
 DEPENDENCIES:
@@ -145,6 +147,7 @@ DEPENDENCIES:
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNAccountKit (from `../node_modules/react-native-facebook-account-kit/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -177,6 +180,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-facebook-account-kit/ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -200,8 +205,9 @@ SPEC CHECKSUMS:
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   RNAccountKit: 3dd31fff73c90378ac89dc7611da0dc22b29f84b
   RNGestureHandler: 282af6ea58ed8483612365159c58a3ca5f55e7da
+  RNI18n: 46b8694063fbd699f2c06a4dc8e835b3176763b1
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: a58792f1967063bf1d0f4c9db90270349f05427a
+PODFILE CHECKSUM: e56ded61775111d33b2ad2cdc1d4e53eeed93d4e
 
 COCOAPODS: 1.5.3
