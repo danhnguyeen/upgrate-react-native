@@ -13,7 +13,7 @@ import { NavigationActions } from 'react-navigation';
 import FCM from "react-native-fcm";
 
 import AppContainer from './navigators';
-import PushNotification from './notifications';
+import PushNotification from './src/services/notifications-service';
 
 export default class App extends Component {
   componentDidMount() {
