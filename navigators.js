@@ -1,9 +1,8 @@
 import { createBottomTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
 
-import { Home } from './src/containers/home';
-import { Products } from './src/containers/products';
 import { Welcome } from './src/containers/welcome';
 import { News } from './src/containers/news';
+import { Buildings } from './src/containers/buildings';
 import i18n from './src/i18n';
 
 const headerOptions = {
@@ -40,16 +39,24 @@ const HomeStack = createStackNavigator({
   }
 });
 
+const BuildingStack = createStackNavigator({
+  Buildings: {
+    screen: Buildings,
+    navigationOptions: {
+      ...headerOptions,
+      title: i18n.t('tabs.buildings')
+    }
+  }
+}, {
+  initialRouteName: 'Buildings',
+  navigationOptions: {
+    ...headerOptions
+  }
+});
+
 const AppNavigator = createBottomTabNavigator({
   Home: HomeStack,
-  Products: createStackNavigator({
-    Products: {
-      screen: Products,
-      navigationOptions: ({ navigation }) => ({
-        ...headerOptions
-      })
-    }
-  })
+  Buildings: BuildingStack
 },
 {
   initialRouteName: 'Home'

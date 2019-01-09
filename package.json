@@ -17,6 +17,7 @@
     "react-native-fcm": "^16.2.4",
     "react-native-gesture-handler": "^1.0.12",
     "react-native-i18n": "^2.0.15",
+    "react-native-linear-gradient": "^2.5.3",
     "react-native-maps": "^0.22.1",
     "react-native-splash-screen": "^3.1.1",
     "react-navigation": "^3.0.9",

@@ -47,5 +47,7 @@ target 'PaxSky' do
   pod 'Firebase/Messaging'
   # react native i18n dependencies
   pod 'RNI18n', :path => '../node_modules/react-native-i18n'
+  # react-native-linear-gradient
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
 end

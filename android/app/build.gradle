@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-linear-gradient')
     implementation project(':react-native-i18n')
     implementation project(':react-native-fcm')
     implementation project(':react-native-splash-screen')

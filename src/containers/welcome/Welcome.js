@@ -24,7 +24,7 @@ class Welcome extends React.Component {
             <Image source={Logo} style={styles.logoImage} />
           </View>
           <TouchableOpacity
-            onPress={() => { this.props.navigation.navigate('Paxsky') }}
+            onPress={() => { this.props.navigation.navigate('Buildings') }}
             style={styles.searchBar} activeOpacity={0.8}>
             <Icon style={{ color: '#FFF', lineHeight: 30, marginRight: 10, }} name='building-o' type="FontAwesome" />
             <Text uppercase style={[styles.buttonText, { textAlign: 'center' }]}>{i18n.t('tabs.buildings')}</Text>
