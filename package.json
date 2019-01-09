@@ -10,6 +10,7 @@
     "axios": "^0.18.0",
     "lodash": "^4.17.11",
     "moment": "^2.23.0",
+    "native-base": "^2.10.0",
     "react": "16.6.3",
     "react-native": "0.57.8",
     "react-native-facebook-account-kit": "^1.0.1",

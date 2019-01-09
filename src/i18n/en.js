@@ -3,6 +3,12 @@ export default {
   
   },
   "tabs": {
-    
+    home: 'Homw',
+    paxsky: 'Paxsky',
+    saved: 'Saved',
+    appointment: 'Appointment',
+    account: 'Account',
+    buildings: 'Buildings',
+    news: 'News',
   }
 }

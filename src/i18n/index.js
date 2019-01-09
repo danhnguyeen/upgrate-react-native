@@ -12,7 +12,7 @@ I18n.fallbacks = true;
 // I18n.defaultLocale = 'nl'
 
 // Add translations here
-I18n.defaultLocale = 'en';
+I18n.defaultLocale = 'vi_VN';
 I18n.translations = {
     vi_VN: vi,
     en: en

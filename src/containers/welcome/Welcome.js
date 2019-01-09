@@ -1,30 +1,33 @@
-import React from 'react'
-import { StyleSheet, TouchableOpacity, View, ImageBackground, Image } from 'react-native'
-import { Icon, Text } from "native-base"
-import { LANGUAGE, winW, winH } from '../constants/'
+import React from 'react';
+import { StyleSheet, TouchableOpacity, View, ImageBackground, Image, Text } from 'react-native';
+import { Icon } from "native-base";
+
+import Logo from '../../assets/images/logo-text.png';
+import Background from '../../assets/images/homescreen2.jpg';
+import i18n from '../../i18n';
 
 const ROURTER = [
-  { routeName: 'News', icon: 'newspaper-o' },
-  { routeName: 'Appointment', icon: 'calendar' },
-  { routeName: 'Saved', icon: 'heart-o' },
-  { routeName: 'Account', icon: 'user-o' },
-]
+  { routeName: 'News', title: 'news', icon: 'newspaper-o' },
+  { routeName: 'Appointment', title: 'appointment', icon: 'calendar' },
+  { routeName: 'Saved', title: 'saved', icon: 'save' },
+  { routeName: 'Account', title: 'account', icon: 'user-o' }
+];
 
 class Welcome extends React.Component {
 
   render() {
     return (
       <View style={styles.container}>
-        <ImageBackground style={[StyleSheet.absoluteFill]} source={require('../assets/images/homescreen2.jpg')} />
+        <ImageBackground style={[StyleSheet.absoluteFill]} source={Background} />
         <View style={styles.contentContainer}>
           <View style={{ alignItems: 'center' }}>
-            <Image source={require('../assets/images/logo-text.png')} style={styles.logoImage} />
+            <Image source={Logo} style={styles.logoImage} />
           </View>
           <TouchableOpacity
             onPress={() => { this.props.navigation.navigate('Paxsky') }}
-            style={styles.searchBar} activeOpacity={1}>
-            <Icon style={{ color: '#FFF', lineHeight: 30, marginRight: 10, }} name='office-building' type="MaterialCommunityIcons" />
-            <Text uppercase style={[styles.buttonText, { textAlign: 'center' }]}>{LANGUAGE('Buildings')}</Text>
+            style={styles.searchBar} activeOpacity={0.8}>
+            <Icon style={{ color: '#FFF', lineHeight: 30, marginRight: 10, }} name='building-o' type="FontAwesome" />
+            <Text uppercase style={[styles.buttonText, { textAlign: 'center' }]}>{i18n.t('tabs.buildings')}</Text>
           </TouchableOpacity>
 
           {[2, 4].map((line) =>
@@ -35,9 +38,10 @@ class Welcome extends React.Component {
                 return (
                   <TouchableOpacity key={index}
                     onPress={() => { this.props.navigation.navigate(routeName) }}
+                    activeOpacity={0.8}
                     style={[styles.buttonsBlock]} >
                     <Icon style={styles.buttonIcon} name={ROURTER[router].icon} type="FontAwesome" />
-                    <Text style={styles.buttonText} >{LANGUAGE(routeName)}</Text>
+                    <Text style={styles.buttonText} >{i18n.t(`tabs.${ROURTER[router].title}`)}</Text>
                   </TouchableOpacity>
                 )
               }
@@ -57,50 +61,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   contentContainer: {
-    // backgroundColor: 'rgba(0,0,0,0.3)',
-    // alignItems: 'center',
-    padding: winW(10),
-    // width: winW(90),
-    // alignContent: 'center',
-    // alignItems: 'center',
+    padding: 15
   },
   logoImage: {
-    resizeMode: 'contain',
-    width: winW(40),
-    height: winW(40),
-    marginBottom: winW(5),
+    width: 180,
+    height: 180,
+    marginBottom: 50
   },
   searchBar: {
     backgroundColor: "rgba(52,139,205, 0.8)",
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    // marginHorizontal: winW(4),
-    marginBottom: winW(5),
+    marginBottom: 10,
     marginHorizontal: 5,
     padding: 10,
   },
   buttonsContainer: {
-    // backgroundColor: 'rgba(255,255,255,0.3)',
     flexDirection: 'row',
     justifyContent: 'center',
-    // flexWrap: 'wrap',
-    // alignContent:'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   buttonsBlock: {
     backgroundColor: "rgba(52,139,205, 0.8)",
     borderRadius: 5,
     flex: 0.5,
     flexDirection: 'row',
-    // justifyContent:'center',
     alignItems: 'center',
-    // alignContent: 'center',
-    // marginHorizontal: winW(2),
-    // marginHorizontal: 5,
     margin: 5,
     paddingHorizontal: 15,
-    // paddingVertical: 20,
     height: 60,
   },
   buttonText: {
