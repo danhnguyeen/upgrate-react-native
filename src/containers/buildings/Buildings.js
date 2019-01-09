@@ -23,14 +23,13 @@ const RenderTagBuilding = (props) => (
   <TouchableOpacity style={{ width: ITEM_W, height: winH(26), minHeight: winW(47), paddingLeft: ITEM_Margin, paddingVertical: winW(2) }}
     onPress={() => {
       props._onfetchBuildingDetail(props.data.building_id)
-      props.navigation.navigate('BuildingDetail', { building_id: props.data.building_id })
+      props.navigation.navigate('BuildingDetails', { building_id: props.data.building_id })
     }}  >
     <TagBuilding detailBuilding={props.data} />
   </TouchableOpacity>
 )
 
 class Buildings extends React.Component {
-  // static navigationOptions = { header: null, }
   constructor(props) {
     super(props)
     this.state = {
