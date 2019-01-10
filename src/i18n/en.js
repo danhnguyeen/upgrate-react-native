@@ -1,8 +1,8 @@
 export default {
-  "global": {
+  global: {
   
   },
-  "tabs": {
+  tabs: {
     home: 'Homw',
     paxsky: 'Paxsky',
     saved: 'Saved',
@@ -10,5 +10,9 @@ export default {
     account: 'Account',
     buildings: 'Buildings',
     news: 'News',
+  },
+  account: {
+    signIn: 'SignIn',
+    signUp: 'SignUp'
   }
 }

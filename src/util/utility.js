@@ -1,7 +1,9 @@
 /* eslint-disable no-extend-native,no-param-reassign,no-cond-assign,radix,max-len,no-confusing-arrow */
 import { StyleSheet } from 'react-native';
-import i18n from '../i18n';
+import { StackActions, NavigationActions } from 'react-navigation'
 import moment from 'moment';
+
+import i18n from '../i18n';
 import { DEVICE_HEIGTH, DEVICE_WIDTH } from '../config/variables';
 
 export const updateObject = (oldObject, updatedProperties) => ({
@@ -24,8 +26,35 @@ export const isEmpty = value => {
     return value === null || value === undefined
   }
 }
+export function _dispatchStackActions(propsNavigation, propsActions, routeName = null, sub_routeName = null, sub_dataProp = null) {
+
+  console.log('_dispatchStackActions','sub_routeName ========= ',sub_routeName, 'sub_dataProp ========= ', sub_dataProp)
+
+  if (propsNavigation && propsActions) {
+    const _subAction = sub_routeName != null ? NavigationActions.navigate({ routeName: sub_routeName, params: { sub_dataProp }}) : {}
+    const navigateAction = NavigationActions.navigate({ routeName: routeName, params: { sub_dataProp }, action: _subAction })
+
+    switch (propsActions) {
+      case 'reset':
+        propsNavigation.dispatch(StackActions.reset({
+          index: 0, key: null,
+          actions: [navigateAction]
+        }))
+        break
+      default:
+        propsNavigation.dispatch(navigateAction)
+        break
+
+    }
+  }
+}
 export const winW = percent => (DEVICE_WIDTH * percent) / 100;
 export const winH = percent => (DEVICE_HEIGTH * percent) / 100;
+
+
+
+
+
 
 
 

@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { AuthReducers } from '../../containers/auth';
+import { AccountReducers } from '../../containers/account';
 import { buildingReducers } from '../../containers/buildings';
 
 export default combineReducers({
-  auth: AuthReducers,
+  auth: AccountReducers,
   buildings: buildingReducers
 });

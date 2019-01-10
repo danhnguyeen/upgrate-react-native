@@ -6,6 +6,7 @@ import { Icon } from 'native-base';
 import { Welcome } from './src/containers/welcome';
 import { News } from './src/containers/news';
 import { Locations } from './src/containers/locations';
+import { Account, SignIn, SignUp } from './src/containers/account';
 import { Buildings, BuildingDetails, Offices } from './src/containers/buildings';
 import i18n from './src/i18n';
 import { brandPrimary, textColor } from './src/config/variables';
@@ -82,10 +83,37 @@ const LocationStack = createStackNavigator({
   }
 });
 
+const AccountStack = createStackNavigator({
+  Account: {
+    screen: Account,
+    navigationOptions: {
+      ...headerOptions,
+      title: i18n.t('tabs.account')
+    }
+  },
+  SignIn: {
+    screen: SignIn,
+    navigationOptions: {
+      ...headerOptions,
+      title: i18n.t('account.signIn')
+    }
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {
+      ...headerOptions,
+      title: i18n.t('account.signUp')
+    }
+  }
+}, {
+  initialRouteName: 'Account'
+});
+
 const AppNavigator = createBottomTabNavigator({
   Home: HomeStack,
   Buildings: BuildingStack,
-  Locations: LocationStack
+  Locations: LocationStack,
+  Account: AccountStack
 }, {
   defaultNavigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -96,11 +124,14 @@ const AppNavigator = createBottomTabNavigator({
       if (routeName === 'Home') {
         iconName = 'ios-home';
       } else if (routeName === 'Buildings') {
-        iconName = 'building-o';
+        iconName = `building${focused ? '' : '-o'}`;
         iconSize = 24;
         iconType = 'FontAwesome';
       } else if (routeName === 'Locations') {
         iconName = 'ios-pin';
+      } else if (routeName === 'Account') {
+        iconSize = 30;
+        iconName = 'ios-person';
       }
       return <Icon name={iconName} style={{ color: tintColor, fontSize: iconSize }} type={iconType} />;
     },

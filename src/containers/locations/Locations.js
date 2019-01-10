@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  isAuth: state.auth.token,
   buildings: state.buildings.buildings
 });
 

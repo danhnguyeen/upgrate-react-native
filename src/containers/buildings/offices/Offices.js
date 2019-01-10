@@ -8,7 +8,7 @@ import * as actions from '../building-actions';
 import { isEmpty } from '../../../util/utility';
 import { TagOffice } from '../../../components/buildings';
 import { backgroundColor, brandPrimary } from '../../../config/variables';
-// import ModalFilter from '../../components/Office/ModalFilter'
+import OfficeFilter from './OfficeFilter';
 
 let filterData = {
   acreage_rent: [],
@@ -79,17 +79,16 @@ class Offices extends React.Component {
     const { filterRequired, filterData, officeList, isFetching } = this.state
     return (
       <View style={{ flex: 1, backgroundColor: backgroundColor }}>
-        {/* <View style={styles.headerContainer} >
-          <TouchableOpacity
-            style={[styles.headerIcon, styles.left, { alignItems: 'flex-start' }]}
-            onPress={() => { this.props.navigation.goBack() }}>
-            <Icon style={[styles.icon, styles.buttonText]} name={'angle-left'} type={'FontAwesome'} />
-          </TouchableOpacity>
-          <View style={[styles.headerTitle]}>
-            <Text style={[styles.title, styles.buttonText,]} numberOfLines={1} adjustsFontSizeToFit>{this.props.navigation.getParam('building_name', 'Danh sách văn phòng')}</Text>
-          </View>
-          <View style={styles.headerIcon}></View>
-        </View> */}
+        {this.state.modalVisible ?
+          <OfficeFilter
+            visible
+            closeModal={() => this.setState({ modalVisible: false })}
+            onFilterPress={(dataRequired) => { this._onFilterPress(dataRequired) }}
+            clearFilterPress={() => { this._clearFilterPress() }}
+            filterData={filterData}
+            filterRequired={filterRequired}
+          />
+          : null}
         <Content style={{ backgroundColor: '#DCDCDC' }} >
           {(isFetching && officeList) ? <ActivityIndicator /> :
             <View >

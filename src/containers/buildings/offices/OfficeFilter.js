@@ -1,42 +1,35 @@
-import React, { Component } from 'react';
-import {
-  TouchableOpacity,
-  View,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  ActivityIndicator
-} from 'react-native';
+import React from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity, View, Modal, ActivityIndicator } from 'react-native';
 import { Text, Icon } from "native-base";
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-import { MultiSelect } from '../../components/buildings';
-import { shadow, brandLight, brandPrimary } from '../../config/variables';
+
+import { shadow, brandLight, brandPrimary } from '../../../config/variables';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 class CustomMarker extends React.Component {
   render() {
     return (
       <View style={[shadow, { width: 30, height: 30, borderRadius: 15, backgroundColor: '#FFF' }]} />
-    );
+    )
   }
 }
 
-class BuildingFilter extends Component {
+class OfficeFilter extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       onReady: false,
-      sliderLength: 200,
-      selectedItems: [],
+      sliderLength: 250,
       filterRequired: {
         district: null,
         rent_cost: null,
-        acreage: null,
+        acreage_rent: null,
         direction: null
       }
     }
     this._isMounted = false
   }
+
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -44,9 +37,17 @@ class BuildingFilter extends Component {
     this._isMounted = true
     this._isMounted && this.onFetchProps()
   }
+  // componentWillReceiveProps(thisProps, nextProps) {
+  //   if (thisProps != nextProps) {
+  //     // this.onFetchProps()
+  //   }
+  // }
+
   onFetchProps = () => {
-    const { filterRequired } = this.props
-    this.setState({ filterRequired, onReady: true })
+    const { filterData, filterRequired } = this.props
+    this.setState({ filterRequired, filterData }, () => {
+      this.setState({ onReady: true })
+    })
   }
   measureComponent = () => {
     if (this.refs.refContainer) {
@@ -55,15 +56,16 @@ class BuildingFilter extends Component {
   }
   _logLargestSize = (width) => {
     if (width > this.state.sliderLength) {
-      this.setState({ sliderLength: width - 10 })
+      this.setState({ sliderLength: width - 20 })
     }
   }
+
   _onResetPress = () => {
     this.setState({
       filterRequired: {
         district: null,
         rent_cost: null,
-        acreage: null,
+        acreage_rent: null,
         direction: null
       }
     })
@@ -78,38 +80,23 @@ class BuildingFilter extends Component {
     }
   }
 
-  _onDistricChange(selectedItems) {
+  _onacreage_rentChange(value) {
     const { filterRequired } = this.state
-    filterRequired.district = selectedItems.district_name == 'Tất cả' ? null : selectedItems
-    this.setState({ filterRequired })
-  }
-  _onDirectionChange(selectedItems) {
-    const { filterRequired } = this.state
-    filterRequired.direction = selectedItems.direction_name == 'Tất cả' ? null : selectedItems
-    this.setState({ filterRequired })
-  }
-  _onCostChange(value) {
-    const { filterRequired } = this.state
-    filterRequired.rent_cost = value
-    this.setState({ filterRequired })
-  }
-  _onAcreageChange(value) {
-    const { filterRequired } = this.state
-    filterRequired.acreage = value
+    filterRequired.acreage_rent = value
     this.setState({ filterRequired })
   }
   enableScroll = () => this.setState({ scrollEnabled: true });
   disableScroll = () => this.setState({ scrollEnabled: false });
-
   render() {
-    const { districtList, filterData } = this.props
+    const { districList, filterData } = this.props
     const { filterRequired, onReady } = this.state
     return (
       <Modal
         visible={this.props.visible}
         animationType="none"
         transparent={true}
-        onRequestClose={this.props.closeModal} >
+        onRequestClose={this.props.closeModal}
+      >
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' }} >
           <TouchableOpacity onPress={this.props.closeModal}
             style={{
@@ -141,68 +128,24 @@ class BuildingFilter extends Component {
               <ScrollView scrollEnabled={this.state.scrollEnabled}>
                 {!onReady ? <ActivityIndicator /> :
                   <View style={{ paddingHorizontal: 20 }}>
-                    {districtList.length > 0 &&
-                      <View style={[styles.line, { paddingBottom: 0 }]}>
-                        <MultiSelect
-                          selectedItems={filterRequired.district ? `${filterRequired.district.district_name}` : 'Quận : Tất cả'}
-                          items={districtList}
-                          displayKey="district_name"
-                          addItemAll={true}
-                          onSelectedItemsChange={(selectedItems) => this._onDistricChange(selectedItems)}
-                        />
-                      </View>
-                    }
-                    <View style={[styles.line, { paddingBottom: 0 }]}>
-                      <MultiSelect
-                        selectedItems={filterRequired.direction ? `${filterRequired.direction.direction_name}` : 'Hướng : Tất cả'}
-                        items={filterData.direction_array}
-                        displayKey="direction_name"
-                        addItemAll={true}
-                        onSelectedItemsChange={(selectedItems) => this._onDirectionChange(selectedItems)}
-                      />
-                    </View>
-                    <View style={{ paddingVertical: 20 }}>
-                      <Text style={{ color: '#4c4c4c', lineHeight: 30, fontWeight: '400', fontSize: 20 }}>Mức Giá</Text>
+                    <View style={{ borderBottomColor: '#0d3d74', borderBottomWidth: 0.5, paddingVertical: 20 }}>
+                      <Text style={{ color: '#4c4c4c', lineHeight: 30, fontWeight: '400', fontSize: 20 }}>Diện tích</Text>
                       <View style={{ flexDirection: 'row', marginVertical: 10 }}>
-                        <Text adjustsFontSizeToFit style={{ flex: 0.5, color: '#4c4c4c', }}>Từ ${filterRequired.rent_cost ? filterRequired.rent_cost[0].toFixed(1) : filterData.rent_cost[0].toFixed(1)}</Text>
-                        <Text adjustsFontSizeToFit style={{ flex: 0.5, color: '#4c4c4c', textAlign: 'right' }}>Đến ${filterRequired.rent_cost ? filterRequired.rent_cost[1].toFixed(1) : filterData.rent_cost[1].toFixed(1)}</Text>
+                        <Text style={{ flex: 0.5, color: '#4c4c4c', }}>Từ {filterRequired.acreage_rent ? filterRequired.acreage_rent[0] : filterData.acreage_rent[0]}m2</Text>
+                        <Text style={{ flex: 0.5, color: '#4c4c4c', textAlign: 'right' }}>Đến {filterRequired.acreage_rent ? filterRequired.acreage_rent[filterRequired.acreage_rent.length - 1] : filterData.acreage_rent[filterData.acreage_rent.length - 1]}m2</Text>
                       </View>
                       <View style={{ alignItems: 'center', marginHorizontal: 10 }} ref='refContainer' onLayout={() => { this.measureComponent() }}>
                         <MultiSlider
-                          values={filterRequired.rent_cost ? filterRequired.rent_cost : filterData.rent_cost}
+                          values={filterRequired.acreage_rent ? filterRequired.acreage_rent : [filterData.acreage_rent[0], filterData.acreage_rent[filterData.acreage_rent.length - 1]]}
                           sliderLength={this.state.sliderLength}
-                          onValuesChange={values => { this._onCostChange(values) }}
-                          min={filterData.rent_cost[0]} max={filterData.rent_cost[1]}
+                          onValuesChange={values => { this._onacreage_rentChange(values) }}
+                          min={filterData.acreage_rent[0]} max={filterData.acreage_rent[filterData.acreage_rent.length - 1]}
                           step={1}
                           allowOverlap snapped
-                          selectedStyle={{ backgroundColor: '#0d3d74', }}
+                          selectedStyle={{ backgroundColor: '#5092E3', }}
                           unselectedStyle={{ backgroundColor: 'silver', }}
                           containerStyle={{ height: 30 }}
                           trackStyle={{ height: 4, backgroundColor: 'silver', }}
-                          // customMarker={CustomMarker}
-                          onValuesChangeStart={this.disableScroll}
-                          onValuesChangeFinish={this.enableScroll}
-                        />
-                      </View>
-                    </View>
-                    <View style={{ paddingVertical: 20 }}>
-                      <Text style={{ color: '#4c4c4c', lineHeight: 30, fontWeight: '400', fontSize: 20 }}>Diện tích</Text>
-                      <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
-                        <Text style={{ flex: 0.5, color: '#4c4c4c', }}>Từ {filterRequired.acreage ? filterRequired.acreage[0] : filterData.acreage[0]}m2</Text>
-                        <Text style={{ flex: 0.5, color: '#4c4c4c', textAlign: 'right' }}>Đến {filterRequired.acreage ? filterRequired.acreage[1] : filterData.acreage[1]}m2</Text>
-                      </View>
-                      <View style={{ alignItems: 'center' }}>
-                        <MultiSlider
-                          values={filterRequired.acreage ? filterRequired.acreage : filterData.acreage}
-                          sliderLength={this.state.sliderLength}
-                          onValuesChange={values => { this._onAcreageChange(values) }}
-                          min={filterData.acreage[0]} max={filterData.acreage[1]}
-                          step={1}
-                          allowOverlap snapped
-                          selectedStyle={{ backgroundColor: '#0d3d74', }}
-                          unselectedStyle={{ backgroundColor: 'silver', }}
-                          trackStyle={{ height: 4, backgroundColor: 'silver', }}
-                          containerStyle={{ height: 30, }}
                           // customMarker={CustomMarker}
                         />
                       </View>
@@ -230,16 +173,11 @@ class BuildingFilter extends Component {
           </View>
         </View>
       </Modal>
-    );
+    )
   }
-};
+}
 
 const styles = StyleSheet.create({
-  line: {
-    borderBottomColor: '#0d3d74',
-    borderBottomWidth: 0.5,
-    paddingVertical: 20,
-  },
   button: {
     borderWidth: 1,
     borderColor: '#C7DDF6',
@@ -292,4 +230,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BuildingFilter;
+export default OfficeFilter;
