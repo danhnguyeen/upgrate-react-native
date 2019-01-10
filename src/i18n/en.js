@@ -14,5 +14,8 @@ export default {
   account: {
     signIn: 'SignIn',
     signUp: 'SignUp'
+  },
+  appointment: {
+    appointmentList: 'Appointment List'
   }
 }

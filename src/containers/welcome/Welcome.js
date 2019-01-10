@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, ImageBackground, Image, Text } from 'react-native';
 import { Icon } from "native-base";
+import { connect } from 'react-redux';
 
+import * as actions from '../../stores/actions';
 import Logo from '../../assets/images/logo-text.png';
 import Background from '../../assets/images/homescreen2.jpg';
 import i18n from '../../i18n';
@@ -14,7 +16,10 @@ const ROURTER = [
 ];
 
 class Welcome extends React.Component {
-
+  componentDidMount() {
+    this.props._onfetchBuidlings()
+    this.props._onfetchDistrictList()
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -103,4 +108,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Welcome;
+const mapDispatchToProps = dispatch => {
+  return {
+    _onfetchBuidlings: (district_id) => dispatch(actions.fetchBuidlings(district_id)),
+    _onfetchDistrictList: (provinceId) => dispatch(actions.fetchDistrictList(provinceId)),
+  }
+};
+
+export default connect(null, mapDispatchToProps)(Welcome);

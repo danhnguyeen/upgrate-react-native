@@ -6,6 +6,7 @@ import { Icon } from 'native-base';
 import { Welcome } from './src/containers/welcome';
 import { News } from './src/containers/news';
 import { Locations } from './src/containers/locations';
+import { Appointment } from './src/containers/appointment';
 import { Account, SignIn, SignUp } from './src/containers/account';
 import { Buildings, BuildingDetails, Offices } from './src/containers/buildings';
 import i18n from './src/i18n';
@@ -109,10 +110,21 @@ const AccountStack = createStackNavigator({
   initialRouteName: 'Account'
 });
 
+const AppointmentStack = createStackNavigator({
+  Appointment: {
+    screen: Appointment,
+    navigationOptions: {
+      ...headerOptions,
+      title: i18n.t('appointment.appointmentList')
+    }
+  }
+});
+
 const AppNavigator = createBottomTabNavigator({
   Home: HomeStack,
   Buildings: BuildingStack,
   Locations: LocationStack,
+  Appointment: AppointmentStack,
   Account: AccountStack
 }, {
   defaultNavigationOptions: ({ navigation }) => ({
@@ -132,6 +144,10 @@ const AppNavigator = createBottomTabNavigator({
       } else if (routeName === 'Account') {
         iconSize = 30;
         iconName = 'ios-person';
+      } else if (routeName === 'Appointment') {
+        // iconSize = 30;
+        iconName = `calendar${focused ? '' : '-o'}`;
+        iconType = 'FontAwesome';
       }
       return <Icon name={iconName} style={{ color: tintColor, fontSize: iconSize }} type={iconType} />;
     },

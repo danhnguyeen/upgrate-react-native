@@ -14,5 +14,8 @@ export default {
   account: {
     signIn: 'Đăng nhập',
     signUp: 'Đăng kí'
+  },
+  appointment: {
+    appointmentList: 'Danh sách cuộc hẹn'
   }
 }
