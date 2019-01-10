@@ -6,7 +6,7 @@ import { Icon } from 'native-base';
 import { Welcome } from './src/containers/welcome';
 import { News } from './src/containers/news';
 import { Locations } from './src/containers/locations';
-import { Buildings, BuildingDetails } from './src/containers/buildings';
+import { Buildings, BuildingDetails, Offices } from './src/containers/buildings';
 import i18n from './src/i18n';
 import { brandPrimary, textColor } from './src/config/variables';
 
@@ -55,7 +55,14 @@ const BuildingStack = createStackNavigator({
   BuildingDetails: {
     screen: BuildingDetails,
     navigationOptions: {
+      headerBackTitle: null,
       header: null
+    }
+  },
+  Offices: {
+    screen: Offices,
+    navigationOptions: {
+      ...headerOptions
     }
   }
 }, {

@@ -116,7 +116,7 @@ class BuildingDetails extends React.Component {
                   <Text style={[styles.buttonText, { fontSize: 18, fontWeight: '700', color: '#e12d2d' }]}>{detailBuilding.rent_cost.toFixed(1)}$/m2</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.buttonBg, styles.button, { flex: 0.5, }]}
-                  onPress={() => { this.props.navigation.navigate('OfficeList', { building_id: detailBuilding.building_id, building_name: detailBuilding.sub_name, building_detail: detailBuilding }) }}>
+                  onPress={() => { this.props.navigation.navigate('Offices', { building_id: detailBuilding.building_id, building_name: detailBuilding.sub_name, building_detail: detailBuilding }) }}>
                   <Text style={[styles.buttonBgText]}>Xem văn phòng</Text>
                   <Icon style={[styles.buttonBgText]} name='md-arrow-forward' type='Ionicons' />
                 </TouchableOpacity>

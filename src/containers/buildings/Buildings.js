@@ -4,9 +4,10 @@ import { TouchableOpacity, View, StyleSheet, RefreshControl } from 'react-native
 import { Container, Content, Text, Icon, } from "native-base"
 
 import * as actions from './building-actions';
-import {  winW, winH, isEmpty } from '../../util/utility';
+import { winW, winH, isEmpty } from '../../util/utility';
 import { backgroundColor, brandPrimary, DEVICE_WIDTH } from '../../config/variables';
 import { TagBuilding } from '../../components/buildings';
+import BuildingFilter from './BuildingFilter';
 
 const ITEM_Margin = 10
 const ITEM_W = DEVICE_WIDTH / 2 - (ITEM_Margin)
@@ -91,7 +92,7 @@ class Buildings extends React.Component {
     }
     this.setState({ filterRequired })
   }
-  _onFilterPress(filterRequired) {
+  _onFilterPress = (filterRequired) => {
     this.setState({ filterRequired, modalVisible: false })
   }
   render() {
@@ -99,6 +100,17 @@ class Buildings extends React.Component {
     const { district, rent_cost, acreage, direction } = filterRequired
     return (
       <View style={[styles.container]}>
+        {this.state.modalVisible ?
+          <BuildingFilter
+            visible
+            closeModal={() => this.setState({ modalVisible: false })}
+            onFilterPress={this._onFilterPress}
+            clearFilterPress={this._clearFilterPress}
+            filterData={this.props.buildingsFilterData}
+            districtList={this.props.districtList}
+            filterRequired={filterRequired}
+          />
+          : null}
         <Container key={'LIST'} tabLabel={'DANH SÁCH TÒA NHÀ'} style={styles.container}>
           <TouchableOpacity
             onPress={() => { this.setState({ modalVisible: true }) }}
@@ -177,7 +189,7 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 10,
     margin: 5
-},
+  },
 });
 
 const mapStateToProps = state => {

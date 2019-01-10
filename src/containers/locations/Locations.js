@@ -39,13 +39,11 @@ class Locations extends React.Component {
   }
   handleSelectedBuilding = (building) => {
     const region = {
-      latitude: building.lat,
-      longitude: building.long,
+      latitude: parseFloat(building.lat),
+      longitude: parseFloat(building.long),
       latitudeDelta: 0.005,
       longitudeDelta: 0.002
     };
-    region.latitude = building.lat;
-    region.longitude = building.long;
     this.setState({ region });
     this.pickLocationHandler(region);
   }
