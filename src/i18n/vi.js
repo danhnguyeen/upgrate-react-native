@@ -17,5 +17,8 @@ export default {
   },
   appointment: {
     appointmentList: 'Danh sách cuộc hẹn'
+  },
+  booking: {
+    makeAnAppointment: "Đặt lịch hẹn"
   }
 }

@@ -8,7 +8,7 @@ import { News } from './src/containers/news';
 import { Locations } from './src/containers/locations';
 import { Appointment } from './src/containers/appointment';
 import { Account, SignIn, SignUp } from './src/containers/account';
-import { Buildings, BuildingDetails, Offices } from './src/containers/buildings';
+import { Buildings, BuildingDetails, Offices, Booking } from './src/containers/buildings';
 import i18n from './src/i18n';
 import { brandPrimary, textColor } from './src/config/variables';
 
@@ -65,6 +65,13 @@ const BuildingStack = createStackNavigator({
     screen: Offices,
     navigationOptions: {
       ...headerOptions
+    }
+  },
+  Booking: {
+    screen: Booking,
+    navigationOptions: {
+      ...headerOptions,
+      title: i18n.t('booking.makeAnAppointment')
     }
   }
 }, {
@@ -137,15 +144,17 @@ const AppNavigator = createBottomTabNavigator({
         iconName = 'ios-home';
       } else if (routeName === 'Buildings') {
         iconName = `building${focused ? '' : '-o'}`;
-        iconSize = 24;
+        iconSize = 22;
         iconType = 'FontAwesome';
       } else if (routeName === 'Locations') {
-        iconName = 'ios-pin';
+        iconName = 'location-pin';
+        iconType = 'Entypo';
+        iconSize = 28;
       } else if (routeName === 'Account') {
-        iconSize = 30;
+        iconSize = 32;
         iconName = 'ios-person';
       } else if (routeName === 'Appointment') {
-        // iconSize = 30;
+        iconSize = 22;
         iconName = `calendar${focused ? '' : '-o'}`;
         iconType = 'FontAwesome';
       }

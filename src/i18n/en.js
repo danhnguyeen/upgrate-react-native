@@ -17,5 +17,8 @@ export default {
   },
   appointment: {
     appointmentList: 'Appointment List'
+  },
+  booking: {
+    makeAnAppointment: "Make an appointment"
   }
 }
