@@ -1,21 +1,9 @@
 PODS:
   - AccountKit (4.35.0)
-  - Bolts (1.9.0):
-    - Bolts/AppLinks (= 1.9.0)
-    - Bolts/Tasks (= 1.9.0)
-  - Bolts/AppLinks (1.9.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.9.0)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.3):
     - React
   - DoubleConversion (1.1.6)
-  - FBSDKCoreKit (4.39.1):
-    - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.39.1):
-    - FBSDKCoreKit
-  - FBSDKShareKit (4.39.1):
-    - FBSDKCoreKit
   - Firebase (5.15.0):
     - Firebase/Core (= 5.15.0)
   - Firebase/Core (5.15.0):
@@ -86,20 +74,6 @@ PODS:
   - Protobuf (3.6.1)
   - React (0.57.8):
     - React/Core (= 0.57.8)
-  - react-native-fbsdk (0.8.0):
-    - React
-    - react-native-fbsdk/Core (= 0.8.0)
-    - react-native-fbsdk/Login (= 0.8.0)
-    - react-native-fbsdk/Share (= 0.8.0)
-  - react-native-fbsdk/Core (0.8.0):
-    - FBSDKCoreKit
-    - React
-  - react-native-fbsdk/Login (0.8.0):
-    - FBSDKLoginKit
-    - React
-  - react-native-fbsdk/Share (0.8.0):
-    - FBSDKShareKit
-    - React
   - react-native-maps (0.22.1):
     - React
   - React/Core (0.57.8):
@@ -157,14 +131,10 @@ PODS:
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - FBSDKCoreKit (from `https://github.com/facebook/facebook-objc-sdk.git`)
-  - FBSDKLoginKit (from `https://github.com/facebook/facebook-objc-sdk.git`)
-  - FBSDKShareKit (from `https://github.com/facebook/facebook-objc-sdk.git`)
   - Firebase
   - Firebase/Messaging
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -186,7 +156,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AccountKit
-    - Bolts
     - boost-for-react-native
     - Firebase
     - FirebaseAnalytics
@@ -204,20 +173,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
-  FBSDKCoreKit:
-    :git: https://github.com/facebook/facebook-objc-sdk.git
-  FBSDKLoginKit:
-    :git: https://github.com/facebook/facebook-objc-sdk.git
-  FBSDKShareKit:
-    :git: https://github.com/facebook/facebook-objc-sdk.git
   Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
-  react-native-fbsdk:
-    :path: "../node_modules/react-native-fbsdk"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   RNAccountKit:
@@ -229,26 +190,11 @@ EXTERNAL SOURCES:
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
-CHECKOUT OPTIONS:
-  FBSDKCoreKit:
-    :commit: 4c05e566ea2af2b8157d037afab5957c59466fe8
-    :git: https://github.com/facebook/facebook-objc-sdk.git
-  FBSDKLoginKit:
-    :commit: 4c05e566ea2af2b8157d037afab5957c59466fe8
-    :git: https://github.com/facebook/facebook-objc-sdk.git
-  FBSDKShareKit:
-    :commit: 4c05e566ea2af2b8157d037afab5957c59466fe8
-    :git: https://github.com/facebook/facebook-objc-sdk.git
-
 SPEC CHECKSUMS:
   AccountKit: 870ccaf5d33facda9408783e28fbe68c5211e069
-  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: b0b70acf63ee888829b7c2ebbf6b50e227396e55
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
-  FBSDKCoreKit: f442aa96179cc9b382bb4abeb7e340a47cca8f91
-  FBSDKLoginKit: c3079d9a4db27c492287b1eed7a4272b28cf8a59
-  FBSDKShareKit: 27d7b982e7b1f4638da2f2b1ab6eba5afc6b5888
   Firebase: 8bb9268bff82374f2cbaaabb143e725743c316ae
   FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
   FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
@@ -262,13 +208,12 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
-  react-native-fbsdk: d5f98cc5abecbcc463e3c35c04743d716d002d37
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   RNAccountKit: 3dd31fff73c90378ac89dc7611da0dc22b29f84b
   RNGestureHandler: 282af6ea58ed8483612365159c58a3ca5f55e7da
   RNI18n: 46b8694063fbd699f2c06a4dc8e835b3176763b1
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: c22ab4de2d06dfc84a1734eebe2b48a6f2b530b7
+PODFILE CHECKSUM: 7bd3dfcc1e8ae0989301489bafa1f4e508d668f6
 
 COCOAPODS: 1.5.3
