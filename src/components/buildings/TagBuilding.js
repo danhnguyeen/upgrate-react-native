@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
   container: {
     ...shadow,
     shadowOpacity: 0.5,
+    elevation: 3,
     width: (DEVICE_WIDTH - 10) / 2 - 15,
     height: (DEVICE_WIDTH - 10) / 2 - 15 + ((DEVICE_WIDTH - 10) / 2 - 15) * 0.2,
     // padding: 10,
