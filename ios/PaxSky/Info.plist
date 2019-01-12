@@ -28,6 +28,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>ak276313173033941</string>
+				<string>fb276313173033941</string>
 			</array>
 		</dict>
 	</array>
@@ -35,6 +36,15 @@
 	<string>0</string>
 	<key>FacebookAppID</key>
 	<string>276313173033941</string>
+	<key>FacebookDisplayName</key>
+	<string>PaxSky</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

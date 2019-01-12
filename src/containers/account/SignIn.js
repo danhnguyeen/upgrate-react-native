@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { Content, Icon, Text, Button, Input } from "native-base";
+import { LoginManager } from "react-native-fbsdk";
 
 import * as actions from './auth-actions';
 import { InputField } from '../../components/common';
@@ -36,6 +37,35 @@ class SignIn extends Component {
     if (this.props.isAuth) {
       this._onLoginSuccess();
     }
+  }
+  onLoginFacebook = async () => {
+    LoginManager.logInWithReadPermissions(['public_profile']).then(
+      function(result) {
+        if (result.isCancelled) {
+          alert('Login was cancelled');
+        } else {
+          alert('Login was successful with permissions: '
+            + result.grantedPermissions.toString());
+        }
+      },
+      function(error) {
+        alert('Login failed with error: ' + error);
+      }
+    );
+    // try {
+      // await LoginManager.logOut();
+      // const result = await LoginManager.logInWithReadPermissions(['email', 'public_profile']);
+      // if (result.isCancelled) {
+      //   this.setState({ checkLogin: false });
+      // } else {
+      //   const data = await AccessToken.getCurrentAccessToken();
+      //   const token = data.accessToken.toString();
+      //   console.log(data)
+      // }
+    // } catch (e) {
+    //   console.log(e)
+    //   this.setState({ checkLogin: false });
+    // }
   }
   getStarted = () => {
     const email = this.email.getInputValue()
@@ -138,6 +168,13 @@ class SignIn extends Component {
               >
                 {this.state.isLogin ?
                   <ActivityIndicator color={'#FFF'} /> : <Text>{'Đăng nhập'}</Text>
+                }
+              </Button>
+              <Button style={styles.button}
+                onPress={this.onLoginFacebook}
+              >
+                {this.state.isLogin ?
+                  <ActivityIndicator color={'#FFF'} /> : <Text>{'Facebook'}</Text>
                 }
               </Button>
               <TouchableOpacity style={{ margin: 10 }} activeOpacity={0.6}
