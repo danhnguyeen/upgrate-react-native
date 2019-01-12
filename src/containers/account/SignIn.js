@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
-import { Content, Icon, Text, Button, Input } from "native-base";
-import { LoginManager } from "react-native-fbsdk";
+import { Content, Icon, Text, Input, Button } from "native-base";
+import { LoginManager, AccessToken } from "react-native-fbsdk";
+import RNAccountKit, { Color } from 'react-native-facebook-account-kit';
 
+import i18n from '../../i18n';
 import * as actions from './auth-actions';
-import { InputField } from '../../components/common';
-import { backgroundColor, brandPrimary } from '../../config/variables';
+import { InputField, CustomButton } from '../../components/common';
+import { backgroundColor, brandPrimary, brandWarning } from '../../config/variables';
 
 class SignIn extends Component {
   constructor(props) {
@@ -22,14 +24,23 @@ class SignIn extends Component {
       this.dataProps = null
 
   }
-  componentWillUnmount() {
-    this._isMounted = false
-  }
   componentDidMount() {
-    this._isMounted = true
-    if (this._isMounted == true) {
-      this._onCheckAuth();
-    }
+    this._onCheckAuth();
+    this.configureAccountKit();
+  }
+  configureAccountKit() {
+    RNAccountKit.configure({
+      theme: {
+        buttonBackgroundColor: Color.rgba(245, 166, 35, 1),
+        buttonBorderColor: Color.rgba(245, 166, 35, 1)
+      },
+      //countryWhitelist: [ "AR", "BR", "US" ],
+      //countryBlacklist: [ "BR" ],
+      //defaultCountry: "AR"
+      receiveSMS: true, //auto fill SMS code
+      readPhoneStateEnabled: true, //auto fill phone number
+      initialPhoneCountryPrefix: "+84"
+    });
   }
   _onCheckAuth = () => {
     this.routeNameProps = this.props.navigation.getParam('routeNameProps', null)
@@ -39,33 +50,19 @@ class SignIn extends Component {
     }
   }
   onLoginFacebook = async () => {
-    LoginManager.logInWithReadPermissions(['public_profile']).then(
-      function(result) {
-        if (result.isCancelled) {
-          alert('Login was cancelled');
-        } else {
-          alert('Login was successful with permissions: '
-            + result.grantedPermissions.toString());
-        }
-      },
-      function(error) {
-        alert('Login failed with error: ' + error);
+    try {
+      await LoginManager.logOut();
+      const result = await LoginManager.logInWithReadPermissions(['email', 'public_profile']);
+      if (result.isCancelled) {
+        // alert('Login was cancelled');
+      } else {
+        const data = await AccessToken.getCurrentAccessToken();
+        const token = data.accessToken.toString();
       }
-    );
-    // try {
-      // await LoginManager.logOut();
-      // const result = await LoginManager.logInWithReadPermissions(['email', 'public_profile']);
-      // if (result.isCancelled) {
-      //   this.setState({ checkLogin: false });
-      // } else {
-      //   const data = await AccessToken.getCurrentAccessToken();
-      //   const token = data.accessToken.toString();
-      //   console.log(data)
-      // }
-    // } catch (e) {
-    //   console.log(e)
-    //   this.setState({ checkLogin: false });
-    // }
+    } catch (e) {
+      console.log(e)
+      // this.setState({ checkLogin: false });
+    }
   }
   getStarted = () => {
     const email = this.email.getInputValue()
@@ -110,6 +107,20 @@ class SignIn extends Component {
           }
         })
       })
+  }
+  onLoginWithPhone = async () => {
+    try {
+      RNAccountKit.loginWithPhone()
+        .then((token) => {
+          if (!token) {
+            console.log('Login cancelled')
+          } else {
+            console.log(`Logged with phone. Token: ${token}`)
+          }
+        });
+    } catch (err) {
+      // this.setState({ checkLogin: false });
+    }
   }
   _onLoginSuccess = () => {
     this.setState({ isLogin: true })
@@ -161,22 +172,29 @@ class SignIn extends Component {
                 icon='md-lock'
               />
             </View>
-            <View style={{ alignContent: 'center', alignItems: 'center', justifyContent: 'center', paddingVertical: 10 }}>
-              <Button style={styles.button}
-                onPress={this.getStarted}
-              // onPress={() => { this.onLoginSubmit('phuong.huynh@amagumolabs.com', '123456') }}
-              >
-                {this.state.isLogin ?
-                  <ActivityIndicator color={'#FFF'} /> : <Text>{'Đăng nhập'}</Text>
-                }
-              </Button>
-              <Button style={styles.button}
-                onPress={this.onLoginFacebook}
-              >
-                {this.state.isLogin ?
-                  <ActivityIndicator color={'#FFF'} /> : <Text>{'Facebook'}</Text>
-                }
-              </Button>
+            <View style={{ flex: 1, alignItems: 'center', paddingVertical: 10 }}>
+              {/* <View style={{ flex: 1, marginRight: 5, flexDirection: 'row' }}> */}
+                <CustomButton
+                  onPress={this.getStarted}
+                  buttonStyle={{ minWidth: 200 }}
+                  title={i18n.t('login.signIn')}
+                />
+              {/* </View> */}
+              
+              <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                <View style={{ flex: 1, marginRight: 5 }}>
+                  <CustomButton
+                    buttonStyle={{ margin: 0, borderColor: '#4066b4', backgroundColor: '#4066b4' }}
+                    onPress={this.onLoginFacebook}
+                    title='Facebook' />
+                </View>
+                <View style={{ flex: 1, marginLeft: 5 }}>
+                  <CustomButton
+                    buttonStyle={{ margin: 0, borderColor: brandWarning, backgroundColor: brandWarning }}
+                    onPress={this.onLoginWithPhone}
+                    title={i18n.t('login.phoneNumber')} />
+                </View>
+              </View>
               <TouchableOpacity style={{ margin: 10 }} activeOpacity={0.6}
                 onPress={() => { this.props.navigation.push('SignUp') }}>
                 <Text style={{ color: '#575757' }}>{'Chưa có tài khoản ? '}<Text style={{ color: brandPrimary }}>{'Đăng ký'}</Text></Text>
@@ -199,13 +217,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     marginVertical: 5,
     marginHorizontal: 15,
-  },
-  button: {
-    backgroundColor: brandPrimary,
-    justifyContent: 'center',
-    alignSelf: "center",
-    // marginVertical: 20,
-    // width: winW(100),
   }
 })
 
