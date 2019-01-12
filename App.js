@@ -6,6 +6,7 @@ import FCM from "react-native-fcm";
 
 import AppContainer from './navigators';
 import PushNotification from './src/services/notifications-service';
+import { brandPrimary } from './src/config/variables';
 
 export default class App extends Component {
   componentDidMount() {
@@ -23,7 +24,7 @@ export default class App extends Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
-          backgroundColor={'#2488c4'}
+          backgroundColor={brandPrimary}
           barStyle="light-content"
         />
         <AppContainer />

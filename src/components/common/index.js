@@ -1,5 +1,7 @@
 import InputField from './InputField';
+import Header from './Header';
 
 export {
-  InputField
+  InputField,
+  Header
 };

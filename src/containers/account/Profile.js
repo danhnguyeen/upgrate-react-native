@@ -27,10 +27,11 @@ export default class Profile extends Component {
     return (
       <Content style={{ paddingHorizontal: 15 }}>
         <View style={[styles.paragraph, { flexDirection: 'row', alignItems: 'center' , paddingVertical: 15}]}>
-          <View>
-            {this.state.loadingImageFailed ? <Image resizeMode={'cover'} style={{ width: '20%', height: '20%', borderRadius: 10 }} source={LOGO} /> :
-              <Image resizeMode={'cover'}
-                style={{ width: '20%', height: '20%', borderRadius: 10 }}
+          <View style={{ borderRadius: 50, overflow: 'hidden' }}>
+            {this.state.loadingImageFailed ? 
+              <Image  style={{ width: 80, height: 80 }} source={LOGO} /> :
+              <Image 
+                style={{ width: 80, height: 80 }}
                 source={{ uri: profile.image_profile }}
                 loadingIndicatorSource={{ uri: profile.image_profile }}
                 onError={({ nativeEvent: { error } }) => { this.setState({ loadingImageFailed: true }) }}

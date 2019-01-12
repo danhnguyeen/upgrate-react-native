@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
-import { Text } from 'react-native';
 import { Icon } from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { Welcome } from './src/containers/welcome';
 import { News } from './src/containers/news';
@@ -9,6 +9,7 @@ import { Locations } from './src/containers/locations';
 import { Appointment } from './src/containers/appointment';
 import { Account, SignIn, SignUp } from './src/containers/account';
 import { Buildings, BuildingDetails, Offices, Booking } from './src/containers/buildings';
+import { Header } from './src/components/common';
 import i18n from './src/i18n';
 import { brandPrimary, textColor } from './src/config/variables';
 
@@ -18,8 +19,18 @@ const headerOptions = {
   headerTitleStyle: {
     color: '#fff'
   },
+  headerBackground: (
+    <LinearGradient
+      colors={['#072f6a', '#0d59ca']}
+      style={{ flex: 1 }}
+      start={{x: 0, y: 0}} 
+      end={{x: 1, y: 0}}
+    />
+  ),
   headerStyle: {
-    backgroundColor: '#2997d8'
+    // borderBottomColor: brandPrimary
+    borderBottomWidth: 0
+    // backgroundColor: '#2997d8'
   }
 };
 
@@ -163,7 +174,7 @@ const AppNavigator = createBottomTabNavigator({
   }),
   tabBarOptions: {
     activeTintColor: brandPrimary,
-    inactiveTintColor: textColor
+    inactiveTintColor: '#8c8c8c'
   },
 }, {
   initialRouteName: 'Home'

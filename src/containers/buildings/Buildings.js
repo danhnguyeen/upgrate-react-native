@@ -152,7 +152,8 @@ class Buildings extends React.Component {
             }
           </View>
           <Content
-            style={{ paddingHorizontal: (ITEM_Margin / 2) }}
+            // style={{ padding: 15 }}
+            contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 5 }}
             refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
               {this.props.buildings && this.props.buildings.map((item, index) => {
@@ -161,9 +162,9 @@ class Buildings extends React.Component {
                   else if (rent_cost && (rent_cost[0] > item.rent_cost || item.rent_cost > rent_cost[1])) { }
                   else if (acreage && (acreage[0] > item.acreage_rent_array[0] || item.acreage_rent_array[item.acreage_rent_array.length - 1] > acreage[1])) { }
                   else if (direction && direction.direction_name !== item.direction) { }
-                  else return <RenderTagBuilding data={item} key={index} navigation={this.props.navigation} _onfetchBuildingDetail={(buildingsId) => { this.props._onfetchBuildingDetail(buildingsId) }} />
+                  else return <TagBuilding detailBuilding={item} key={item.building_id} navigation={this.props.navigation} _onfetchBuildingDetail={this.props._onfetchBuildingDetail} />
                 }
-                else return <RenderTagBuilding data={item} key={index} navigation={this.props.navigation} _onfetchBuildingDetail={(buildingsId) => { this.props._onfetchBuildingDetail(buildingsId) }} />
+                else return <TagBuilding detailBuilding={item} key={item.building_id} navigation={this.props.navigation} _onfetchBuildingDetail={this.props._onfetchBuildingDetail} />
               })}
             </View>
           </Content>
@@ -176,7 +177,7 @@ class Buildings extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: backgroundColor
+    backgroundColor
   },
   buttonText: {
     color: brandPrimary,

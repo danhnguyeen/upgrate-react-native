@@ -21,7 +21,7 @@ export function getStatusBarHeight(skipAndroid = false) {
 };
 export const navHeight = Header.HEIGHT + getStatusBarHeight() - 19;
 // Colors
-export const brandPrimary = '#2997d8';
+export const brandPrimary = '#072f6a'; //'#2997d8';
 export const brandInfo = '#5F9EE7';
 export const brandSuccess = '#7ED321';
 export const brandDanger = '#D0021B';
@@ -74,7 +74,7 @@ export const shadow = {
   shadowOpacity: 0.1,
   shadowOffset: { width: 0, height: 2 },
   shadowRadius: 5,
-  marginBottom: 15
+  // marginBottom: 15
 };
 // export const shadowProperties = {
 //   shadowColor: '#1a1917',

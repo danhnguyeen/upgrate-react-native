@@ -177,10 +177,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical: 20
     // marginHorizontal: '5%',
     // padding: 15,
     // paddingVertical: 15,
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   iconStyle: {
     // paddingHorizontal: 10
