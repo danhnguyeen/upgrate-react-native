@@ -50,9 +50,9 @@ target 'PaxSky' do
   # react-native-linear-gradient
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
-  # pod 'FBSDKCoreKit'
-  # pod 'FBSDKLoginKit'
-  # pod 'FBSDKShareKit'
+  # pod 'FBSDKCoreKit', :git => 'https://github.com/facebook/facebook-objc-sdk.git'
+  # pod 'FBSDKLoginKit', :git => 'https://github.com/facebook/facebook-objc-sdk.git'
+  # pod 'FBSDKShareKit', :git => 'https://github.com/facebook/facebook-objc-sdk.git'
   # pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
 
 end
