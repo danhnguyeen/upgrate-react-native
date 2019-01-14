@@ -7,7 +7,7 @@ import { Header } from 'react-navigation';
 import { Divider, Button } from 'react-native-elements';
 
 import * as actions from './building-actions';
-import { brandPrimary, shadow, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH } from '../../config/variables';
+import { brandPrimary, shadow, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4 } from '../../config/variables';
 import { PostDetail, BuildingMaps } from '../../components/buildings'
 
 const HEADER_MAX_HEIGHT = 300;
@@ -29,18 +29,7 @@ class BuildingDetails extends React.Component {
   componentDidMount() {
     this._onFetching();
   }
-  _renderScrollViewContent() {
-    const data = Array.from({ length: 30 });
-    return (
-      <View style={styles.scrollViewContent}>
-        {data.map((_, i) => (
-          <View key={i} style={styles.row}>
-            <Text>{i}</Text>
-          </View>
-        ))}
-      </View>
-    );
-  }
+  
   _onFetching = async () => {
     const building_id = this.props.navigation.getParam('building_id', null)
     if (!building_id) { }
@@ -174,40 +163,40 @@ class BuildingDetails extends React.Component {
               </View>
               <View style={{ flex: 1, backgroundColor: brandLight, padding: 15 }}>
                 <View style={{ alignItems: 'center', marginBottom: 5 }}>
-                  <Text style={{ color: '#0D3D74', fontSize: 24, lineHeight: 40, fontWeight: '700', }} adjustsFontSizeToFit numberOfLines={1}>{detailBuilding.sub_name}</Text>
+                  <Text style={[textH4, { color: brandPrimary }]} numberOfLines={1}>{detailBuilding.sub_name}</Text>
                   <Text style={{ color: '#9F9F9F', fontSize: 16, fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
                 </View>
                 <View style={styles.line}>
-                  <Icon style={styles.icon} name='building' type='FontAwesome' /><Text style={styles.text}>{detailBuilding.structure ? detailBuilding.structure : 'Chưa cập nhật'}</Text>
+                  <Icon style={styles.icon} name='building' type='FontAwesome' /><Text>{detailBuilding.structure ? detailBuilding.structure : 'Chưa cập nhật'}</Text>
                 </View>
                 <View style={styles.line}>
                   <Icon style={styles.icon} name='ios-expand' type='Ionicons' />
                   {detailBuilding.acreage_rent_array && detailBuilding.acreage_rent_array.length > 0 ?
                     detailBuilding.acreage_rent_array.map((item, index) =>
-                      <Text key={index} style={styles.text} >
+                      <Text key={index}>
                         {index > 0 && ' - '}{item}
                         {index == (detailBuilding.acreage_rent_array.length - 1) && 'm2'}
                       </Text>
                     )
                     :
-                    <Text style={styles.text} >{detailBuilding.acreage_rent_list == 'FULL' ? 'Toàn bộ' : 'Chưa cập nhật'}</Text>
+                    <Text >{detailBuilding.acreage_rent_list == 'FULL' ? 'Toàn bộ' : 'Chưa cập nhật'}</Text>
                   }
                 </View>
                 <View style={styles.line}>
                   <Icon style={styles.icon} name='ios-eye' type='Ionicons' />
-                  <Text style={styles.text}>{detailBuilding.direction}</Text>
+                  <Text>{detailBuilding.direction}</Text>
                 </View>
                 <View style={styles.line}>
                   <Icon style={styles.icon} name='elevator' type='Foundation' />
-                  <Text style={styles.text}>{detailBuilding.classify_name}</Text>
+                  <Text>{detailBuilding.classify_name}</Text>
                 </View>
                 <View style={styles.line}>
                   <Icon style={styles.icon} name='shield' type='Feather' />
-                  <Text style={styles.text}>Đơn vị quản lý: {detailBuilding.management_agence_name}</Text>
+                  <Text>Đơn vị quản lý: {detailBuilding.management_agence_name}</Text>
                 </View>
                 <View style={styles.line}>
                   <Icon style={styles.icon} name='battery-charging' type='Feather' />
-                  <Text style={styles.text}>{detailBuilding.electricity_cost}K/ giờ</Text>
+                  <Text>{detailBuilding.electricity_cost}K/ giờ</Text>
                 </View>
               </View>
               <View style={[styles.paragraph, shadow, { flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 5 }]}>
@@ -257,16 +246,6 @@ class BuildingDetails extends React.Component {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
           >
-            {/* <Animated.Image
-              style={[
-                styles.backgroundImage,
-                {
-                  opacity: imageOpacity,
-                  transform: [{ translateY: imageTranslate }],
-                },
-              ]}
-              source={picture}
-            /> */}
             {!isFetching && detailBuilding &&
               <Animated.Image
                 style={[
@@ -314,7 +293,6 @@ class BuildingDetails extends React.Component {
       </Container>
     )
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -342,7 +320,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     backgroundColor: 'transparent',
-    marginTop: platform === 'ios' ? 32 : 38,
+    marginTop: platform === 'ios' ? 32 : 18,
     height: 32,
     alignItems: 'center',
     justifyContent: 'center',
@@ -354,7 +332,7 @@ const styles = StyleSheet.create({
   barIcon: {
     zIndex: 1,
     backgroundColor: 'transparent',
-    marginTop: platform === 'ios' ? 32 : 38,
+    marginTop: platform === 'ios' ? 32 : 18,
     height: 32,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
@@ -364,9 +342,9 @@ const styles = StyleSheet.create({
     right: 0,
   },
   title: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold'
+    fontSize: platform === 'ios' ? 20 : 24,
+    fontWeight: platform === 'ios' ? '600' : '500',
+    color: '#fff'
   },
   scrollViewContent: {
     // iOS uses content inset, which acts like padding.
@@ -404,17 +382,14 @@ const styles = StyleSheet.create({
   line: {
     flexDirection: 'row',
     paddingVertical: 5,
+    alignItems: 'center',
     marginRight: 10
   },
-  text: {
-    color: '#686868',
-    fontWeight: '400',
+  icon: {
+    color: textLightColor,
+    fontSize: 22,
+    marginRight: 15
   },
-  // icon: {
-  //   color: '#686868',
-  //   // width: 30,
-  //   fontSize: 30,
-  // },
   button: {
     alignItems: 'center', alignContent: 'center', justifyContent: 'center', paddingHorizontal: 5
   },
@@ -428,10 +403,6 @@ const styles = StyleSheet.create({
   right: {
     paddingRight: 20,
     alignItems: 'flex-end',
-  },
-  icon: {
-    color: "#fff",
-    fontSize: 34
   },
   buttonBgText: {
     color: '#FFF',

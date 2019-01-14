@@ -57,8 +57,9 @@ export const fontSizeH2 = fontSize * 2.4;
 export const fontSizeH3 = fontSize * 2;
 export const fontSizeH4 = fontSize * 1.5;
 // Text
-export const textColor = "#666666";
+export const textColor = "#000";
 export const textDarkColor = "#000";
+export const textLightColor = "#666666";
 export const inverseTextColor = "#fff";
 export const textH1 = { fontSize: fontSizeH1, fontFamily: fontFamilyBold };
 export const textH2 = { fontSize: fontSizeH2, fontFamily: fontFamilyBold };
@@ -66,7 +67,7 @@ export const textH3 = { fontSize: fontSizeH3, fontFamily: fontFamilyBold };
 export const textH4 = { fontSize: fontSizeH4, fontFamily: fontFamilyBold };
 
 // Title
-export const titleFontSize = fontSize + 1;
+export const titleFontSize = fontSize + 2;
 
 export const shadow = {
   elevation: 2,

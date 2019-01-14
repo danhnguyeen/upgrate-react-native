@@ -3,6 +3,7 @@ import { AppRegistry, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 
+import './src/config/custom-props';
 import { store, persistor } from './src/stores';
 import App from './App';
 import { name as appName } from './app.json';
