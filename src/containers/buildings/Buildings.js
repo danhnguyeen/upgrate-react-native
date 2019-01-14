@@ -5,30 +5,16 @@ import { Container, Content, Text, Icon, } from "native-base"
 
 import * as actions from './building-actions';
 import { winW, winH, isEmpty } from '../../util/utility';
-import { backgroundColor, brandPrimary, DEVICE_WIDTH } from '../../config/variables';
+import { backgroundColor, brandPrimary } from '../../config/variables';
 import { TagBuilding } from '../../components/buildings';
 import BuildingFilter from './BuildingFilter';
 
-const ITEM_Margin = 10
-const ITEM_W = DEVICE_WIDTH / 2 - (ITEM_Margin)
-const DEFAULT = [0, 500]
 const FilterDefault = {
   district: null,
   rent_cost: null,
   acreage: null,
   direction: null,
 }
-
-
-const RenderTagBuilding = (props) => (
-  <TouchableOpacity style={{ width: ITEM_W, height: winH(26), minHeight: winW(47), paddingLeft: ITEM_Margin, paddingVertical: winW(2) }}
-    onPress={() => {
-      props._onfetchBuildingDetail(props.data.building_id)
-      props.navigation.navigate('BuildingDetails', { building_id: props.data.building_id })
-    }}  >
-    <TagBuilding detailBuilding={props.data} />
-  </TouchableOpacity>
-)
 
 class Buildings extends React.Component {
   constructor(props) {

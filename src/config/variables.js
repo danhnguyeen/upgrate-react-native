@@ -27,7 +27,7 @@ export const brandSuccess = '#7ED321';
 export const brandDanger = '#D0021B';
 export const brandWarning = "#f7941e";
 export const backgroundColor = "#efeef4";
-export const brandLight = "#fff";
+export const brandLight = "#ffffff";
 export const brandLightOpacity50 = 'rgba(33, 43, 52, 0.5)';
 export const brandLightOpacity70 = 'rgba(28, 29, 32, 0.7)';
 export const lightBackground = '#fafbfc';
@@ -59,7 +59,7 @@ export const fontSizeH4 = fontSize * 1.5;
 // Text
 export const textColor = "#666666";
 export const textDarkColor = "#000";
-export const inverseTextColor = "#000";
+export const inverseTextColor = "#fff";
 export const textH1 = { fontSize: fontSizeH1, fontFamily: fontFamilyBold };
 export const textH2 = { fontSize: fontSizeH2, fontFamily: fontFamilyBold };
 export const textH3 = { fontSize: fontSizeH3, fontFamily: fontFamilyBold };

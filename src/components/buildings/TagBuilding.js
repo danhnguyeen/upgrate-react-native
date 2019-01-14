@@ -1,56 +1,24 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, ImageBackground } from 'react-native'
 import { Text } from "native-base";
+import FastImage from 'react-native-fast-image'
 
 import { shadow, DEVICE_WIDTH } from '../../config/variables';
-const LOGO = require('../../assets/images/logo-grey.jpg');
+// const LOGO = require('../../assets/images/logo-grey.jpg');
 
 class TagBuilding extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loadingImageFailed: null
-    }
+  state = {
+    loadingImageFailed: null
   }
-  render() {
-    const data = {
-      "acreage_rent_array": [
-        50,
-        71,
-        75,
-        80,
-        90,
-        150,
-        160,
-        180,
-        230,
-      ],
-      "acreage_rent_list": "230-180-50-80-90-160-150-71-75",
-      "address": "13 - 15 - 17 Trương Định",
-      "building_id": 8,
-      "classify_name": "Văn phòng hạng B",
-      "direction": "Hướng Đông Bắc",
-      "district": "Quận 3",
-      "electricity_cost": "0.00",
-      "main_image": "http://paxsky.amagumolabs.io/storage/app/public/buildings/8/1544669937_pax-sky-13-truong-dinh-1.jpg",
-      "main_image_thumbnail": "http://paxsky.amagumolabs.io/storage/app/public/buildings/8/thumbnail/1544669937_pax-sky-13-truong-dinh-1.jpg",
-      "manager_cost": "4.50",
-      "rent_cost": 28.7,
-      "rental_cost": "22.00",
-      "structure": " 2 hầm 11 tầng 11 sân thượng",
-      "sub_name": "PAX SKY 13-15-17 Trương Định",
-      "tax_cost": "2.20",
-    }
 
+  render() {
     const detail = this.props.detailBuilding
     detail.acreage_rent_array.sort((a, b) => { return a - b })
     detail.sub_name = detail.sub_name.replace("PAX SKY", "").replace("PAXSKY", "").trim()
 
-
     detail.rent_acreage = detail.acreage_rent_array.length > 1 ?
       `Từ ${detail.acreage_rent_array[0]}m2 \nđến ${detail.acreage_rent_array[detail.acreage_rent_array.length - 1]}m2` :
       detail.acreage_rent_array.length == 1 ? `${detail.acreage_rent_array[0]}m2` : 'Chưa cập nhật';
-    const picture = detail.main_image ? { uri: detail.main_image } : LOGO;
     return (
       <TouchableOpacity
         style={styles.container}
@@ -59,7 +27,7 @@ class TagBuilding extends React.Component {
           this.props.navigation.navigate('BuildingDetails', { building_id: detail.building_id })
         }}>
         <View style={{ borderRadius: 5, overflow: 'hidden' }}>
-          <ImageBackground source={picture} style={{ width: '100%', height: '100%' }}>
+          <FastImage source={{ uri: detail.main_image, priority: FastImage.priority.high }} style={{ width: '100%', height: '100%' }}>
             <View style={{
               backgroundColor: 'rgba(13, 61, 116,0.65)',
               flex: 1,
@@ -77,7 +45,7 @@ class TagBuilding extends React.Component {
                 <Text numberOfLines={1} adjustsFontSizeToFit style={styles.rent_cost}>{`$${detail.rent_cost.toFixed(1)}`}</Text>
               </View>
             </View>
-          </ImageBackground>
+          </FastImage>
         </View>
       </TouchableOpacity>
     )
@@ -96,11 +64,11 @@ const styles = StyleSheet.create({
     margin: 5
   },
   district: { color: '#FFF', lineHeight: 20, fontSize: 13, },
-  sub_name: { 
-    color: '#FFF', 
-    lineHeight: 24, 
-    fontSize: 16, 
-    height: 24 * 2, 
+  sub_name: {
+    color: '#FFF',
+    lineHeight: 24,
+    fontSize: 16,
+    height: 24 * 2,
     textAlign: 'center',
     // fontWeight: 'bold'
   },

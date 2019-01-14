@@ -1,32 +1,46 @@
-import React from 'react'
+import React from 'react';
 import { connect } from 'react-redux';
-import { View, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native'
-import { Container, Content, DeckSwiper, CardItem, Text, Icon } from 'native-base';
+import { View, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Animated, RefreshControl, Text } from 'react-native';
+import { Container, DeckSwiper, CardItem, Icon } from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
+import { Header } from 'react-navigation';
+import { Divider, Button } from 'react-native-elements';
 
 import * as actions from './building-actions';
-import { brandPrimary, shadow, brandLight } from '../../config/variables';
-import { PostDetail } from '../../components/buildings'
+import { brandPrimary, shadow, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH } from '../../config/variables';
+import { PostDetail, BuildingMaps } from '../../components/buildings'
+import picture from '../../assets/images/pax-sky-de-tham-1.jpg';
+const HEADER_MAX_HEIGHT = 300;
+const HEADER_MIN_HEIGHT = Header.HEIGHT;
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
 
 class BuildingDetails extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      detailBuilding: null,
-      isFetching: true
-    }
-    this._isMounted = false
+  state = {
+    detailBuilding: null,
+    isFetching: true,
+    scrollY: new Animated.Value(
+      // iOS has negative initial scroll value because content inset...
+      platform === 'ios' ? -HEADER_MAX_HEIGHT : 0,
+    ),
+    refreshing: false,
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
   componentDidMount() {
-    this._isMounted = true
-    if (this._isMounted == true) {
-      this._onFetching()
-    }
+    this._onFetching();
   }
-
+  _renderScrollViewContent() {
+    const data = Array.from({ length: 30 });
+    return (
+      <View style={styles.scrollViewContent}>
+        {data.map((_, i) => (
+          <View key={i} style={styles.row}>
+            <Text>{i}</Text>
+          </View>
+        ))}
+      </View>
+    );
+  }
   _onFetching = async () => {
     const building_id = this.props.navigation.getParam('building_id', null)
     if (!building_id) { }
@@ -41,6 +55,41 @@ class BuildingDetails extends React.Component {
   }
 
   render() {
+    // Because of content inset the scroll value will be negative on iOS so bring
+    // it back to 0.
+    const scrollY = Animated.add(
+      this.state.scrollY,
+      platform === 'ios' ? HEADER_MAX_HEIGHT : 0,
+    );
+    const headerTranslate = scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [0, -HEADER_SCROLL_DISTANCE],
+      extrapolate: 'clamp',
+    });
+
+    const imageOpacity = scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+      outputRange: [1, 1, 0],
+      extrapolate: 'clamp',
+    });
+    const imageTranslate = scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [0, 100],
+      extrapolate: 'clamp',
+    });
+
+    const titleScale = scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+      outputRange: [1, 1, 0.8],
+      extrapolate: 'clamp',
+    });
+    const titleTranslate = scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+      outputRange: [0, 0, -8],
+      extrapolate: 'clamp',
+    });
+
+
     const detailBuilding = this.props.buildingDetail
     const { isFetching } = this.state
     let renderHeaderImage = <ActivityIndicator />
@@ -60,19 +109,69 @@ class BuildingDetails extends React.Component {
     }
     return (
       <Container style={styles.container} >
-        <Content >
-          <View style={{ height: 300, position: 'relative', }}>
-            {renderHeaderImage}
-            <View style={[styles.headerIcon, styles.left]}>
-              <TouchableOpacity onPress={() => { this.props.navigation.goBack() }}>
-                <Icon style={[styles.icon, { color: brandPrimary }]} name={'ios-arrow-back'} type={'Ionicons'} />
-              </TouchableOpacity>
-            </View>
-          </View>
+        <Animated.ScrollView
+          style={{ flex: 1 }}
+          scrollEventThrottle={1}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            { useNativeDriver: true },
+          )}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => {
+                this.setState({ refreshing: true });
+                setTimeout(() => this.setState({ refreshing: false }), 1000);
+              }}
+              // Android offset for RefreshControl
+              progressViewOffset={HEADER_MAX_HEIGHT}
+            />
+          }
+          // iOS offset for RefreshControl
+          contentInset={{
+            top: HEADER_MAX_HEIGHT,
+          }}
+          contentOffset={{
+            y: -HEADER_MAX_HEIGHT,
+          }}
+        >
           {isFetching ?
             <ActivityIndicator /> :
             <View>
-              <View style={[styles.paragraph, shadow]}>
+              <View style={{ padding: 15, backgroundColor: brandLight, marginBottom: 15 }}>
+                <BuildingMaps style={{ margin: 15 }} building={detailBuilding} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+                  <Icon
+                    name='location-on'
+                    type='MaterialIcons'
+                    style={{ fontSize: fontSize + 2, color: textColor }}
+                  />
+                  <Text style={{ paddingLeft: 5, width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${detailBuilding.address}, ${detailBuilding.district}`}</Text>
+                </View>
+                <Divider style={{ marginVertical: 15 }} />
+                <View style={{ alignItems: 'flex-end' }}>
+                  <Button
+                    icon={
+                      <Icon
+                        name='directions'
+                        type="MaterialCommunityIcons"
+                        style={{ color: brandPrimary, fontSize: fontSize + 6, marginLeft: 10 }}
+                      />
+                    }
+                    iconContainerStyle={{ marginHorizontal: 10 }}
+                    titleStyle={{ color: brandPrimary, fontSize }}
+                    buttonStyle={{
+                      borderColor: brandPrimary,
+                      borderWidth: 1,
+                      backgroundColor: 'transparent',
+                      borderRadius: 20,
+                      paddingRight: 15
+                    }}
+                    title='Chỉ đường đến đây'
+                  />
+                </View>
+              </View>
+              <View style={{ flex: 1, backgroundColor: brandLight, padding: 15 }}>
                 <View style={{ alignItems: 'center', marginBottom: 5 }}>
                   <Text style={{ color: '#0D3D74', fontSize: 24, lineHeight: 40, fontWeight: '700', }} adjustsFontSizeToFit numberOfLines={1}>{detailBuilding.sub_name}</Text>
                   <Text style={{ color: '#9F9F9F', fontSize: 16, fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
@@ -143,7 +242,74 @@ class BuildingDetails extends React.Component {
               </View>
             </View>
           }
-        </Content>
+        </Animated.ScrollView>
+        <Animated.View
+          // pointerEvents="none"
+          style={[
+            styles.header,
+            { transform: [{ translateY: headerTranslate }] },
+          ]}
+        >
+          <LinearGradient
+            colors={[brandPrimary, '#0d59ca']}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            {/* <Animated.Image
+              style={[
+                styles.backgroundImage,
+                {
+                  opacity: imageOpacity,
+                  transform: [{ translateY: imageTranslate }],
+                },
+              ]}
+              source={picture}
+            /> */}
+            {!isFetching && detailBuilding &&
+              <Animated.Image
+                style={[
+                  styles.backgroundImage,
+                  {
+                    flex: 1,
+                    width: '100%',
+                    opacity: imageOpacity,
+                    transform: [{ translateY: imageTranslate }],
+                  },
+                ]}
+                source={{ uri: detailBuilding.sub_images[0] }}
+              />
+            }
+          </LinearGradient>
+        </Animated.View>
+        <Animated.View
+          style={[
+            styles.barIcon,
+            {
+              transform: [
+                // { scale: titleScale },
+                { translateY: titleTranslate },
+              ],
+            },
+          ]}
+        >
+          <TouchableOpacity style={{ marginLeft: 9, width: 50 }} onPress={() => { this.props.navigation.goBack() }}>
+            <Icon style={[styles.icon, { color: '#fff' }]} name={'ios-arrow-back'} type={'Ionicons'} />
+          </TouchableOpacity>
+        </Animated.View>
+        <Animated.View
+          style={[
+            styles.bar,
+            {
+              transform: [
+                { scale: titleScale },
+                { translateY: titleTranslate },
+              ],
+            },
+          ]}
+        >
+          <Text style={styles.title}>{detailBuilding.sub_name}</Text>
+        </Animated.View>
       </Container>
     )
   }
@@ -153,8 +319,68 @@ class BuildingDetails extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: brandLight
+    backgroundColor
   },
+  header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#03A9F4',
+    overflow: 'hidden',
+    height: HEADER_MAX_HEIGHT,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    height: HEADER_MAX_HEIGHT,
+    resizeMode: 'cover',
+  },
+  bar: {
+    backgroundColor: 'transparent',
+    marginTop: platform === 'ios' ? 32 : 38,
+    height: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  barIcon: {
+    zIndex: 1,
+    backgroundColor: 'transparent',
+    marginTop: platform === 'ios' ? 32 : 38,
+    height: 32,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  title: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  scrollViewContent: {
+    // iOS uses content inset, which acts like padding.
+    paddingTop: platform !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+  },
+  row: {
+    height: 40,
+    margin: 16,
+    backgroundColor: '#D3D3D3',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+
+
   paragraph: {
     backgroundColor: brandLight,
     borderRadius: 3,
@@ -173,7 +399,7 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 10,
     margin: 5
-},
+  },
   line: {
     flexDirection: 'row',
     paddingVertical: 5,
@@ -183,11 +409,11 @@ const styles = StyleSheet.create({
     color: '#686868',
     fontWeight: '400',
   },
-  icon: {
-    color: '#686868',
-    width: 30,
-    fontSize: 22,
-  },
+  // icon: {
+  //   color: '#686868',
+  //   // width: 30,
+  //   fontSize: 30,
+  // },
   button: {
     alignItems: 'center', alignContent: 'center', justifyContent: 'center', paddingHorizontal: 5
   },
@@ -204,7 +430,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: "#fff",
-    fontSize: 30
+    fontSize: 34
   },
   buttonBgText: {
     color: '#FFF',

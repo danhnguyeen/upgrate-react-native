@@ -37,6 +37,7 @@ PODS:
     - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Reachability (~> 5.2)
     - Protobuf (~> 3.1)
+  - FLAnimatedImage (1.0.12)
   - Folly (2016.10.31.00):
     - boost-for-react-native
     - DoubleConversion
@@ -74,6 +75,11 @@ PODS:
   - Protobuf (3.6.1)
   - React (0.57.8):
     - React/Core (= 0.57.8)
+  - react-native-fast-image (5.1.2):
+    - FLAnimatedImage
+    - React
+    - SDWebImage/Core
+    - SDWebImage/GIF
   - react-native-maps (0.22.1):
     - React
   - React/Core (0.57.8):
@@ -126,6 +132,10 @@ PODS:
     - React
   - RNI18n (2.0.15):
     - React
+  - SDWebImage/Core (4.4.3)
+  - SDWebImage/GIF (4.4.3):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
   - yoga (0.57.8.React)
 
 DEPENDENCIES:
@@ -135,6 +145,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - react-native-fast-image (from `../node_modules/react-native-fast-image`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -163,10 +174,12 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseInstanceID
     - FirebaseMessaging
+    - FLAnimatedImage
     - GoogleAppMeasurement
     - GoogleUtilities
     - nanopb
     - Protobuf
+    - SDWebImage
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -179,6 +192,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-fast-image:
+    :path: "../node_modules/react-native-fast-image"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   RNAccountKit:
@@ -201,6 +216,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 35747502d9e8c6ee217385ad04446c7c2aaf9c5c
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
   FirebaseMessaging: b412996f6a09337d232bb3a6676ce4d1f353d024
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
@@ -208,12 +224,14 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
+  react-native-fast-image: cba3d9bf9c2cf8ddb643d887a686c53a5dd90a2c
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   RNAccountKit: 3dd31fff73c90378ac89dc7611da0dc22b29f84b
   RNGestureHandler: 282af6ea58ed8483612365159c58a3ca5f55e7da
   RNI18n: 46b8694063fbd699f2c06a4dc8e835b3176763b1
+  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 7bd3dfcc1e8ae0989301489bafa1f4e508d668f6
+PODFILE CHECKSUM: 3d898a9c403053c6f112215847da88486e05c811
 
 COCOAPODS: 1.5.3

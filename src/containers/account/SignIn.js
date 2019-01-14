@@ -173,14 +173,11 @@ class SignIn extends Component {
               />
             </View>
             <View style={{ flex: 1, alignItems: 'center', paddingVertical: 10 }}>
-              {/* <View style={{ flex: 1, marginRight: 5, flexDirection: 'row' }}> */}
-                <CustomButton
-                  onPress={this.getStarted}
-                  buttonStyle={{ minWidth: 200 }}
-                  title={i18n.t('login.signIn')}
-                />
-              {/* </View> */}
-              
+              <CustomButton
+                onPress={this.getStarted}
+                buttonStyle={{ minWidth: 200 }}
+                title={i18n.t('login.signIn')}
+              />
               <View style={{ flexDirection: 'row', marginBottom: 10 }}>
                 <View style={{ flex: 1, marginRight: 5 }}>
                   <CustomButton
