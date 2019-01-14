@@ -9,7 +9,7 @@ import { Divider, Button } from 'react-native-elements';
 import * as actions from './building-actions';
 import { brandPrimary, shadow, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH } from '../../config/variables';
 import { PostDetail, BuildingMaps } from '../../components/buildings'
-import picture from '../../assets/images/pax-sky-de-tham-1.jpg';
+
 const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = Header.HEIGHT;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -137,7 +137,7 @@ class BuildingDetails extends React.Component {
         >
           {isFetching ?
             <ActivityIndicator /> :
-            <View>
+            <View style={styles.scrollViewContent}>
               <View style={{ padding: 15, backgroundColor: brandLight, marginBottom: 15 }}>
                 <BuildingMaps style={{ margin: 15 }} building={detailBuilding} />
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
@@ -161,6 +161,7 @@ class BuildingDetails extends React.Component {
                     iconContainerStyle={{ marginHorizontal: 10 }}
                     titleStyle={{ color: brandPrimary, fontSize }}
                     buttonStyle={{
+                      elevation: 0,
                       borderColor: brandPrimary,
                       borderWidth: 1,
                       backgroundColor: 'transparent',
