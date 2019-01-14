@@ -10,7 +10,7 @@ class PostDetail extends React.Component {
     this.state = {
       isReady: false,
       expanded: false,
-      animation: new Animated.Value(250)
+      animation: new Animated.Value(100)
     }
   }
   _setMaxHeight(event) {

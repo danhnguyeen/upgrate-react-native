@@ -1,6 +1,7 @@
 export default {
   global: {
-
+    readMore: "Xem thêm",
+    showLess: "Thu gọn",
   },
   tabs: {
     home: 'Trang chủ',
@@ -10,6 +11,9 @@ export default {
     account: 'Tài khoản',
     buildings: 'Danh sách tòa nhà',
     news: 'Tin tức',
+  },
+  buildingDetail: {
+    getDirection: "Chỉ đường đến đây"
   },
   account: {
     signIn: 'Đăng nhập',

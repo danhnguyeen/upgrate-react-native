@@ -6,9 +6,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Header } from 'react-navigation';
 import { Divider, Button } from 'react-native-elements';
 
+import i18n from '../../i18n';
 import * as actions from './building-actions';
 import { brandPrimary, shadow, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4 } from '../../config/variables';
-import { PostDetail, BuildingMaps } from '../../components/buildings'
+import { PostDetail, BuildingMaps, BuildingDescription } from '../../components/buildings'
 
 const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = Header.HEIGHT;
@@ -29,7 +30,7 @@ class BuildingDetails extends React.Component {
   componentDidMount() {
     this._onFetching();
   }
-  
+
   _onFetching = async () => {
     const building_id = this.props.navigation.getParam('building_id', null)
     if (!building_id) { }
@@ -147,6 +148,7 @@ class BuildingDetails extends React.Component {
                         style={{ color: brandPrimary, fontSize: fontSize + 6, marginLeft: 10 }}
                       />
                     }
+                    onPress={() => Linking.openURL(`https://www.google.com/maps?daddr=${detailBuilding.lat},${detailBuilding.long}`)}
                     iconContainerStyle={{ marginHorizontal: 10 }}
                     titleStyle={{ color: brandPrimary, fontSize }}
                     buttonStyle={{
@@ -157,14 +159,14 @@ class BuildingDetails extends React.Component {
                       borderRadius: 20,
                       paddingRight: 15
                     }}
-                    title='Chỉ đường đến đây'
+                    title={i18n.t('buildingDetail.getDirection')}
                   />
                 </View>
               </View>
-              <View style={{ flex: 1, backgroundColor: brandLight, padding: 15 }}>
+              <View style={{ flex: 1, backgroundColor: brandLight, padding: 15, marginBottom: 15 }}>
                 <View style={{ alignItems: 'center', marginBottom: 5 }}>
                   <Text style={[textH4, { color: brandPrimary }]} numberOfLines={1}>{detailBuilding.sub_name}</Text>
-                  <Text style={{ color: '#9F9F9F', fontSize: 16, fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
+                  <Text style={{ fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
                 </View>
                 <View style={styles.line}>
                   <Icon style={styles.icon} name='building' type='FontAwesome' /><Text>{detailBuilding.structure ? detailBuilding.structure : 'Chưa cập nhật'}</Text>
@@ -198,22 +200,25 @@ class BuildingDetails extends React.Component {
                   <Icon style={styles.icon} name='battery-charging' type='Feather' />
                   <Text>{detailBuilding.electricity_cost}K/ giờ</Text>
                 </View>
+                <Divider style={{ marginVertical: 15 }} />
+                <BuildingDescription text={detailBuilding.description} />
+                <Divider style={{ marginVertical: 15 }} />
+                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                  <TouchableOpacity style={[styles.buttonComon, styles.button, { flex: 0.5, borderColor: '#e12d2d' }]}>
+                    <Text style={[styles.buttonText, { color: '#e12d2d' }]}>Giá Thuê</Text>
+                    <Text style={[styles.buttonText, { fontSize: 18, fontWeight: '700', color: '#e12d2d' }]}>{detailBuilding.rent_cost.toFixed(1)}$/m2</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.buttonBg, styles.button, { flex: 0.5, }]}
+                    onPress={() => { this.props.navigation.navigate('Offices', { building_id: detailBuilding.building_id, building_name: detailBuilding.sub_name, building_detail: detailBuilding }) }}>
+                    <Text style={[styles.buttonBgText]}>Xem văn phòng</Text>
+                    <Icon style={[styles.buttonBgText]} name='md-arrow-forward' type='Ionicons' />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={[styles.paragraph, shadow, { flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 5 }]}>
-                <TouchableOpacity style={[styles.buttonComon, styles.button, { flex: 0.5, borderColor: '#e12d2d' }]}>
-                  <Text style={[styles.buttonText, { color: '#e12d2d' }]}>Giá Thuê</Text>
-                  <Text style={[styles.buttonText, { fontSize: 18, fontWeight: '700', color: '#e12d2d' }]}>{detailBuilding.rent_cost.toFixed(1)}$/m2</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.buttonBg, styles.button, { flex: 0.5, }]}
-                  onPress={() => { this.props.navigation.navigate('Offices', { building_id: detailBuilding.building_id, building_name: detailBuilding.sub_name, building_detail: detailBuilding }) }}>
-                  <Text style={[styles.buttonBgText]}>Xem văn phòng</Text>
-                  <Icon style={[styles.buttonBgText]} name='md-arrow-forward' type='Ionicons' />
-                </TouchableOpacity>
-              </View>
-              <View style={{ paddingHorizontal: 20 }}>
+              {/* <View style={{ paddingHorizontal: 20, backgroundColor: brandLight }}>
                 <PostDetail description={detailBuilding.description} content={detailBuilding.content} />
-              </View>
-              <View style={[styles.paragraph, shadow, { padding: 10 }]}>
+              </View> */}
+              <View style={[{ padding: 15, backgroundColor: brandLight, marginBottom: 15 }]}>
                 <Text style={styles.buttonText}>Chuyên viên tư vấn</Text>
                 <View style={styles.line}>
                   <Icon style={{ color: '#666666', lineHeight: 30, fontSize: 20, marginRight: 10 }} name='user-female' type='SimpleLineIcons' />
@@ -274,7 +279,7 @@ class BuildingDetails extends React.Component {
           ]}
         >
           <TouchableOpacity style={{ marginLeft: 9, width: 50 }} onPress={() => { this.props.navigation.goBack() }}>
-            <Icon style={[styles.icon, { color: '#fff' }]} name={'ios-arrow-back'} type={'Ionicons'} />
+            <Icon style={{ color: inverseTextColor, fontSize: 34 }} name={'ios-arrow-back'} type={'Ionicons'} />
           </TouchableOpacity>
         </Animated.View>
         <Animated.View

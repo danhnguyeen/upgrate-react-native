@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, View } from 'react-native';
+import { StatusBar, View, UIManager } from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
 import { NavigationActions } from 'react-navigation';
 import FCM from "react-native-fcm";
@@ -7,7 +7,7 @@ import { YellowBox } from 'react-native';
 
 import AppContainer from './navigators';
 import PushNotification from './src/services/notifications-service';
-import { brandPrimary } from './src/config/variables';
+import { brandPrimary, platform } from './src/config/variables';
 
 YellowBox.ignoreWarnings(['Remote debugger']);
 
@@ -15,6 +15,9 @@ export default class App extends Component {
   componentDidMount() {
     SplashScreen.hide();
     FCM.requestPermissions({ badge: true, sound: true, alert: true });
+    if (platform === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
   }
   render() {
     const callNavigate = (routeName, params) => {

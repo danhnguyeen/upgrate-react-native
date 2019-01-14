@@ -1,6 +1,7 @@
 export default {
   global: {
-  
+    readMore: "Read more",
+    showLess: "Show less",
   },
   tabs: {
     home: 'Homw',
@@ -10,6 +11,9 @@ export default {
     account: 'Account',
     buildings: 'Buildings',
     news: 'News',
+  },
+  buildingDetail: {
+    getDirection: "Get Directions"
   },
   account: {
     signIn: 'SignIn',
