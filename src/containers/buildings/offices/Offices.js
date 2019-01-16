@@ -92,10 +92,10 @@ class Offices extends React.Component {
         <Content style={{ backgroundColor: '#DCDCDC' }} >
           {(isFetching && officeList) ? <ActivityIndicator /> :
             <View >
-              <View style={{ padding: 20, backgroundColor: '#FFF', marginBottom: 10 }}>
+              <View style={{ padding: 15, backgroundColor: '#FFF', marginBottom: 10 }}>
                 <TouchableOpacity
                   onPress={() => { this.setState({ modalVisible: true }) }}
-                  style={[styles.button, { alignSelf: 'flex-end', borderWidth: 0, marginHorizontal: 50 }]}>
+                  style={[styles.button, { alignSelf: 'flex-end', borderWidth: 0 }]}>
                   <Text style={[styles.buttonText]}>CHỌN LỌC</Text>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>

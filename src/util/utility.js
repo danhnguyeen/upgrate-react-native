@@ -122,15 +122,17 @@ export const checkValidity = (value, rules, formData = null) => {
 
 export const validateForm = (form) => {
   let formIsValid = true;
+  const data = {};
   for (var key in form) {
     if (form.hasOwnProperty(key)) {
+      data[key] = form[key].value;
       form[key].inValid = !checkValidity(form[key].value, form[key].validation, form);
       if (form[key].inValid) {
         formIsValid = false;
       }
     }
   }
-  return { formIsValid, form };
+  return { formIsValid, form, data };
 };
 
 export const encodeURI = (params) => {

@@ -7,7 +7,7 @@ import { Welcome } from './src/containers/welcome';
 import { News } from './src/containers/news';
 import { Locations } from './src/containers/locations';
 import { Appointment } from './src/containers/appointment';
-import { Account, SignIn, SignUp } from './src/containers/account';
+import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook } from './src/containers/account';
 import { Buildings, BuildingDetails, Offices, Booking } from './src/containers/buildings';
 import { Header } from './src/components/common';
 import i18n from './src/i18n';
@@ -123,6 +123,13 @@ const AccountStack = createStackNavigator({
       ...headerOptions,
       title: i18n.t('account.signUp')
     }
+  },
+  SignUpWithPhoneAndFacebook: {
+    screen: SignUpWithPhoneAndFacebook,
+    navigationOptions: {
+      ...headerOptions,
+      title: i18n.t('account.signUp')
+    }
   }
 }, {
   initialRouteName: 'Account'
@@ -174,7 +181,7 @@ const AppNavigator = createBottomTabNavigator({
   }),
   tabBarOptions: {
     activeTintColor: brandPrimary,
-    inactiveTintColor: '#8c8c8c'
+    inactiveTintColor: '#919191'
   },
 }, {
   initialRouteName: 'Home'

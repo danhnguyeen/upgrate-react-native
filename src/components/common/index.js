@@ -1,11 +1,13 @@
 import InputField from './InputField';
 import Header from './Header';
-import CustomButton from './CustomButton';
+import Button from './Button';
 import ReadMore from './ReadMore';
+import TextInput from './TextInput';
 
 export {
   InputField,
   Header,
-  CustomButton,
-  ReadMore
+  Button,
+  ReadMore,
+  TextInput
 };

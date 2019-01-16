@@ -8,11 +8,12 @@ import { Divider, Button } from 'react-native-elements';
 
 import i18n from '../../i18n';
 import * as actions from './building-actions';
-import { brandPrimary, shadow, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4 } from '../../config/variables';
+import { brandPrimary, isIphoneX, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4 } from '../../config/variables';
 import { PostDetail, BuildingMaps, BuildingDescription } from '../../components/buildings'
 
+const STATUSBAR_PADDING = isIphoneX ? 24 : 0
 const HEADER_MAX_HEIGHT = 300;
-const HEADER_MIN_HEIGHT = Header.HEIGHT;
+const HEADER_MIN_HEIGHT = Header.HEIGHT + STATUSBAR_PADDING;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
@@ -169,10 +170,10 @@ class BuildingDetails extends React.Component {
                   <Text style={{ fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
                 </View>
                 <View style={styles.line}>
-                  <Icon style={styles.icon} name='building' type='FontAwesome' /><Text>{detailBuilding.structure ? detailBuilding.structure : 'Chưa cập nhật'}</Text>
+                  <Icon style={styles.icon} name='building-o' type='FontAwesome' /><Text>{detailBuilding.structure ? detailBuilding.structure : 'Chưa cập nhật'}</Text>
                 </View>
                 <View style={styles.line}>
-                  <Icon style={styles.icon} name='ios-expand' type='Ionicons' />
+                  <Icon style={styles.icon} name='address-book-o' type='FontAwesome' />
                   {detailBuilding.acreage_rent_array && detailBuilding.acreage_rent_array.length > 0 ?
                     detailBuilding.acreage_rent_array.map((item, index) =>
                       <Text key={index}>
@@ -185,19 +186,19 @@ class BuildingDetails extends React.Component {
                   }
                 </View>
                 <View style={styles.line}>
-                  <Icon style={styles.icon} name='ios-eye' type='Ionicons' />
+                  <Icon style={styles.icon} name='directions-fork' type='MaterialCommunityIcons' />
                   <Text>{detailBuilding.direction}</Text>
                 </View>
                 <View style={styles.line}>
-                  <Icon style={styles.icon} name='elevator' type='Foundation' />
+                  <Icon style={[styles.icon, { fontSize: 28 } ]} name='md-star-outline' type='Ionicons' />
                   <Text>{detailBuilding.classify_name}</Text>
                 </View>
                 <View style={styles.line}>
-                  <Icon style={styles.icon} name='shield' type='Feather' />
+                  <Icon style={styles.icon} name='settings' type='SimpleLineIcons' />
                   <Text>Đơn vị quản lý: {detailBuilding.management_agence_name}</Text>
                 </View>
                 <View style={styles.line}>
-                  <Icon style={styles.icon} name='battery-charging' type='Feather' />
+                  <Icon style={styles.icon} name='car-battery' type='MaterialCommunityIcons' />
                   <Text>{detailBuilding.electricity_cost}K/ giờ</Text>
                 </View>
                 <Divider style={{ marginVertical: 15 }} />
@@ -221,17 +222,17 @@ class BuildingDetails extends React.Component {
               <View style={[{ padding: 15, backgroundColor: brandLight, marginBottom: 15 }]}>
                 <Text style={styles.buttonText}>Chuyên viên tư vấn</Text>
                 <View style={styles.line}>
-                  <Icon style={{ color: '#666666', lineHeight: 30, fontSize: 20, marginRight: 10 }} name='user-female' type='SimpleLineIcons' />
-                  <Text style={{ color: '#666666', lineHeight: 30 }}>Ms. Phương Linh</Text>
+                  <Icon style={styles.icon} name='ios-person' type='Ionicons' />
+                  <Text>Ms. Phương Linh</Text>
                 </View>
                 <TouchableOpacity style={styles.line}
                   onPress={() => Linking.openURL(`tel:+84911072299`)}>
-                  <Icon style={{ color: '#666666', lineHeight: 30, fontSize: 20, marginRight: 10 }} name='phone' type='SimpleLineIcons' />
+                  <Icon style={styles.icon} name='ios-call' type='Ionicons' />
                   <Text style={[styles.buttonText, { lineHeight: 30 }]}>0911 07 22 99</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.line}
                   onPress={() => Linking.openURL(`mailto:paxsky.vn?subject=Đăng ký tư vấn tòa nhà ${detailBuilding.sub_name}`)}>
-                  <Icon style={{ color: '#666666', lineHeight: 30, fontSize: 20, marginRight: 10 }} name='envelope' type='SimpleLineIcons' />
+                  <Icon style={styles.icon} name='ios-mail' type='Ionicons' />
                   <Text style={[styles.buttonText, { lineHeight: 30 }]}>pkd@paxsky.vn</Text>
                 </TouchableOpacity>
               </View>
@@ -293,7 +294,7 @@ class BuildingDetails extends React.Component {
             },
           ]}
         >
-          <Text style={styles.title}>{detailBuilding.sub_name}</Text>
+          <Text style={styles.title} numberOfLines={1}>{detailBuilding.sub_name}</Text>
         </Animated.View>
       </Container>
     )
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     backgroundColor: 'transparent',
-    marginTop: platform === 'ios' ? 32 : 18,
+    marginTop: (platform === 'ios' ? 32 : 18) + STATUSBAR_PADDING,
     height: 32,
     alignItems: 'center',
     justifyContent: 'center',
@@ -337,7 +338,7 @@ const styles = StyleSheet.create({
   barIcon: {
     zIndex: 1,
     backgroundColor: 'transparent',
-    marginTop: platform === 'ios' ? 32 : 18,
+    marginTop: (platform === 'ios' ? 32 : 18) + STATUSBAR_PADDING,
     height: 32,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
@@ -347,7 +348,8 @@ const styles = StyleSheet.create({
     right: 0,
   },
   title: {
-    fontSize: platform === 'ios' ? 20 : 24,
+    fontSize: platform === 'ios' ? 21 : 25,
+    maxWidth: DEVICE_WIDTH - 60,
     fontWeight: platform === 'ios' ? '600' : '500',
     color: '#fff'
   },
@@ -385,6 +387,7 @@ const styles = StyleSheet.create({
     margin: 5
   },
   line: {
+    flex: 1,
     flexDirection: 'row',
     paddingVertical: 5,
     alignItems: 'center',
@@ -393,7 +396,7 @@ const styles = StyleSheet.create({
   icon: {
     color: textLightColor,
     fontSize: 22,
-    marginRight: 15
+    width: 40
   },
   button: {
     alignItems: 'center', alignContent: 'center', justifyContent: 'center', paddingHorizontal: 5

@@ -52,13 +52,6 @@ instance.interceptors.response.use(function (response) {
       error.message = 'Kết nối gián đoạn';
     }
   }
-  let errorMessage = '';
-  if (error.msg) {
-    errorMessage = msg;
-  } else if (error.message) {
-    errorMessage = error.message;
-  }
-  error.msg = errorMessage;
   return Promise.reject(error);
 });
 export default instance;

@@ -1,5 +1,7 @@
-import { Platform, Dimensions, PixelRatio, StatusBar } from 'react-native';
+import { Platform, Dimensions, PixelRatio, StatusBar, NativeEventEmitter, NativeModules } from 'react-native';
 import { Header } from 'react-navigation';
+
+const { StatusBarManager } = NativeModules;
 
 export const DEVICE_HEIGTH = Dimensions.get('window').height;
 export const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -19,6 +21,14 @@ export function getStatusBarHeight(skipAndroid = false) {
   }
   return StatusBar.currentHeight;
 };
+// let statusBarH;
+// StatusBarManager.getHeight(({ height }) => console.log('heigh' +height));
+// export const statusBarHeight = async() => {
+//   const height = await StatusBarManager.getHeight();
+//   console.log(height);
+//   return height;
+// };
+
 export const navHeight = Header.HEIGHT + getStatusBarHeight() - 19;
 // Colors
 export const brandPrimary = '#072f6a'; //'#2997d8';

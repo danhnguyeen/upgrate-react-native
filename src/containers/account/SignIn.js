@@ -1,23 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
-import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
-import { Content, Icon, Text, Input, Button } from "native-base";
+import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, Alert } from 'react-native';
+import { Content, Icon, Text } from "native-base";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import RNAccountKit, { Color } from 'react-native-facebook-account-kit';
 
 import i18n from '../../i18n';
 import * as actions from './auth-actions';
-import { InputField, CustomButton } from '../../components/common';
+import { Button, TextInput } from '../../components/common';
 import { backgroundColor, brandPrimary, brandWarning } from '../../config/variables';
+import { validateForm, checkValidity } from '../../util/utility';
 
 class SignIn extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isEmailCorrect: false,
-      isPasswordCorrect: false,
-      isLogin: false,
+      formTouched: false,
+      form: {
+        email: {
+          value: '',
+          validation: {
+            required: true,
+            isEmail: true
+          }
+        },
+        password: {
+          value: '',
+          validation: {
+            required: true
+          }
+        }
+      },
+      checkLogin: false,
+      submiting: false,
+      formIsValid: true
     }
     this._isMounted = false,
       this.routeNameProps = null,
@@ -42,6 +59,7 @@ class SignIn extends Component {
       initialPhoneCountryPrefix: "+84"
     });
   }
+
   _onCheckAuth = () => {
     this.routeNameProps = this.props.navigation.getParam('routeNameProps', null)
     this.dataProps = this.props.navigation.getParam('dataProps', null)
@@ -64,49 +82,25 @@ class SignIn extends Component {
       // this.setState({ checkLogin: false });
     }
   }
-  getStarted = () => {
-    const email = this.email.getInputValue()
-    const password = this.password.getInputValue()
-
-    this.setState({
-      isEmailCorrect: email === '',
-      isPasswordCorrect: password === '',
-    }, () => {
-      if (email !== '' && password !== '') {
-        this.onLoginSubmit(email, password)
-      }
-      else {
-        this.setState({
-          alertModal: {
-            type: 'error',
-            content: 'Vui lòng nhập đúng địa chỉ email hoặc mật khẩu.'
-          }
-        })
-      }
-    })
-  }
-  onLoginSubmit = async (email, password) => {
-    // console.log(email, password)
-    const dataLogin = {
-      email: email,
-      password: password,
-    }
-    this.setState({ isLogin: true })
-
-    await this.props.onAuth(email, password)
-      .then(() => {
+  onLoginWithEmail = async () => {
+    this.setState({ formTouched: true });
+    const { formIsValid, data } = validateForm({ ...this.state.form });
+    console.log(formIsValid)
+    if (formIsValid) {
+      try {
+        this.setState({ submiting: true });
+        await this.props.onAuth(data.email, data.password)
+        this.setState({ submiting: false });
         this._onLoginSuccess();
-      })
-      .catch(error => {
-        console.log(error)
-        this.setState({
-          isLogin: false,
-          alertModal: {
-            type: 'error',
-            content: error.message,
-          }
-        })
-      })
+      } catch (e) {
+        this.setState({ submiting: false });
+        console.log(e);
+        if (e.message === 'invalid email or password') {
+          e.message = i18n.t('account.loginFailMsg');
+        }
+        this._onLoginFailed(e);
+      }
+    }
   }
   onLoginWithPhone = async () => {
     try {
@@ -135,16 +129,23 @@ class SignIn extends Component {
         action: NavigationActions.navigate({ routeName: sub_routeName, params: { dataProps } })
       })]
     }))
-    // _dispatchStackActions(this.props.navigation, 'reset', 'Main', sub_routeName, dataProps)
   }
-
-  changeInputFocus = name => () => {
-    if (name === 'Email') {
-      this.setState({ isEmailCorrect: this.email.getInputValue() === '' })
-      this.password.input.focus()
-    } else {
-      this.setState({ isPasswordCorrect: this.password.getInputValue() === '' })
+  _onLoginFailed = (error) => {
+    Alert.alert(
+      i18n.t('account.loginFail'),
+      error.message,
+      [{ text: i18n.t('global.ok') }],
+      { cancelable: false }
+    );
+  }
+  inputChangeHandler = (value, key) => {
+    const form = { ...this.state.form };
+    form[key].value = value;
+    if (this.state.formTouched) {
+      const validation = form[key].validation;
+      form[key].inValid = !checkValidity(value, validation, form);
     }
+    this.setState({ form });
   }
 
   render() {
@@ -152,48 +153,52 @@ class SignIn extends Component {
       <View style={{ flex: 1, backgroundColor }}>
         <Content padder >
           <KeyboardAvoidingView>
-            <View style={{ paddingVertical: 10 }}>
-              <InputField
-                placeholder={'Email'}
+            <View style={{ padding: 15 }}>
+              <TextInput
+                value={this.state.form.email.value}
+                onChangeText={email => this.inputChangeHandler(email, 'email')}
+                label={i18n.t('account.email')}
+                autoCapitalize="none"
+                returnKeyType="next"
                 keyboardType="email-address"
-                error={this.state.isEmailCorrect}
-                focus={this.changeInputFocus}
-                ref={ref => this.email = ref}
-                icon="md-mail"
+                icon={{ iconName: "ios-mail" }}
+                inValid={this.state.form.email.inValid}
               />
-              <InputField
-                placeholder={'Mật khẩu'}
-                returnKeyType="done"
-                secureTextEntry={true}
+              <TextInput
+                value={this.state.form.password.value}
+                onChangeText={password => this.inputChangeHandler(password, 'password')}
+                label={i18n.t('account.password')}
+                secureTextEntry
+                autoCapitalize="none"
+                returnKeyType='done'
                 blurOnSubmit={true}
-                error={this.state.isPasswordCorrect}
-                ref={ref => this.password = ref}
-                focus={this.changeInputFocus}
-                icon='md-lock'
+                icon={{ iconName: 'ios-lock' }}
+                inValid={this.state.form.password.inValid}
               />
             </View>
             <View style={{ flex: 1, alignItems: 'center', paddingVertical: 10 }}>
-              <CustomButton
-                onPress={this.getStarted}
+              <Button
+                onPress={this.onLoginWithEmail}
+                loading={this.state.submiting}
                 buttonStyle={{ minWidth: 200 }}
-                title={i18n.t('login.signIn')}
+                title={i18n.t('account.signIn')}
               />
-              <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+              <View style={{ flexDirection: 'row', marginBottom: 10, marginHorizontal: 10 }}>
                 <View style={{ flex: 1, marginRight: 5 }}>
-                  <CustomButton
+                  <Button
                     buttonStyle={{ margin: 0, borderColor: '#4066b4', backgroundColor: '#4066b4' }}
                     onPress={this.onLoginFacebook}
                     title='Facebook' />
                 </View>
                 <View style={{ flex: 1, marginLeft: 5 }}>
-                  <CustomButton
+                  <Button
                     buttonStyle={{ margin: 0, borderColor: brandWarning, backgroundColor: brandWarning }}
                     onPress={this.onLoginWithPhone}
-                    title={i18n.t('login.phoneNumber')} />
+                    title={i18n.t('account.phoneNumber')} />
                 </View>
               </View>
               <TouchableOpacity style={{ margin: 10 }} activeOpacity={0.6}
-                onPress={() => { this.props.navigation.push('SignUp') }}>
+                onPress={() => { this.props.navigation.push('SignUpWithPhoneAndFacebook') }}>
                 <Text style={{ color: '#575757' }}>{'Chưa có tài khoản ? '}<Text style={{ color: brandPrimary }}>{'Đăng ký'}</Text></Text>
               </TouchableOpacity>
             </View>
@@ -204,20 +209,6 @@ class SignIn extends Component {
     )
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignSelf: "center",
-  },
-  lineBottom: {
-    borderBottomColor: 'rgba(0,0,0,0.5)',
-    borderBottomWidth: 0.5,
-    marginVertical: 5,
-    marginHorizontal: 15,
-  }
-})
-
-
 
 const mapStateToProps = state => ({
   isAuth: state.auth.token,

@@ -4813,7 +4813,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
@@ -5026,6 +5026,13 @@ react-native-maps@^0.22.1:
   version "0.22.1"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.22.1.tgz#ce856e71970e872e596e6fa4773279cae2c4dcdd"
   integrity sha512-JjBpAXjzZY8AW4HTcAZxX+cGk6e6i+J5Vd//DViMUe0bRkKKv92ds1W9rqZ+o9PhUqdP++3DvKv0jrB05icqKA==
+
+react-native-material-textfield@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-material-textfield/-/react-native-material-textfield-0.12.0.tgz#3fba19d76ab89f67052c81e082152fc243d82a3f"
+  integrity sha1-P7oZ12q4n2cFLIHgghUvwkPYKj8=
+  dependencies:
+    prop-types "^15.5.9"
 
 react-native-safe-area-view@^0.11.0:
   version "0.11.0"
