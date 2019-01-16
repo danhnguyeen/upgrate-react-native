@@ -57,6 +57,8 @@ target 'PaxSky' do
 
   # react native fast image
   pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+  # react native picker
+  pod 'Picker', :path => '../node_modules/react-native-picker'
 
 end
 

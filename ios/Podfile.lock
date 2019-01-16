@@ -72,6 +72,10 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - Picker (4.3.7):
+    - Picker/Core (= 4.3.7)
+  - Picker/Core (4.3.7):
+    - React
   - Protobuf (3.6.1)
   - React (0.57.8):
     - React/Core (= 0.57.8)
@@ -145,6 +149,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - Picker (from `../node_modules/react-native-picker`)
   - react-native-fast-image (from `../node_modules/react-native-fast-image`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - React/Core (from `../node_modules/react-native`)
@@ -190,6 +195,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  Picker:
+    :path: "../node_modules/react-native-picker"
   React:
     :path: "../node_modules/react-native"
   react-native-fast-image:
@@ -222,6 +229,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
   GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  Picker: 67a2566d9ff6b141d505d88b9177f905aaa5f1a6
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   react-native-fast-image: cba3d9bf9c2cf8ddb643d887a686c53a5dd90a2c
@@ -232,6 +240,6 @@ SPEC CHECKSUMS:
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 3d898a9c403053c6f112215847da88486e05c811
+PODFILE CHECKSUM: 339cd81431c2a3191f0de691c69f414c410ada6e
 
 COCOAPODS: 1.5.3

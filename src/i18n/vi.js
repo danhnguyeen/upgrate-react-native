@@ -2,8 +2,9 @@ export default {
   global: {
     ok: "Đồng ý",
     cancel: "Hủy bỏ",
+    confirm: "Xác nhận",
     readMore: "Xem thêm",
-    showLess: "Thu gọn",
+    showLess: "Thu gọn"
   },
   tabs: {
     home: 'Trang chủ',

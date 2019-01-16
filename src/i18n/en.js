@@ -2,6 +2,7 @@ export default {
   global: {
     ok: "OK",
     cancel: "Cancel",
+    confirm: "Confirm",
     readMore: "Read more",
     showLess: "Show less",
   },
