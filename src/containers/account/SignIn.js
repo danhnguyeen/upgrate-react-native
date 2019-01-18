@@ -76,6 +76,20 @@ class SignIn extends Component {
       } else {
         const data = await AccessToken.getCurrentAccessToken();
         const token = data.accessToken.toString();
+        console.log(token);
+        try {
+          const result = await this.props.onAuthWithFacebook(token);
+          if (this.props.isAuth) {
+            this._onLoginSuccess();
+          } else {
+            this.setState({ checkLogin: false, submiting: false });
+            this.props.navigation.navigate('SignUpWithPhoneAndFacebook', { loginType: 'facebook', name: result.name });
+          }
+        } catch (err) {
+          console.log(err);
+          this.setState({ submiting: false, checkLogin: false });
+          // this.onLoginFailed(err);
+        }
       }
     } catch (e) {
       console.log(e)
@@ -109,7 +123,7 @@ class SignIn extends Component {
           if (!token) {
             console.log('Login cancelled')
           } else {
-            console.log(`Logged with phone. Token: ${token}`)
+            console.log(token)
           }
         });
     } catch (err) {
@@ -124,7 +138,7 @@ class SignIn extends Component {
     this.props.navigation.dispatch(StackActions.reset({
       index: 0, key: null,
       actions: [NavigationActions.navigate({
-        routeName: 'Account',
+        routeName: 'Main',
         params: { dataProps },
         action: NavigationActions.navigate({ routeName: sub_routeName, params: { dataProps } })
       })]
@@ -216,7 +230,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onAuth: (username, password) => dispatch(actions.auth(username, password)),
-  // resetAuthFailError: () => dispatch(actions.resetAuthFailError())
+  onAuthWithFacebook: (token) => dispatch(actions.authWithFacebook(token)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

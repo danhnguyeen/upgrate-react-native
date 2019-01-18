@@ -11,16 +11,19 @@ export default {
     paxsky: 'Paxsky',
     saved: 'Đã lưu',
     appointment: 'Lịch hẹn',
+    locations: 'Vị trí',
     account: 'Tài khoản',
-    buildings: 'Danh sách tòa nhà',
+    buildings: 'Tòa nhà',
+    buildingList: 'Danh sách tòa nhà',
     news: 'Tin tức',
+    notifications: 'Thông báo'
   },
   buildingDetail: {
     getDirection: "Chỉ đường đến đây"
   },
   account: {
     signIn: 'Đăng nhập',
-    signUp: 'Đăng kí',
+    signUp: 'Đăng ký',
     email: "Email",
     password: "Mật khẩu",
     forgetPassword: "Quên mật khẩu?",

@@ -32,7 +32,7 @@ class Welcome extends React.Component {
             onPress={() => { this.props.navigation.navigate('Buildings') }}
             style={styles.searchBar} activeOpacity={0.8}>
             <Icon style={{ color: '#FFF', lineHeight: 30, marginRight: 10, }} name='building-o' type="FontAwesome" />
-            <Text uppercase style={[styles.buttonText, { textAlign: 'center' }]}>{i18n.t('tabs.buildings')}</Text>
+            <Text uppercase style={[styles.buttonText, { textAlign: 'center' }]}>{i18n.t('tabs.buildingList')}</Text>
           </TouchableOpacity>
 
           {[2, 4].map((line) =>

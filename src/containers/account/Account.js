@@ -35,9 +35,9 @@ class Account extends React.Component {
   // }
 
   callToLogout = async () => {
-    await AsyncStorage.removeItem('token')
-    await this.props.onLogout()
-    _dispatchStackActions(this.props.navigation, 'reset', 'Account')
+    await AsyncStorage.removeItem('token');
+    await this.props.onLogout();
+    _dispatchStackActions(this.props.navigation, 'reset', 'Main', 'Account')
   }
   render() {
     return (
