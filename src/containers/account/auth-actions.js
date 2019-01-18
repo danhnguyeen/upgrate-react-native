@@ -44,9 +44,30 @@ export const authSignUp = (dataRegister) => {
   }
 }
 
-// export const logout = () => ({
-//   type: actionTypes.AUTH_LOGOUT
-// })
+const authWithFacebookSuccess = (token, user) => ({
+  type: actionTypes.AUTH_WITH_FACEBOOK,
+  token,
+  user
+});
+
+export const authWithFacebook = (access_token) => {
+  return async dispatch => {
+    try {
+      const res = await axios.get('customer/facebook/check-token', { params: { access_token } });
+      console.log(res);
+      if (res.first_login === false) {
+        const user = res.result;
+        dispatch(authWithFacebookSuccess(res.token, user));
+      } else {
+        dispatch(authWithFacebookSuccess(null, res.customer));
+      }
+      return Promise.resolve(res.customer);
+    } catch (err) {
+      console.log(err)
+      return Promise.reject(err);
+    }
+  };
+};
 
 export const logout = () => {
   return async dispatch => {

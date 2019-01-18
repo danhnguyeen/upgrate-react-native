@@ -11,9 +11,12 @@ export default {
     paxsky: 'Paxsky',
     saved: 'Saved',
     appointment: 'Appointment',
+    locations: 'Locations',
     account: 'Account',
     buildings: 'Buildings',
+    buildingList: 'Buildings',
     news: 'News',
+    notifications: 'Notifications'
   },
   buildingDetail: {
     getDirection: "Get Directions"

@@ -5,6 +5,7 @@ import { Container, DeckSwiper, CardItem, Icon } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import { Header } from 'react-navigation';
 import { Divider, Button } from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 
 import i18n from '../../i18n';
 import * as actions from './building-actions';
@@ -15,6 +16,7 @@ const STATUSBAR_PADDING = isIphoneX ? 24 : 0
 const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = Header.HEIGHT + STATUSBAR_PADDING;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
 
 class BuildingDetails extends React.Component {
@@ -253,7 +255,7 @@ class BuildingDetails extends React.Component {
             end={{ x: 1, y: 0 }}
           >
             {!isFetching && detailBuilding &&
-              <Animated.Image
+              <AnimatedFastImage
                 style={[
                   styles.backgroundImage,
                   {
@@ -321,8 +323,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     width: '100%',
-    height: HEADER_MAX_HEIGHT,
-    resizeMode: 'cover',
+    height: HEADER_MAX_HEIGHT
   },
   bar: {
     backgroundColor: 'transparent',

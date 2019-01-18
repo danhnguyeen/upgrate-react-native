@@ -1,5 +1,6 @@
 import React from 'react';
-import { createBottomTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { TouchableOpacity } from 'react-native';
 import { Icon } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -9,9 +10,19 @@ import { Locations } from './src/containers/locations';
 import { Appointment } from './src/containers/appointment';
 import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook } from './src/containers/account';
 import { Buildings, BuildingDetails, Offices, Booking } from './src/containers/buildings';
+import { Notifications } from './src/containers/notifications';
 import { Header } from './src/components/common';
 import i18n from './src/i18n';
-import { brandPrimary, textColor } from './src/config/variables';
+import { brandPrimary, textColor, textLightColor, inverseTextColor } from './src/config/variables';
+
+const NotificationIcon = (props) => (
+  <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')}>
+      <Icon
+        name='md-notifications'
+        style={{ paddingHorizontal: 10, marginRight: 10, color: inverseTextColor, fontSize: 20 }}
+      />
+    </TouchableOpacity>
+);
 
 const headerOptions = {
   headerTintColor: '#fff',
@@ -53,6 +64,7 @@ const HomeStack = createStackNavigator({
   initialRouteName: 'Welcome',
   navigationOptions: {
     ...headerOptions,
+    tabBarLabel: i18n.t('tabs.home'),
     tabBarVisible: false
   }
 });
@@ -60,14 +72,18 @@ const HomeStack = createStackNavigator({
 const BuildingStack = createStackNavigator({
   Buildings: {
     screen: Buildings,
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('tabs.buildings')
+    navigationOptions: ({ navigation }) => {
+      return {
+        ...headerOptions,
+        title: i18n.t('tabs.buildingList'),
+        headerRight: <NotificationIcon navigation={navigation} />
+      }
     }
   },
   BuildingDetails: {
     screen: BuildingDetails,
     navigationOptions: {
+      ...headerOptions,
       headerBackTitle: null,
       header: null
     }
@@ -88,6 +104,7 @@ const BuildingStack = createStackNavigator({
 }, {
   initialRouteName: 'Buildings',
   navigationOptions: {
+    tabBarLabel: i18n.t('tabs.buildings'),
     ...headerOptions
   }
 });
@@ -95,19 +112,31 @@ const BuildingStack = createStackNavigator({
 const LocationStack = createStackNavigator({
   Locations: {
     screen: Locations,
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('tabs.buildings')
+    navigationOptions: ({ navigation }) => {
+      return {
+        ...headerOptions,
+        tabBarLabel: i18n.t('tabs.locations'),
+        title: i18n.t('tabs.locations'),
+        headerRight: <NotificationIcon navigation={navigation} />
+      }
     }
+  }
+}, {
+  navigationOptions: {
+    ...headerOptions,
+    tabBarLabel: i18n.t('tabs.locations')
   }
 });
 
 const AccountStack = createStackNavigator({
   Account: {
     screen: Account,
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('tabs.account')
+    navigationOptions: ({ navigation }) => {
+      return {
+        ...headerOptions,
+        title: i18n.t('tabs.account'),
+        headerRight: <NotificationIcon navigation={navigation} />
+      }
     }
   },
   SignIn: {
@@ -132,20 +161,39 @@ const AccountStack = createStackNavigator({
     }
   }
 }, {
-  initialRouteName: 'Account'
+  initialRouteName: 'Account',
+  navigationOptions: {
+    ...headerOptions,
+    tabBarLabel: i18n.t('tabs.account')
+  }
 });
 
 const AppointmentStack = createStackNavigator({
   Appointment: {
     screen: Appointment,
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('appointment.appointmentList')
+    navigationOptions: ({ navigation }) => {
+      return {
+        ...headerOptions,
+        title: i18n.t('appointment.appointmentList'),
+        headerRight: <NotificationIcon navigation={navigation} />
+      }
     }
+  }
+}, {
+  navigationOptions: {
+    ...headerOptions,
+    tabBarLabel: i18n.t('tabs.appointment')
   }
 });
 
-const AppNavigator = createBottomTabNavigator({
+const NotificationsStack = createStackNavigator({
+  Notifications: {
+    screen: Notifications,
+    navigationOptions: headerOptions
+  }
+});
+
+const MainNavigator = createBottomTabNavigator({
   Home: HomeStack,
   Buildings: BuildingStack,
   Locations: LocationStack,
@@ -177,16 +225,25 @@ const AppNavigator = createBottomTabNavigator({
         iconType = 'FontAwesome';
       }
       return <Icon name={iconName} style={{ color: tintColor, fontSize: iconSize }} type={iconType} />;
-    },
+    }
   }),
   tabBarOptions: {
-    activeTintColor: brandPrimary,
+    activeTintColor: '#2997d8',
     inactiveTintColor: '#919191'
   },
 }, {
   initialRouteName: 'Home'
 });
 
+const AppNavigator = createStackNavigator({
+  Main: createSwitchNavigator(
+    { MainNavigator }
+  ),
+  Notifications: NotificationsStack
+}, {
+  defaultNavigationOptions: { header: null },
+  initialRouteName: 'Main'
+});
 const AppContainer = createAppContainer(AppNavigator);
 
 export default AppContainer;
