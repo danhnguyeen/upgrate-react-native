@@ -22,8 +22,7 @@ export default class Profile extends Component {
   }
 
   render() {
-    const { user } = this.props
-    const profile = user.customer
+    const profile = this.props.user;
     return (
       <Content style={{ paddingHorizontal: 15 }}>
         <View style={[styles.paragraph, { flexDirection: 'row', alignItems: 'center' , paddingVertical: 15}]}>

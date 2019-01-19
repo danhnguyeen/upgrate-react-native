@@ -34,6 +34,8 @@ class SignIn extends Component {
       },
       checkLogin: false,
       submiting: false,
+      loginingFb: false,
+      loginingPhone: false,
       formIsValid: true
     }
     this._isMounted = false,
@@ -78,7 +80,9 @@ class SignIn extends Component {
         const token = data.accessToken.toString();
         console.log(token);
         try {
+          this.setState({ loginingFb: true });
           const result = await this.props.onAuthWithFacebook(token);
+          this.setState({ loginingFb: true });
           if (this.props.isAuth) {
             this._onLoginSuccess();
           } else {
@@ -87,8 +91,8 @@ class SignIn extends Component {
           }
         } catch (err) {
           console.log(err);
-          this.setState({ submiting: false, checkLogin: false });
-          // this.onLoginFailed(err);
+          this.setState({ loginingFb: false });
+          this.onLoginFailed(err);
         }
       }
     } catch (e) {
@@ -201,18 +205,21 @@ class SignIn extends Component {
                 <View style={{ flex: 1, marginRight: 5 }}>
                   <Button
                     buttonStyle={{ margin: 0, borderColor: '#4066b4', backgroundColor: '#4066b4' }}
+                    loading={this.state.loginingFb}
+                    loadingWithBg
                     onPress={this.onLoginFacebook}
                     title='Facebook' />
                 </View>
                 <View style={{ flex: 1, marginLeft: 5 }}>
                   <Button
                     buttonStyle={{ margin: 0, borderColor: brandWarning, backgroundColor: brandWarning }}
+                    disabled={this.state.submiting}
                     onPress={this.onLoginWithPhone}
                     title={i18n.t('account.phoneNumber')} />
                 </View>
               </View>
               <TouchableOpacity style={{ margin: 10 }} activeOpacity={0.6}
-                onPress={() => { this.props.navigation.push('SignUpWithPhoneAndFacebook') }}>
+                onPress={() => { this.props.navigation.push('SignUp') }}>
                 <Text style={{ color: '#575757' }}>{'Chưa có tài khoản ? '}<Text style={{ color: brandPrimary }}>{'Đăng ký'}</Text></Text>
               </TouchableOpacity>
             </View>

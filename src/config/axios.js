@@ -3,8 +3,6 @@ import axios from 'axios';
 
 const instance = axios.create({
   baseURL: 'http://paxsky.amagumolabs.io/api/',
-  // baseURL: 'http://quickapi.vnyi.com:81/api/v1/',
-  // baseURL: 'http://mylifecompanyapp.amagumolabs.io/api/public/api/v1/',
   timeout: 15000,
   headers: {
     Accept: 'application/json',

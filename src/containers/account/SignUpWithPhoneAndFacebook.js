@@ -15,48 +15,64 @@ class SignUpWithPhoneAndFacebook extends Component {
     formTouched: false,
     form: {
       first_name: {
-        value: '',
+        value: this.props.user.first_name,
         validation: {
           required: true
         }
       },
       last_name: {
-        value: '',
+        value: this.props.user.last_name,
         validation: {
           required: true
         }
       },
       email: {
-        value: '',
+        value: this.props.user.email,
         validation: {
           required: true,
           isEmail: true
         }
       },
       mobile_phone: {
-        value: '',
+        value: this.props.user.mobile_phone,
         validation: {
           required: true,
           isPhone: true
         }
       },
-      gender: { value: '' },
-      address: { value: '' },
-      province_id: { value: '' },
-      district_id: { value: '' }
+      gender: { value: '' }
     },
     checkLogin: false,
     submiting: false,
     formIsValid: true
   }
-  componentDidMount() {
-    if (!this.props.provinceList.length) {
-      this.props._onfetchProvinceList()
+  onSubmit = async() => {
+    this.setState({ formTouched: true });
+    const { formIsValid, data } = validateForm({ ...this.state.form });
+    if (formIsValid) {
+      try {
+        this.setState({ submiting: true });
+        data.provider = this.props.provider;
+        data.provider_user_id = this.props.provider_user_id;
+        console.log(data);
+        await this.props.onSignUp(data);
+        this.setState({ submiting: false });
+        AsyncStorage.setItem('token', this.props.token);
+        this.onSignUpSuccess();
+      } catch (e) {
+        console.log(e);
+        this.setState({ submiting: false });
+      }
     }
-    console.log(this.props.provinceList)
   }
-  onSubmit = () => {
-
+  onSignUpSuccess = () => {
+    this.props.navigation.dispatch(StackActions.reset({
+      index: 0, key: null,
+      actions: [NavigationActions.navigate({
+        routeName: 'Main',
+        action: NavigationActions.navigate({ routeName: 'Account' })
+      })]
+    }));
   }
   inputChangeHandler = (value, key) => {
     const form = { ...this.state.form };
@@ -72,13 +88,6 @@ class SignUpWithPhoneAndFacebook extends Component {
       form[key].inValid = !checkValidity(value, validation, form);
     }
     this.setState({ form });
-  }
-  onProvinceChange = (province_id) => {
-    if (this.state.form.province_id.value !== province_id) {
-      this.inputChangeHandler('', 'district_id');
-    }
-    this.inputChangeHandler(province_id, 'province_id');
-    this.props._onfetchDistrictList(province_id);
   }
   showActionSheet = () => {
     this.ActionSheet._root.showActionSheet({
@@ -145,7 +154,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 </View>
               </TouchableOpacity>
               <ActionSheet ref={o => this.ActionSheet = o} />
-              <PickerSelect
+              {/* <PickerSelect
                 label={i18n.t('account.province')}
                 onChange={this.onProvinceChange}
                 data={this.props.provinceList}
@@ -160,11 +169,12 @@ class SignUpWithPhoneAndFacebook extends Component {
                 keyName={'district_name'}
                 keyId='district_id'
                 value={this.state.form.district_id.value}
-              />
+              /> */}
             </View>
             <View style={{ flex: 1, alignItems: 'center', paddingVertical: 10 }}>
               <Button
-                onPress={this.onLoginWithEmail}
+                onPress={this.onSubmit}
+                loading={this.state.submiting}
                 buttonStyle={{ minWidth: 200 }}
                 title={i18n.t('account.signUp')}
               />
@@ -190,20 +200,15 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  isAuth: state.auth.token,
-  districtList: state.buildings.districtList,
-  provinceList: state.buildings.provinceList,
-  provinceId: state.buildings.provinceId
-
+  token: state.auth.token,
+  user: state.auth.user,
+  provider: state.auth.provider,
+  provider_user_id: state.auth.provider_user_id,
+  accountKitToken: state.auth.accountKitToken
 });
 
 const mapDispatchToProps = dispatch => ({
-
-  _onAuth: (username, password) => dispatch(actions.auth(username, password)),
-  _onAuthSignUp: (dataRegister) => dispatch(actions.authSignUp(dataRegister)),
-  _onfetchDistrictList: (provinceId) => dispatch(actions.fetchDistrictList(provinceId)),
-  _onfetchProvinceList: () => dispatch(actions.fetchProvinceList()),
-
+  onSignUp: (data) => dispatch(actions.authSignUpPhoneAndFacebook(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpWithPhoneAndFacebook);

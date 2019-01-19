@@ -30,10 +30,10 @@ class Notifications extends Component {
       title: i18n.t('tabs.notifications'),
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.goBack(null)}
-          style={{ paddingHorizontal: 20, alignItems: 'center' }}>
+          style={{ paddingHorizontal: 10, alignItems: 'center' }}>
           <Icon
             name={"ios-arrow-back"}
-            style={{ color: inverseTextColor, fontSize: 28 }}
+            style={{ color: inverseTextColor, fontSize: 34 }}
             underlayColor='transparent'
           />
         </TouchableOpacity>
@@ -43,7 +43,7 @@ class Notifications extends Component {
           style={{ paddingHorizontal: 20, alignItems: 'center' }}>
           <Icon
             name={"ios-done-all"}
-            style={{ color: inverseTextColor, fontSize: 32 }}
+            style={{ color: inverseTextColor, fontSize: 44 }}
             underlayColor='transparent'
           />
         </TouchableOpacity>

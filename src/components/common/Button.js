@@ -2,16 +2,17 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button as RNEButton } from 'react-native-elements';
 
-import { brandPrimary, platform, fontSize } from '../../config/variables';
+import { brandPrimary, platform, fontSize, inverseTextColor } from '../../config/variables';
 
 const Button = (props) => {
-  const { buttonStyle, disabledTitleStyle, titleStyle, disabledStyle, ...otherProps } = props;
+  const { buttonStyle, disabledTitleStyle, titleStyle, disabledStyle, loadingWithBg, ...otherProps } = props;
+  const loadingProps = loadingWithBg ? { size: "small", color: inverseTextColor } : { size: "large", color: brandPrimary };
   return (
     <RNEButton
       {...otherProps}
       large
       disabled={props.disabled || props.loading}
-      loadingProps={{ size: "large", color: brandPrimary }}
+      loadingProps={loadingProps}
       title={props.title}
       disabledTitleStyle={[
         styles.disabledTitleStyle,
@@ -23,7 +24,7 @@ const Button = (props) => {
         styles.disabledStyle,
         buttonStyle,
         disabledStyle,
-        (props.loading ? styles.clear : null)
+        (props.loading && !loadingWithBg ? styles.clear : null)
       ]}
       buttonStyle={[styles.buttonStyle,
         buttonStyle,
