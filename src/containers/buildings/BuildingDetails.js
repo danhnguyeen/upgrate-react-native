@@ -310,6 +310,7 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
+    elevation: 5,
     top: 0,
     left: 0,
     right: 0,
@@ -329,6 +330,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginTop: (platform === 'ios' ? 32 : 18) + STATUSBAR_PADDING,
     height: 32,
+    elevation: 5,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
@@ -341,6 +343,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginTop: (platform === 'ios' ? 32 : 18) + STATUSBAR_PADDING,
     height: 32,
+    elevation: 5,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     position: 'absolute',

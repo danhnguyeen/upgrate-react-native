@@ -80,7 +80,7 @@ export const textH4 = { fontSize: fontSizeH4, fontFamily: fontFamilyBold };
 export const titleFontSize = fontSize + 2;
 
 export const shadow = {
-  elevation: 2,
+  elevation: 1,
   shadowColor: '#1a1917',
   shadowOpacity: 0.1,
   shadowOffset: { width: 0, height: 2 },

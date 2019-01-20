@@ -30,7 +30,7 @@
       <!-- react native maps -->
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyAEW29FWyfSPSur-RyDKWFUVecshAsp_c8"/>
+        android:value="AIzaSyB9n_AEwhCgspLXbH73IE-L9XU4iBrOKL8"/>
       <!-- facebook account kit -->
       <meta-data
           android:name="com.facebook.sdk.ApplicationId"
