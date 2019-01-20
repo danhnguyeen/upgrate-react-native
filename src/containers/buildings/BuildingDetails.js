@@ -9,7 +9,7 @@ import FastImage from 'react-native-fast-image';
 
 import i18n from '../../i18n';
 import * as actions from './building-actions';
-import { brandPrimary, isIphoneX, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4 } from '../../config/variables';
+import { brandPrimary, isIphoneX, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4, shadow } from '../../config/variables';
 import { PostDetail, BuildingMaps, BuildingDescription } from '../../components/buildings'
 
 const STATUSBAR_PADDING = isIphoneX ? 24 : 0
@@ -131,7 +131,7 @@ class BuildingDetails extends React.Component {
           {isFetching ?
             <ActivityIndicator /> :
             <View style={styles.scrollViewContent}>
-              <View style={{ padding: 15, backgroundColor: brandLight, marginBottom: 15 }}>
+              <View style={{ ...shadow, padding: 15, backgroundColor: brandLight, marginBottom: 15 }}>
                 <BuildingMaps style={{ margin: 15 }} building={detailBuilding} />
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
                   <Icon
@@ -166,7 +166,7 @@ class BuildingDetails extends React.Component {
                   />
                 </View>
               </View>
-              <View style={{ flex: 1, backgroundColor: brandLight, padding: 15, marginBottom: 15 }}>
+              <View style={{ ...shadow, flex: 1, backgroundColor: brandLight, padding: 15, marginBottom: 15 }}>
                 <View style={{ alignItems: 'center', marginBottom: 5 }}>
                   <Text style={[textH4, { color: brandPrimary }]} numberOfLines={1}>{detailBuilding.sub_name}</Text>
                   <Text style={{ fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
@@ -221,7 +221,7 @@ class BuildingDetails extends React.Component {
               {/* <View style={{ paddingHorizontal: 20, backgroundColor: brandLight }}>
                 <PostDetail description={detailBuilding.description} content={detailBuilding.content} />
               </View> */}
-              <View style={[{ padding: 15, backgroundColor: brandLight, marginBottom: 15 }]}>
+              <View style={[shadow, { padding: 15, backgroundColor: brandLight, marginBottom: 15 }]}>
                 <Text style={styles.buttonText}>Chuyên viên tư vấn</Text>
                 <View style={styles.line}>
                   <Icon style={styles.icon} name='ios-person' type='Ionicons' />

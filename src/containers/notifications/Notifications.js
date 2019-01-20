@@ -43,7 +43,7 @@ class Notifications extends Component {
         </TouchableOpacity>
       ),
       headerRight: (
-        <TouchableOpacity onPress={() => navigation.goBack(null)}
+        <TouchableOpacity onPress={() => _this.markAllAsReadConfirm()}
           style={{ paddingHorizontal: 20, alignItems: 'center' }}>
           <Icon
             name={"ios-done-all"}
@@ -119,6 +119,11 @@ class Notifications extends Component {
       this.setState({ rowIndex: null });
     }
   }
+  SwipeScrollEvent = (allowParentScroll) => {
+    if (this.state.scrollEnabled != allowParentScroll) {
+      this.setState({ scrollEnabled: allowParentScroll })
+    }
+  }
   openModalHanlder = async (selectedItem) => {
     this.setState({ selectedItem });
     await axios.post('notification/markAsRead', { notificationId: selectedItem.Id });
@@ -131,7 +136,7 @@ class Notifications extends Component {
   markAllAsReadConfirm = () => {
     Alert.alert(
       i18n.t('global.confirm'),
-      i18n.t('notification.areYouSureWantToMarkAllAsRead'),
+      i18n.t('notifications.areYouSureWantToMarkAllAsRead'),
       [
         { text: i18n.t('global.cancel'), style: 'cancel' },
         { text: i18n.t('global.ok'), onPress: this.markAllAsRead },
@@ -185,7 +190,7 @@ class Notifications extends Component {
         right={swipeoutBtns}
         style={[styles.swipeItem, { marginTop: index === 0 ? 10 : 0 }]}
         onOpen={() => (this.onSwipeOpen(index))}
-        scroll={(scrollEnabled) => { this.setState({ scrollEnabled }) }}
+        scroll={this.SwipeScrollEvent}
         close={this.state.rowIndex !== index}
         onClose={() => (this.onSwipeClose(index))}
       >

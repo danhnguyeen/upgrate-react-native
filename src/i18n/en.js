@@ -24,7 +24,8 @@ export default {
     getDirection: "Get Directions"
   },
   notifications: {
-    markAsRead: 'Mark As Read'
+    markAsRead: 'Mark As Read',
+    areYouSureWantToMarkAllAsRead: 'Are you sure you want to mark all notification as read?'
   },
   account: {
     signIn: 'SignIn',

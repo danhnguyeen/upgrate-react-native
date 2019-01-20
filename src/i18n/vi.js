@@ -24,7 +24,8 @@ export default {
     getDirection: "Chỉ đường đến đây"
   },
   notifications: {
-    markAsRead: 'Đánh dấu đã đọc'
+    markAsRead: 'Đánh dấu đã đọc',
+    areYouSureWantToMarkAllAsRead: 'Bạn có chắc chắn muốn đánh dấu đã xem tất cả các thông báo?'
   },
   account: {
     signIn: 'Đăng nhập',

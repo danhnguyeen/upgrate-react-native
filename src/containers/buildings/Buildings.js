@@ -35,23 +35,20 @@ class Buildings extends React.Component {
     this._isMounted = false
   }
   componentDidMount() {
-    this._isMounted = true
-    // this._isMounted && this._onRefresh()
-    if (this._isMounted) {
-      const { buildings, districtList, buildingsFilterData } = this.props
-      if (isEmpty(buildings) || isEmpty(districtList) || isEmpty(buildingsFilterData)) {
-        this._onRefresh()
-      }
-      this.setState({ isFetching: false })
+    const { buildings, districtList, buildingsFilterData } = this.props;
+    if (isEmpty(buildings) || isEmpty(buildingsFilterData)) {
+      this._onRefresh();
     }
+    if (isEmpty(districtList)) {
+      this.props._onfetchDistrictList();
+    }
+    this.setState({ isFetching: false });
   }
   _onRefresh = async () => {
     this.setState({ refreshing: true })
-    await Promise.all([
-      this.props._onfetchBuidlings(),
-      this.props._onfetchDistrictList()
-    ])
-    this.setState({ refreshing: false, })
+    await this.props._onfetchBuidlings();
+    console.log(this.props.buildings)
+    this.setState({ refreshing: false });
   }
   _clearFilterPress = (item = 'all') => {
     let { filterRequired } = this.state

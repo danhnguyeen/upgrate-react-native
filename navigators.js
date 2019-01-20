@@ -226,7 +226,7 @@ const MainNavigator = createBottomTabNavigator({
     }
   }),
   tabBarOptions: {
-    activeTintColor: '#2997d8',
+    activeTintColor: '#1a70f0',
     inactiveTintColor: '#919191'
   },
 }, {
