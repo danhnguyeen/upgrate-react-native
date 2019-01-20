@@ -2,9 +2,11 @@ export default {
   global: {
     ok: "OK",
     cancel: "Cancel",
+    delete: "Delete",
     confirm: "Confirm",
     readMore: "Read more",
     showLess: "Show less",
+    error: "Error"
   },
   tabs: {
     home: 'Home',
@@ -21,11 +23,15 @@ export default {
   buildingDetail: {
     getDirection: "Get Directions"
   },
+  notifications: {
+    markAsRead: 'Mark As Read'
+  },
   account: {
     signIn: 'SignIn',
     signUp: 'SignUp',
     email: "Email",
     password: "Password",
+    confirmPassword: "Confirm Password",
     forgetPassword: "Forgot password?",
     invalidEmail: "Please enter a valid email address",
     invalidPassword: "Please enter at least 8 characters",
@@ -45,11 +51,16 @@ export default {
     address: 'Address',
     province: 'Province',
     district: 'District',
+    welcome: 'Welcome',
+    welcomeToPaxSky: 'Welcome to PaxSky',
     valid: {
       lastName: 'Please enter your last name',
       firstName: 'Please enter your first name',
       phone: 'Please enter a valid phone',
-      email: 'Please enter a valid email'
+      email: 'Please enter a valid email',
+      passwordRequired: 'Please enter your password',
+      password: "Password does not match confirmation password",
+      confirmPassword: "Confirmation password does not match new password",
     }
   },
   appointment: {

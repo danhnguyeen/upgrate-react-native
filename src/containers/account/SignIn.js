@@ -87,7 +87,7 @@ class SignIn extends Component {
             this._onLoginSuccess();
           } else {
             this.setState({ checkLogin: false, submiting: false });
-            this.props.navigation.navigate('SignUpWithPhoneAndFacebook', { loginType: 'facebook', name: result.name });
+            this.props.navigation.navigate('SignUpWithPhoneAndFacebook', { name: result.name });
           }
         } catch (err) {
           console.log(err);
@@ -181,6 +181,7 @@ class SignIn extends Component {
                 keyboardType="email-address"
                 icon={{ iconName: "ios-mail" }}
                 inValid={this.state.form.email.inValid}
+                errorMessage={i18n.t('account.valid.email')}
               />
               <TextInput
                 value={this.state.form.password.value}
@@ -192,6 +193,7 @@ class SignIn extends Component {
                 blurOnSubmit={true}
                 icon={{ iconName: 'ios-lock' }}
                 inValid={this.state.form.password.inValid}
+                errorMessage={i18n.t('account.valid.passwordRequired')}
               />
             </View>
             <View style={{ flex: 1, alignItems: 'center', paddingVertical: 10 }}>

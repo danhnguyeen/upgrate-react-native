@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
-import { Content, Button, Text, Icon, Input, Picker } from 'native-base';
+import { Content, Button, Text, Icon, ActionSheet, Picker } from 'native-base';
 import { connect } from 'react-redux';
 
-import { InputField } from '../../components/common';
+import { InputField, TextInput } from '../../components/common';
 import * as actions from '../../stores/actions';
 import { _dispatchStackActions, isEmpty } from '../../util/utility';
 import { backgroundColor, brandPrimary } from '../../config/variables';
+import i18n from '../../i18n';
 
 const TEXTCOLOR = '#575757'
 const dataReg = {
@@ -26,6 +27,54 @@ class SignUp extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      formTouched: false,
+      form: {
+        first_name: {
+          value: '',
+          validation: {
+            required: true
+          }
+        },
+        last_name: {
+          value: '',
+          validation: {
+            required: true
+          }
+        },
+        email: {
+          value: '',
+          validation: {
+            required: true,
+            isEmail: true
+          }
+        },
+        mobile_phone: {
+          value: '',
+          validation: {
+            required: true,
+            isPhone: true
+          }
+        },
+        password: {
+          value: '',
+          validation: {
+            required: true,
+            isEqualTo: 'confirmPassword'
+          }
+        },
+        confirmPassword: {
+          value: '',
+          validation: {
+            required: true,
+            isEqualTo: 'password'
+          }
+        },
+        gender: { value: '' }
+      },
+      submiting: false,
+      formIsValid: true,
+
+
       isFirstNameCorrect: false,
       isLastNameCorrect: false,
       isEmailCorrect: false,
@@ -244,12 +293,100 @@ class SignUp extends Component {
       </View>
     )
   }
+  showActionSheet = () => {
+    this.ActionSheet._root.showActionSheet({
+        options: [i18n.t('account.male'), i18n.t('account.female'), i18n.t('account.other'), i18n.t('global.cancel')],
+        cancelButtonIndex: 3,
+        destructiveButtonIndex: 2,
+        title: i18n.t('account.yourGender')
+      },
+      gender => this.inputChangeHandler(gender, 'gender')
+    );
+  }
   render() {
     const { isFetching, dataRegister, alertModal, provinceSelected, districtSelected } = this.state
     return (
       <View style={{ flex: 1, backgroundColor }}>
         <Content padder>
           <KeyboardAvoidingView>
+            {/* <TextInput
+              value={this.state.form.last_name.value}
+              onChangeText={last_name => this.inputChangeHandler(last_name, 'last_name')}
+              label={i18n.t('account.lastName')}
+              returnKeyType="next"
+              icon={{ iconName: 'ios-person' }}
+              inValid={this.state.form.last_name.inValid}
+              errorMessage={i18n.t('account.valid.lastName')}
+            />
+            <TextInput
+              value={this.state.form.first_name.value}
+              onChangeText={first_name => this.inputChangeHandler(first_name, 'first_name')}
+              label={i18n.t('account.firstName')}
+              returnKeyType="next"
+              icon={{ iconName: 'ios-person' }}
+              inValid={this.state.form.first_name.inValid}
+              errorMessage={i18n.t('account.valid.firstName')}
+            />
+            <TextInput
+              value={this.state.form.email.value}
+              onChangeText={email => this.inputChangeHandler(email, 'email')}
+              label={i18n.t('account.email')}
+              autoCapitalize="none"
+              returnKeyType="next"
+              icon={{ iconName: 'ios-mail' }}
+              keyboardType="email-address"
+              inValid={this.state.form.email.inValid}
+              errorMessage={i18n.t('account.valid.email')}
+            />
+            <TextInput
+              value={this.state.form.mobile_phone.value}
+              onChangeText={mobile_phone => this.inputChangeHandler(mobile_phone, 'mobile_phone')}
+              label={i18n.t('account.phoneNumber')}
+              autoCapitalize="none"
+              returnKeyType="next"
+              icon={{ iconName: 'ios-call' }}
+              keyboardType="phone-pad"
+              inValid={this.state.form.mobile_phone.inValid}
+              errorMessage={i18n.t('account.valid.phone')}
+            />
+            <TextInput
+              value={this.state.form.password.value}
+              onChangeText={password => this.inputChangeHandler(password, 'password')}
+              label={i18n.t('account.password')}
+              secureTextEntry
+              autoCapitalize="none"
+              returnKeyType='done'
+              blurOnSubmit={true}
+              icon={{ iconName: 'ios-lock' }}
+              inValid={this.state.form.password.inValid}
+              errorMessage={i18n.t('account.valid.password')}
+            />
+            <TextInput
+              value={this.state.form.confirmPassword.value}
+              onChangeText={confirmPassword => this.inputChangeHandler(confirmPassword, 'confirmPassword')}
+              label={i18n.t('account.confirmPassword')}
+              secureTextEntry
+              autoCapitalize="none"
+              returnKeyType='done'
+              blurOnSubmit={true}
+              icon={{ iconName: 'ios-lock' }}
+              inValid={this.state.form.password.inValid}
+              errorMessage={i18n.t('account.valid.confirmPassword')}
+            />
+            <TouchableOpacity onPress={this.showActionSheet}>
+              <View pointerEvents="none">
+                <TextInput
+                  value={
+                    this.state.form.gender.value === 0 || this.state.form.gender.value === 1 ?
+                      capitalize((this.state.form.gender.value === 0 ? i18n.t('account.male') : i18n.t('account.female')))
+                      : null
+                  }
+                  icon={{ iconName: 'ios-people' }}
+                  label={i18n.t('account.gender')}
+                />
+              </View>
+            </TouchableOpacity>
+            <ActionSheet ref={o => this.ActionSheet = o} /> */}
             {!isFetching ?
               <View style={{ paddingVertical: 10, justifyContent: 'center' }}>
                 <InputField placeholder={'Họ'} ref={ref => this.last_name = ref}
@@ -419,36 +556,36 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     flexDirection: 'row',
     // justifyContent: 'center',
-},
-headerIcon: {
+  },
+  headerIcon: {
     flex: 0.2,
     justifyContent: 'center',
     // alignItems: 'flex-start',
-},
-left: {
+  },
+  left: {
     paddingLeft: 20,
-},
-right: {
+  },
+  right: {
     paddingRight: 20,
     alignItems: 'flex-end',
-},
-headerTitle: {
+  },
+  headerTitle: {
     flex: 0.6,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-},
-title: {
+  },
+  title: {
     color: "#FFF",
     fontSize: 18,
     lineHeight: 40,
     fontWeight: "500",
-},
-icon: {
+  },
+  icon: {
     color: "#fff",
     fontSize: 30,
     // lineHeight: 30,
-},
+  },
 })
 
 

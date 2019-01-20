@@ -2,9 +2,11 @@ export default {
   global: {
     ok: "Đồng ý",
     cancel: "Hủy bỏ",
+    delete: "Xóa",
     confirm: "Xác nhận",
     readMore: "Xem thêm",
-    showLess: "Thu gọn"
+    showLess: "Thu gọn",
+    error: "Lỗi"
   },
   tabs: {
     home: 'Trang chủ',
@@ -21,11 +23,15 @@ export default {
   buildingDetail: {
     getDirection: "Chỉ đường đến đây"
   },
+  notifications: {
+    markAsRead: 'Đánh dấu đã đọc'
+  },
   account: {
     signIn: 'Đăng nhập',
     signUp: 'Đăng ký',
     email: "Email",
     password: "Mật khẩu",
+    confirmPassword: "Xác nhận mật khẩu",
     forgetPassword: "Quên mật khẩu?",
     invalidEmail: "Địa chỉ email không hợp lệ",
     invalidPassword: "Vui lòng nhập tối thiểu 6 ký tự",
@@ -45,11 +51,16 @@ export default {
     address: 'Địa chỉ',
     province: 'Tỉnh/Thành',
     district: 'Quận/Huyện',
+    welcome: 'Chào mừng',
+    welcomeToPaxSky: 'Chào mừng đến PaxSky',
     valid: {
       lastName: 'Vui lòng nhập họ của bạn',
       firstName: 'Vui lòng nhập tên của bạn',
       phone: 'Số điện thoại không hợp lệ',
-      email: 'Địa chỉ email không hợp lệ'
+      email: 'Địa chỉ email không hợp lệ',
+      passwordRequired: 'Vui lòng nhập mật khẩu của bạn',
+      password: "Mật khẩu không trùng với mật khẩu xác nhận",
+      confirmPassword: "Mật khẩu xác nhận không trùng với mật khẩu",
     }
   },
   appointment: {

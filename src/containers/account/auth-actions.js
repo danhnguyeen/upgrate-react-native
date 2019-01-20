@@ -6,16 +6,15 @@ const authSuccess = (token, user) => ({
   type: actionTypes.AUTH_LOGIN,
   token,
   user
-})
+});
 export const auth = (email, password) => {
   return async dispatch => {
     try {
-      const { token, customer_id, customer } = await axios.post('login', { email, password })
-      const user = { customer_id, customer }
-      dispatch(authSuccess(token, user))
-      return Promise.resolve(user)
+      const { token, customer } = await axios.post('login', { email, password });
+      dispatch(authSuccess(token, customer));
+      return Promise.resolve(customer);
     } catch (err) {
-      return Promise.reject(err)
+      return Promise.reject(err);
     }
   }
 }
@@ -23,7 +22,7 @@ export const auth = (email, password) => {
 export const authSignUp = (dataRegister) => {
   return async dispatch => {
     try {
-      const { token, customer_id, customer, message } = await axios.post('customer/create', dataRegister)
+      const { token, customer_id, customer, message } = await axios.post('customer/create', dataRegister);
       let dataResolve
       if (token && customer_id && customer) {
         const user = { customer_id, customer }

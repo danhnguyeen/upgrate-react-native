@@ -4,6 +4,7 @@ import Button from './Button';
 import ReadMore from './ReadMore';
 import TextInput from './TextInput';
 import PickerSelect from './PickerSelect';
+import Spinner from './Spinner';
 
 export {
   InputField,
@@ -11,5 +12,6 @@ export {
   Button,
   ReadMore,
   TextInput,
-  PickerSelect
+  PickerSelect,
+  Spinner
 };

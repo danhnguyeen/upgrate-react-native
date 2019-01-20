@@ -11,15 +11,14 @@ import { Appointment } from './src/containers/appointment';
 import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook } from './src/containers/account';
 import { Buildings, BuildingDetails, Offices, Booking } from './src/containers/buildings';
 import { Notifications } from './src/containers/notifications';
-import { Header } from './src/components/common';
 import i18n from './src/i18n';
-import { brandPrimary, textColor, textLightColor, inverseTextColor } from './src/config/variables';
+import { inverseTextColor } from './src/config/variables';
 
 const NotificationIcon = (props) => (
   <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')}>
       <Icon
         name='md-notifications'
-        style={{ paddingHorizontal: 10, marginRight: 10, color: inverseTextColor, fontSize: 20 }}
+        style={{ paddingHorizontal: 10, marginRight: 5, color: inverseTextColor, fontSize: 20 }}
       />
     </TouchableOpacity>
 );
@@ -156,8 +155,7 @@ const AccountStack = createStackNavigator({
   SignUpWithPhoneAndFacebook: {
     screen: SignUpWithPhoneAndFacebook,
     navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('account.signUp')
+      ...headerOptions
     }
   }
 }, {

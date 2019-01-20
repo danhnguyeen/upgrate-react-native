@@ -6,11 +6,16 @@ import { Content, Icon, ActionSheet } from "native-base";
 
 import i18n from '../../i18n';
 import * as actions from '../../stores/actions';
-import { Button, TextInput, PickerSelect } from '../../components/common';
-import { backgroundColor, brandPrimary, brandWarning, textColor, DEVICE_WIDTH, DEVICE_HEIGTH } from '../../config/variables';
+import { Button, TextInput } from '../../components/common';
+import { backgroundColor } from '../../config/variables';
 import { validateForm, checkValidity, capitalize } from '../../util/utility';
 
 class SignUpWithPhoneAndFacebook extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('name') ? `${i18n.t('account.welcome')} ${navigation.getParam('name')}` : i18n.t('account.welcomeToPaxSky'),
+    };
+  };
   state = {
     formTouched: false,
     form: {
@@ -42,7 +47,6 @@ class SignUpWithPhoneAndFacebook extends Component {
       },
       gender: { value: '' }
     },
-    checkLogin: false,
     submiting: false,
     formIsValid: true
   }
@@ -54,14 +58,13 @@ class SignUpWithPhoneAndFacebook extends Component {
         this.setState({ submiting: true });
         data.provider = this.props.provider;
         data.provider_user_id = this.props.provider_user_id;
-        console.log(data);
         await this.props.onSignUp(data);
         this.setState({ submiting: false });
         AsyncStorage.setItem('token', this.props.token);
         this.onSignUpSuccess();
       } catch (e) {
-        console.log(e);
         this.setState({ submiting: false });
+        this.onSignUpFailed();
       }
     }
   }
@@ -73,6 +76,14 @@ class SignUpWithPhoneAndFacebook extends Component {
         action: NavigationActions.navigate({ routeName: 'Account' })
       })]
     }));
+  }
+  onSignUpFailed = (error) => {
+    Alert.alert(
+      i18n.t('global.error'),
+      error.message,
+      [{ text: i18n.t('global.ok') }],
+      { cancelable: false }
+    );
   }
   inputChangeHandler = (value, key) => {
     const form = { ...this.state.form };
@@ -110,6 +121,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 onChangeText={last_name => this.inputChangeHandler(last_name, 'last_name')}
                 label={i18n.t('account.lastName')}
                 returnKeyType="next"
+                icon={{ iconName: 'ios-person' }}
                 inValid={this.state.form.last_name.inValid}
                 errorMessage={i18n.t('account.valid.lastName')}
               />
@@ -118,6 +130,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 onChangeText={first_name => this.inputChangeHandler(first_name, 'first_name')}
                 label={i18n.t('account.firstName')}
                 returnKeyType="next"
+                icon={{ iconName: 'ios-person' }}
                 inValid={this.state.form.first_name.inValid}
                 errorMessage={i18n.t('account.valid.firstName')}
               />
@@ -127,6 +140,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 label={i18n.t('account.email')}
                 autoCapitalize="none"
                 returnKeyType="next"
+                icon={{ iconName: 'ios-mail' }}
                 keyboardType="email-address"
                 inValid={this.state.form.email.inValid}
                 errorMessage={i18n.t('account.valid.email')}
@@ -137,6 +151,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 label={i18n.t('account.phoneNumber')}
                 autoCapitalize="none"
                 returnKeyType="next"
+                icon={{ iconName: 'ios-call' }}
                 keyboardType="phone-pad"
                 inValid={this.state.form.mobile_phone.inValid}
                 errorMessage={i18n.t('account.valid.phone')}
@@ -149,6 +164,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                         capitalize((this.state.form.gender.value === 0 ? i18n.t('account.male') : i18n.t('account.female')))
                         : null
                     }
+                    icon={{ iconName: 'ios-people' }}
                     label={i18n.t('account.gender')}
                   />
                 </View>
@@ -201,7 +217,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  user: state.auth.user,
+  user: {},
   provider: state.auth.provider,
   provider_user_id: state.auth.provider_user_id,
   accountKitToken: state.auth.accountKitToken
