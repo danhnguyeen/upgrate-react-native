@@ -43,7 +43,7 @@ export const authSignUp = (dataRegister) => {
   }
 }
 
-const authWithFacebookSuccess = (token, result) => ({
+const authWithPhoneAndFacebookSuccess = (token, result) => ({
   type: actionTypes.AUTH_WITH_FACEBOOK,
   token,
   user: result.customer,
@@ -57,9 +57,27 @@ export const authWithFacebook = (access_token) => {
       const res = await axios.get('customer/facebook/check-token', { params: { access_token } });
       console.log(res);
       if (res.first_login === false) {
-        dispatch(authWithFacebookSuccess(res.token, res));
+        dispatch(authWithPhoneAndFacebookSuccess(res.token, res));
       } else {
-        dispatch(authWithFacebookSuccess(null, res));
+        dispatch(authWithPhoneAndFacebookSuccess(null, res));
+      }
+      return Promise.resolve(res);
+    } catch (err) {
+      console.log(err)
+      return Promise.reject(err);
+    }
+  };
+};
+
+export const authWithPhone = (access_token) => {
+  return async dispatch => {
+    try {
+      const res = await axios.get('customer/facebook-account-kit/check-token', { params: { access_token } });
+      console.log(res);
+      if (res.first_login === false) {
+        dispatch(authWithPhoneAndFacebookSuccess(res.token, res));
+      } else {
+        dispatch(authWithPhoneAndFacebookSuccess(null, res));
       }
       return Promise.resolve(res);
     } catch (err) {

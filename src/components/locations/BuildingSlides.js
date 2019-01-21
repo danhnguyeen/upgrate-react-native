@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 class BuildingSlides extends Component {
 
@@ -9,7 +10,7 @@ class BuildingSlides extends Component {
       style={[styles.container, { marginLeft: (idx === 0 ? 10 : 0) }]}
     >
       <TouchableOpacity style={styles.slideStyle} onPress={() => this.props.selectedBuilding(slide)} >
-        <Image
+        <FastImage
           style={styles.image}
           source={{ uri: slide.main_image }}
         />

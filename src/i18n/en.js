@@ -62,6 +62,7 @@ export default {
       passwordRequired: 'Please enter your password',
       password: "Password does not match confirmation password",
       confirmPassword: "Confirmation password does not match new password",
+      emailExisted: 'This email already exists'
     }
   },
   appointment: {

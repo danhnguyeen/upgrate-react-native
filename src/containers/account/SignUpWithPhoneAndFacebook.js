@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
-import { AsyncStorage, StyleSheet, View, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
-import { Content, Icon, ActionSheet } from "native-base";
+import { AsyncStorage, StyleSheet, View, KeyboardAvoidingView, TouchableOpacity, Alert } from 'react-native';
+import { Content, ActionSheet } from "native-base";
 
 import i18n from '../../i18n';
 import * as actions from '../../stores/actions';
@@ -50,7 +50,7 @@ class SignUpWithPhoneAndFacebook extends Component {
     submiting: false,
     formIsValid: true
   }
-  onSubmit = async() => {
+  onSubmit = async () => {
     this.setState({ formTouched: true });
     const { formIsValid, data } = validateForm({ ...this.state.form });
     if (formIsValid) {
@@ -63,8 +63,9 @@ class SignUpWithPhoneAndFacebook extends Component {
         AsyncStorage.setItem('token', this.props.token);
         this.onSignUpSuccess();
       } catch (e) {
+        console.log(e)
         this.setState({ submiting: false });
-        this.onSignUpFailed();
+        this.onSignUpFailed(e);
       }
     }
   }
@@ -78,6 +79,9 @@ class SignUpWithPhoneAndFacebook extends Component {
     }));
   }
   onSignUpFailed = (error) => {
+    if (error.message === 'Email address already exists') {
+      error.message = i18n.t('account.valid.emailExisted');
+    }
     Alert.alert(
       i18n.t('global.error'),
       error.message,
@@ -102,11 +106,11 @@ class SignUpWithPhoneAndFacebook extends Component {
   }
   showActionSheet = () => {
     this.ActionSheet._root.showActionSheet({
-        options: [i18n.t('account.male'), i18n.t('account.female'), i18n.t('account.other'), i18n.t('global.cancel')],
-        cancelButtonIndex: 3,
-        destructiveButtonIndex: 2,
-        title: i18n.t('account.yourGender')
-      },
+      options: [i18n.t('account.male'), i18n.t('account.female'), i18n.t('account.other'), i18n.t('global.cancel')],
+      cancelButtonIndex: 3,
+      destructiveButtonIndex: 2,
+      title: i18n.t('account.yourGender')
+    },
       gender => this.inputChangeHandler(gender, 'gender')
     );
   }
@@ -138,6 +142,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 value={this.state.form.email.value}
                 onChangeText={email => this.inputChangeHandler(email, 'email')}
                 label={i18n.t('account.email')}
+                editable={!this.props.user.email}
                 autoCapitalize="none"
                 returnKeyType="next"
                 icon={{ iconName: 'ios-mail' }}
@@ -149,6 +154,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 value={this.state.form.mobile_phone.value}
                 onChangeText={mobile_phone => this.inputChangeHandler(mobile_phone, 'mobile_phone')}
                 label={i18n.t('account.phoneNumber')}
+                editable={!this.props.user.mobile_phone}
                 autoCapitalize="none"
                 returnKeyType="next"
                 icon={{ iconName: 'ios-call' }}
@@ -217,7 +223,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  user: {},
+  user: state.auth.user,
   provider: state.auth.provider,
   provider_user_id: state.auth.provider_user_id,
   accountKitToken: state.auth.accountKitToken

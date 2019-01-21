@@ -62,6 +62,7 @@ export default {
       passwordRequired: 'Vui lòng nhập mật khẩu của bạn',
       password: "Mật khẩu không trùng với mật khẩu xác nhận",
       confirmPassword: "Mật khẩu xác nhận không trùng với mật khẩu",
+      emailExisted: 'Địa chỉ email đã tồn tại'
     }
   },
   appointment: {

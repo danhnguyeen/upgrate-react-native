@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { TouchableOpacity, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Content, Icon, Text } from "native-base";
 
 import * as actions from '../building-actions';
+import { Spinner } from '../../../components/common';
 // import { Common, styles, winW, winH } from '../../constants/';
 import { isEmpty } from '../../../util/utility';
 import { TagOffice } from '../../../components/buildings';
@@ -78,7 +79,7 @@ class Offices extends React.Component {
   render() {
     const { filterRequired, filterData, officeList, isFetching } = this.state
     return (
-      <View style={{ flex: 1, backgroundColor: backgroundColor }}>
+      <View style={{ flex: 1, backgroundColor }}>
         {this.state.modalVisible ?
           <OfficeFilter
             visible
@@ -90,7 +91,7 @@ class Offices extends React.Component {
           />
           : null}
         <Content style={{ backgroundColor: '#DCDCDC' }} >
-          {(isFetching && officeList) ? <ActivityIndicator /> :
+          {(isFetching && officeList) ? <Spinner /> :
             <View >
               <View style={{ padding: 15, backgroundColor: '#FFF', marginBottom: 10 }}>
                 <TouchableOpacity
@@ -121,8 +122,7 @@ class Offices extends React.Component {
                         <TagOffice officeDetail={item} navigation={this.props.navigation} />
                       </TouchableOpacity>
                     )
-                  }
-                  else return (
+                  } else return (
                     <TouchableOpacity key={index}
                       onPress={() => { this.props.navigation.navigate('Booking', { dataProps: { officeDetail: item } }) }}
                     // onPress={() => { this.props.navigation.navigate('OfficeDetail', { officeDetail: item }) }}
@@ -134,36 +134,9 @@ class Offices extends React.Component {
               </View>
             </View>}
         </Content>
-        {/* {this._renderModalFilter(filterRequired, filterData)} */}
       </View>
     )
   }
-
-  // _renderModalFilter = (filterRequired, filterData) => (
-  //   <Modal visible={this.state.modalVisible} animationType="none" transparent={true} onRequestClose={() => { console.log('Modal has been closed.') }} >
-  //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' }} >
-  //       <TouchableOpacity onPress={() => { this.setState({ modalVisible: false }) }}
-  //         style={{
-  //           backgroundColor: 'rgba(255,255,255,0.7)',
-  //           flexDirection: 'row',
-  //           justifyContent: 'center',
-  //           width: '100%',
-  //           height: '100%',
-  //           position: 'absolute',
-  //         }}
-  //       />
-  //       <View style={[{ width: winW(80), height: winH(80), borderRadius: 4 }, Common.shadow]}>
-  //         <ModalFilter
-  //           onClose={() => { this.setState({ modalVisible: false }) }}
-  //           onFilterPress={(dataRequired) => { this._onFilterPress(dataRequired) }}
-  //           clearFilterPress={() => { this._clearFilterPress() }}
-  //           filterData={filterData}
-  //           filterRequired={filterRequired}
-  //         />
-  //       </View>
-  //     </View>
-  //   </Modal>
-  // )
 };
 
 const styles = StyleSheet.create({
@@ -175,9 +148,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#C7DDF6',
     borderRadius: 2,
-    padding: 5,
-    paddingHorizontal: 10,
-    margin: 5
+    paddingHorizontal: 10
   },
   headerIcon: {
     flex: 0.2,

@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, View, Alert } from 'react-native'
-import { Text, Icon } from "native-base"
+import { Text } from "native-base"
 import MapView from 'react-native-maps';
+import { Icon } from 'react-native-elements';
 
 import { BuildingSlides, MapFilter } from '../../components/locations';
 import { brandPrimary } from '../../config/variables';
@@ -130,10 +131,12 @@ class Locations extends React.Component {
         </View>
         <View style={{ position: 'absolute', bottom: 150, right: 5 }}>
           <Icon
+            reverse
             name='my-location'
-            type='MaterialIcons'
-            style={{ color: brandPrimary }}
-            size={20}
+            type='material'
+            color='#156DAC'
+            size={18}
+            reverseColor={'#fff'}
             onPress={() => this.getCurrentPosition(true)} />
         </View>
       </View >

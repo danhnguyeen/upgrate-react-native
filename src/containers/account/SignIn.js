@@ -69,6 +69,26 @@ class SignIn extends Component {
       this._onLoginSuccess();
     }
   }
+  onLoginWithEmail = async () => {
+    this.setState({ formTouched: true });
+    const { formIsValid, data } = validateForm({ ...this.state.form });
+    console.log(formIsValid)
+    if (formIsValid) {
+      try {
+        this.setState({ submiting: true });
+        await this.props.onAuth(data.email, data.password)
+        this.setState({ submiting: false });
+        this._onLoginSuccess();
+      } catch (e) {
+        this.setState({ submiting: false });
+        console.log(e);
+        if (e.message === 'invalid email or password') {
+          e.message = i18n.t('account.loginFailMsg');
+        }
+        this._onLoginFailed(e);
+      }
+    }
+  }
   onLoginFacebook = async () => {
     try {
       await LoginManager.logOut();
@@ -92,7 +112,7 @@ class SignIn extends Component {
         } catch (err) {
           console.log(err);
           this.setState({ loginingFb: false });
-          this.onLoginFailed(err);
+          this._onLoginFailed(err);
         }
       }
     } catch (e) {
@@ -100,36 +120,25 @@ class SignIn extends Component {
       // this.setState({ checkLogin: false });
     }
   }
-  onLoginWithEmail = async () => {
-    this.setState({ formTouched: true });
-    const { formIsValid, data } = validateForm({ ...this.state.form });
-    console.log(formIsValid)
-    if (formIsValid) {
-      try {
-        this.setState({ submiting: true });
-        await this.props.onAuth(data.email, data.password)
-        this.setState({ submiting: false });
-        this._onLoginSuccess();
-      } catch (e) {
-        this.setState({ submiting: false });
-        console.log(e);
-        if (e.message === 'invalid email or password') {
-          e.message = i18n.t('account.loginFailMsg');
-        }
-        this._onLoginFailed(e);
-      }
-    }
-  }
   onLoginWithPhone = async () => {
     try {
-      RNAccountKit.loginWithPhone()
-        .then((token) => {
-          if (!token) {
-            console.log('Login cancelled')
-          } else {
-            console.log(token)
-          }
-        });
+      const { token } = await RNAccountKit.loginWithPhone();
+      console.log(token)
+      try {
+        this.setState({ loginingPhone: true });
+        const result = await this.props.onAuthWithPhone(token);
+        this.setState({ loginingPhone: true });
+        if (this.props.isAuth) {
+          this._onLoginSuccess();
+        } else {
+          this.setState({ checkLogin: false, submiting: false });
+          this.props.navigation.navigate('SignUpWithPhoneAndFacebook', { name: result.name });
+        }
+      } catch (err) {
+        console.log(err);
+        this.setState({ loginingPhone: false });
+        this._onLoginFailed(err);
+      }
     } catch (err) {
       // this.setState({ checkLogin: false });
     }
@@ -215,7 +224,8 @@ class SignIn extends Component {
                 <View style={{ flex: 1, marginLeft: 5 }}>
                   <Button
                     buttonStyle={{ margin: 0, borderColor: brandWarning, backgroundColor: brandWarning }}
-                    disabled={this.state.submiting}
+                    loading={this.state.loginingPhone}
+                    loadingWithBg
                     onPress={this.onLoginWithPhone}
                     title={i18n.t('account.phoneNumber')} />
                 </View>
@@ -240,6 +250,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onAuth: (username, password) => dispatch(actions.auth(username, password)),
   onAuthWithFacebook: (token) => dispatch(actions.authWithFacebook(token)),
+  onAuthWithPhone: (token) => dispatch(actions.authWithPhone(token)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
