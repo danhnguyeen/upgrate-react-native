@@ -23,10 +23,8 @@ class PushNotification extends Component {
     // await FCM.requestPermissions({ badge: true, sound: true, alert: true });
     FCM.getInitialNotification().then(notif => {
       // android
-      if (notif && this.props.isAuth) {
+      if (notif) {
         if (notif.opened_from_tray && notif.from) {
-          console.log('aafef')
-          console.log(NavigationService)
           NavigationService.navigate('Notifications');
         }
       }
@@ -36,12 +34,9 @@ class PushNotification extends Component {
       // this.props.fetchNotificationCount();
       // open from tray iOS
       if (notif.opened_from_tray) {
-        if (this.props.isAuth) {
-          if ((platform === 'android' && notif.local_notification)
+        if ((platform === 'android' && notif.local_notification)
           || notif.from || platform === 'ios') {
-            console.log(NavigationService)
-            NavigationService.navigate('Notifications');
-          }
+          NavigationService.navigate('Notifications');
         }
         return;
       }
@@ -66,15 +61,16 @@ class PushNotification extends Component {
     });
 
     this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => {
+      console.log(token);
     });
   }
-
+  
   showLocalNotification(notif) {
     if (platform === 'android') {
       FCM.presentLocalNotification({
-        body: 'notif.content',
+        body: notif.fcm.body,
         priority: "high",
-        title: 'notif.title',
+        title: notif.fcm.title,
         click_action: "fcm.ACTION.HELLO",
         channel: "paxsky_chanel",
         show_in_foreground: true, /* notification when app is in foreground (local & remote)*/
@@ -96,16 +92,10 @@ class PushNotification extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuth: true
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     fetchNotificationCount: () => dispatch(actions.fetchNotificationCount())
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PushNotification);
+export default connect(null, mapDispatchToProps)(PushNotification);

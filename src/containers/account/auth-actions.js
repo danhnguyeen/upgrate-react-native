@@ -56,6 +56,7 @@ export const authWithFacebook = (access_token) => {
     try {
       const res = await axios.get('customer/facebook/check-token', { params: { access_token } });
       console.log(res);
+      console.log(res)
       if (res.first_login === false) {
         dispatch(authWithPhoneAndFacebookSuccess(res.token, res));
       } else {

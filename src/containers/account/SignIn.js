@@ -117,7 +117,7 @@ class SignIn extends Component {
       }
     } catch (e) {
       console.log(e)
-      // this.setState({ checkLogin: false });
+      this.setState({ loginingFb: false });
     }
   }
   onLoginWithPhone = async () => {
@@ -140,7 +140,7 @@ class SignIn extends Component {
         this._onLoginFailed(err);
       }
     } catch (err) {
-      // this.setState({ checkLogin: false });
+      this.setState({ loginingPhone: false });
     }
   }
   _onLoginSuccess = () => {

@@ -151,6 +151,7 @@ class Appointment extends React.Component {
       this.setState({ isFetching: false })
     }).then((response) => {
       const appointmentList = response
+      console.log(appointmentList)
       // console.log(' =================================== _onFetching', appointmentList)
       this.setState({ appointmentList, isFetching: false })
     })
