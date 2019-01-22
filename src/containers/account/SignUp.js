@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { Content, Button, Text, Icon, ActionSheet, Picker } from 'native-base';
 import { connect } from 'react-redux';
+import FCM from 'react-native-fcm';
+import DeviceInfo from 'react-native-device-info';
 
-import { InputField, TextInput } from '../../components/common';
+import { InputField } from '../../components/common';
 import * as actions from '../../stores/actions';
 import { _dispatchStackActions, isEmpty } from '../../util/utility';
 import { backgroundColor, brandPrimary } from '../../config/variables';
@@ -210,12 +212,21 @@ class SignUp extends Component {
       })
   }
   _onSignUpSuccess = () => {
+    this.updateNotificationToken();
     AsyncStorage.setItem('token', this.props.isAuth);
-    // _dispatchStackActions(this.props.navigation, 'reset', this.routeNameProps !== null ? this.routeNameProps : 'Account')
     _dispatchStackActions(this.props.navigation, 'reset', 'Account')
 
   }
-
+  updateNotificationToken = async() => {
+    const token = await FCM.getFCMToken().then(token => {
+      return token;
+    });
+    if (token && this.props.isAuth) {
+      const uniqueId = DeviceInfo.getUniqueID();
+      const deviceName = DeviceInfo.getModel();
+      this.props.updateFCMToken(token, uniqueId, deviceName);
+    }
+  }
   async _onProvinceChange(province = { "province_id": null, "province_name": '' }) {
     if (!this.props.provinceId || this.props.provinceId !== province.province_id) {
       // console.log(this.props.provinceId, province.province_id)
@@ -595,16 +606,14 @@ const mapStateToProps = state => ({
   districtList: state.buildings.districtList,
   provinceList: state.buildings.provinceList,
   provinceId: state.buildings.provinceId
-
 });
 
 const mapDispatchToProps = dispatch => ({
-
   _onAuth: (username, password) => dispatch(actions.auth(username, password)),
   _onAuthSignUp: (dataRegister) => dispatch(actions.authSignUp(dataRegister)),
   _onfetchDistrictList: (provinceId) => dispatch(actions.fetchDistrictList(provinceId)),
   _onfetchProvinceList: () => dispatch(actions.fetchProvinceList()),
-
+  updateFCMToken: (token, uniqueId, deviceName) => dispatch(actions.updateNotificationToken(token, uniqueId, deviceName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

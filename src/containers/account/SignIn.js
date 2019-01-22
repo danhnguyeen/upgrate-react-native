@@ -5,9 +5,11 @@ import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView,
 import { Content, Icon, Text } from "native-base";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import RNAccountKit, { Color } from 'react-native-facebook-account-kit';
+import FCM from 'react-native-fcm';
+import DeviceInfo from 'react-native-device-info';
 
 import i18n from '../../i18n';
-import * as actions from './auth-actions';
+import * as actions from '../../stores/actions';
 import { Button, TextInput } from '../../components/common';
 import { backgroundColor, brandPrimary, brandWarning } from '../../config/variables';
 import { validateForm, checkValidity } from '../../util/utility';
@@ -144,10 +146,11 @@ class SignIn extends Component {
     }
   }
   _onLoginSuccess = () => {
-    this.setState({ isLogin: true })
-    AsyncStorage.setItem('token', this.props.isAuth)
-    const dataProps = this.dataProps
-    const sub_routeName = this.routeNameProps ? this.routeNameProps : 'Account'
+    this.setState({ isLogin: true });
+    AsyncStorage.setItem('token', this.props.isAuth);
+    this.updateNotificationToken();
+    const dataProps = this.dataProps;
+    const sub_routeName = this.routeNameProps ? this.routeNameProps : 'Account';
     this.props.navigation.dispatch(StackActions.reset({
       index: 0, key: null,
       actions: [NavigationActions.navigate({
@@ -155,7 +158,17 @@ class SignIn extends Component {
         params: { dataProps },
         action: NavigationActions.navigate({ routeName: sub_routeName, params: { dataProps } })
       })]
-    }))
+    }));
+  }
+  updateNotificationToken = async() => {
+    const token = await FCM.getFCMToken().then(token => {
+      return token;
+    });
+    if (token && this.props.isAuth) {
+      const uniqueId = DeviceInfo.getUniqueID();
+      const deviceName = DeviceInfo.getModel();
+      this.props.updateFCMToken(token, uniqueId, deviceName);
+    }
   }
   _onLoginFailed = (error) => {
     Alert.alert(
@@ -244,13 +257,14 @@ class SignIn extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuth: state.auth.token,
+  isAuth: state.auth.token
 });
 
 const mapDispatchToProps = dispatch => ({
   onAuth: (username, password) => dispatch(actions.auth(username, password)),
   onAuthWithFacebook: (token) => dispatch(actions.authWithFacebook(token)),
   onAuthWithPhone: (token) => dispatch(actions.authWithPhone(token)),
+  updateFCMToken: (token, uniqueId, deviceName) => dispatch(actions.updateNotificationToken(token, uniqueId, deviceName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

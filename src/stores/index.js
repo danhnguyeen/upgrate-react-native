@@ -8,7 +8,7 @@ import reducers from './reducers';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'buildings']
+  whitelist: ['auth']
 };
 
 let composeEnhancers = compose;
