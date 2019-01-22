@@ -12,6 +12,7 @@ export const fetchBuidlings = (district_id = null) => {
     try {
       const requestUrl = district_id ? `building?district_id=${district_id}` : 'building'
       const data = await axios.get(requestUrl)
+      console.log(data)
       data.buildings.sort((a, b) => { return a.acreage_rent_array > b.acreage_rent_array ? -1 : 1 })
       data.direction_array.sort((a, b) => { return a.direction_name > b.direction_name ? 1 : -1 })
       const buildingsFilterData = {
@@ -27,6 +28,7 @@ export const fetchBuidlings = (district_id = null) => {
       return Promise.resolve(true)
     }
     catch (err) {
+      console.log(err)
       return Promise.reject(err)
     }
   }
@@ -108,21 +110,11 @@ export const fetchOfficeList = (buildingsId = 3) => {
 const fetchBuildingDetailSuccess = (buildingDetail, buildingsId) => ({
   type: actionTypes.FETCH_BUILDING_DETAIL,
   buildingDetail: buildingDetail,
-  buildingsId: buildingsId,
+  buildingsId: buildingsId
 })
-export const fetchBuildingDetail = (buildingsId = 3) => {
+export const fetchBuildingDetail = (buildingDetail) => {
   return async dispatch => {
-    try {
-      const buildingDetail = await axios.get(`building/detail?building_id=${buildingsId}`)
-      const sub_images = buildingDetail.sub_images
-      // sub_images.push(buildingDetail.main_image_thumbnail, buildingDetail.main_image)
-      dispatch(fetchBuildingDetailSuccess(buildingDetail, buildingsId))
-      _loadResourcesImage(sub_images)
-      return Promise.resolve(buildingDetail)
-    }
-    catch (err) {
-      return Promise.reject(err)
-    }
+    dispatch(fetchBuildingDetailSuccess(buildingDetail, buildingDetail.building_id));
   }
 }
 

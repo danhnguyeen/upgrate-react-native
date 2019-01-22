@@ -132,6 +132,8 @@ PODS:
   - RNAccountKit (1.0.1):
     - AccountKit
     - React
+  - RNDeviceInfo (0.21.5):
+    - React
   - RNGestureHandler (1.0.12):
     - React
   - RNI18n (2.0.15):
@@ -165,6 +167,7 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNAccountKit (from `../node_modules/react-native-facebook-account-kit/ios`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNI18n (from `../node_modules/react-native-i18n`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -205,6 +208,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   RNAccountKit:
     :path: "../node_modules/react-native-facebook-account-kit/ios"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNI18n:
@@ -235,11 +240,12 @@ SPEC CHECKSUMS:
   react-native-fast-image: cba3d9bf9c2cf8ddb643d887a686c53a5dd90a2c
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   RNAccountKit: 3dd31fff73c90378ac89dc7611da0dc22b29f84b
+  RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
   RNGestureHandler: 282af6ea58ed8483612365159c58a3ca5f55e7da
   RNI18n: 46b8694063fbd699f2c06a4dc8e835b3176763b1
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 339cd81431c2a3191f0de691c69f414c410ada6e
+PODFILE CHECKSUM: 091fde72819d451551652b5edafc72f98bfd798b
 
 COCOAPODS: 1.5.3

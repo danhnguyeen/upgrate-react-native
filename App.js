@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StatusBar, View, UIManager } from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
 import FCM from "react-native-fcm";
+import DeviceInfo from 'react-native-device-info';
 import { YellowBox } from 'react-native';
 
 import AppContainer from './navigators';
@@ -24,21 +25,15 @@ export default class App extends Component {
     try {
       await FCM.requestPermissions({ badge: true, sound: true, alert: true });
     } catch (e) {}
-    FCM.getFCMToken().then(token => {
-      // alert(token)
-      console.log("TOKEN (getFCMToken)", token);
-    });
     const token = await FCM.getFCMToken().then(token => {
-      // alert(token)
       return token;
     });
-    
-    console.log(token)
-    // if (token) {
-    //   const uniqueId = DeviceInfo.getUniqueID();
-    //   const deviceName = DeviceInfo.getModel();
-    //   this.props.updateFCMToken(token, uniqueId, deviceName);
-    // }
+    if (token) {
+      const uniqueId = DeviceInfo.getUniqueID();
+      const deviceName = DeviceInfo.getModel();
+      console.log(uniqueId)
+      // this.props.updateFCMToken(token, uniqueId, deviceName);
+    }
   }
   render() {
     return (

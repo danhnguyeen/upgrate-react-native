@@ -28,12 +28,8 @@ class Buildings extends React.Component {
       modalVisible: false,
       refreshing: false
     }
-    this._isMounted = false
   }
 
-  componentWillUnmount() {
-    this._isMounted = false
-  }
   componentDidMount() {
     const { buildings, districtList, buildingsFilterData } = this.props;
     if (isEmpty(buildings) || isEmpty(buildingsFilterData)) {
@@ -78,8 +74,12 @@ class Buildings extends React.Component {
   _onFilterPress = (filterRequired) => {
     this.setState({ filterRequired, modalVisible: false })
   }
+  selectBuilding = (building) => {
+    this.props._onfetchBuildingDetail(building.building_detail);
+    this.props.navigation.navigate('BuildingDetails');
+  }
   render() {
-    const { isFetching, filterRequired } = this.state
+    const { filterRequired } = this.state
     const { district, rent_cost, acreage, direction } = filterRequired
     return (
       <View style={[styles.container]}>
@@ -145,9 +145,9 @@ class Buildings extends React.Component {
                   else if (rent_cost && (rent_cost[0] > item.rent_cost || item.rent_cost > rent_cost[1])) { }
                   else if (acreage && (acreage[0] > item.acreage_rent_array[0] || item.acreage_rent_array[item.acreage_rent_array.length - 1] > acreage[1])) { }
                   else if (direction && direction.direction_name !== item.direction) { }
-                  else return <TagBuilding detailBuilding={item} key={item.building_id} navigation={this.props.navigation} _onfetchBuildingDetail={this.props._onfetchBuildingDetail} />
+                  else return <TagBuilding detailBuilding={item} key={item.building_id} selectBuilding={this.selectBuilding} />
                 }
-                else return <TagBuilding detailBuilding={item} key={item.building_id} navigation={this.props.navigation} _onfetchBuildingDetail={this.props._onfetchBuildingDetail} />
+                else return <TagBuilding detailBuilding={item} key={item.building_id} selectBuilding={this.selectBuilding} />
               })}
             </View>
           </Content>
@@ -188,7 +188,7 @@ const mapDispatchToProps = dispatch => {
   return {
     _onfetchBuidlings: (district_id) => dispatch(actions.fetchBuidlings(district_id)),
     _onfetchDistrictList: (provinceId) => dispatch(actions.fetchDistrictList(provinceId)),
-    _onfetchBuildingDetail: (buildingsId) => dispatch(actions.fetchBuildingDetail(buildingsId)),
+    _onfetchBuildingDetail: (building) => dispatch(actions.fetchBuildingDetail(building)),
   }
 }
 

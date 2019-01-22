@@ -22,10 +22,7 @@ class TagBuilding extends React.Component {
     return (
       <TouchableOpacity
         style={styles.container}
-        onPress={() => {
-          this.props._onfetchBuildingDetail(detail.building_id)
-          this.props.navigation.navigate('BuildingDetails', { building_id: detail.building_id })
-        }}>
+        onPress={() => this.props.selectBuilding(detail)}>
         <View style={{ borderRadius: 5, overflow: 'hidden' }}>
           <FastImage source={{ uri: detail.main_image, priority: FastImage.priority.high }} style={{ width: '100%', height: '100%' }}>
             <View style={{

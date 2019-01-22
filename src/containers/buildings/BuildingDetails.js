@@ -30,23 +30,6 @@ class BuildingDetails extends React.Component {
     refreshing: false,
   }
 
-  componentDidMount() {
-    this._onFetching();
-  }
-
-  _onFetching = async () => {
-    const building_id = this.props.navigation.getParam('building_id', null)
-    if (!building_id) { }
-    else {
-      if (this.props.buildingsId !== building_id) {
-        await this.props._onfetchBuildingDetail(building_id)
-      }
-      this.setState({ isFetching: false }, () => {
-        this.props._onfetchOfficeList(building_id)
-      })
-    }
-  }
-
   render() {
     // Because of content inset the scroll value will be negative on iOS so bring
     // it back to 0.
@@ -85,21 +68,21 @@ class BuildingDetails extends React.Component {
 
     const detailBuilding = this.props.buildingDetail
     const { isFetching } = this.state
-    let renderHeaderImage = <ActivityIndicator />
-    if (!isFetching && detailBuilding) {
-      const { sub_images, main_image_thumbnail } = detailBuilding
-      // sub_images.push(main_image_thumbnail)
-      renderHeaderImage = (
-        <DeckSwiper
-          dataSource={detailBuilding.sub_images}
-          renderItem={item =>
-            <CardItem cardBody bordered={false}>
-              <Image style={{ height: 300, flex: 1, }} source={{ uri: item }} />
-            </CardItem>
-          }
-        />
-      )
-    }
+    // let renderHeaderImage = <ActivityIndicator />
+    // if (!isFetching && detailBuilding) {
+    //   const { sub_images, main_image_thumbnail } = detailBuilding
+    //   // sub_images.push(main_image_thumbnail)
+    //   renderHeaderImage = (
+    //     <DeckSwiper
+    //       dataSource={detailBuilding.sub_images}
+    //       renderItem={item =>
+    //         <CardItem cardBody bordered={false}>
+    //           <Image style={{ height: 300, flex: 1, }} source={{ uri: item }} />
+    //         </CardItem>
+    //       }
+    //     />
+    //   )
+    // }
     return (
       <Container style={styles.container} >
         <Animated.ScrollView
@@ -128,118 +111,115 @@ class BuildingDetails extends React.Component {
             y: -HEADER_MAX_HEIGHT,
           }}
         >
-          {isFetching ?
-            <ActivityIndicator /> :
-            <View style={styles.scrollViewContent}>
-              <View style={{ ...shadow, padding: 15, backgroundColor: brandLight, marginBottom: 15 }}>
-                <BuildingMaps style={{ margin: 15 }} building={detailBuilding} />
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
-                  <Icon
-                    name='location-on'
-                    type='MaterialIcons'
-                    style={{ fontSize: fontSize + 2, color: textColor }}
-                  />
-                  <Text style={{ paddingLeft: 5, width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${detailBuilding.address}, ${detailBuilding.district}`}</Text>
-                </View>
-                <Divider style={{ marginVertical: 15 }} />
-                <View style={{ alignItems: 'flex-end' }}>
-                  <Button
-                    icon={
-                      <Icon
-                        name='directions'
-                        type="MaterialCommunityIcons"
-                        style={{ color: brandPrimary, fontSize: fontSize + 6, marginLeft: 10 }}
-                      />
-                    }
-                    onPress={() => Linking.openURL(`https://www.google.com/maps?daddr=${detailBuilding.lat},${detailBuilding.long}`)}
-                    iconContainerStyle={{ marginHorizontal: 10 }}
-                    titleStyle={{ color: brandPrimary, fontSize }}
-                    buttonStyle={{
-                      elevation: 0,
-                      borderColor: brandPrimary,
-                      borderWidth: 1,
-                      backgroundColor: 'transparent',
-                      borderRadius: 20,
-                      paddingRight: 15
-                    }}
-                    title={i18n.t('buildingDetail.getDirection')}
-                  />
-                </View>
+          <View style={styles.scrollViewContent}>
+            <View style={{ ...shadow, padding: 15, backgroundColor: brandLight, marginBottom: 15 }}>
+              <BuildingMaps style={{ margin: 15 }} building={detailBuilding} />
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+                <Icon
+                  name='location-on'
+                  type='MaterialIcons'
+                  style={{ fontSize: fontSize + 2, color: textColor }}
+                />
+                <Text style={{ paddingLeft: 5, width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${detailBuilding.address}, ${detailBuilding.district}`}</Text>
               </View>
-              <View style={{ ...shadow, flex: 1, backgroundColor: brandLight, padding: 15, marginBottom: 15 }}>
-                <View style={{ alignItems: 'center', marginBottom: 5 }}>
-                  <Text style={[textH4, { color: brandPrimary }]} numberOfLines={1}>{detailBuilding.sub_name}</Text>
-                  <Text style={{ fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
-                </View>
-                <View style={styles.line}>
-                  <Icon style={styles.icon} name='building-o' type='FontAwesome' /><Text>{detailBuilding.structure ? detailBuilding.structure : 'Chưa cập nhật'}</Text>
-                </View>
-                <View style={styles.line}>
-                  <Icon style={styles.icon} name='address-book-o' type='FontAwesome' />
-                  {detailBuilding.acreage_rent_array && detailBuilding.acreage_rent_array.length > 0 ?
-                    detailBuilding.acreage_rent_array.map((item, index) =>
-                      <Text key={index}>
-                        {index > 0 && ' - '}{item}
-                        {index == (detailBuilding.acreage_rent_array.length - 1) && 'm2'}
-                      </Text>
-                    )
-                    :
-                    <Text >{detailBuilding.acreage_rent_list == 'FULL' ? 'Toàn bộ' : 'Chưa cập nhật'}</Text>
+              <Divider style={{ marginVertical: 15 }} />
+              <View style={{ alignItems: 'flex-end' }}>
+                <Button
+                  icon={
+                    <Icon
+                      name='directions'
+                      type="MaterialCommunityIcons"
+                      style={{ color: brandPrimary, fontSize: fontSize + 6, marginLeft: 10 }}
+                    />
                   }
-                </View>
-                <View style={styles.line}>
-                  <Icon style={styles.icon} name='directions-fork' type='MaterialCommunityIcons' />
-                  <Text>{detailBuilding.direction}</Text>
-                </View>
-                <View style={styles.line}>
-                  <Icon style={[styles.icon, { fontSize: 28 } ]} name='md-star-outline' type='Ionicons' />
-                  <Text>{detailBuilding.classify_name}</Text>
-                </View>
-                <View style={styles.line}>
-                  <Icon style={styles.icon} name='settings' type='SimpleLineIcons' />
-                  <Text>Đơn vị quản lý: {detailBuilding.management_agence_name}</Text>
-                </View>
-                <View style={styles.line}>
-                  <Icon style={styles.icon} name='car-battery' type='MaterialCommunityIcons' />
-                  <Text>{detailBuilding.electricity_cost}K/ giờ</Text>
-                </View>
-                <Divider style={{ marginVertical: 15 }} />
-                <BuildingDescription text={detailBuilding.description} />
-                <Divider style={{ marginVertical: 15 }} />
-                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                  <TouchableOpacity style={[styles.buttonComon, styles.button, { flex: 0.5, borderColor: '#e12d2d' }]}>
-                    <Text style={[styles.buttonText, { color: '#e12d2d' }]}>Giá Thuê</Text>
-                    <Text style={[styles.buttonText, { fontSize: 18, fontWeight: '700', color: '#e12d2d' }]}>{detailBuilding.rent_cost.toFixed(1)}$/m2</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={[styles.buttonBg, styles.button, { flex: 0.5, }]}
-                    onPress={() => { this.props.navigation.navigate('Offices', { building_id: detailBuilding.building_id, building_name: detailBuilding.sub_name, building_detail: detailBuilding }) }}>
-                    <Text style={[styles.buttonBgText]}>Xem văn phòng</Text>
-                    <Icon style={[styles.buttonBgText]} name='md-arrow-forward' type='Ionicons' />
-                  </TouchableOpacity>
-                </View>
+                  onPress={() => Linking.openURL(`https://www.google.com/maps?daddr=${detailBuilding.lat},${detailBuilding.long}`)}
+                  iconContainerStyle={{ marginHorizontal: 10 }}
+                  titleStyle={{ color: brandPrimary, fontSize }}
+                  buttonStyle={{
+                    elevation: 0,
+                    borderColor: brandPrimary,
+                    borderWidth: 1,
+                    backgroundColor: 'transparent',
+                    borderRadius: 20,
+                    paddingRight: 15
+                  }}
+                  title={i18n.t('buildingDetail.getDirection')}
+                />
               </View>
-              {/* <View style={{ paddingHorizontal: 20, backgroundColor: brandLight }}>
-                <PostDetail description={detailBuilding.description} content={detailBuilding.content} />
-              </View> */}
-              <View style={[shadow, { padding: 15, backgroundColor: brandLight, marginBottom: 15 }]}>
-                <Text style={styles.buttonText}>Chuyên viên tư vấn</Text>
-                <View style={styles.line}>
-                  <Icon style={styles.icon} name='ios-person' type='Ionicons' />
-                  <Text>Ms. Phương Linh</Text>
-                </View>
-                <TouchableOpacity style={styles.line}
-                  onPress={() => Linking.openURL(`tel:+84911072299`)}>
-                  <Icon style={styles.icon} name='ios-call' type='Ionicons' />
-                  <Text style={[styles.buttonText, { lineHeight: 30 }]}>0911 07 22 99</Text>
+            </View>
+            <View style={{ ...shadow, flex: 1, backgroundColor: brandLight, padding: 15, marginBottom: 15 }}>
+              <View style={{ alignItems: 'center', marginBottom: 5 }}>
+                <Text style={[textH4, { color: brandPrimary }]} numberOfLines={1}>{detailBuilding.sub_name}</Text>
+                <Text style={{ fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
+              </View>
+              <View style={styles.line}>
+                <Icon style={styles.icon} name='building-o' type='FontAwesome' /><Text>{detailBuilding.structure ? detailBuilding.structure : 'Chưa cập nhật'}</Text>
+              </View>
+              <View style={styles.line}>
+                <Icon style={styles.icon} name='address-book-o' type='FontAwesome' />
+                {detailBuilding.acreage_rent_array && detailBuilding.acreage_rent_array.length > 0 ?
+                  detailBuilding.acreage_rent_array.map((item, index) =>
+                    <Text key={index}>
+                      {index > 0 && ' - '}{item}
+                      {index == (detailBuilding.acreage_rent_array.length - 1) && 'm2'}
+                    </Text>
+                  )
+                  :
+                  <Text >{detailBuilding.acreage_rent_list == 'FULL' ? 'Toàn bộ' : 'Chưa cập nhật'}</Text>
+                }
+              </View>
+              <View style={styles.line}>
+                <Icon style={styles.icon} name='directions-fork' type='MaterialCommunityIcons' />
+                <Text>{detailBuilding.direction}</Text>
+              </View>
+              <View style={styles.line}>
+                <Icon style={[styles.icon, { fontSize: 28 }]} name='md-star-outline' type='Ionicons' />
+                <Text>{detailBuilding.classify_name}</Text>
+              </View>
+              <View style={styles.line}>
+                <Icon style={styles.icon} name='settings' type='SimpleLineIcons' />
+                <Text>Đơn vị quản lý: {detailBuilding.management_agence_name}</Text>
+              </View>
+              <View style={styles.line}>
+                <Icon style={styles.icon} name='car-battery' type='MaterialCommunityIcons' />
+                <Text>{detailBuilding.electricity_cost}K/ giờ</Text>
+              </View>
+              <Divider style={{ marginVertical: 15 }} />
+              <BuildingDescription text={detailBuilding.description} />
+              <Divider style={{ marginVertical: 15 }} />
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <TouchableOpacity style={[styles.buttonComon, styles.button, { flex: 0.5, borderColor: '#e12d2d' }]}>
+                  <Text style={[styles.buttonText, { color: '#e12d2d' }]}>Giá Thuê</Text>
+                  <Text style={[styles.buttonText, { fontSize: 18, fontWeight: '700', color: '#e12d2d' }]}>{detailBuilding.rent_cost.toFixed(1)}$/m2</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.line}
-                  onPress={() => Linking.openURL(`mailto:paxsky.vn?subject=Đăng ký tư vấn tòa nhà ${detailBuilding.sub_name}`)}>
-                  <Icon style={styles.icon} name='ios-mail' type='Ionicons' />
-                  <Text style={[styles.buttonText, { lineHeight: 30 }]}>pkd@paxsky.vn</Text>
+                <TouchableOpacity style={[styles.buttonBg, styles.button, { flex: 0.5, }]}
+                  onPress={() => { this.props.navigation.navigate('Offices', { building_id: detailBuilding.building_id, building_name: detailBuilding.sub_name, building_detail: detailBuilding }) }}>
+                  <Text style={[styles.buttonBgText]}>Xem văn phòng</Text>
+                  <Icon style={[styles.buttonBgText]} name='md-arrow-forward' type='Ionicons' />
                 </TouchableOpacity>
               </View>
             </View>
-          }
+            {/* <View style={{ paddingHorizontal: 20, backgroundColor: brandLight }}>
+                <PostDetail description={detailBuilding.description} content={detailBuilding.content} />
+              </View> */}
+            <View style={[shadow, { padding: 15, backgroundColor: brandLight, marginBottom: 15 }]}>
+              <Text style={styles.buttonText}>Chuyên viên tư vấn</Text>
+              <View style={styles.line}>
+                <Icon style={styles.icon} name='ios-person' type='Ionicons' />
+                <Text>Ms. Phương Linh</Text>
+              </View>
+              <TouchableOpacity style={styles.line}
+                onPress={() => Linking.openURL(`tel:+84911072299`)}>
+                <Icon style={styles.icon} name='ios-call' type='Ionicons' />
+                <Text style={[styles.buttonText, { lineHeight: 30 }]}>0911 07 22 99</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.line}
+                onPress={() => Linking.openURL(`mailto:paxsky.vn?subject=Đăng ký tư vấn tòa nhà ${detailBuilding.sub_name}`)}>
+                <Icon style={styles.icon} name='ios-mail' type='Ionicons' />
+                <Text style={[styles.buttonText, { lineHeight: 30 }]}>pkd@paxsky.vn</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </Animated.ScrollView>
         <Animated.View
           // pointerEvents="none"
@@ -254,20 +234,18 @@ class BuildingDetails extends React.Component {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
           >
-            {!isFetching && detailBuilding &&
-              <AnimatedFastImage
-                style={[
-                  styles.backgroundImage,
-                  {
-                    flex: 1,
-                    width: '100%',
-                    opacity: imageOpacity,
-                    transform: [{ translateY: imageTranslate }],
-                  },
-                ]}
-                source={{ uri: detailBuilding.sub_images[0] }}
-              />
-            }
+            <AnimatedFastImage
+              style={[
+                styles.backgroundImage,
+                {
+                  flex: 1,
+                  width: '100%',
+                  opacity: imageOpacity,
+                  transform: [{ translateY: imageTranslate }],
+                },
+              ]}
+              source={{ uri: detailBuilding.sub_images[0] }}
+            />
           </LinearGradient>
         </Animated.View>
         <Animated.View

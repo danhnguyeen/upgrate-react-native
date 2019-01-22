@@ -16,6 +16,7 @@
     "react": "16.6.3",
     "react-native": "0.57.8",
     "react-native-datepicker": "^1.7.2",
+    "react-native-device-info": "^0.25.1",
     "react-native-elements": "^1.0.0-beta7",
     "react-native-facebook-account-kit": "^1.0.1",
     "react-native-fast-image": "^5.1.2",
