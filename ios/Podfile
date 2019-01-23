@@ -62,6 +62,8 @@ target 'PaxSky' do
   # react native deivce infor
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
 end
 
 post_install do |installer|

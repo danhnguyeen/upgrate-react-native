@@ -140,11 +140,11 @@ const AccountStack = createStackNavigator({
   },
   Profile: {
     screen: Profile,
-    navigationOptions: ({ navigation }) => {
-      return {
-        ...headerOptions
-      }
-    }
+    // navigationOptions: ({ navigation }) => {
+    //   return {
+    //     ...headerOptions
+    //   }
+    // }
   },
   SignIn: {
     screen: SignIn,

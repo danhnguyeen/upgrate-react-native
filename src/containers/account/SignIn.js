@@ -200,7 +200,7 @@ class SignIn extends Component {
                 autoCapitalize="none"
                 returnKeyType="next"
                 keyboardType="email-address"
-                icon={{ iconName: "ios-mail" }}
+                icon={{ name: "ios-mail" }}
                 inValid={this.state.form.email.inValid}
                 errorMessage={i18n.t('account.valid.email')}
               />
@@ -212,7 +212,7 @@ class SignIn extends Component {
                 autoCapitalize="none"
                 returnKeyType='done'
                 blurOnSubmit={true}
-                icon={{ iconName: 'ios-lock' }}
+                icon={{ name: 'ios-lock' }}
                 inValid={this.state.form.password.inValid}
                 errorMessage={i18n.t('account.valid.passwordRequired')}
               />

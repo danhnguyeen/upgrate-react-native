@@ -4,9 +4,12 @@ export default {
     cancel: "Cancel",
     delete: "Delete",
     confirm: "Confirm",
+    update: "Update",
     readMore: "Read more",
     showLess: "Show less",
-    error: "Error"
+    error: "Error",
+    notification: "Thông báo",
+    updatedSuccessfully: "Cập nhật thành công"
   },
   tabs: {
     home: 'Home',
@@ -69,18 +72,21 @@ export default {
     male: 'Male',
     other: 'Other',
     female: 'Female',
-    yourGender: "Giới tính của ban?",
+    yourGender: "Your gender?",
     phoneNumber: 'Phone',
     address: 'Address',
     province: 'Province',
     district: 'District',
     welcome: 'Welcome',
     welcomeToPaxSky: 'Welcome to PaxSky',
-    logout: 'Đăng xuất',
-    termsOfService: "Điều khoản sử dụng",
+    logout: 'Logout',
+    termsOfService: "Terms of service",
     areYouSureLogOut: "Are you sure you want to log out?",
+    selectAvatar: "Select Avatar",
+    takePhoto: "Take Photo...",
+    chooseFromLibrary: "Choose from Library...",
     profile: {
-      title: 'Hồ sơ'
+      title: 'Profile'
     },
     valid: {
       lastName: 'Please enter your last name',

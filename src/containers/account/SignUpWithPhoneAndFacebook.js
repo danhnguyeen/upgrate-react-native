@@ -137,7 +137,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 onChangeText={last_name => this.inputChangeHandler(last_name, 'last_name')}
                 label={i18n.t('account.lastName')}
                 returnKeyType="next"
-                icon={{ iconName: 'ios-person' }}
+                icon={{ name: 'user', type: 'EvilIcons', size: 28 }}
                 inValid={this.state.form.last_name.inValid}
                 errorMessage={i18n.t('account.valid.lastName')}
               />
@@ -146,7 +146,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 onChangeText={first_name => this.inputChangeHandler(first_name, 'first_name')}
                 label={i18n.t('account.firstName')}
                 returnKeyType="next"
-                icon={{ iconName: 'ios-person' }}
+                icon={{ name: 'user', type: 'EvilIcons', size: 28 }}
                 inValid={this.state.form.first_name.inValid}
                 errorMessage={i18n.t('account.valid.firstName')}
               />
@@ -157,7 +157,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 editable={!this.props.user.email}
                 autoCapitalize="none"
                 returnKeyType="next"
-                icon={{ iconName: 'ios-mail' }}
+                icon={{ name: 'envelope', type: 'EvilIcons', size: 28 }}
                 keyboardType="email-address"
                 inValid={this.state.form.email.inValid}
                 errorMessage={i18n.t('account.valid.email')}
@@ -169,7 +169,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                 editable={!this.props.user.mobile_phone}
                 autoCapitalize="none"
                 returnKeyType="next"
-                icon={{ iconName: 'ios-call' }}
+                icon={{ name: 'phone', type: 'SimpleLineIcons', size: 24 }}
                 keyboardType="phone-pad"
                 inValid={this.state.form.mobile_phone.inValid}
                 errorMessage={i18n.t('account.valid.phone')}
@@ -182,7 +182,7 @@ class SignUpWithPhoneAndFacebook extends Component {
                         capitalize((this.state.form.gender.value === 0 ? i18n.t('account.male') : i18n.t('account.female')))
                         : null
                     }
-                    icon={{ iconName: 'ios-people' }}
+                    icon={{ name: 'human-male-female', type: 'MaterialCommunityIcons' }}
                     label={i18n.t('account.gender')}
                   />
                 </View>

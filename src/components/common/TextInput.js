@@ -9,9 +9,9 @@ class TextInput extends Component {
     if (this.props.icon) {
       return (
         <Icon
-          name={this.props.icon.iconName}
-          type={this.props.icon.icontype ? this.props.icon.icontype : 'Ionicons'}
-          style={{ color: 'rgba(0, 0, 0, .38)', marginHorizontal: 10, fontSize: 26 }}
+          name={this.props.icon.name}
+          type={this.props.icon.type ? this.props.icon.type : 'Ionicons'}
+          style={{ color: 'rgba(0, 0, 0, .38)', marginHorizontal: 10, fontSize: this.props.icon.size ? this.props.icon.size : 26 }}
         />
       );
     }
