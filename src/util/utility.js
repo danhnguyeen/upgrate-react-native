@@ -25,6 +25,7 @@ export const isEmpty = value => {
     }
     return value === null || value === undefined
   }
+  else return true
 }
 export function _dispatchStackActions(propsNavigation, propsActions, routeName = null, sub_routeName = null, sub_dataProp = null) {
 

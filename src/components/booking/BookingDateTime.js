@@ -1,28 +1,45 @@
-import React from 'react';
-import moment from 'moment';
-import { StyleSheet, TouchableOpacity, View, TextInput, Alert, ActivityIndicator } from 'react-native';
-import { Content, Icon, Text, } from "native-base";
-import DatePicker from 'react-native-datepicker';
 
-import { winH } from '../../util/utility';
-import { platform, brandPrimary, brandWarning, textColor, textDarkColor, inputFontSize, brandLight } from '../../config/variables';
+import React from 'react'
+import moment from 'moment'
+import DatePicker from 'react-native-datepicker'
+import { StyleSheet, TouchableOpacity, View, TextInput, Alert, ActivityIndicator } from 'react-native'
+import { Icon, Text, } from "native-base"
+import { backgroundColor, textDarkColor, inverseTextColor, brandPrimary, winH, inputFontSize } from '../../config/variables';
 
 const OPENTIME = '10:00'
 const CLOSETIME = '17:00'
-export default class BookingForm extends React.Component {
+const PRETIME = 90
+
+export default class BookingDateTime extends React.Component {
   state = {
     data: {
       ReserDescription: '',
       date: moment().format('DD/MM/YYYY'),
-      time: moment().minute(Math.ceil(moment().minute() / 30) * 30).second(0).format('HH:mm'),
+      time: moment().minute(Math.ceil(moment().minute() / PRETIME) * PRETIME).second(0).format('HH:mm'),
     },
     isChecking: false
   }
   componentDidMount() {
     this.initBooking()
   }
+
+  componentWillReceiveProps(nextProps) {
+    const dataProps = this.props
+    const nextDataProps = nextProps
+    if (nextDataProps !== dataProps) {
+      this.initBooking()
+    }
+  }
   initBooking = () => {
-    const data = { ...this.state.data }
+    let data = { ...this.state.data }
+    const date_schedule = this.props.date_schedule
+    if (date_schedule) {
+      data = {
+        ReserDescription: this.props.notes,
+        date: moment(date_schedule, 'DD-MM-YYYY HH:mm').format('DD/MM/YYYY'),
+        time: moment(date_schedule, 'DD-MM-YYYY HH:mm').format('HH:mm'),
+      }
+    }
     let bookingTime = data.time
     let bookingDate = data.date
     const currentDate = moment().format('DD/MM/YYYY')
@@ -32,11 +49,13 @@ export default class BookingForm extends React.Component {
       }
       if (OPENTIME > bookingTime) {
         bookingTime = OPENTIME
-      } else if (bookingTime > CLOSETIME) {
+      }
+      else if (bookingTime > CLOSETIME) {
         bookingTime = OPENTIME
         bookingDate = moment(bookingDate, "DD/MM/YYYY").add(1, 'days')
       }
-    } else {
+    }
+    else {
       bookingTime = OPENTIME
     }
     data.date = bookingDate
@@ -44,7 +63,7 @@ export default class BookingForm extends React.Component {
     this.setState({ data })
   }
 
-  collegeBooking = async () => {
+  collectBooking = async () => {
     this.setState({ isChecking: true })
     const data = { ...this.state.data }
     let bookingTime = data.time
@@ -54,13 +73,16 @@ export default class BookingForm extends React.Component {
     if (bookingDate < currentDate) {
       Alert.alert('Lỗi', 'Ngày đặt hẹn không phù hợp')
       this.setState({ isChecking: false })
-    } else if (bookingDate > currentDate && (bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
+    }
+    else if (bookingDate > currentDate && (bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
       Alert.alert('Lỗi', 'Thời gian đặt hẹn không hợp lệ')
       this.setState({ isChecking: false })
-    } else if (bookingDate == currentDate && (bookingTime < currentTime || bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
+    }
+    else if (bookingDate == currentDate && (bookingTime < currentTime || bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
       Alert.alert('Lỗi', 'Thời gian đặt hẹn không hợp lệ')
       this.setState({ isChecking: false })
-    } else {
+    }
+    else {
       const schedule_date = moment(bookingDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
       const schedule_time = moment(bookingTime, 'HH:mm').format('HH:mm')
       // console.log(schedule_date, schedule_time)
@@ -91,12 +113,11 @@ export default class BookingForm extends React.Component {
       minTime = currentTime
       maxTime = closeTime
     }
-
     return (
       <View >
         <View style={[styles.paragraph, { borderRadius: 0, borderBottomColor: '#AAAAAA', borderBottomWidth: 1, flex: 1, flexDirection: 'row' }]}>
           <View style={[styles.bookingCard, { borderRightWidth: 0.5, borderRightColor: textDarkColor, }]}>
-            <Icon type='SimpleLineIcons' name='calendar' color={textColor} />
+            <Icon type='SimpleLineIcons' name='calendar' color={inverseTextColor} />
             <DatePicker
               date={this.state.data.date}
               minDate={currentDate}
@@ -116,7 +137,7 @@ export default class BookingForm extends React.Component {
             />
           </View>
           <View style={styles.bookingCard}>
-            <Icon type='SimpleLineIcons' name='clock' color={textColor} />
+            <Icon type='SimpleLineIcons' name='clock' color={inverseTextColor} />
             <DatePicker
               date={this.state.data.time}
               minDate={minTime}
@@ -137,27 +158,21 @@ export default class BookingForm extends React.Component {
               onDateChange={(time) => this.onChangeHandler(time, 'time')}
             />
           </View>
-          {/* <BookingDateTime
-            data={this.state.data}
-            changeDateTime={this.onChangeHandler}
-          /> */}
         </View>
         <View style={[styles.paragraph, { borderRadius: 0, borderBottomColor: '#AAAAAA', borderBottomWidth: 1 }]}>
+          <Text style={{ color: textDarkColor, fontSize: 16, fontWeight: '500', lineHeight: 30, }}>{'Ghi chú : '}</Text>
           <TextInput
             multiline
-            style={{ color: textDarkColor, minHeight: 100, padding: 15, fontSize: inputFontSize }}
+            style={{ color: textDarkColor, minHeight: 100, fontSize: inputFontSize }}
             numberOfLines={5}
             textAlignVertical={'top'}
             value={this.state.data.ReserDescription}
-            placeholder={'Ghi chú'}
-            placeholderTextColor={textDarkColor}
-            returnKeyType='done'
             onChangeText={(value) => this.onChangeHandler(value, 'ReserDescription')}
             underlineColorAndroid='transparent'
           />
         </View>
         <View style={styles.paragraph}>
-          <TouchableOpacity onPress={() => { this.collegeBooking() }}
+          <TouchableOpacity onPress={() => { this.collectBooking() }}
             style={[styles.buttonBg, { padding: 10 }]}>
             {this.state.isChecking ? <ActivityIndicator color={'white'} /> : <Text style={[styles.buttonBgText]}>XÁC NHẬN</Text>}
           </TouchableOpacity>
@@ -170,32 +185,10 @@ export default class BookingForm extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-  },
-  bookingCard: {
-    flex: 0.5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 20
-    // marginHorizontal: '5%',
-    // padding: 15,
-    // paddingVertical: 15,
-    // marginBottom: 20,
-  },
-  iconStyle: {
-    // paddingHorizontal: 10
-  },
-  textStyle: {
-    fontSize: platform === 'ios' ? 22 : 24,
-    color: brandPrimary,
-  },
-  selectedData: {
-    color: brandWarning,
-    fontSize: 18
+    backgroundColor
   },
   paragraph: {
-    backgroundColor: brandLight,
+    backgroundColor,
     borderRadius: 3,
     marginBottom: 20,
     paddingVertical: 10,
@@ -211,6 +204,16 @@ const styles = StyleSheet.create({
   buttonBgText: {
     color: '#FFF',
     textAlign: 'center'
-  }
+  },
+  bookingCard: {
+    flex: 0.5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 15,
+  },
+  textStyle: {
+    color: brandPrimary,
+  },
 });
 

@@ -1,12 +1,23 @@
 import React from 'react';
 import moment from 'moment';
-import { StyleSheet, TouchableOpacity, View, ActivityIndicator, Alert, Linking } from 'react-native';
-import { Content, Icon, Text, } from "native-base";
+import { StyleSheet, TouchableOpacity, View, ActivityIndicator, Alert, Linking, RefreshControl } from 'react-native';
+import { Content, Icon, Text, ActionSheet } from "native-base";
 import { connect } from 'react-redux';
+import { ModalPopup } from '../../components/common';
+import { BookingRating } from '../../components/booking/';
 
 import axios from '../../config/axios';
-import { brandPrimary, textDarkColor, shadow, brandLight, backgroundColor } from '../../config/variables';
+import { brandPrimary, textDarkColor, shadow, brandLight, backgroundColor, statusColors } from '../../config/variables';
 import { _dispatchStackActions } from '../../util/utility';
+import i18n from '../../i18n';
+var BUTTONS = [
+  { text: i18n.t('global.cancel'), url: '' },
+  { text: i18n.t('contact.call'), url: 'tel:+84911072299' },
+  { text: i18n.t('contact.zalo'), url: 'https://zalo.me/1732464775151258581' },
+  { text: i18n.t('contact.messenger'), url: 'https://m.me/paxskydotvn' },
+  { text: "Email", url: 'mailto:paxsky.vn' },
+];
+var CANCEL_INDEX = 0;
 
 class BookingItem extends React.Component {
   static defaultProps = {
@@ -27,94 +38,106 @@ class BookingItem extends React.Component {
 
   clickedCancel = () => {
     Alert.alert(
-      'Xác nhận hủy',
-      'Bạn có muốn hủy cuộc hẹn này ?',
+      i18n.t('appointment.deleteConfirm'),
+      null,
       [
-        { text: 'Không', onPress: () => { }, style: 'cancel' },
-        { text: 'Hủy', onPress: () => this.props.cancelFunc(this.props.booking.appointment_id) },
+        { text: i18n.t('global.cancel'), onPress: () => { }, style: 'cancel' },
+        { text: i18n.t('global.confirm'), onPress: () => this.props.onCancelSubmit(this.props.booking.appointment_id) },
       ],
       { cancelable: false }
     );
   }
 
+  contactFunction = () => {
+    ActionSheet.show({
+      options: BUTTONS,
+      cancelButtonIndex: CANCEL_INDEX,
+      title: i18n.t('contact.paxsky')
+    },
+      buttonIndex => {
+        if (buttonIndex !== CANCEL_INDEX) {
+          Linking.openURL(BUTTONS[buttonIndex].url)
+        }
+      }
+    )
+  }
   render() {
     const booking = this.props.booking
     booking.status = {
-      color: '#debb3d',
-      text: 'Pending'
+      color: statusColors.yellow,
+      text: i18n.t('appointment.pending'),
+      icon: 'checkbox-blank-circle'
     }
 
+    let btnFuncText = i18n.t('appointment.update'),
+      onPressFunction
     switch (booking.status_name) {
       case 'Pending':
-        booking.status.color = '#debb3d'
-        booking.status.text = 'Chờ xác nhận'
+        booking.status.color = statusColors.yellow
+        booking.status.text = i18n.t('appointment.pending')
+        booking.status.icon = 'circle'
+        btnFuncText = i18n.t('appointment.update')
+        onPressFunction = () => { this.props.navigation.navigate('ModalBooking', { dataProps: { bookingDetail: booking } }) }
         break
       case 'Schedule':
-        booking.status.color = '#28871c'
-        booking.status.text = 'Đã xác nhận'
+        booking.status.color = statusColors.green
+        booking.status.text = i18n.t('appointment.schedule')
+        booking.status.icon = 'check-circle'
+        btnFuncText = i18n.t('appointment.contact')
+        onPressFunction = () => this.contactFunction()
         break
       case 'Done':
         booking.status.color = textDarkColor
-        booking.status.text = 'Đã xong'
+        booking.status.text = i18n.t('appointment.done')
+        booking.status.icon = 'checkbox-multiple-marked-circle'
+        btnFuncText = i18n.t('appointment.rating')
+        onPressFunction = () => { this.props.onRatingPress(booking) }
         break
       case 'Cancel':
-        booking.status.color = '#e12d2d'
-        booking.status.text = 'Đã hủy'
+        booking.status.color = statusColors.red
+        booking.status.text = i18n.t('appointment.cancel')
+        booking.status.icon = 'close-circle'
+        btnFuncText = i18n.t('appointment.report')
+        onPressFunction = () => { this.props.onRatingPress(booking) }
         break
     }
 
     return (
       <View style={[styles.paragraph, shadow, { paddingVertical: 0, paddingHorizontal: 0, borderRadius: 0, flexDirection: 'row' }]}>
         <View style={{ backgroundColor: '#072f6a', justifyContent: 'center', alignItems: 'center', padding: 10, }}>
-          <Text style={{ color: 'white', fontSize: 17, lineHeight: 26 }}>{moment(booking.date_schedule, 'DD/MM/YYYY HH:mm').format('DD. MMM')}</Text>
-          <View style={{
-            backgroundColor: '#5092E3',
-            height: 1,
-            width: '90%',
-            marginVertical: 10,
-            flexDirection: 'row',
-            justifyContent: 'center'
-          }} />
+          <Text style={{ color: 'white', fontSize: 17, lineHeight: 26 }}>{moment(booking.date_schedule, 'DD/MM/YYYY HH:mm').format('DD/MM')}</Text>
+          <View style={[styles.spectators, { backgroundColor: '#5092E3', width: '90%' }]} />
           <Text style={{ color: 'white', fontSize: 17, lineHeight: 26 }}>{moment(booking.date_schedule, 'DD/MM/YYYY HH:mm').format('HH:mm')}</Text>
         </View>
         <View style={{ flex: 1, paddingVertical: 10 }}>
-          <View style={{ paddingHorizontal: 10, }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: '#0D3D74', fontSize: 17, lineHeight: 30, fontWeight: '700', textAlign: 'center' }}>{booking.building_name}</Text>
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly', }}>
-              <Text style={{ color: textDarkColor, lineHeight: 30 }}>Ms. Phương Linh</Text>
-              <TouchableOpacity onPress={() => Linking.openURL(`tel:+84911072299`)}>
-                <Icon style={{ color: '#debb3d', lineHeight: 30, fontSize: 20, }} name='phone-square' type='FontAwesome' />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => Linking.openURL(`mailto:paxsky.vn`)}>
-                <Icon style={{ color: '#debb3d', lineHeight: 30, fontSize: 20, }} name='md-mail' type='Ionicons' />
-              </TouchableOpacity>
+            <View style={{ flexDirection: 'row', marginHorizontal: 5 }} >
+              <Text style={{ flex: 0.3, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '500', textAlign: 'right', marginRight: 5 }}>{`${i18n.t('appointment.office')} : `}</Text>
+              <Text style={{ flex: 0.6, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '300' }} numberOfLines={1}>{booking.office_name}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', marginHorizontal: 5 }} >
+              <Text style={{ flex: 0.3, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '500', textAlign: 'right', marginRight: 5 }}>{`${i18n.t('appointment.saler')} : `}</Text>
+              <Text style={{ flex: 0.6, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '300' }}>{`${booking.sale_person_name ? booking.sale_person_name : '--'}`}</Text>
             </View>
           </View>
-          <View style={{
-            backgroundColor: '#6a88a9',
-            height: 1,
-            width: '100%',
-            marginVertical: 5,
-            flexDirection: 'row',
-            justifyContent: 'center'
-          }} />
-          <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignContent: 'center', alignItems: 'center' }}>
-            <View style={{ backgroundColor: booking.status.color, paddingHorizontal: 10, margin: 5, }}>
-              <Text style={{ color: 'white', lineHeight: 30 }}>{booking.status.text}</Text>
+          <View style={styles.spectators} />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 10 }}>
+            <View style={{ backgroundColor: booking.status.color, flexBasis: '40%', marginVertical: 2 }}>
+              <Text style={{ lineHeight: 26, color: '#FFF', fontSize: 15, fontWeight: '600', textAlign: 'center' }}>{booking.status.text}</Text>
             </View>
-            <TouchableOpacity onPress={() => { this.clickedCancel() }}
-              style={{ color: '#e12d2d', paddingHorizontal: 10, margin: 5, }}>
-              <Text style={[styles.buttonText, { color: '#e12d2d' }]}>Cancel</Text>
+            {booking.status_name == 'Pending' &&
+              <TouchableOpacity onPress={() => { this.clickedCancel() }}
+                style={{ color: statusColors.red, paddingHorizontal: 10, margin: 5, }}>
+                <Text style={[styles.buttonText, { color: statusColors.red }]}>{i18n.t('global.cancel')}</Text>
+              </TouchableOpacity>
+            }
+            <TouchableOpacity onPress={onPressFunction}
+              style={{ color: statusColors.orange, paddingHorizontal: 10, margin: 5, }}>
+              <Text style={[styles.buttonText, { color: statusColors.brandPrimary, fontSize: 16, fontWeight: '500' }]}>{btnFuncText}</Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity onPress={() => { }}
-              onPress={() => { this.props.navigation.navigate('AppointmentUpdate', { bookingDetail: booking }) }}
-              style={{ color: Colors.orange, paddingHorizontal: 10, margin: 5, }}>
-              <Text style={[Common.buttonText, { color: Colors.brandPrimary }]}>Update</Text>
-            </TouchableOpacity> */}
           </View>
-
         </View>
-
       </View>
     )
   }
@@ -125,82 +148,100 @@ class Appointment extends React.Component {
     super(props)
     this.state = {
       appointmentList: null,
-      isFetching: true
+      isFetching: true,
+      modalVisible: false,
+      itemRating: null,
+      refreshing: false
     }
-    this._isMounted = false
-
   }
   componentWillUnmount() {
-    this._isMounted = false
+    this.didFocusListener.remove()
   }
   componentDidMount() {
-    this._isMounted = true
-    if (this._isMounted == true && this.props.isAuth && this.props.user) {
-      this._onFetching()
-    }
+    this.didFocusListener = this.props.navigation.addListener('didFocus', () => {
+      if (this.props.isAuth) {
+        this._onFetching()
+      }
+    })
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps !== this.props) {
-      this._onFetching()
-    }
-  }
   _onFetching = async () => {
+    this.setState({ refreshing: true })
     const customer_id = this.props.user.customer_id
     await axios.get(`appointment/list?customer_id=${customer_id}`).catch(error => {
       this.setState({ isFetching: false })
+      Alert.alert(null, error.message, [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false, refreshing: false }) } }])
     }).then((response) => {
-      const appointmentList = response
-      console.log(appointmentList)
-      // console.log(' =================================== _onFetching', appointmentList)
-      this.setState({ appointmentList, isFetching: false })
+      const appointmentList = response.sort((fisrt, next) => {
+        const aDate = moment(fisrt.date_schedule, 'DD/MM/YYYY HH:mm').format('YYYYMMDDHH')
+        const bDate = moment(next.date_schedule, 'DD/MM/YYYY HH:mm').format('YYYYMMDDHH')
+        return aDate > bDate ? -1 : aDate < bDate ? 1 : 0;
+      })
+      this.setState({ appointmentList, isFetching: false, refreshing: false })
     })
   }
-  _onCancel = async (appointment_id) => {
+  _onCancelSubmit = async (appointment_id) => {
     await axios.post(`appointment/delete?appointment_id=${appointment_id}`).catch(error => {
-      console.log('error ....', error)
-      Alert.alert(
-        'Xảy ra lỗi!',
-        error
-        [{ text: 'Ok', onPress: () => this.setState({ isFetching: false }) }]
-      )
-
+      Alert.alert(null, error.message[{ text: 'Ok', onPress: () => this.setState({ isFetching: false }) }])
     }).then((response) => {
-      Alert.alert(
-        'Đã hủy lịch đặt hẹn!',
-        '',
-        [{ text: 'Ok', onPress: () => this._onFetching() }]
-      )
-      // const appointmentList = response
-      // this.setState({ appointmentList, isFetching: false })
+      this._onFetching()
+    })
+  }
+  _onRatingSubmit = async (ratingData) => {
+    await axios.post(`appointment/rating?appointment_id=${ratingData.appointment_id}`, ratingData).catch(error => {
+      if (error && error.status === '1') {
+        Alert.alert(null, error.message, [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false, modalVisible: false }) } }])
+      }
+    }).then((response) => {
+      if (response && response.status == '0') {
+        this.setState({ isFetching: false, modalVisible: false, itemRating: null })
+      }
+    })
+  }
+  _modalHandler = () => {
+    this.setState(prevState => {
+      return { modalVisible: !prevState.modalVisible }
     })
   }
   render() {
     const { appointmentList, isFetching } = this.state
+    console.log(appointmentList)
     return (
       <View style={{ flex: 1, backgroundColor }}>
-        <Content padder >
-          {!this.props.isAuth &&
-            <View style={[styles.paragraph]}>
+        {!this.props.isAuth ?
+          <Content padder style={{ flex: 1, backgroundColor }}>
+            <View style={styles.paragraph}>
               <TouchableOpacity onPress={() => {
                 _dispatchStackActions(this.props.navigation, 'navigate', 'Account', 'SignIn', { routeNameProps: this.props.navigation.state.routeName })
               }}>
-                <Text style={{ color: '#575757' }}>{'Vui lòng đăng nhập để xem lịch sử đặt hẹn '}<Text style={{ color: brandPrimary }}>{'Đăng nhập'}</Text></Text>
+                <Text style={{ color: brandPrimary }}>{i18n.t('account.goToSignIn')}</Text>
               </TouchableOpacity>
             </View>
-          }
-          {isFetching ? <ActivityIndicator /> :
-            appointmentList ?
-              appointmentList.map((item, index) => (
-                <BookingItem booking={item} key={index}
-                  navigation={this.props.navigation}
-                  cancelFunc={(appointment_id) => { this._onCancel(appointment_id) }}
-                // cancelFunc={(appointment_id) => { this._onCancel(appointment_id) }}
-                />))
-              : <Text>Cập nhật danh sách xảy ra lỗi vui lòng thử lại sau.</Text>
-          }
-
-        </Content>
+          </Content>
+          :
+          <Content padder style={{ flex: 1, backgroundColor }} refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onFetching} />}>
+            {appointmentList ?
+              appointmentList.length > 0 ?
+                appointmentList.map((item, index) => (
+                  <BookingItem booking={item} key={index}
+                    navigation={this.props.navigation}
+                    onCancelSubmit={(appointment_id) => { this._onCancelSubmit(appointment_id) }}
+                    onRatingPress={(itemRating) => { this.setState({ modalVisible: true, itemRating }) }}
+                  />))
+                :
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Buildings') }}>
+                  <Text style={{ color: brandPrimary, textAlign: 'center' }}>{i18n.t('appointment.appointmentEmpty')}</Text>
+                </TouchableOpacity>
+              :
+              <Text style={{ color: brandPrimary, textAlign: 'center' }}>{i18n.t('appointment.loadingFail')}</Text>
+            }
+          </Content>
+        }
+        <ModalPopup title={i18n.t('appointment.rating')} visible={this.state.modalVisible} onRequestClose={this._modalHandler} >
+          <BookingRating onRequestClose={this._modalHandler}
+            onRatingSubmit={(ratingData) => { this._onRatingSubmit(ratingData) }}
+            itemRating={this.state.itemRating} />
+        </ModalPopup>
       </View >
     )
   }
@@ -217,7 +258,15 @@ const styles = StyleSheet.create({
   buttonText: {
     color: brandPrimary,
     textAlign: 'center'
-},
+  },
+  spectators: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#6a88a9',
+    height: 1,
+    width: '100%',
+    marginVertical: 10,
+  }
 });
 
 const mapStateToProps = state => ({

@@ -3,17 +3,16 @@ import { connect } from 'react-redux';
 import axios from '../../config/axios';
 import { StyleSheet, TouchableOpacity, View, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { Content, Icon, Text, } from "native-base";
-
-import BookingForm from '../../components/booking/BookingForm';
+import { BookingDateTime } from '../../components/booking/';
 import { backgroundColor, textDarkColor, brandLight } from '../../config/variables';
-import { isEmpty } from '../../util/utility';
+import { _dispatchStackActions, isEmpty } from '../../util/utility';
 
 class Booking extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      isBookingUpdate: false,
       isFetching: true,
-      officeDetail: null,
       bookingDetail: {
         customer_id: null,
         customer_name: null,
@@ -26,98 +25,161 @@ class Booking extends React.Component {
         notes: '',
       }
     }
-    this._isMounted = false
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false
   }
   componentDidMount() {
-    this._isMounted = true
-    if (this._isMounted == true) {
+    if (this.props.isAuth) {
       this._onFetching()
     }
+    else {
+      const dataProps = this.props.navigation.getParam('dataProps')
+      this.props.navigation.navigate('SignIn', { dataProps, routeNameProps: 'Booking' })
+    }
   }
-  _onFetching = () => {
+  componentWillReceiveProps(nextProps) {
     const dataProps = this.props.navigation.getParam('dataProps')
-    if (!isEmpty(dataProps) && !isEmpty(dataProps.officeDetail)) {
-      if (this.props.isAuth) {
-        this.setState({ officeDetail: dataProps.officeDetail }, () => {
-          this.setState({ isFetching: false })
-        })
-      }
-      else {
-        this.props.navigation.navigate('SignIn', { dataProps: dataProps, routeNameProps: 'Booking' })
-      }
+    const nextDataProps = nextProps.navigation.getParam('dataProps')
+    if (nextDataProps !== dataProps) {
+      this._onFetching(nextDataProps)
     }
     else {
-      this.props.navigation.navigate('Buildings')
+      console.log('nextDataProps == dataProps', nextDataProps == dataProps)
     }
   }
-
-
+  _onFetching = (nextProps) => {
+    const dataProps = nextProps ? nextProps : this.props.navigation.getParam('dataProps')
+    if (!isEmpty(dataProps.bookingDetail)) {
+      this.setState({ bookingDetail: dataProps.bookingDetail, isBookingUpdate: true }, () => {
+        this.setState({ isFetching: false })
+      })
+    }
+    else if (!isEmpty(dataProps.officeDetail)) {
+      this.setState({ bookingDetail: dataProps.officeDetail, isBookingUpdate: false }, () => {
+        this.setState({ isFetching: false })
+      })
+    }
+    else {
+      console.log('dataProps:', dataProps)
+    }
+  }
   onSignUpSubmit = async (dataDatetime) => {
     this.setState({ isFetching: true })
-
-    const { building_id, office_id } = this.state.officeDetail
-    const { customer, customer_id } = this.props.user
-    const { first_name, last_name, email, mobile_phone } = customer
-    const bookingDetail = {
-      customer_id: customer_id,
+    const { bookingDetail, isBookingUpdate } = this.state
+    const { customer_id, first_name, last_name, email, mobile_phone } = this.props.user
+    const bookingData = {
+      customer_id,
       customer_name: `${first_name} ${last_name}`,
       email: email,
       mobile_phone: mobile_phone,
-      building_id: building_id,
-      office_id: office_id,
+      office_id: bookingDetail.office_id ? bookingDetail.office_id : 127,
       schedule_date: dataDatetime.schedule_date,
       schedule_time: dataDatetime.schedule_time,
       notes: dataDatetime.notes,
     }
-    await axios.post('appointment/create', bookingDetail).catch(error => {
+    if (isBookingUpdate) {
+      bookingData.appointment_id = bookingDetail.appointment_id
+      this._updateAppointment(bookingData)
+    }
+    else {
+      bookingData.building_id = bookingDetail.building_id
+      this._createAppointment(bookingData)
+    }
+  }
+
+  _updateAppointment = async (bookingData) => {
+    await axios.post('appointment/update', bookingData).catch(error => {
       if (error && error.status === '1') {
         Alert.alert(
-          'Đặt hẹn thất bại!',
-          'Vui lòng thử lại.',
-          [{ text: 'Ok', onPress: () => { console.log('ok') } }]
+          'Cập nhật không thành công!', error.message,
+          [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false }) } }]
         )
-
       }
     }).then((response) => {
       if (response && response.status == '0') {
         Alert.alert(
-          'Đặt hẹn thành công!',
-          'Cảm ơn bạn đã đặt hẹn. Chuyên viên tư vấn sẽ sớm liên lạc với bạn.',
-          [{ text: 'Ok', onPress: () => this.props.navigation.navigate('Appointment') }]
+          'Cập nhật thành công!', 'Cảm ơn bạn đã đặt hẹn. Chuyên viên tư vấn sẽ sớm liên lạc với bạn.',
+          [{ text: 'Ok', onPress: () => _dispatchStackActions(this.props.navigation, 'navigate', 'Main', 'Appointment') }]
         )
         this.setState({ isFetching: false })
       }
     })
   }
+  _createAppointment = async (bookingData) => {
+    await axios.post('appointment/create', bookingData)
+      .catch(error => {
+        if (error && error.status === '1') {
+          Alert.alert(
+            'Đặt hẹn thất bại!',
+            error.message,
+            [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false }) } }]
+          )
+        }
+      })
+      .then((response) => {
+        if (response && response.status == '0') {
+          Alert.alert(
+            'Đặt hẹn thành công!',
+            'Cảm ơn bạn đã đặt hẹn. Chuyên viên tư vấn sẽ sớm liên lạc với bạn.',
+            [{ text: 'Ok', onPress: () => _dispatchStackActions(this.props.navigation, 'navigate', 'Main', 'Appointment') }]
+          )
+          this.setState({ isFetching: false })
+        }
+      })
+  }
   render() {
-    const { officeDetail, isFetching } = this.state;
-
+    const { bookingDetail, isFetching, isBookingUpdate } = this.state
+    let ContentBooking = <ActivityIndicator />
+    console.log(this.props.user)
+    if (!isFetching && this.props.user) {
+      const { first_name, last_name, email, mobile_phone } = this.props.user
+      ContentBooking = (
+        <Content style={styles.container}>
+          <View style={styles.paragraph}>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={styles.textHeadline}>{bookingDetail.building_name}</Text>
+            </View>
+          </View>
+          <View style={styles.paragraph}>
+            <View style={styles.line} >
+              <Text style={styles.textTitle}>{'Văn phòng :'}</Text>
+              <Text style={[styles.textContent, { flex: 0.7 }]}>{`${bookingDetail.office_name}`}</Text>
+            </View>
+            <View style={styles.line} >
+              <Text style={styles.textTitle}>{'Khách hàng :'}</Text>
+              <Text style={[styles.textContent, { flex: 0.7 }]}>{`${first_name} ${last_name}`}</Text>
+            </View>
+            <View style={styles.line} >
+              <Text style={styles.textTitle}>{'Điện thoại :'}</Text>
+              <Text style={[styles.textContent, { flex: 0.7 }]}>{mobile_phone}</Text>
+            </View>
+            <View style={styles.line} >
+              <Text style={styles.textTitle}>{'Email :'}</Text>
+              <Text style={[styles.textContent, { flex: 0.7 }]} numberOfLines={1}>{email}</Text>
+            </View>
+            {isBookingUpdate &&
+              <View>
+                <View style={styles.line} >
+                  <Text style={styles.textTitle}>{'Tình trạng :'}</Text>
+                  <Text style={[styles.textContent, { flex: 0.7, fontWeight: '500', color: bookingDetail.status.color }]}>{bookingDetail.status.text}</Text>
+                </View>
+                {bookingDetail.sale_person_name && bookingDetail.sale_person_name !== '' &&
+                  <View style={styles.line} >
+                    <Text style={styles.textTitle}>{'Tư vấn viên :'}</Text>
+                    <Text style={[styles.textContent, { flex: 0.7 }]}>{bookingDetail.sale_person_name}</Text>
+                  </View>}
+              </View>
+            }
+          </View>
+          <BookingDateTime
+            date_schedule={isBookingUpdate ? bookingDetail.date_schedule : null}
+            notes={isBookingUpdate ? bookingDetail.notes : null}
+            onSignUpSubmit={(bookingDetail) => { this.onSignUpSubmit(bookingDetail) }}
+          />
+        </Content>
+      )
+    }
     return (
       <View style={styles.container}>
-        {isFetching ? <ActivityIndicator /> :
-          <Content style={styles.container}>
-            <View style={[styles.paragraph, { borderRadius: 0, borderBottomColor: '#AAAAAA', borderBottomWidth: 1 }]}>
-              <View style={{ alignItems: 'center', marginBottom: 5 }}>
-                <Text style={{ color: '#0D3D74', fontSize: 24, lineHeight: 40, fontWeight: '700', }}>{officeDetail.office_name}</Text>
-              </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Icon style={{ color: textDarkColor, lineHeight: 30, fontSize: 20, marginRight: 10 }} name='building' type='FontAwesome' />
-                  <Text style={{ color: textDarkColor, lineHeight: 30 }}>{officeDetail.floor_name}</Text>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Icon style={{ color: textDarkColor, lineHeight: 30, fontSize: 20, marginRight: 10 }} name='ios-expand' type='Ionicons' />
-                  <Text style={{ color: textDarkColor, lineHeight: 30 }}>Diện tích {officeDetail.acreage_rent}m2</Text>
-                </View>
-              </View>
-            </View>
-            <BookingForm onSignUpSubmit={(bookingDetail) => { this.onSignUpSubmit(bookingDetail) }} />
-          </Content>
-        }
+        {ContentBooking}
       </View >
     )
   }
@@ -131,11 +193,35 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     backgroundColor: brandLight,
-    borderRadius: 3,
-    marginBottom: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-},
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    borderBottomColor: '#AAAAAA',
+    borderBottomWidth: 0.5,
+  },
+  line: {
+    marginVertical: 5,
+    marginHorizontal: 10,
+    flexDirection: 'row'
+  },
+  textHeadline: {
+    fontSize: 24,
+    lineHeight: 40,
+    fontWeight: '700',
+    color: '#0D3D74',
+  },
+  textTitle: {
+    color: textDarkColor,
+    fontSize: 16,
+    fontWeight: '500',
+    lineHeight: 30,
+    flex: 0.3
+  },
+  textContent: {
+    color: textDarkColor,
+    fontSize: 18,
+    fontWeight: '300',
+    lineHeight: 30,
+  },
 });
 
 const mapStateToProps = state => {

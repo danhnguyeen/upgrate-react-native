@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableOpacity, FlatList, UIManager, ScrollView, Animated, Easing } from 'react-native'
 import PropTypes from 'prop-types'
 import { Text, Icon, } from "native-base"
+import i18n from '../../../i18n';
 
 // set UIManager LayoutAnimationEnabledExperimental
 if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -44,6 +45,7 @@ export default class MultiSelect extends Component {
 
   _toggleItem = item => {
     this._submitSelection()
+    item = item[this.props.displayKey] === i18n.t('filter.all') ? null : item
     this.props.onSelectedItemsChange(item)
   }
 
@@ -59,9 +61,9 @@ export default class MultiSelect extends Component {
     const { items, displayKey, selectedItems, addItemAll = false } = this.props
     if (items.length) {
       if (addItemAll) {
-        const radiantTeam = items.find((item) => item[`${displayKey}`] === 'Tất cả')
-        if (!radiantTeam) {
-          items.unshift({ [`${displayKey}`]: "Tất cả" })
+        const itemAll = items.find((item) => item[`${displayKey}`] === i18n.t('filter.all'))
+        if (!itemAll) {
+          items.unshift({ [`${displayKey}`]: i18n.t('filter.all') })
         }
       }
       return (
@@ -115,7 +117,7 @@ export default class MultiSelect extends Component {
         <View onLayout={this._setMinHeight.bind(this)}>
           <TouchableOpacity onPress={this._submitSelection}
             style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-            <Text style={{ color: '#4c4c4c', fontSize: 20, lineHeight: 40,  }} numberOfLine={1} adjustsFontSizeToFit>{selectedItems} </Text>
+            <Text style={{ color: '#4c4c4c', fontSize: 20, lineHeight: 40, }} numberOfLine={1} adjustsFontSizeToFit>{selectedItems} </Text>
             <Icon style={{ color: '#4c4c4c', fontSize: 28, lineHeight: 40, alignSelf: 'flex-end' }} name="angle-down" type='FontAwesome' />
           </TouchableOpacity>
         </View>

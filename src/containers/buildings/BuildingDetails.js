@@ -68,21 +68,6 @@ class BuildingDetails extends React.Component {
 
     const detailBuilding = this.props.buildingDetail
     const { isFetching } = this.state
-    // let renderHeaderImage = <ActivityIndicator />
-    // if (!isFetching && detailBuilding) {
-    //   const { sub_images, main_image_thumbnail } = detailBuilding
-    //   // sub_images.push(main_image_thumbnail)
-    //   renderHeaderImage = (
-    //     <DeckSwiper
-    //       dataSource={detailBuilding.sub_images}
-    //       renderItem={item =>
-    //         <CardItem cardBody bordered={false}>
-    //           <Image style={{ height: 300, flex: 1, }} source={{ uri: item }} />
-    //         </CardItem>
-    //       }
-    //     />
-    //   )
-    // }
     return (
       <Container style={styles.container} >
         <Animated.ScrollView
@@ -153,7 +138,8 @@ class BuildingDetails extends React.Component {
                 <Text style={{ fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
               </View>
               <View style={styles.line}>
-                <Icon style={styles.icon} name='building-o' type='FontAwesome' /><Text>{detailBuilding.structure ? detailBuilding.structure : 'Chưa cập nhật'}</Text>
+                <Icon style={styles.icon} name='building-o' type='FontAwesome' />
+                <Text>{detailBuilding.structure ? detailBuilding.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='address-book-o' type='FontAwesome' />
@@ -163,7 +149,9 @@ class BuildingDetails extends React.Component {
                     {detailBuilding.acreage_rent_array.join('-')}m2
                   </Text>
                   :
-                  <Text >{detailBuilding.acreage_rent_list == 'FULL' ? 'Toàn bộ' : 'Chưa cập nhật'}</Text>
+                  <Text>{detailBuilding.acreage_rent_list == 'FULL' ?
+                    `${i18n.t('buildingDetail.acreage')} : ${i18n.t('buildingDetail.full')} `
+                    : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
                 }
               </View>
               <View style={styles.line}>
@@ -176,40 +164,47 @@ class BuildingDetails extends React.Component {
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='settings' type='SimpleLineIcons' />
-                <Text>Đơn vị quản lý: {detailBuilding.management_agence_name}</Text>
+                <Text>{i18n.t('buildingDetail.management')}: {detailBuilding.management_agence_name}</Text>
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='car-battery' type='MaterialCommunityIcons' />
-                <Text>{detailBuilding.electricity_cost}K/ giờ</Text>
+                <Text>{detailBuilding.electricity_cost}{i18n.t('buildingDetail.electricityHour')}</Text>
               </View>
               <Divider style={{ marginVertical: 15 }} />
               <BuildingDescription text={detailBuilding.description} />
               <Divider style={{ marginVertical: 15 }} />
               <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                 <TouchableOpacity style={[styles.buttonComon, styles.button, { flex: 0.5, borderColor: '#e12d2d' }]}>
-                  <Text style={[styles.buttonText, { color: '#e12d2d' }]}>Giá Thuê</Text>
+                  <Text style={[styles.buttonText, { color: '#e12d2d' }]}>{i18n.t('buildingDetail.price')}</Text>
                   <Text style={[styles.buttonText, { fontSize: 18, fontWeight: '700', color: '#e12d2d' }]}>{detailBuilding.rent_cost.toFixed(1)}$/m2</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.buttonBg, styles.button, { flex: 0.5, }]}
-                  onPress={() => { this.props.navigation.navigate('Offices', { building_id: detailBuilding.building_id, building_name: detailBuilding.sub_name, building_detail: detailBuilding }) }}>
-                  <Text style={[styles.buttonBgText]}>Xem văn phòng</Text>
+                  onPress={() => { this.props.navigation.navigate('Offices', { building_id: detailBuilding.building_id, building_name: detailBuilding.sub_name }) }}>
+                  <Text style={[styles.buttonBgText]}>{i18n.t('buildingDetail.viewOffices')}</Text>
                   <Icon style={[styles.buttonBgText]} name='md-arrow-forward' type='Ionicons' />
                 </TouchableOpacity>
               </View>
             </View>
-            {/* <View style={{ paddingHorizontal: 20, backgroundColor: brandLight }}>
-                <PostDetail description={detailBuilding.description} content={detailBuilding.content} />
-              </View> */}
             <View style={[shadow, { padding: 15, backgroundColor: brandLight, marginBottom: 15 }]}>
-              <Text style={styles.buttonText}>Chuyên viên tư vấn</Text>
+              <Text style={styles.buttonText}>{i18n.t('contact.paxsky')}</Text>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='ios-person' type='Ionicons' />
-                <Text>Ms. Phương Linh</Text>
+                <Text style={[styles.buttonText, { lineHeight: 30 }]}>Ms. Phương Linh</Text>
               </View>
               <TouchableOpacity style={styles.line}
                 onPress={() => Linking.openURL(`tel:+84911072299`)}>
                 <Icon style={styles.icon} name='ios-call' type='Ionicons' />
                 <Text style={[styles.buttonText, { lineHeight: 30 }]}>0911 07 22 99</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.line}
+                onPress={() => Linking.openURL(`https://zalo.me/1732464775151258581`)}>
+                <Icon style={styles.icon} name='message-text' type='MaterialCommunityIcons' />
+                <Text style={[styles.buttonText, { lineHeight: 30 }]}>{i18n.t('contact.zalo')}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.line}
+                onPress={() => Linking.openURL(`https://m.me/paxskydotvn`)}>
+                <Icon style={styles.icon} name='facebook-messenger' type='MaterialCommunityIcons' />
+                <Text style={[styles.buttonText, { lineHeight: 30 }]}>{i18n.t('contact.messenger')}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.line}
                 onPress={() => Linking.openURL(`mailto:paxsky.vn?subject=Đăng ký tư vấn tòa nhà ${detailBuilding.sub_name}`)}>

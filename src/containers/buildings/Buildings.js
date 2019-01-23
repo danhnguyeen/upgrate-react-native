@@ -8,6 +8,7 @@ import { winW, winH, isEmpty } from '../../util/utility';
 import { backgroundColor, brandPrimary } from '../../config/variables';
 import { TagBuilding } from '../../components/buildings';
 import BuildingFilter from './BuildingFilter';
+import i18n from '../../i18n';
 
 const FilterDefault = {
   district: null,
@@ -43,62 +44,42 @@ class Buildings extends React.Component {
   _onRefresh = async () => {
     this.setState({ refreshing: true })
     await this.props._onfetchBuidlings();
-    console.log(this.props.buildings)
     this.setState({ refreshing: false });
   }
-  _clearFilterPress = (item = 'all') => {
+  _clearFilterPress = (key = 'all') => {
     let { filterRequired } = this.state
-    switch (item) {
-      case 'district':
-        filterRequired.district = null
-        break
-      case 'rent_cost':
-        filterRequired.rent_cost = null
-        break
-      case 'acreage':
-        filterRequired.acreage = null
-        break
-      case 'direction':
-        filterRequired.direction = null
-        break
-      default:
-        filterRequired = {
-          district: null,
-          rent_cost: null,
-          acreage: null,
-          direction: null,
-        }
+    if (key == 'all') {
+      filterRequired = FilterDefault
+    }
+    else {
+      filterRequired[key] = null
     }
     this.setState({ filterRequired })
-  }
-  _onFilterPress = (filterRequired) => {
-    this.setState({ filterRequired, modalVisible: false })
   }
   selectBuilding = (building) => {
     this.props._onfetchBuildingDetail(building.building_detail);
     this.props.navigation.navigate('BuildingDetails');
   }
   render() {
-    const { filterRequired } = this.state
-    const { district, rent_cost, acreage, direction } = filterRequired
+    const { district, rent_cost, acreage, direction } = this.state.filterRequired
     return (
       <View style={[styles.container]}>
         {this.state.modalVisible ?
           <BuildingFilter
-            visible
-            closeModal={() => this.setState({ modalVisible: false })}
-            onFilterPress={this._onFilterPress}
+            visible={this.state.modalVisible}
+            closeModal={() => { this.setState({ modalVisible: false }) }}
+            onFilterPress={(filterRequired) => { this.setState({ filterRequired, modalVisible: false }) }}
             clearFilterPress={this._clearFilterPress}
             filterData={this.props.buildingsFilterData}
             districtList={this.props.districtList}
-            filterRequired={filterRequired}
+            filterRequired={this.state.filterRequired}
           />
           : null}
-        <Container key={'LIST'} tabLabel={'DANH SÁCH TÒA NHÀ'} style={styles.container}>
+        <Container style={styles.container}>
           <TouchableOpacity
             onPress={() => { this.setState({ modalVisible: true }) }}
             style={[styles.button, { alignSelf: 'flex-end', borderWidth: 0, marginHorizontal: winW(5) }]}>
-            <Text style={[styles.buttonText]}>CHỌN LỌC</Text>
+            <Text style={[styles.buttonText]}>{i18n.t('filter.filters')}</Text>
           </TouchableOpacity>
           <View style={{ paddingHorizontal: winW(2), flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#FFF' }}>
             {district &&

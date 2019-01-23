@@ -4,21 +4,17 @@ import { Text } from "native-base";
 import FastImage from 'react-native-fast-image'
 
 import { shadow, DEVICE_WIDTH } from '../../config/variables';
-// const LOGO = require('../../assets/images/logo-grey.jpg');
+import i18n from '../../i18n';
 
 class TagBuilding extends React.Component {
-  state = {
-    loadingImageFailed: null
-  }
-
   render() {
     const detail = this.props.detailBuilding
     detail.acreage_rent_array.sort((a, b) => { return a - b })
     detail.sub_name = detail.sub_name.replace("PAX SKY", "").replace("PAXSKY", "").trim()
 
     detail.rent_acreage = detail.acreage_rent_array.length > 1 ?
-      `Từ ${detail.acreage_rent_array[0]}m2 \nđến ${detail.acreage_rent_array[detail.acreage_rent_array.length - 1]}m2` :
-      detail.acreage_rent_array.length == 1 ? `${detail.acreage_rent_array[0]}m2` : 'Chưa cập nhật';
+      `${detail.acreage_rent_array[0]}m2 \n${detail.acreage_rent_array[detail.acreage_rent_array.length - 1]}m2` :
+      detail.acreage_rent_array.length == 1 ? `${detail.acreage_rent_array[0]}m2` : i18n.t('buildingDetail.updating');
     return (
       <TouchableOpacity
         style={styles.container}
@@ -69,7 +65,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     // fontWeight: 'bold'
   },
-  rent_acreage: { color: '#DEBB3D', lineHeight: 21, fontSize: 14, flex: 0.6, height: 42 },
+  rent_acreage: { color: '#DEBB3D', lineHeight: 21, fontSize: 14, flex: 0.6},
   rent_cost: { color: '#DEBB3D', lineHeight: 42, fontSize: 18, flex: 0.4, textAlign: 'right' },
   spectators: {
     backgroundColor: '#FFF',

@@ -9,10 +9,10 @@ import Background from '../../assets/images/homescreen2.jpg';
 import i18n from '../../i18n';
 
 const ROURTER = [
-  { routeName: 'News', title: 'news', icon: 'newspaper-o' },
-  { routeName: 'Appointment', title: 'appointment', icon: 'calendar' },
-  { routeName: 'Saved', title: 'saved', icon: 'save' },
-  { routeName: 'Account', title: 'account', icon: 'user-o' }
+  { routeName: 'News', title: 'news', icon: 'newspaper-o', type: 'FontAwesome' },
+  { routeName: 'Appointment', title: 'appointment', icon: 'calendar', type: 'FontAwesome' },
+  { routeName: 'Locations', title: 'locations', icon: 'map-marker-multiple', type: 'MaterialCommunityIcons' },
+  { routeName: 'Account', title: 'account', icon: 'user-o', type: 'FontAwesome' }
 ];
 
 class Welcome extends React.Component {
@@ -44,8 +44,8 @@ class Welcome extends React.Component {
                   <TouchableOpacity key={index}
                     onPress={() => { this.props.navigation.navigate(routeName) }}
                     activeOpacity={0.8}
-                    style={[styles.buttonsBlock]} >
-                    <Icon style={styles.buttonIcon} name={ROURTER[router].icon} type="FontAwesome" />
+                    style={styles.buttonsBlock} >
+                    <Icon style={styles.buttonIcon} name={ROURTER[router].icon} type={ROURTER[router].type} />
                     <Text style={styles.buttonText} >{i18n.t(`tabs.${ROURTER[router].title}`)}</Text>
                   </TouchableOpacity>
                 )
