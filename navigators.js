@@ -8,7 +8,7 @@ import { Welcome } from './src/containers/welcome';
 import { News } from './src/containers/news';
 import { Locations } from './src/containers/locations';
 import { Appointment } from './src/containers/appointment';
-import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook } from './src/containers/account';
+import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook, Profile } from './src/containers/account';
 import { Buildings, BuildingDetails, Offices, Booking } from './src/containers/buildings';
 import { Notifications } from './src/containers/notifications';
 import i18n from './src/i18n';
@@ -16,11 +16,11 @@ import { inverseTextColor } from './src/config/variables';
 
 const NotificationIcon = (props) => (
   <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')}>
-      <Icon
-        name='md-notifications'
-        style={{ paddingHorizontal: 10, marginRight: 5, color: inverseTextColor, fontSize: 20 }}
-      />
-    </TouchableOpacity>
+    <Icon
+      name='md-notifications'
+      style={{ paddingHorizontal: 10, marginRight: 5, color: inverseTextColor, fontSize: 20 }}
+    />
+  </TouchableOpacity>
 );
 
 const headerOptions = {
@@ -33,8 +33,8 @@ const headerOptions = {
     <LinearGradient
       colors={['#072f6a', '#0d59ca']}
       style={{ flex: 1 }}
-      start={{x: 0, y: 0}} 
-      end={{x: 1, y: 0}}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
     />
   ),
   headerStyle: {
@@ -60,13 +60,13 @@ const HomeStack = createStackNavigator({
     }
   }
 }, {
-  initialRouteName: 'Welcome',
-  navigationOptions: {
-    ...headerOptions,
-    tabBarLabel: i18n.t('tabs.home'),
-    tabBarVisible: false
-  }
-});
+    initialRouteName: 'Welcome',
+    navigationOptions: {
+      ...headerOptions,
+      tabBarLabel: i18n.t('tabs.home'),
+      tabBarVisible: false
+    }
+  });
 
 const BuildingStack = createStackNavigator({
   Buildings: {
@@ -101,12 +101,12 @@ const BuildingStack = createStackNavigator({
     }
   }
 }, {
-  initialRouteName: 'Buildings',
-  navigationOptions: {
-    tabBarLabel: i18n.t('tabs.buildings'),
-    ...headerOptions
-  }
-});
+    initialRouteName: 'Buildings',
+    navigationOptions: {
+      tabBarLabel: i18n.t('tabs.buildings'),
+      ...headerOptions
+    }
+  });
 
 const LocationStack = createStackNavigator({
   Locations: {
@@ -121,11 +121,11 @@ const LocationStack = createStackNavigator({
     }
   }
 }, {
-  navigationOptions: {
-    ...headerOptions,
-    tabBarLabel: i18n.t('tabs.locations')
-  }
-});
+    navigationOptions: {
+      ...headerOptions,
+      tabBarLabel: i18n.t('tabs.locations')
+    }
+  });
 
 const AccountStack = createStackNavigator({
   Account: {
@@ -135,6 +135,14 @@ const AccountStack = createStackNavigator({
         ...headerOptions,
         title: i18n.t('tabs.account'),
         headerRight: <NotificationIcon navigation={navigation} />
+      }
+    }
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: ({ navigation }) => {
+      return {
+        ...headerOptions
       }
     }
   },
@@ -159,12 +167,12 @@ const AccountStack = createStackNavigator({
     }
   }
 }, {
-  initialRouteName: 'Account',
-  navigationOptions: {
-    ...headerOptions,
-    tabBarLabel: i18n.t('tabs.account')
-  }
-});
+    initialRouteName: 'Account',
+    navigationOptions: {
+      ...headerOptions,
+      tabBarLabel: i18n.t('tabs.account')
+    }
+  });
 
 const AppointmentStack = createStackNavigator({
   Appointment: {
@@ -178,11 +186,11 @@ const AppointmentStack = createStackNavigator({
     }
   }
 }, {
-  navigationOptions: {
-    ...headerOptions,
-    tabBarLabel: i18n.t('tabs.appointment')
-  }
-});
+    navigationOptions: {
+      ...headerOptions,
+      tabBarLabel: i18n.t('tabs.appointment')
+    }
+  });
 
 const NotificationsStack = createStackNavigator({
   Notifications: {
@@ -198,40 +206,40 @@ const MainNavigator = createBottomTabNavigator({
   Appointment: AppointmentStack,
   Account: AccountStack
 }, {
-  defaultNavigationOptions: ({ navigation }) => ({
-    tabBarIcon: ({ focused, horizontal, tintColor }) => {
-      const { routeName } = navigation.state;
-      let iconName;
-      let iconSize = 26;
-      let iconType = 'Ionicons';
-      if (routeName === 'Home') {
-        iconName = 'ios-home';
-      } else if (routeName === 'Buildings') {
-        iconName = `building${focused ? '' : '-o'}`;
-        iconSize = 22;
-        iconType = 'FontAwesome';
-      } else if (routeName === 'Locations') {
-        iconName = 'location-pin';
-        iconType = 'Entypo';
-        iconSize = 28;
-      } else if (routeName === 'Account') {
-        iconSize = 32;
-        iconName = 'ios-person';
-      } else if (routeName === 'Appointment') {
-        iconSize = 22;
-        iconName = `calendar${focused ? '' : '-o'}`;
-        iconType = 'FontAwesome';
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        let iconSize = 26;
+        let iconType = 'Ionicons';
+        if (routeName === 'Home') {
+          iconName = 'ios-home';
+        } else if (routeName === 'Buildings') {
+          iconName = `building${focused ? '' : '-o'}`;
+          iconSize = 22;
+          iconType = 'FontAwesome';
+        } else if (routeName === 'Locations') {
+          iconName = 'location-pin';
+          iconType = 'Entypo';
+          iconSize = 28;
+        } else if (routeName === 'Account') {
+          iconSize = 32;
+          iconName = 'ios-person';
+        } else if (routeName === 'Appointment') {
+          iconSize = 22;
+          iconName = `calendar${focused ? '' : '-o'}`;
+          iconType = 'FontAwesome';
+        }
+        return <Icon name={iconName} style={{ color: tintColor, fontSize: iconSize }} type={iconType} />;
       }
-      return <Icon name={iconName} style={{ color: tintColor, fontSize: iconSize }} type={iconType} />;
-    }
-  }),
-  tabBarOptions: {
-    activeTintColor: '#1a70f0',
-    inactiveTintColor: '#919191'
-  },
-}, {
-  initialRouteName: 'Home'
-});
+    }),
+    tabBarOptions: {
+      activeTintColor: '#1a70f0',
+      inactiveTintColor: '#919191'
+    },
+  }, {
+    initialRouteName: 'Home'
+  });
 
 const AppNavigator = createStackNavigator({
   Main: createSwitchNavigator(
@@ -239,9 +247,9 @@ const AppNavigator = createStackNavigator({
   ),
   Notifications: NotificationsStack
 }, {
-  defaultNavigationOptions: { header: null },
-  initialRouteName: 'Main'
-});
+    defaultNavigationOptions: { header: null },
+    initialRouteName: 'Main'
+  });
 const AppContainer = createAppContainer(AppNavigator);
 
 export default AppContainer;

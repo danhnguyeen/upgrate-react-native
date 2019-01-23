@@ -42,15 +42,16 @@ export const checkNewNotification = (isNewNotification) => {
   };
 };
 
-export const updateNotificationToken = (token, uniqueId, deviceName) => {
+export const updateNotificationToken = (customer_id, fire_base_token, fire_base_device) => {
   return async dispatch => {
     try {
       const data = {
-        "fcmToken": token,
-        "deviceInfo": deviceName,
-        "deviceUUID": uniqueId
+        customer_id,
+        fire_base_token,
+        fire_base_device
       };
-      await axios.post('user/fcm/updateToken', data);
+      await axios.post('notification/create-token', data);
+      console.log('create token')
       return Promise.resolve();
     } catch (err) {
       return Promise.reject(err);

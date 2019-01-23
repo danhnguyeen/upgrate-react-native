@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Animated, RefreshControl, Text } from 'react-native';
-import { Container, DeckSwiper, CardItem, Icon } from 'native-base';
+import { View, Image, StyleSheet, TouchableOpacity, Text, Linking, Animated, RefreshControl } from 'react-native';
+import { Container, Icon } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import { Header } from 'react-navigation';
 import { Divider, Button } from 'react-native-elements';
@@ -157,13 +157,11 @@ class BuildingDetails extends React.Component {
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='address-book-o' type='FontAwesome' />
+
                 {detailBuilding.acreage_rent_array && detailBuilding.acreage_rent_array.length > 0 ?
-                  detailBuilding.acreage_rent_array.map((item, index) =>
-                    <Text key={index}>
-                      {index > 0 && ' - '}{item}
-                      {index == (detailBuilding.acreage_rent_array.length - 1) && 'm2'}
-                    </Text>
-                  )
+                  <Text style={{ width: DEVICE_WIDTH - 50 }}>
+                    {detailBuilding.acreage_rent_array.join('-')}m2
+                  </Text>
                   :
                   <Text >{detailBuilding.acreage_rent_list == 'FULL' ? 'Toàn bộ' : 'Chưa cập nhật'}</Text>
                 }

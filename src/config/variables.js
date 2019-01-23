@@ -47,7 +47,7 @@ export const statusBarColor = '#171e25';
 // Shadow Color
 export const shadowColor = '#161616';
 // Font
-export const fontFamily = 'Roboto-Regular';
+export const fontFamily = platform === 'ios' ? 'System' : 'Roboto-Regular';
 export const fontFamilyBold = 'Roboto-Bold';
 
 let fontScal = 14;

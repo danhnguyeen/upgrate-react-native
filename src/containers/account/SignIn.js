@@ -166,8 +166,7 @@ class SignIn extends Component {
     });
     if (token && this.props.isAuth) {
       const uniqueId = DeviceInfo.getUniqueID();
-      const deviceName = DeviceInfo.getModel();
-      this.props.updateFCMToken(token, uniqueId, deviceName);
+      this.props.updateFCMToken(this.props.user.customer_id, token, uniqueId);
     }
   }
   _onLoginFailed = (error) => {
@@ -257,14 +256,15 @@ class SignIn extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuth: state.auth.token
+  isAuth: state.auth.token,
+  user: state.auth.user
 });
 
 const mapDispatchToProps = dispatch => ({
   onAuth: (username, password) => dispatch(actions.auth(username, password)),
   onAuthWithFacebook: (token) => dispatch(actions.authWithFacebook(token)),
   onAuthWithPhone: (token) => dispatch(actions.authWithPhone(token)),
-  updateFCMToken: (token, uniqueId, deviceName) => dispatch(actions.updateNotificationToken(token, uniqueId, deviceName))
+  updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

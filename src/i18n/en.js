@@ -54,6 +54,12 @@ export default {
     district: 'District',
     welcome: 'Welcome',
     welcomeToPaxSky: 'Welcome to PaxSky',
+    logout: 'Đăng xuất',
+    termsOfService: "Điều khoản sử dụng",
+    areYouSureLogOut: "Are you sure you want to log out?",
+    profile: {
+      title: 'Hồ sơ'
+    },
     valid: {
       lastName: 'Please enter your last name',
       firstName: 'Please enter your first name',

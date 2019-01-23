@@ -33,7 +33,7 @@ class App extends Component {
     if (token && this.props.isAuth) {
       const uniqueId = DeviceInfo.getUniqueID();
       const deviceName = DeviceInfo.getModel();
-      this.props.updateFCMToken(token, uniqueId, deviceName);
+      this.props.updateFCMToken(this.props.user.customer_id, token, uniqueId, deviceName);
     }
   }
   render() {
@@ -54,13 +54,14 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.auth.token
+    isAuth: state.auth.token,
+    user: state.auth.user
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateFCMToken: (token, uniqueId, deviceName) => dispatch(actions.updateNotificationToken(token, uniqueId, deviceName))
+    updateFCMToken: (customer_id, token, uniqueId, deviceName) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId, deviceName))
   }
 };
 

@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AsyncStorage, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Content, Text } from "native-base";
+import { AsyncStorage, StyleSheet, TouchableOpacity, View, Text, Alert } from 'react-native';
+import { Content, Icon } from "native-base";
+import LinearGradient from 'react-native-linear-gradient';
 
 import * as actions from './auth-actions';
 import { _dispatchStackActions } from '../../util/utility';
-import { brandPrimary, backgroundColor, brandLight } from '../../config/variables';
-import Profile from './Profile';
+import { AccountItem } from '../../components/account';
+import { brandPrimary, backgroundColor, brandLight, textColor, fontSize, textLightColor, inverseTextColor } from '../../config/variables';
+import i18n from '../../i18n';
 
 class Account extends React.Component {
   constructor(props) {
@@ -14,69 +16,80 @@ class Account extends React.Component {
     this.state = {}
     this._isMounted = false
   }
-  componentWillUnmount() {
-    this._isMounted = false
-  }
   componentDidMount() {
-    this._isMounted = true
-    if (this._isMounted == true) {
-      if (!this.props.isAuth) {
-        _dispatchStackActions(this.props.navigation, 'navigate', 'SignIn')
-      }
+    if (!this.props.isAuth) {
+      _dispatchStackActions(this.props.navigation, 'navigate', 'SignIn')
     }
   }
-  // onInitProfile = () => {
-  //   if (!this.props.isAuth) {
-  //     Alert.alert('Alert Title', 'Bạn chưa đăng nhập, đi đến trang đăng nhập ?', [
-  //       { text: 'OK', onPress: () => console.log('OK Pressed!') },
-  //     ])
-  //     // _dispatchStackActions(this.props.navigation, 'navigate', 'SignIn')
-  //   }
-  // }
 
-  callToLogout = async () => {
+  logoutHandler = () => {
+    Alert.alert(
+      i18n.t('global.confirm'),
+      i18n.t('account.areYouSureLogOut'),
+      [
+        { text: i18n.t('global.cancel'), style: 'cancel' },
+        { text: i18n.t('global.ok'), onPress: this.onLogout },
+      ],
+      { cancelable: false }
+    )
+
+  }
+  onLogout = async () => {
     await AsyncStorage.removeItem('token');
     await this.props.onLogout();
-    _dispatchStackActions(this.props.navigation, 'reset', 'Main', 'Account')
+    _dispatchStackActions(this.props.navigation, 'reset', 'Main', 'Account');
   }
   render() {
     return (
 
-      <View style={styles.container}>
+      <View style={{ flex: 1, backgroundColor }}>
         <Content padder >
-          {!this.props.isAuth ?
-            <View style={styles.paragraph}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('SignIn')} >
-                <Text style={{ color: brandPrimary }}>{'Đăng nhập'}</Text>
+          <View style={styles.container}>
+            {!this.props.isAuth ?
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('SignIn')}>
+                <LinearGradient
+                  colors={['#072f6a', '#0d59ca']}
+                  style={{ flex: 1 }}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                >
+                  <View style={{ flexDirection: 'row', paddingLeft: 10, paddingVertical: 20, alignItems: 'center' }}>
+                    <Icon name="user-circle-o" type="FontAwesome" style={{ color: inverseTextColor, fontSize: 25, marginRight: 10 }} />
+                    <Text style={{ color: inverseTextColor, fontSize: fontSize + 1 }}>{i18n.t('account.signIn')}</Text>
+                  </View>
+                </LinearGradient>
               </TouchableOpacity>
-            </View>
-            :
-            <Profile
-              callToLogout={() => { this.callToLogout() }}
-              navigation={this.props.navigation}
-              isAuth={this.props.isAuth}
-              user={this.props.user}
+              : null}
+            {this.props.isAuth ?
+              <AccountItem onPress={() => this.props.navigation.navigate('Profile')}
+                title={i18n.t('account.profile.title')}
+                leftIcon={<Icon name="md-person" style={{ color: textLightColor, fontSize: fontSize + 6 }} />}
+              />
+              : null}
+            <AccountItem onPress={this.termsServiceModalHandler}
+              title={i18n.t('account.termsOfService')}
+              leftIcon={<Icon name="md-document" style={{ color: textLightColor, fontSize: fontSize + 6 }} />}
             />
-          }
+            {this.props.isAuth ?
+              <AccountItem onPress={this.logoutHandler}
+                title={i18n.t('account.logout')}
+                leftIcon={<Icon name="md-log-out" style={{ color: textLightColor, fontSize: fontSize + 6 }} />}
+              />
+              : null}
+          </View>
         </Content>
       </View >
-
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor
-  },
-  paragraph: {
     backgroundColor: brandLight,
     borderRadius: 3,
-    marginBottom: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-},
+    overflow: 'hidden',
+    marginBottom: 20
+  },
 })
 
 const mapStateToProps = state => {

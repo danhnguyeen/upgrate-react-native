@@ -217,14 +217,13 @@ class SignUp extends Component {
     _dispatchStackActions(this.props.navigation, 'reset', 'Account')
 
   }
-  updateNotificationToken = async() => {
+  updateNotificationToken = async () => {
     const token = await FCM.getFCMToken().then(token => {
       return token;
     });
     if (token && this.props.isAuth) {
       const uniqueId = DeviceInfo.getUniqueID();
-      const deviceName = DeviceInfo.getModel();
-      this.props.updateFCMToken(token, uniqueId, deviceName);
+      this.props.updateFCMToken(this.props.user.customer_id, token, uniqueId);
     }
   }
   async _onProvinceChange(province = { "province_id": null, "province_name": '' }) {
@@ -306,11 +305,11 @@ class SignUp extends Component {
   }
   showActionSheet = () => {
     this.ActionSheet._root.showActionSheet({
-        options: [i18n.t('account.male'), i18n.t('account.female'), i18n.t('account.other'), i18n.t('global.cancel')],
-        cancelButtonIndex: 3,
-        destructiveButtonIndex: 2,
-        title: i18n.t('account.yourGender')
-      },
+      options: [i18n.t('account.male'), i18n.t('account.female'), i18n.t('account.other'), i18n.t('global.cancel')],
+      cancelButtonIndex: 3,
+      destructiveButtonIndex: 2,
+      title: i18n.t('account.yourGender')
+    },
       gender => this.inputChangeHandler(gender, 'gender')
     );
   }
@@ -603,6 +602,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   isAuth: state.auth.token,
+  user: state.auth.user,
   districtList: state.buildings.districtList,
   provinceList: state.buildings.provinceList,
   provinceId: state.buildings.provinceId
@@ -613,7 +613,7 @@ const mapDispatchToProps = dispatch => ({
   _onAuthSignUp: (dataRegister) => dispatch(actions.authSignUp(dataRegister)),
   _onfetchDistrictList: (provinceId) => dispatch(actions.fetchDistrictList(provinceId)),
   _onfetchProvinceList: () => dispatch(actions.fetchProvinceList()),
-  updateFCMToken: (token, uniqueId, deviceName) => dispatch(actions.updateNotificationToken(token, uniqueId, deviceName))
+  updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
