@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { AsyncStorage, StyleSheet, View, KeyboardAvoidingView, TouchableOpacity, Alert } from 'react-native';
 import { Content, ActionSheet } from "native-base";
+import FCM from 'react-native-fcm';
+import DeviceInfo from 'react-native-device-info';
 
 import i18n from '../../i18n';
 import * as actions from '../../stores/actions';
@@ -70,6 +72,7 @@ class SignUpWithPhoneAndFacebook extends Component {
     }
   }
   onSignUpSuccess = () => {
+    this.updateNotificationToken();
     this.props.navigation.dispatch(StackActions.reset({
       index: 0, key: null,
       actions: [NavigationActions.navigate({
@@ -88,6 +91,16 @@ class SignUpWithPhoneAndFacebook extends Component {
       [{ text: i18n.t('global.ok') }],
       { cancelable: false }
     );
+  }
+  updateNotificationToken = async() => {
+    const token = await FCM.getFCMToken().then(token => {
+      return token;
+    });
+    if (token && this.props.isAuth) {
+      const uniqueId = DeviceInfo.getUniqueID();
+      const deviceName = DeviceInfo.getModel();
+      this.props.updateFCMToken(token, uniqueId, deviceName);
+    }
   }
   inputChangeHandler = (value, key) => {
     const form = { ...this.state.form };
@@ -230,7 +243,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSignUp: (data) => dispatch(actions.authSignUpPhoneAndFacebook(data))
+  onSignUp: (data) => dispatch(actions.authSignUpPhoneAndFacebook(data)),
+  updateFCMToken: (token, uniqueId, deviceName) => dispatch(actions.updateNotificationToken(token, uniqueId, deviceName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpWithPhoneAndFacebook);

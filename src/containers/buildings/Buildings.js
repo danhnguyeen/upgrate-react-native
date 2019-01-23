@@ -56,6 +56,10 @@ class Buildings extends React.Component {
     }
     this.setState({ filterRequired })
   }
+  selectBuilding = (building) => {
+    this.props._onfetchBuildingDetail(building.building_detail);
+    this.props.navigation.navigate('BuildingDetails');
+  }
   render() {
     const { district, rent_cost, acreage, direction } = this.state.filterRequired
     return (
@@ -122,9 +126,9 @@ class Buildings extends React.Component {
                   else if (rent_cost && (rent_cost[0] > item.rent_cost || item.rent_cost > rent_cost[1])) { }
                   else if (acreage && (acreage[0] > item.acreage_rent_array[0] || item.acreage_rent_array[item.acreage_rent_array.length - 1] > acreage[1])) { }
                   else if (direction && direction.direction_name !== item.direction) { }
-                  else return <TagBuilding detailBuilding={item} key={item.building_id} navigation={this.props.navigation} _onfetchBuildingDetail={this.props._onfetchBuildingDetail} />
+                  else return <TagBuilding detailBuilding={item} key={item.building_id} selectBuilding={this.selectBuilding} />
                 }
-                else return <TagBuilding detailBuilding={item} key={item.building_id} navigation={this.props.navigation} _onfetchBuildingDetail={this.props._onfetchBuildingDetail} />
+                else return <TagBuilding detailBuilding={item} key={item.building_id} selectBuilding={this.selectBuilding} />
               })}
             </View>
           </Content>
@@ -165,7 +169,7 @@ const mapDispatchToProps = dispatch => {
   return {
     _onfetchBuidlings: (district_id) => dispatch(actions.fetchBuidlings(district_id)),
     _onfetchDistrictList: (provinceId) => dispatch(actions.fetchDistrictList(provinceId)),
-    _onfetchBuildingDetail: (buildingsId) => dispatch(actions.fetchBuildingDetail(buildingsId)),
+    _onfetchBuildingDetail: (building) => dispatch(actions.fetchBuildingDetail(building)),
   }
 }
 
