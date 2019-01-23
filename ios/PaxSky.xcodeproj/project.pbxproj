@@ -34,6 +34,10 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		1C0F701F21F57C52008F4A64 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C0F6FF321F57C52008F4A64 /* FBSDKLoginKit.framework */; };
+		1C0F702021F57C52008F4A64 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C0F701C21F57C52008F4A64 /* FBSDKShareKit.framework */; };
+		1C0F702121F57C52008F4A64 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C0F701D21F57C52008F4A64 /* Bolts.framework */; };
+		1C0F702221F57C52008F4A64 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C0F701E21F57C52008F4A64 /* FBSDKCoreKit.framework */; };
 		1C1D34E021F1F59D00A24C16 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C1D34DF21F1F57700A24C16 /* libRCTFBSDK.a */; };
 		21233D8D26E949A88D7243C3 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBF25AD35EC942859C422816 /* FontAwesome5_Solid.ttf */; };
 		244B5FDA5DE740ADA9FBDD4E /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2DE4E5F3274BEB95EF90EC /* Roboto-Light.ttf */; };
@@ -410,6 +414,10 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = PaxSky/main.m; sourceTree = "<group>"; };
 		13D3D2D7D9F647D3A5649671 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BlackItalic.ttf"; path = "../src/assets/fonts/Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		1C0F6FF321F57C52008F4A64 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		1C0F701C21F57C52008F4A64 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		1C0F701D21F57C52008F4A64 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
+		1C0F701E21F57C52008F4A64 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		1C1D34DA21F1F57700A24C16 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* PaxSky-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PaxSky-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* PaxSky-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PaxSky-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -466,13 +474,17 @@
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				1C0F702021F57C52008F4A64 /* FBSDKShareKit.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				0861F6C421EA230B003DDD47 /* FBSDKCoreKit.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				0861F6C221EA230B003DDD47 /* FBSDKShareKit.framework in Frameworks */,
+				1C0F701F21F57C52008F4A64 /* FBSDKLoginKit.framework in Frameworks */,
+				1C0F702221F57C52008F4A64 /* FBSDKCoreKit.framework in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
+				1C0F702121F57C52008F4A64 /* Bolts.framework in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				0861F6C521EA230B003DDD47 /* FBSDKLoginKit.framework in Frameworks */,
 				0861F6C321EA230B003DDD47 /* Bolts.framework in Frameworks */,
@@ -665,8 +677,12 @@
 			children = (
 				0861F6BF21EA2309003DDD47 /* Bolts.framework */,
 				0861F6C021EA230A003DDD47 /* FBSDKCoreKit.framework */,
+				1C0F701D21F57C52008F4A64 /* Bolts.framework */,
+				1C0F701E21F57C52008F4A64 /* FBSDKCoreKit.framework */,
 				0861F6C121EA230B003DDD47 /* FBSDKLoginKit.framework */,
 				0861F6BE21EA2308003DDD47 /* FBSDKShareKit.framework */,
+				1C0F6FF321F57C52008F4A64 /* FBSDKLoginKit.framework */,
+				1C0F701C21F57C52008F4A64 /* FBSDKShareKit.framework */,
 				0820A43921E0BBF10043C171 /* SplashScreen.xcodeproj */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				E5FBB9F2990350566EFC0A3F /* libPods-PaxSky.a */,

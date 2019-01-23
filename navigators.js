@@ -237,9 +237,17 @@ const AppNavigator = createStackNavigator({
   Main: createSwitchNavigator(
     { MainNavigator }
   ),
+  ModalBooking: {
+    screen: Booking,
+    navigationOptions: {
+      ...headerOptions,
+      title: i18n.t('booking.makeAnAppointment')
+    }
+  },
   Notifications: NotificationsStack
 }, {
   defaultNavigationOptions: { header: null },
+  mode: 'modal',
   initialRouteName: 'Main'
 });
 const AppContainer = createAppContainer(AppNavigator);

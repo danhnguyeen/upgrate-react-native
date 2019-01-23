@@ -32,24 +32,16 @@ class Offices extends React.Component {
         acreage_rent: null,
       },
     }
-    this._isMounted = false
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false
   }
   async componentDidMount() {
-    this._isMounted = true
-    if (this._isMounted == true) {
-      const building_id = this.props.navigation.getParam('building_id')
-      if ((!isEmpty(building_id) == !isEmpty(this.props.buildingsId)) && !isEmpty(this.props.officeList)) {
-        this._onFetching()
-      }
-      else if (!isEmpty(building_id)) {
-        await this.props._onfetchOfficeList(building_id)
-          .then(() => { this._onFetching() })
-          .catch((ignored) => { console.error(ignored) })
-      }
+    const building_id = this.props.navigation.getParam('building_id')
+    if ((!isEmpty(building_id) == !isEmpty(this.props.buildingsId)) && !isEmpty(this.props.officeList)) {
+      this._onFetching()
+    }
+    else if (!isEmpty(building_id)) {
+      await this.props._onfetchOfficeList(building_id)
+        .then(() => { this._onFetching() })
+        .catch((ignored) => { console.error(ignored) })
     }
   }
   _onFetching = () => {
@@ -63,7 +55,7 @@ class Offices extends React.Component {
     filterData.direction = [...new Set(filterData.direction)].sort((a, b) => { return a - b })
     filterData.floor_name = [...new Set(filterData.floor_name)].sort((a, b) => { return a - b })
 
-    this.setState({ officeList, filterData, isFetching: false })
+    this.setState({ filterData, isFetching: false })
   }
   _clearFilterPress = () => {
     let { filterRequired } = this.state
@@ -77,7 +69,11 @@ class Offices extends React.Component {
     this.setState({ modalVisible: visible })
   }
   render() {
-    const { filterRequired, filterData, officeList, isFetching } = this.state
+    const { filterRequired, filterData, isFetching } = this.state
+    const officeList = this.props.officeList
+    const building_id = this.props.navigation.getParam('building_id')
+    const building_name = this.props.navigation.getParam('building_name')
+    console.log(filterRequired)
     return (
       <View style={{ flex: 1, backgroundColor }}>
         {this.state.modalVisible ?
@@ -100,7 +96,7 @@ class Offices extends React.Component {
                   <Text style={[styles.buttonText]}>CHỌN LỌC</Text>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
-                  {filterRequired && filterRequired.acreage_rent && filterRequired.acreage_rent.length > 1 &&
+                  {!isEmpty(filterRequired.acreage_rent) &&
                     <TouchableOpacity
                       onPress={() => { this._clearFilterPress() }}
                       style={[styles.button, { flexDirection: 'row' }]}>
@@ -111,26 +107,23 @@ class Offices extends React.Component {
                 </View>
               </View>
               <View >
-                {officeList.map((item, index) => {
-                  if (filterRequired && filterRequired.acreage_rent && filterRequired.acreage_rent.length > 0) {
-                    if (filterRequired.acreage_rent[0] > item.acreage_rent || item.acreage_rent > filterRequired.acreage_rent[1]) { }
-                    else return (
-                      <TouchableOpacity key={index}
-                        onPress={() => { this.props.navigation.navigate('Booking', { dataProps: { officeDetail: item } }) }}
-                      // onPress={() => { this.props.navigation.navigate('OfficeDetail', { officeDetail: item }) }}
-                      >
-                        <TagOffice officeDetail={item} navigation={this.props.navigation} />
-                      </TouchableOpacity>
-                    )
-                  } else return (
-                    <TouchableOpacity key={index}
-                      onPress={() => { this.props.navigation.navigate('Booking', { dataProps: { officeDetail: item } }) }}
-                    // onPress={() => { this.props.navigation.navigate('OfficeDetail', { officeDetail: item }) }}
-                    >
-                      <TagOffice officeDetail={item} navigation={this.props.navigation} />
-                    </TouchableOpacity>
-                  )
-                })}
+                {officeList.length < 1 ?
+                  <Text>Danh sách văn phòng hiện đang trống.</Text> :
+                  officeList.map((item, index) => {
+                    item.building_id = building_id
+                    item.building_name = building_name
+                    if (isEmpty(filterRequired.acreage_rent) ||
+                      (!isEmpty(filterRequired.acreage_rent) &&
+                        (filterRequired.acreage_rent[0] <= item.acreage_rent && item.acreage_rent <= filterRequired.acreage_rent[1]))) {
+                      return (
+                        <TouchableOpacity key={index}
+                          onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: item } }) }} >
+                          <TagOffice officeDetail={item} navigation={this.props.navigation} />
+                        </TouchableOpacity>
+                      )
+                    }
+                    else return (<Text>Không thấy kết quả phù hợp</Text>)
+                  })}
               </View>
             </View>}
         </Content>

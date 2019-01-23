@@ -232,7 +232,7 @@ class SignIn extends Component {
               </View>
               <TouchableOpacity style={{ margin: 10 }} activeOpacity={0.6}
                 onPress={() => { this.props.navigation.push('SignUp') }}>
-                <Text style={{ color: '#575757' }}>{'Chưa có tài khoản ? '}<Text style={{ color: brandPrimary }}>{'Đăng ký'}</Text></Text>
+                <Text style={{ color: brandPrimary }}>{i18n.t('account.goToSignUp')}</Text>
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>

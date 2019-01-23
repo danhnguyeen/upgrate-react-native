@@ -20,7 +20,27 @@ export default {
     news: 'Tin tức',
     notifications: 'Thông báo'
   },
+  filter: {
+    filters: "Filters",
+    filter: "Filter",
+    clear: "Clear",
+    reset: "X Reset filter",
+    select: "Select",
+    selectDistrict: "Chọn quận",
+    selectDirection: "Chọn hướng",
+    all: "Tất cả",
+    price: "Mức giá",
+    acreage: "Diện tích",
+  },
   buildingDetail: {
+    updating: "Đang cập nhật",
+    structure: "Cấu trúc xây dựng",
+    price: "Mức giá",
+    acreage: "Diện tích",
+    full: "Tất cả",
+    management: "Đơn vị quản lý",
+    electricityHour: " K/h",
+    viewOffices: "Xem văn phòng",
     getDirection: "Chỉ đường đến đây"
   },
   notifications: {
@@ -30,6 +50,8 @@ export default {
   account: {
     signIn: 'Đăng nhập',
     signUp: 'Đăng ký',
+    goToSignIn: "Đăng nhập vào tài khoản hiện có",
+    goToSignUp: "Tạo tài khoản mới",
     email: "Email",
     password: "Mật khẩu",
     confirmPassword: "Xác nhận mật khẩu",
@@ -66,9 +88,37 @@ export default {
     }
   },
   appointment: {
+    appointmentEmpty: "Bạn chưa có lịch hẹn nào.",
+    loadingFail: "Cập nhật danh sách xảy ra lỗi vui lòng thử lại sau.",
+    deleteConfirm: 'Bạn muốn hủy đặt hẹn ?',
+    pending: "Chờ xác nhận",
+    schedule: "Đã xác nhận",
+    done: "Đã hoàn thành",
+    cancel: "Đã hủy",
+    update: "Thay đổi",
+    rating: "Đánh giá",
+    report: "Báo cáo",
+    contact: "Liên hệ",
+    office: "Văn phòng",
+    saler: "Tư vấn",
     appointmentList: 'Danh sách cuộc hẹn'
   },
   booking: {
     makeAnAppointment: "Đặt lịch hẹn"
+  },
+  review: {
+    myReviews: "Đánh giá của bạn",
+    allReviews: "Tất cả đánh giá",
+    addYourReview: "Đánh giá",
+    rating: "Đánh giá",
+    great: "Tuyệt vời!!!",
+    pleaseAddYourRating: "Bạn chưa đánh giá, vui lòng đánh giá sao",
+    addYourCommentsHere: "Nhận xét của bạn:",
+  },
+  contact: {
+    paxsky: "Liên hệ với PAXSKY",
+    call: "Gọi",
+    zalo: "Nhắn tin Zalo ",
+    messenger: "Nhắn tin Facebook",
   }
 }

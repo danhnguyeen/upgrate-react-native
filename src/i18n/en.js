@@ -20,7 +20,27 @@ export default {
     news: 'News',
     notifications: 'Notifications'
   },
+  filter: {
+    filters: "Filters",
+    filter: "Filter",
+    clear: "Clear",
+    reset: "X Reset filter",
+    select: "Select",
+    selectDistrict: "Select a district",
+    selectDirection: "Select a direction",
+    all: "Select all",
+    price: "Price",
+    acreage: "Acreage",
+  },
   buildingDetail: {
+    updating: "Updating",
+    structure: "Structure",
+    price: "Price",
+    acreage: "Acreage",
+    full: "Full",
+    management: "Management",
+    electricityHour: " K/h",
+    viewOffices: "Office List",
     getDirection: "Get Directions"
   },
   notifications: {
@@ -28,8 +48,10 @@ export default {
     areYouSureWantToMarkAllAsRead: 'Are you sure you want to mark all notification as read?'
   },
   account: {
-    signIn: 'SignIn',
-    signUp: 'SignUp',
+    signIn: 'Sign in',
+    signUp: 'Sign up',
+    goToSignIn: "Log In to Existing Account",
+    goToSignUp: "Create a new account",
     email: "Email",
     password: "Password",
     confirmPassword: "Confirm Password",
@@ -66,9 +88,37 @@ export default {
     }
   },
   appointment: {
+    appointmentEmpty: "I have not booked yet",
+    loadingFail: "Failed to load swipe down to refresh",
+    deleteConfirm: 'Confirmation of your cancellation',
+    pending: "Pending",
+    schedule: "Scheduled",
+    done: "Done",
+    cancel: "Cancelled",
+    update: "Update",
+    rating: "Rating",
+    report: "Report",
+    contact: "Contact",
+    office: "Office",
+    saler: "Saler",
     appointmentList: 'Appointment List'
   },
   booking: {
     makeAnAppointment: "Make an appointment"
+  },
+  review: {
+    myReviews: "My Reviews",
+    allReviews: "All Reviews",
+    addYourReview: "Add Review",
+    rating: "Ratings",
+    great: "Great!!!",
+    pleaseAddYourRating: "You have not rated yet, Please add your rating",
+    addYourCommentsHere: "Add your comments here..."
+  },
+  contact: {
+    paxsky: "Contact PAXSKY",
+    call: "Call",
+    zalo: "Zalo Message",
+    messenger: "Messenger",
   }
 }

@@ -5,6 +5,8 @@ const { StatusBarManager } = NativeModules;
 
 export const DEVICE_HEIGTH = Dimensions.get('window').height;
 export const DEVICE_WIDTH = Dimensions.get('window').width;
+export const winW = percent => (DEVICE_WIDTH * percent) / 100;
+export const winH = percent => (DEVICE_HEIGTH * percent) / 100;
 export const platform = Platform.OS;
 
 const dimen = Dimensions.get('window');
@@ -42,6 +44,16 @@ export const brandLightOpacity50 = 'rgba(33, 43, 52, 0.5)';
 export const brandLightOpacity70 = 'rgba(28, 29, 32, 0.7)';
 export const lightBackground = '#fafbfc';
 export const statusBarColor = '#171e25';
+export const statusColors = {
+  orange: '#f05700',
+  red: '#b31919',
+  green: '#28871c',
+  greenBG: '#f3f9f2',
+  orange_yellow: '#f99e0',
+  yellow: '#debb3d',
+  heartColor: 'rgba(239,87,87,.9)',
+  grey: '#ccc',
+}
 // Background Color
 
 // Shadow Color
