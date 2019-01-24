@@ -136,7 +136,10 @@ export const encodeURI = (params) => {
   return Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
 }
 // format date
-export const formatDateTime = (time) => {
+export const formatDateTime = (time, formatType = null) => {
+  if (formatType) {
+    return time ? moment(time, formatType).format('HH:mm:ss DD/MM/YYYY') : null;
+  }
   return time ? moment(time).format('HH:mm:ss DD/MM/YYYY') : null;
 }
 /**

@@ -8,8 +8,9 @@ export default {
     readMore: "Xem thêm",
     showLess: "Thu gọn",
     error: "Lỗi",
-    notification: "Notifications",
-    updatedSuccessfully: "Updated Successfully"
+    notification: "Thông báo",
+    updatedSuccessfully: "Cập nhật thành công",
+    areYouSureToDelete: "Bạn có chắc chắn muốn xóa?"
   },
   tabs: {
     home: 'Trang chủ',

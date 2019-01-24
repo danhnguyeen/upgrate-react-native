@@ -96,7 +96,7 @@ class SignUpWithPhoneAndFacebook extends Component {
     const token = await FCM.getFCMToken().then(token => {
       return token;
     });
-    if (token && this.props.isAuth) {
+    if (token && this.props.token) {
       const uniqueId = DeviceInfo.getUniqueID();
       this.props.updateFCMToken(this.props.user.customer_id, token, uniqueId);
     }

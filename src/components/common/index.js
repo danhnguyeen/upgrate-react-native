@@ -6,6 +6,7 @@ import TextInput from './TextInput';
 import PickerSelect from './PickerSelect';
 import Spinner from './Spinner';
 import ModalPopup from './ModalPopup';
+import Modal from './Modal';
 export {
   InputField,
   Header,
@@ -14,5 +15,6 @@ export {
   TextInput,
   PickerSelect,
   Spinner,
-  ModalPopup
+  ModalPopup,
+  Modal
 };

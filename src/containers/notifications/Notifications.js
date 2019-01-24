@@ -23,7 +23,7 @@ import {
 } from "../../config/variables";
 import i18n from "../../i18n";
 import { Spinner } from '../../components/common';
-// import { NotificationDetails } from '../../components/Notification';
+import { NotificationDetails } from '../../components/notifications';
 import { formatDateTime } from '../../util/utility';
 import axios from '../../config/axios';
 
@@ -70,23 +70,6 @@ class Notifications extends Component {
     this.getNotification();
   }
   getNotification = async (isLoadMore, isPullRefresh = false) => {
-    // const result = [];
-    // for (let i = 0; i < 20; i++) {
-    //   result.push({
-    //     id: i,
-    //     Title: 'Xác nhận lịch hẹn',
-    //     ShortDesc: 'Lịch hẹn của bạn tại tòa nhà PaxSky Nguyễn Thị Minh Khai đã được xác nhận',
-    //     CreatedTime: '2019-02-19 10:02:00',
-    //     LastSeen: i > 2
-    //   });
-    // }
-    // console.log(result)
-    // this.setState({
-    //   totalPage: 1,
-    //   notifications: isLoadMore ? [...this.state.notifications, ...result] : result,
-    //   isPullRefresh: false,
-    //   firstLoading: false
-    // });
     if (isLoadMore && this.state.page > this.state.totalPage) {
       return;
     }
@@ -101,7 +84,6 @@ class Notifications extends Component {
         page: prevState.page,
         pageSize: prevState.size
       };
-      console.log(params)
       const result = await axios.get('notification/notifications', { params });
       console.log(result)
       this.setState({
@@ -134,7 +116,7 @@ class Notifications extends Component {
   }
   closeModalHandler = () => {
     this.getNotification();
-    this.props.fetchNotificationCount();
+    // this.props.fetchNotificationCount();
     this.setState({ selectedItem: null });
   }
   markAllAsReadConfirm = () => {
@@ -207,7 +189,7 @@ class Notifications extends Component {
           <View style={{ flex: 1 }}>
             <Text style={styles.textStyle}>{item.title}</Text>
             <Text style={styles.subtitle}>{item.body}</Text>
-            <Text style={styles.subtitle}>{formatDateTime(item.created_at)}</Text>
+            <Text style={styles.subtitle}>{formatDateTime(item.created_at, 'DD-MM-YYYY HH:mm')}</Text>
           </View>
         </TouchableOpacity>
       </Swipeout>
@@ -217,14 +199,14 @@ class Notifications extends Component {
     const notifications = this.state.notifications || [];
     return (
       <View style={styles.container}>
-        {/* {this.state.selectedItem ? (
+        {this.state.selectedItem ? (
           <NotificationDetails
             show
             delete={this.deleteWithConfirm}
             data={this.state.selectedItem}
             onClose={this.closeModalHandler}
           />
-        ) : null} */}
+        ) : null}
         {this.state.firstLoading && !notifications.length ?
           <Spinner />
           :

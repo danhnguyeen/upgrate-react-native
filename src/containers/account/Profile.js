@@ -123,7 +123,7 @@ class Profile extends Component {
       },
       gender: { value: this.props.user.gender }
     };
-    this.setState({ form, formTouched: false, saving: false });
+    this.setState({ form, formTouched: false, submiting: false });
   }
   onSubmit = async () => {
     this.setState({ formTouched: true });
@@ -131,17 +131,16 @@ class Profile extends Component {
 
     if (formIsValid) {
       try {
-        this.setState({ saving: true });
+        this.setState({ submiting: true });
         if (data.dateOfBirth) {
           data.dateOfBirth = moment(data.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD');
         }
-        console.log(data);
-        const res = await axios.post('customer/update', data);
-        console.log(res)
-        this.props.onUpdateProfile(data);
+        const { customer } = await axios.post('customer/update', data);
+        this.props.onUpdateProfile(customer);
         this.onInitForm();
         this.onUpdatedSuccess();
       } catch (error) {
+        this.setState({ submiting: false });
         Alert.alert(i18n.t('global.error'), error.message);
       }
     }
@@ -203,9 +202,6 @@ class Profile extends Component {
     if (key === 'gender' && value === 3) {
       return;
     }
-    // if (key === 'gender' && value === 2) {
-    //   value = null;
-    // }
     form[key].value = value;
     if (this.state.formTouched) {
       const validation = form[key].validation;

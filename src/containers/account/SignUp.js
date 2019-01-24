@@ -4,6 +4,7 @@ import { Content, Button, Text, Icon, ActionSheet, Picker } from 'native-base';
 import { connect } from 'react-redux';
 import FCM from 'react-native-fcm';
 import DeviceInfo from 'react-native-device-info';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 import { InputField } from '../../components/common';
 import * as actions from '../../stores/actions';
@@ -214,7 +215,13 @@ class SignUp extends Component {
   _onSignUpSuccess = () => {
     this.updateNotificationToken();
     AsyncStorage.setItem('token', this.props.isAuth);
-    _dispatchStackActions(this.props.navigation, 'reset', 'Account')
+    this.props.navigation.dispatch(StackActions.reset({
+      index: 0, key: null,
+      actions: [NavigationActions.navigate({
+        routeName: 'Main',
+        action: NavigationActions.navigate({ routeName: 'Account' })
+      })]
+    }));
 
   }
   updateNotificationToken = async () => {

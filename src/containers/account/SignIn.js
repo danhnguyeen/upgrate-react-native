@@ -74,7 +74,6 @@ class SignIn extends Component {
   onLoginWithEmail = async () => {
     this.setState({ formTouched: true });
     const { formIsValid, data } = validateForm({ ...this.state.form });
-    console.log(formIsValid)
     if (formIsValid) {
       try {
         this.setState({ submiting: true });
@@ -83,7 +82,6 @@ class SignIn extends Component {
         this._onLoginSuccess();
       } catch (e) {
         this.setState({ submiting: false });
-        console.log(e);
         if (e.message === 'invalid email or password') {
           e.message = i18n.t('account.loginFailMsg');
         }
