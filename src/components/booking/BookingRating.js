@@ -33,7 +33,7 @@ export default class BookingRating extends React.Component {
     else {
       Alert.alert(i18n.t('review.pleaseAddYourRating'), null, [
         { text: i18n.t('global.cancel'), onPress: this.props.onRequestClose },
-        { text: i18n.t('review.addYourReview'), onPress: () => { } },
+        { text: i18n.t('review.rating'), onPress: () => { } },
       ])
     }
   }

@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
+import i18n from "../i18n";
 
 const instance = axios.create({
   baseURL: 'http://paxsky.amagumolabs.io/api/',
@@ -47,7 +48,7 @@ instance.interceptors.response.use(function (response) {
   console.log(error);
   if (error.message) {
     if (error.message.includes('timeout') || error.message.includes('Network Error')) {
-      error.message = 'Kết nối gián đoạn';
+      error.message = i18n.t('global.networkError');
     }
   }
   return Promise.reject(error);

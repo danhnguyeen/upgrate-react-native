@@ -33,11 +33,11 @@ const Modal = (props) => {
             props.centerComponent ?
               props.centerComponent
               :
-              { text: props.title, style: { color: inverseTextColor, fontSize: fontSize + 3, fontWeight: platform === 'ios' ? '600' : '500' } }
+              { text: props.title, style: { color: inverseTextColor, fontSize: platform === 'ios' ? 16 : 18, fontWeight: platform === 'ios' ? '600' : '500' } }
           }
           rightComponent={props.rightComponent}
           backgroundColor={'transparent'}
-          containerStyle={[{ height: navHeight }, platform === 'android' ? { paddingTop: 0 } : null]}
+          containerStyle={[platform === 'android' ? { paddingTop: 0, height: navHeight } : null]}
         />
       </LinearGradient>
       <SafeAreaView style={[styles.container]}>

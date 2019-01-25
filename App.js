@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { StatusBar, View, UIManager } from 'react-native';
+import { StatusBar, View, UIManager, YellowBox } from 'react-native';
+import { Root } from "native-base"
 import SplashScreen from 'react-native-splash-screen'
 import FCM from "react-native-fcm";
 import DeviceInfo from 'react-native-device-info';
-import { YellowBox } from 'react-native';
 import { connect } from 'react-redux';
 
 import AppContainer from './navigators';
@@ -12,7 +12,7 @@ import NavigationService from './src/services/navigation-service';
 import { brandPrimary, platform } from './src/config/variables';
 import * as actions from './src/stores/actions';
 
-YellowBox.ignoreWarnings(['Remote debugger']);
+YellowBox.ignoreWarnings(['Setting a timer', 'Remote debugger'])
 
 class App extends Component {
   componentDidMount() {
@@ -46,9 +46,11 @@ class App extends Component {
           backgroundColor={brandPrimary}
           barStyle="light-content"
         />
-        <AppContainer ref={navigatorRef => {
-          NavigationService.setTopLevelNavigator(navigatorRef);
-        }} />
+       <Root>
+          <AppContainer ref={navigatorRef => {
+            NavigationService.setTopLevelNavigator(navigatorRef);
+          }} />
+        </Root>
         <PushNotification />
       </View>
     );

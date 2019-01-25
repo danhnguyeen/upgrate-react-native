@@ -4,10 +4,26 @@ import axios from '../../config/axios';
 import { StyleSheet, TouchableOpacity, View, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { Content, Icon, Text, } from "native-base";
 import { BookingDateTime } from '../../components/booking/';
-import { backgroundColor, textDarkColor, brandLight } from '../../config/variables';
+import { backgroundColor, textDarkColor, brandLight, inverseTextColor } from '../../config/variables';
 import { _dispatchStackActions, isEmpty } from '../../util/utility';
+import i18n from "../../i18n";
 
 class Booking extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: i18n.t('appointment.appointmentRequest'),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack(null)}
+          style={{ paddingHorizontal: 10, alignItems: 'center' }}>
+          <Icon
+            name={"ios-arrow-back"}
+            style={{ color: inverseTextColor, fontSize: 34 }}
+            underlayColor='transparent'
+          />
+        </TouchableOpacity>
+      )
+    };
+  };
   constructor(props) {
     super(props)
     this.state = {
@@ -89,17 +105,14 @@ class Booking extends React.Component {
     await axios.post('appointment/update', bookingData).catch(error => {
       if (error && error.status === '1') {
         Alert.alert(
-          'Cập nhật không thành công!', error.message,
-          [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false }) } }]
+          i18n.t('appointment.updateFail'), error.message,
+          [{ text: i18n.t('global.ok'), onPress: () => { this.setState({ isFetching: false }) } }],
+          { cancelable: false }
         )
       }
     }).then((response) => {
       if (response && response.status == '0') {
-        Alert.alert(
-          'Cập nhật thành công!', 'Cảm ơn bạn đã đặt hẹn. Chuyên viên tư vấn sẽ sớm liên lạc với bạn.',
-          [{ text: 'Ok', onPress: () => _dispatchStackActions(this.props.navigation, 'navigate', 'Main', 'Appointment') }]
-        )
-        this.setState({ isFetching: false })
+        _dispatchStackActions(this.props.navigation, 'navigate', 'Main', 'Appointment')
       }
     })
   }
@@ -108,18 +121,19 @@ class Booking extends React.Component {
       .catch(error => {
         if (error && error.status === '1') {
           Alert.alert(
-            'Đặt hẹn thất bại!',
-            error.message,
-            [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false }) } }]
+            i18n.t('appointment.bookingFail'), error.message,
+            [{ text: i18n.t('global.ok'), onPress: () => { this.setState({ isFetching: false }) } }],
+            { cancelable: false }
           )
         }
       })
       .then((response) => {
         if (response && response.status == '0') {
           Alert.alert(
-            'Đặt hẹn thành công!',
-            'Cảm ơn bạn đã đặt hẹn. Chuyên viên tư vấn sẽ sớm liên lạc với bạn.',
-            [{ text: 'Ok', onPress: () => _dispatchStackActions(this.props.navigation, 'navigate', 'Main', 'Appointment') }]
+            i18n.t('appointment.bookingSuccess'),
+            i18n.t('appointment.bookingSuccessContent'),
+            [{ text: i18n.t('global.ok'), onPress: () => { _dispatchStackActions(this.props.navigation, 'navigate', 'Main', 'Appointment') } }],
+            { cancelable: false }
           )
           this.setState({ isFetching: false })
         }
@@ -128,27 +142,26 @@ class Booking extends React.Component {
   render() {
     const { bookingDetail, isFetching, isBookingUpdate } = this.state
     let ContentBooking = <ActivityIndicator />
-    console.log(this.props.user)
     if (!isFetching && this.props.user) {
       const { first_name, last_name, email, mobile_phone } = this.props.user
       ContentBooking = (
-        <Content style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.paragraph}>
             <View style={{ alignItems: 'center' }}>
-              <Text style={styles.textHeadline}>{bookingDetail.building_name}</Text>
+              <Text numberOfLines={1} allowFontScaling style={styles.textHeadline}>{bookingDetail.building_name}</Text>
             </View>
           </View>
           <View style={styles.paragraph}>
             <View style={styles.line} >
-              <Text style={styles.textTitle}>{'Văn phòng :'}</Text>
+              <Text style={styles.textTitle}>{i18n.t('appointment.office')}</Text>
               <Text style={[styles.textContent, { flex: 0.7 }]}>{`${bookingDetail.office_name}`}</Text>
             </View>
             <View style={styles.line} >
-              <Text style={styles.textTitle}>{'Khách hàng :'}</Text>
+              <Text style={styles.textTitle}>{i18n.t('account.firstName')}</Text>
               <Text style={[styles.textContent, { flex: 0.7 }]}>{`${first_name} ${last_name}`}</Text>
             </View>
             <View style={styles.line} >
-              <Text style={styles.textTitle}>{'Điện thoại :'}</Text>
+              <Text style={styles.textTitle}>{i18n.t('account.phoneNumber')}</Text>
               <Text style={[styles.textContent, { flex: 0.7 }]}>{mobile_phone}</Text>
             </View>
             <View style={styles.line} >
@@ -158,12 +171,12 @@ class Booking extends React.Component {
             {isBookingUpdate &&
               <View>
                 <View style={styles.line} >
-                  <Text style={styles.textTitle}>{'Tình trạng :'}</Text>
+                  <Text style={styles.textTitle}>{i18n.t('appointment.status')}</Text>
                   <Text style={[styles.textContent, { flex: 0.7, fontWeight: '500', color: bookingDetail.status.color }]}>{bookingDetail.status.text}</Text>
                 </View>
                 {bookingDetail.sale_person_name && bookingDetail.sale_person_name !== '' &&
                   <View style={styles.line} >
-                    <Text style={styles.textTitle}>{'Tư vấn viên :'}</Text>
+                    <Text style={styles.textTitle}>{i18n.t('appointment.saler')}</Text>
                     <Text style={[styles.textContent, { flex: 0.7 }]}>{bookingDetail.sale_person_name}</Text>
                   </View>}
               </View>
@@ -174,13 +187,13 @@ class Booking extends React.Component {
             notes={isBookingUpdate ? bookingDetail.notes : null}
             onSignUpSubmit={(bookingDetail) => { this.onSignUpSubmit(bookingDetail) }}
           />
-        </Content>
+        </View >
       )
     }
     return (
-      <View style={styles.container}>
+      <Content style={styles.container}>
         {ContentBooking}
-      </View >
+      </Content>
     )
   }
 }
@@ -189,7 +202,7 @@ class Booking extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor
+    backgroundColor: brandLight
   },
   paragraph: {
     backgroundColor: brandLight,

@@ -12,7 +12,6 @@ export const fetchBuidlings = (district_id = null) => {
     try {
       const requestUrl = district_id ? `building?district_id=${district_id}` : 'building'
       const data = await axios.get(requestUrl)
-      console.log(data)
       data.buildings.sort((a, b) => { return a.acreage_rent_array > b.acreage_rent_array ? -1 : 1 })
       data.direction_array.sort((a, b) => { return a.direction_name > b.direction_name ? 1 : -1 })
       const buildingsFilterData = {

@@ -5,11 +5,11 @@ import { Content, Icon, Text } from "native-base";
 
 import * as actions from '../building-actions';
 import { Spinner } from '../../../components/common';
-// import { Common, styles, winW, winH } from '../../constants/';
 import { isEmpty } from '../../../util/utility';
 import { TagOffice } from '../../../components/buildings';
 import { backgroundColor, brandPrimary } from '../../../config/variables';
 import OfficeFilter from './OfficeFilter';
+import i18n from '../../../i18n';
 
 let filterData = {
   acreage_rent: [],
@@ -35,13 +35,15 @@ class Offices extends React.Component {
   }
   async componentDidMount() {
     const building_id = this.props.navigation.getParam('building_id')
-    if ((!isEmpty(building_id) == !isEmpty(this.props.buildingsId)) && !isEmpty(this.props.officeList)) {
-      this._onFetching()
-    }
-    else if (!isEmpty(building_id)) {
-      await this.props._onfetchOfficeList(building_id)
-        .then(() => { this._onFetching() })
-        .catch((ignored) => { console.error(ignored) })
+    if (!isEmpty(building_id)) {
+      if ((building_id == this.props.buildingsId) && !isEmpty(this.props.officeList)) {
+        this._onFetching()
+      }
+      else {
+        await this.props._onfetchOfficeList(building_id)
+          .then(() => { this._onFetching() })
+          .catch((ignored) => { console.log(`error ${ignored}`) })
+      }
     }
   }
   _onFetching = () => {
@@ -73,7 +75,6 @@ class Offices extends React.Component {
     const officeList = this.props.officeList
     const building_id = this.props.navigation.getParam('building_id')
     const building_name = this.props.navigation.getParam('building_name')
-    console.log(filterRequired)
     return (
       <View style={{ flex: 1, backgroundColor }}>
         {this.state.modalVisible ?
@@ -93,7 +94,7 @@ class Offices extends React.Component {
                 <TouchableOpacity
                   onPress={() => { this.setState({ modalVisible: true }) }}
                   style={[styles.button, { alignSelf: 'flex-end', borderWidth: 0 }]}>
-                  <Text style={[styles.buttonText]}>CHỌN LỌC</Text>
+                  <Text style={[styles.buttonText]}>{i18n.t('filter.filters')}</Text>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
                   {!isEmpty(filterRequired.acreage_rent) &&
@@ -108,8 +109,8 @@ class Offices extends React.Component {
               </View>
               <View >
                 {officeList.length < 1 ?
-                  <Text>Danh sách văn phòng hiện đang trống.</Text> :
-                  officeList.map((item, index) => {
+                  <Text>{i18n.t('global.updating')}</Text>
+                  : officeList.map((item, index) => {
                     item.building_id = building_id
                     item.building_name = building_name
                     if (isEmpty(filterRequired.acreage_rent) ||
@@ -122,7 +123,7 @@ class Offices extends React.Component {
                         </TouchableOpacity>
                       )
                     }
-                    else return (<Text>Không thấy kết quả phù hợp</Text>)
+                    else return (<Text>{i18n.t('filter.noResult')}</Text>)
                   })}
               </View>
             </View>}
