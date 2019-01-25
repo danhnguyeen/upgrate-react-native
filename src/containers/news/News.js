@@ -1,112 +1,119 @@
 import React from 'react';
-import { Image, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
-import { Content, Text } from "native-base"
-
-import { shadow, backgroundColor, brandLight } from '../../config/variables';
-
-const marginHorizontal = 10;
-const windowWidth = Dimensions.get('window').width;
+import { connect } from 'react-redux';
+import * as actions from './news-actions';
+import { Image, ScrollView, StyleSheet, TouchableOpacity, RefreshControl, View, Alert, Text } from 'react-native'
+import i18n from '../../i18n';
+import {
+  DEVICE_WIDTH, shadow, backgroundColor, brandPrimary, brandLight,
+  fontSize, textH4, textDarkColor, textLightColor,
+} from '../../config/variables';
+import FastImage from 'react-native-fast-image'
+const marginHorizontal = 20;
 const itemHeight = 185
-const itemWidth = (windowWidth - (marginHorizontal * 2));
-const itemWidthHor = itemWidth / 4 * 3;
-const ENTRIES1 = [
-  {
-    title: 'Nắm ngay bí quyết có làn da đẹp cho phụ nữ văn phòng',
-    subtitle: 'Với những gợi ý của các chuyên gia dinh dưỡng dưới đây thì phụ nữ văn phòng sẽ chẳng còn phải lo lắng làm gì để có làn da đẹp nữa. Cùng hệ thống văn phòng cho thuê PAX SKY tham khảo ngay những bí quyết làm đẹp da này để luôn tự tin nơi công sở, làm việc hiệu quả nhất các cô nàng nhé.',
-    illustration: require('../../assets/images/news1.jpg')
-  },
-  {
-    title: 'Văn phòng vàng vị trí vàng – Tặng 12 tháng phí quản lý',
-    subtitle: 'Nhân dịp khai trương 2 tòa nhà mới đi vào hoạt động, Hệ thống văn phòng cho thuê PAX SKY áp dụng chương trình Văn phòng vị trí vàng – Tặng 12 tháng quản lý.',
-    illustration: require('../../assets/images/news2.jpg')
-  },
-  {
-    title: 'Kỷ niệm Ngày lập quốc của Đại Hàn Dân Quốc tại phòng sự kiện PAX SKY',
-    subtitle: 'Ngày 18/10/2018 vừa qua, lần kỷ niệm thứ 4350 Ngày lập quốc của Đại Hàn Dân Quốc đã diễn ra tại phòng sự kiện tòa nhà PAX SKY 159C Đề Thám, Quận 1.',
-    illustration: require('../../assets/images/news3.jpg')
-  },
-  {
-    title: 'Top những văn phòng đẹp và độc đáo nhất trên thế giới',
-    subtitle: 'Không hề đi theo những nguyên tắc truyền thống trong việc thiết kế không gian làm việc, top 5 văn phòng đẹp và độc đáo nhất thế giới sau sẽ khiến bạn phải kinh ngạc.',
-    illustration: require('../../assets/images/news4.jpg')
-  }
-]
-class News extends React.Component {
+const itemWidth = (DEVICE_WIDTH - (marginHorizontal * 2));
+const itemWidthHor = itemWidth * 0.9;
 
-  renderSlides = () => ENTRIES1.map((item, index) => {
-    return (
-      <View key={index} style={[styles.tagNewsHor, { width: itemWidthHor }]}>
+class News extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      refreshing: false
+    }
+  }
+  componentDidMount() {
+    this._onRefresh()
+  }
+  _onRefresh = async () => {
+    this.setState({ refreshing: true })
+    await this.props._onfetchNews().catch(error => Alert.alert(i18n.t('global.error'), error.message))
+    this.setState({ refreshing: false })
+  }
+  showDetails = (selectedItem) => {
+    this.setState({ selectedItem });
+    this.props.navigation.navigate('ModalNews', { dataProps: { newsDetail: selectedItem } })
+  }
+  closeModalDetails = () => {
+    this.setState({ selectedItem: null });
+  }
+  renderSpecialNews = () => this.props.specialNews.map((item, index) =>
+    <TouchableOpacity activeOpacity={1} key={index} onPress={() => this.showDetails(item)}>
+      <View style={[styles.tagNewsHor, shadow, { width: itemWidthHor, minHeight: 280 }]}>
         <View style={{ overflow: 'hidden', borderTopRightRadius: 3, borderTopLeftRadius: 3 }}>
-          <Image style={{ width: itemWidthHor, height: 120 }} source={item.illustration} />
+          <FastImage resizeMode='cover'
+            source={{ uri: item.image, priority: FastImage.priority.high }}
+            style={{ width: itemWidthHor, height: 120 }} />
         </View>
-        <View style={{ paddingHorizontal: 10, paddingTop: 10 }} >
-          <Text numberOfLines={1} style={[styles.line, { fontSize: 10, }]} >19 THÁNG MƯỜI MỘT, 2018 </Text>
-          <Text numberOfLines={3} style={[styles.line, styles.h2]} >{item.title}</Text>
-          <Text numberOfLines={3} style={[styles.line, styles.text]} >{item.subtitle}</Text>
+        <View style={{ padding: 15 }}>
+          <Text numberOfLines={1} style={styles.time}>{item.public_date}</Text>
+          <Text numberOfLines={2} style={styles.title}>{item.title}</Text>
+          <Text numberOfLines={3} style={styles.content}>{item.content}</Text>
         </View>
       </View>
-    )
-  });
+    </TouchableOpacity>
+  )
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: backgroundColor}}>
-        <Content>
-          <View style={{ paddingVertical: 10 }} >
-            <Text style={[styles.h2, { paddingLeft: 10 }]}>NỔI BẬT</Text>
-            <ScrollView 
-              horizontal
-              contentContainerStyle={{ paddingHorizontal: 10 }}
-              // style={{ flex: 1, paddingRight: 10 }}
-              showsHorizontalScrollIndicator={false}
-              ref={ref => { this.slideMapScroll = ref }} >
-              {this.renderSlides()}
-            </ScrollView>
-          </View>
-          <View style={{ paddingHorizontal: 15 }} >
-            <Text style={[styles.h2, { paddingBottom: 10 }]}>TIN TỨC</Text>
-            {ENTRIES1.map((item, index) =>
-              <View key={index} style={styles.tagNewsVer}>
-                <View style={{ flex: 1, overflow: 'hidden', borderTopRightRadius: 3, borderTopLeftRadius: 3 }}>
-                  <Image style={{ width: '100%', height: itemHeight }} source={item.illustration} />
+      <View style={styles.container}>
+        <ScrollView horizontal={false}
+          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
+          {this.props.specialNews.length > 0 &&
+            <View style={{ paddingVertical: 20 }} >
+              <Text style={[textH4, { paddingHorizontal: 20, color: brandPrimary }]}>{i18n.t('news.specialNews')}</Text>
+              <ScrollView horizontal
+                showsHorizontalScrollIndicator={false}
+                ref={ref => { this.renderSpecialNewsScroll = ref }} >
+                <View style={{ paddingHorizontal: 15, flexDirection: 'row' }} >
+                  {this.renderSpecialNews()}
                 </View>
-                <View style={{ paddingHorizontal: 10, paddingTop: 10 }} >
-                  <Text numberOfLines={1} style={[styles.line, { fontSize: 10, }]} >19 THÁNG MƯỜI MỘT, 2018 </Text>
-                  <Text numberOfLines={3} style={[styles.line, styles.h2]} >{item.title}</Text>
-                  <Text numberOfLines={3} style={[styles.line, styles.text]} >{item.subtitle}</Text>
-                </View>
-              </View>
-            )}
-          </View>
-        </Content>
+              </ScrollView>
+            </View>
+          }
+          {this.props.news.length > 0 &&
+            <View style={{ paddingHorizontal: 20 }} >
+              <Text style={[textH4, { color: brandPrimary }]}>{i18n.t('news.news')}</Text>
+              {this.props.news.map((item, index) =>
+                <TouchableOpacity activeOpacity={1} key={index} onPress={() => this.showDetails(item)}>
+                  <View style={[styles.tagNewsVer, shadow]}>
+                    <View style={{ flex: 1, overflow: 'hidden', borderTopRightRadius: 3, borderTopLeftRadius: 3 }}>
+                      <FastImage resizeMode='cover' style={{ width: '100%', height: itemHeight }}
+                        source={{ uri: item.image, priority: FastImage.priority.high }} />
+                    </View>
+                    <View style={{ padding: 10 }} >
+                      <Text numberOfLines={1} style={styles.time} >{item.public_date} </Text>
+                      <Text numberOfLines={3} style={styles.title}>{item.title}</Text>
+                      <Text numberOfLines={3} style={styles.content}>{item.content}</Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              )}
+            </View>
+          }
+        </ScrollView>
       </View>
     )
   }
 };
 
 const styles = StyleSheet.create({
-  paragraph: {
-    marginBottom: 20,
+  container: {
+    flex: 1,
+    backgroundColor: backgroundColor
   },
-  line: {
-    marginBottom: 10
+  time: {
+    color: textLightColor,
+    fontSize: 12,
+    lineHeight: 18,
   },
-  text: {
-    marginBottom: 10,
-    color: '#666666',
-    lineHeight: 25,
-  },
-  h1: {
-    color: '#11519b',
+  title: {
+    color: brandPrimary,
     fontSize: 18,
-    fontWeight: '700'
+    lineHeight: 27,
+    fontWeight: '700',
   },
-
-  h2: {
-    color: '#11519b',
-    fontWeight: '500'
-  },
-  highlight: {
-    color: '#11519b',
+  content: {
+    color: textDarkColor,
+    fontSize: 16,
+    lineHeight: 21,
   },
   tagNewsHor: {
     ...shadow,
@@ -123,4 +130,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default News;
+const mapStateToProps = state => ({
+  news: state.news.news,
+  specialNews: state.news.specialNews,
+})
+
+const mapDispatchToProps = dispatch => ({
+  _onfetchNews: () => dispatch(actions.fetchNews())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(News)

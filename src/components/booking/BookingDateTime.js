@@ -4,7 +4,8 @@ import moment from 'moment'
 import DatePicker from 'react-native-datepicker'
 import { StyleSheet, TouchableOpacity, View, TextInput, Alert, ActivityIndicator } from 'react-native'
 import { Icon, Text, } from "native-base"
-import { backgroundColor, textDarkColor, inverseTextColor, brandPrimary, winH, inputFontSize } from '../../config/variables';
+import { backgroundColor, textDarkColor, inverseTextColor, brandPrimary, brandLight, winH, inputFontSize } from '../../config/variables';
+import i18n from "../../i18n";
 
 const OPENTIME = '10:00'
 const CLOSETIME = '17:00'
@@ -64,37 +65,38 @@ export default class BookingDateTime extends React.Component {
   }
 
   collectBooking = async () => {
-    this.setState({ isChecking: true })
-    const data = { ...this.state.data }
-    let bookingTime = data.time
-    let bookingDate = data.date
-    const currentTime = moment().format('HH:mm')
-    const currentDate = moment().format('DD/MM/YYYY')
-    if (bookingDate < currentDate) {
-      Alert.alert('Lỗi', 'Ngày đặt hẹn không phù hợp')
-      this.setState({ isChecking: false })
-    }
-    else if (bookingDate > currentDate && (bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
-      Alert.alert('Lỗi', 'Thời gian đặt hẹn không hợp lệ')
-      this.setState({ isChecking: false })
-    }
-    else if (bookingDate == currentDate && (bookingTime < currentTime || bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
-      Alert.alert('Lỗi', 'Thời gian đặt hẹn không hợp lệ')
-      this.setState({ isChecking: false })
-    }
-    else {
-      const schedule_date = moment(bookingDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
-      const schedule_time = moment(bookingTime, 'HH:mm').format('HH:mm')
-      // console.log(schedule_date, schedule_time)
-      const dataBooking = {
-        schedule_date: schedule_date,
-        schedule_time: schedule_time,
-        notes: data.ReserDescription,
+    if (!this.state.isChecking) {
+      this.setState({ isChecking: true })
+      const data = { ...this.state.data }
+      let bookingTime = data.time
+      let bookingDate = data.date
+      const currentTime = moment().format('HH:mm')
+      const currentDate = moment().format('DD/MM/YYYY')
+      if (bookingDate < currentDate) {
+        Alert.alert(i18n.t('appointment.timeError'), null)
+        this.setState({ isChecking: false })
       }
-      this.props.onSignUpSubmit(dataBooking)
-      this.setState({ isChecking: false })
+      else if (bookingDate > currentDate && (bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
+        Alert.alert(i18n.t('appointment.timeError'), null)
+        this.setState({ isChecking: false })
+      }
+      else if (bookingDate == currentDate && (bookingTime < currentTime || bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
+        Alert.alert(i18n.t('appointment.timeError'), null)
+        this.setState({ isChecking: false })
+      }
+      else {
+        const schedule_date = moment(bookingDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
+        const schedule_time = moment(bookingTime, 'HH:mm').format('HH:mm')
+        // console.log(schedule_date, schedule_time)
+        const dataBooking = {
+          schedule_date: schedule_date,
+          schedule_time: schedule_time,
+          notes: data.ReserDescription,
+        }
+        this.props.onSignUpSubmit(dataBooking)
+        this.setState({ isChecking: false })
+      }
     }
-
   }
 
   onChangeHandler = (value, key) => {
@@ -124,9 +126,9 @@ export default class BookingDateTime extends React.Component {
               mode="date"
               showIcon={false}
               format="DD/MM/YYYY"
-              placeholder={'Chọn Ngày'}
-              confirmBtnText={'Xác Nhận'}
-              cancelBtnText={'Hủy'}
+              placeholder={i18n.t('appointment.selectDate')}
+              confirmBtnText={i18n.t('global.confirm')}
+              cancelBtnText={i18n.t('global.cancel')}
               androidMode={'spinner'}
               height={winH(50)}
               customStyles={{
@@ -145,9 +147,9 @@ export default class BookingDateTime extends React.Component {
               mode="time"
               showIcon={false}
               format="HH:mm"
-              placeholder={'Chọn Giờ'}
-              confirmBtnText={'Xác Nhận'}
-              cancelBtnText={'Hủy'}
+              placeholder={i18n.t('appointment.selectTime')}
+              confirmBtnText={i18n.t('global.confirm')}
+              cancelBtnText={i18n.t('global.cancel')}
               androidMode={'spinner'}
               style={{ width: 'auto', flex: 0.7 }}
               height={winH(50)}
@@ -160,7 +162,7 @@ export default class BookingDateTime extends React.Component {
           </View>
         </View>
         <View style={[styles.paragraph, { borderRadius: 0, borderBottomColor: '#AAAAAA', borderBottomWidth: 1 }]}>
-          <Text style={{ color: textDarkColor, fontSize: 16, fontWeight: '500', lineHeight: 30, }}>{'Ghi chú : '}</Text>
+          <Text style={{ color: textDarkColor, fontSize: 16, fontWeight: '500', lineHeight: 30, }}>{i18n.t('appointment.note')}</Text>
           <TextInput
             multiline
             style={{ color: textDarkColor, minHeight: 100, fontSize: inputFontSize }}
@@ -174,7 +176,7 @@ export default class BookingDateTime extends React.Component {
         <View style={styles.paragraph}>
           <TouchableOpacity onPress={() => { this.collectBooking() }}
             style={[styles.buttonBg, { padding: 10 }]}>
-            {this.state.isChecking ? <ActivityIndicator color={'white'} /> : <Text style={[styles.buttonBgText]}>XÁC NHẬN</Text>}
+            <Text style={[styles.buttonBgText]}>{i18n.t('global.confirm').toUpperCase()}</Text>{this.state.isChecking && <ActivityIndicator color={'white'} />}
           </TouchableOpacity>
         </View>
       </View>
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor
   },
   paragraph: {
-    backgroundColor,
+    backgroundColor: brandLight,
     borderRadius: 3,
     marginBottom: 20,
     paddingVertical: 10,

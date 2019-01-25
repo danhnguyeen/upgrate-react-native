@@ -6,7 +6,9 @@ export default {
     confirm: "Confirm",
     readMore: "Read more",
     showLess: "Show less",
-    error: "Error"
+    error: "Error",
+    networkError: "No network connection detected. Please check your Internet Connection and Try Again",
+    updating: "Updating...",
   },
   tabs: {
     home: 'Home',
@@ -31,6 +33,7 @@ export default {
     all: "Select all",
     price: "Price",
     acreage: "Acreage",
+    noResult: "Sorry, There are no results matching your filters."
   },
   buildingDetail: {
     updating: "Updating",
@@ -50,7 +53,7 @@ export default {
   account: {
     signIn: 'Sign in',
     signUp: 'Sign up',
-    goToSignIn: "Log In to Existing Account",
+    goToSignIn: "Login to existing account",
     goToSignUp: "Create a new account",
     email: "Email",
     password: "Password",
@@ -69,7 +72,7 @@ export default {
     male: 'Male',
     other: 'Other',
     female: 'Female',
-    yourGender: "Giới tính của ban?",
+    yourGender: "Your gender?",
     phoneNumber: 'Phone',
     address: 'Address',
     province: 'Province',
@@ -94,23 +97,31 @@ export default {
     }
   },
   appointment: {
-    appointmentEmpty: "I have not booked yet",
-    loadingFail: "Failed to load swipe down to refresh",
-    deleteConfirm: 'Confirmation of your cancellation',
+    status: "Status",
     pending: "Pending",
-    schedule: "Scheduled",
+    scheduled: "Scheduled",
     done: "Done",
-    cancel: "Cancelled",
-    update: "Update",
-    rating: "Rating",
-    report: "Report",
-    contact: "Contact",
+    cancelled: "Cancelled",
+    btUpdate: "Update",
+    btRating: "Rating",
+    btReport: "Report",
+    btContact: "Contact",
+    btCancel: "Cance",
     office: "Office",
     saler: "Saler",
-    appointmentList: 'Appointment List'
-  },
-  booking: {
-    makeAnAppointment: "Make an appointment"
+    appointmentList: 'Appointment List',
+    appointmentRequest: "Appointment Request",
+    appointmentEmpty: "I have not booked yet",
+    bookingFail: "Your request has failed",
+    bookingSuccess: "Your request has been submitted",
+    bookingSuccessContent: "Thank you for your request. We will contact you very soon!",
+    cancelConfirm: "Cancel confirm",
+    cancelContent: "Are you sure you want to cancel this booking?",
+    updateFail: "Update has failed",
+    timeError: "Your Booking time is not available",
+    selectDate: "Select date",
+    selectTime: "Select time",
+    note: "Ghi chú",
   },
   review: {
     myReviews: "My Reviews",
@@ -118,8 +129,12 @@ export default {
     addYourReview: "Add Review",
     rating: "Ratings",
     great: "Great!!!",
-    pleaseAddYourRating: "You have not rated yet, Please add your rating",
-    addYourCommentsHere: "Add your comments here..."
+    pleaseAddYourRating: "Please choose a star rating",
+    addYourCommentsHere: "Add your comments"
+  },
+  news: {
+    news: 'NEWS',
+    specialNews: 'SPECIAL',
   },
   contact: {
     paxsky: "Contact PAXSKY",

@@ -1,12 +1,11 @@
 import React from 'react';
 import moment from 'moment';
-import { StyleSheet, TouchableOpacity, View, ActivityIndicator, Alert, Linking, RefreshControl } from 'react-native';
-import { Content, Icon, Text, ActionSheet } from "native-base";
+import { StyleSheet, TouchableOpacity, View, Alert, Linking, RefreshControl } from 'react-native';
+import { Content, Text, ActionSheet } from "native-base";
 import { connect } from 'react-redux';
+import axios from '../../config/axios';
 import { ModalPopup } from '../../components/common';
 import { BookingRating } from '../../components/booking/';
-
-import axios from '../../config/axios';
 import { brandPrimary, textDarkColor, shadow, brandLight, backgroundColor, statusColors } from '../../config/variables';
 import { _dispatchStackActions } from '../../util/utility';
 import i18n from '../../i18n';
@@ -38,10 +37,10 @@ class BookingItem extends React.Component {
 
   clickedCancel = () => {
     Alert.alert(
-      i18n.t('appointment.deleteConfirm'),
-      null,
+      i18n.t('appointment.cancelConfirm'),
+      i18n.t('appointment.cancelContent'),
       [
-        { text: i18n.t('global.cancel'), onPress: () => { }, style: 'cancel' },
+        { text: i18n.t('global.cancel'), style: 'cancel' },
         { text: i18n.t('global.confirm'), onPress: () => this.props.onCancelSubmit(this.props.booking.appointment_id) },
       ],
       { cancelable: false }
@@ -65,43 +64,42 @@ class BookingItem extends React.Component {
     const booking = this.props.booking
     booking.status = {
       color: statusColors.yellow,
-      text: i18n.t('appointment.pending'),
-      icon: 'checkbox-blank-circle'
+      icon: 'circle',
+      text: i18n.t('appointment.pending')
     }
+    let btnFuncText = i18n.t('appointment.btContact')
+    let onPressFunction = this.contactFunction
 
-    let btnFuncText = i18n.t('appointment.update'),
-      onPressFunction
     switch (booking.status_name) {
       case 'Pending':
         booking.status.color = statusColors.yellow
-        booking.status.text = i18n.t('appointment.pending')
         booking.status.icon = 'circle'
-        btnFuncText = i18n.t('appointment.update')
-        onPressFunction = () => { this.props.navigation.navigate('ModalBooking', { dataProps: { bookingDetail: booking } }) }
+        booking.status.text = i18n.t('appointment.pending')
+        btnFuncText = i18n.t('appointment.btUpdate')
+        onPressFunction = () => this.props.navigation.navigate('ModalBooking', { dataProps: { bookingDetail: booking } })
         break
       case 'Schedule':
         booking.status.color = statusColors.green
-        booking.status.text = i18n.t('appointment.schedule')
         booking.status.icon = 'check-circle'
-        btnFuncText = i18n.t('appointment.contact')
-        onPressFunction = () => this.contactFunction()
+        booking.status.text = i18n.t('appointment.scheduled')
+        btnFuncText = i18n.t('appointment.btContact')
+        onPressFunction = this.contactFunction
         break
       case 'Done':
-        booking.status.color = textDarkColor
-        booking.status.text = i18n.t('appointment.done')
+        booking.status.color = statusColors.grey
         booking.status.icon = 'checkbox-multiple-marked-circle'
-        btnFuncText = i18n.t('appointment.rating')
-        onPressFunction = () => { this.props.onRatingPress(booking) }
+        booking.status.text = i18n.t('appointment.done')
+        btnFuncText = i18n.t('appointment.btRating')
+        onPressFunction = this.props.onRatingPress
         break
       case 'Cancel':
         booking.status.color = statusColors.red
-        booking.status.text = i18n.t('appointment.cancel')
         booking.status.icon = 'close-circle'
-        btnFuncText = i18n.t('appointment.report')
-        onPressFunction = () => { this.props.onRatingPress(booking) }
+        booking.status.text = i18n.t('appointment.cancelled')
+        btnFuncText = i18n.t('appointment.btReport')
+        onPressFunction = this.props.onRatingPress
         break
     }
-
     return (
       <View style={[styles.paragraph, shadow, { paddingVertical: 0, paddingHorizontal: 0, borderRadius: 0, flexDirection: 'row' }]}>
         <View style={{ backgroundColor: '#072f6a', justifyContent: 'center', alignItems: 'center', padding: 10, }}>
@@ -113,12 +111,12 @@ class BookingItem extends React.Component {
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: '#0D3D74', fontSize: 17, lineHeight: 30, fontWeight: '700', textAlign: 'center' }}>{booking.building_name}</Text>
             <View style={{ flexDirection: 'row', marginHorizontal: 5 }} >
-              <Text style={{ flex: 0.3, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '500', textAlign: 'right', marginRight: 5 }}>{`${i18n.t('appointment.office')} : `}</Text>
-              <Text style={{ flex: 0.6, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '300' }} numberOfLines={1}>{booking.office_name}</Text>
+              <Text numberOfLines={1} allowFontScaling style={{ flex: 0.3, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '500', textAlign: 'right', marginRight: 5 }}  >{`${i18n.t('appointment.office')}:`}</Text>
+              <Text numberOfLines={1} allowFontScaling style={{ flex: 0.6, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '300' }} >{booking.office_name}</Text>
             </View>
             <View style={{ flexDirection: 'row', marginHorizontal: 5 }} >
-              <Text style={{ flex: 0.3, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '500', textAlign: 'right', marginRight: 5 }}>{`${i18n.t('appointment.saler')} : `}</Text>
-              <Text style={{ flex: 0.6, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '300' }}>{`${booking.sale_person_name ? booking.sale_person_name : '--'}`}</Text>
+              <Text numberOfLines={1} allowFontScaling style={{ flex: 0.3, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '500', textAlign: 'right', marginRight: 5 }}>{`${i18n.t('appointment.saler')}`}</Text>
+              <Text numberOfLines={1} allowFontScaling style={{ flex: 0.6, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '300' }}>{`${booking.sale_person_name ? booking.sale_person_name : '--'}`}</Text>
             </View>
           </View>
           <View style={styles.spectators} />
@@ -129,12 +127,12 @@ class BookingItem extends React.Component {
             {booking.status_name == 'Pending' &&
               <TouchableOpacity onPress={() => { this.clickedCancel() }}
                 style={{ color: statusColors.red, paddingHorizontal: 10, margin: 5, }}>
-                <Text style={[styles.buttonText, { color: statusColors.red }]}>{i18n.t('global.cancel')}</Text>
+                <Text style={[styles.buttonText, { color: statusColors.red }]}>{i18n.t('appointment.btCancel')}</Text>
               </TouchableOpacity>
             }
             <TouchableOpacity onPress={onPressFunction}
               style={{ color: statusColors.orange, paddingHorizontal: 10, margin: 5, }}>
-              <Text style={[styles.buttonText, { color: statusColors.brandPrimary, fontSize: 16, fontWeight: '500' }]}>{btnFuncText}</Text>
+              <Text style={[styles.buttonText, { color: brandPrimary, fontSize: 16, fontWeight: '500' }]}>{btnFuncText}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -164,7 +162,6 @@ class Appointment extends React.Component {
       }
     })
   }
-
   _onFetching = async () => {
     this.setState({ refreshing: true })
     const customer_id = this.props.user.customer_id
@@ -205,7 +202,6 @@ class Appointment extends React.Component {
   }
   render() {
     const { appointmentList, isFetching } = this.state
-    console.log(appointmentList)
     return (
       <View style={{ flex: 1, backgroundColor }}>
         {!this.props.isAuth ?
@@ -233,13 +229,14 @@ class Appointment extends React.Component {
                   <Text style={{ color: brandPrimary, textAlign: 'center' }}>{i18n.t('appointment.appointmentEmpty')}</Text>
                 </TouchableOpacity>
               :
-              <Text style={{ color: brandPrimary, textAlign: 'center' }}>{i18n.t('appointment.loadingFail')}</Text>
+              <Text style={{ color: brandPrimary, textAlign: 'center' }}>{i18n.t('global.updating')}</Text>
             }
           </Content>
         }
-        <ModalPopup title={i18n.t('appointment.rating')} visible={this.state.modalVisible} onRequestClose={this._modalHandler} >
-          <BookingRating onRequestClose={this._modalHandler}
-            onRatingSubmit={(ratingData) => { this._onRatingSubmit(ratingData) }}
+        <ModalPopup title={i18n.t('review.rating')} visible={this.state.modalVisible} onRequestClose={this._modalHandler} >
+          <BookingRating
+            onRequestClose={this._modalHandler}
+            onRatingSubmit={this._onRatingSubmit}
             itemRating={this.state.itemRating} />
         </ModalPopup>
       </View >

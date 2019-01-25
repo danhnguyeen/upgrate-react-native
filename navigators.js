@@ -5,7 +5,7 @@ import { Icon } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Welcome } from './src/containers/welcome';
-import { News } from './src/containers/news';
+import { News, NewsDetail } from './src/containers/news';
 import { Locations } from './src/containers/locations';
 import { Appointment } from './src/containers/appointment';
 import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook, Profile } from './src/containers/account';
@@ -93,13 +93,6 @@ const BuildingStack = createStackNavigator({
       ...headerOptions
     }
   },
-  Booking: {
-    screen: Booking,
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('booking.makeAnAppointment')
-    }
-  }
 }, {
     initialRouteName: 'Buildings',
     navigationOptions: {
@@ -198,7 +191,12 @@ const NotificationsStack = createStackNavigator({
     navigationOptions: headerOptions
   }
 });
-
+const ModalBookingStack = createStackNavigator({
+  ModalBooking: { screen: Booking, navigationOptions: headerOptions }
+});
+const ModalNewsStack = createStackNavigator({
+  ModalNews: { screen: NewsDetail, navigationOptions: headerOptions }
+});
 const MainNavigator = createBottomTabNavigator({
   Home: HomeStack,
   Buildings: BuildingStack,
@@ -245,17 +243,11 @@ const AppNavigator = createStackNavigator({
   Main: createSwitchNavigator(
     { MainNavigator }
   ),
-  ModalBooking: {
-    screen: Booking,
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('booking.makeAnAppointment')
-    }
-  },
+  ModalNews: ModalNewsStack,
+  ModalBooking: ModalBookingStack,
   Notifications: NotificationsStack
 }, {
   defaultNavigationOptions: { header: null },
-  mode: 'modal',
   initialRouteName: 'Main'
 });
 const AppContainer = createAppContainer(AppNavigator);

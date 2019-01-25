@@ -1,7 +1,5 @@
-import { Platform, Dimensions, PixelRatio, StatusBar, NativeEventEmitter, NativeModules } from 'react-native';
+import { Platform, Dimensions, PixelRatio } from 'react-native';
 import { Header } from 'react-navigation';
-
-const { StatusBarManager } = NativeModules;
 
 export const DEVICE_HEIGTH = Dimensions.get('window').height;
 export const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -14,24 +12,7 @@ export const isIphoneX = Platform.OS === 'ios' &&
   !Platform.isPad &&
   !Platform.isTVOS &&
   ((dimen.height === 812 || dimen.width === 812) || (dimen.height === 896 || dimen.width === 896));
-export function getStatusBarHeight(skipAndroid = false) {
-  if (Platform.OS === 'ios') {
-    return isIphoneX ? 44 : 20;
-  }
-  if (skipAndroid) {
-    return 0;
-  }
-  return StatusBar.currentHeight;
-};
-// let statusBarH;
-// StatusBarManager.getHeight(({ height }) => console.log('heigh' +height));
-// export const statusBarHeight = async() => {
-//   const height = await StatusBarManager.getHeight();
-//   console.log(height);
-//   return height;
-// };
 
-export const navHeight = Header.HEIGHT + getStatusBarHeight() - 19;
 // Colors
 export const brandPrimary = '#072f6a'; //'#2997d8';
 export const brandInfo = '#5F9EE7';
@@ -52,7 +33,7 @@ export const statusColors = {
   orange_yellow: '#f99e0',
   yellow: '#debb3d',
   heartColor: 'rgba(239,87,87,.9)',
-  grey: '#ccc',
+  grey: '#A9A9A9',
 }
 // Background Color
 
@@ -90,7 +71,7 @@ export const textH4 = { fontSize: fontSizeH4, fontFamily: fontFamilyBold };
 
 // Title
 export const titleFontSize = fontSize + 2;
-
+export const titleTextColor = "#0D3D74";
 export const shadow = {
   elevation: 1,
   shadowColor: '#1a1917',

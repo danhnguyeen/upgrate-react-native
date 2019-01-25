@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { brandLight, textLightColor, brandPrimary, fontSize, shadow } from '../../config/variables';
 
+import i18n from '../../i18n';
 const LOGO = require('../../assets/images/logo-grey.jpg')
 
 export default class TagOffice extends React.Component {
@@ -60,11 +61,11 @@ export default class TagOffice extends React.Component {
               <Text>{officeDetail.direction}</Text>
             </View>
             <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }}
-              onPress={() => { this.props.navigation.navigate('Booking', { dataProps: { officeDetail: officeDetail } }) }}>
+              onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: officeDetail } }) }}>
               <LinearGradient start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }} colors={['#80C2F3', '#3E89E2']}
                 style={{ flex: 1, borderRadius: 3, alignItems: 'center', alignContent: 'center', justifyContent: 'center', flexDirection: 'row', }} >
                 <Icon style={[styles.buttonBgText, { fontSize: 22, paddingRight: 5 }]} name={`calendar-plus`} type={'MaterialCommunityIcons'} />
-                <Text style={[styles.buttonBgText]}>Đặt lịch hẹn</Text>
+                <Text style={[styles.buttonBgText]}>{i18n.t('appointment.appointmentRequest')}</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
