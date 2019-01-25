@@ -2,23 +2,16 @@ import React, { Component } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
-import { NavigationActions } from 'react-navigation';
 import Swipeout from 'react-native-swipeout';
 
 import * as actions from './notification-actions';
 import {
-  brandDark,
   brandLight,
-  brandPrimary,
   DEVICE_WIDTH,
-  fontFamily,
   fontSize,
   textColor,
-  textDarkColor,
-  titleFontSize,
   inverseTextColor,
   backgroundColor,
-  shadow,
   textLightColor
 } from "../../config/variables";
 import i18n from "../../i18n";
@@ -115,7 +108,7 @@ class Notifications extends Component {
   }
   closeModalHandler = () => {
     this.getNotification();
-    // this.props.fetchNotificationCount();
+    this.props.fetchNotificationCount(this.props.user.customer_id);
     this.setState({ selectedItem: null });
   }
   markAllAsReadConfirm = () => {
@@ -132,13 +125,13 @@ class Notifications extends Component {
   markAllAsRead = async () => {
     await axios.post('notification/markReadAll');
     this.getNotification();
-    await this.props.fetchNotificationCount();
+    await this.props.fetchNotificationCount(this.props.user.customer_id);
   }
   markAsRead = async (id) => {
     this.setState({ rowIndex: null });
     await axios.post('notification/update-read-notification', { notification_id: id });
     this.getNotification();
-    this.props.fetchNotificationCount();
+    this.props.fetchNotificationCount(this.props.user.customer_id);
   }
   deleteWithConfirm = async (id) => {
     Alert.alert(
@@ -151,10 +144,9 @@ class Notifications extends Component {
     )
   }
   deleteHandler = async (id) => {
-    console.log(id)
     await axios.post('notification/delete', { notification_id: id });
     this.getNotification();
-    // this.props.fetchNotificationCount();
+    this.props.fetchNotificationCount(this.props.user.customer_id);
     this.setState({ rowIndex: null, selectedItem: null });
   }
   renderItem = ({ item, index }) => {
@@ -256,13 +248,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  // notifications: state.notificationState.notifications
   user: state.auth.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  // fetchNotifications: (data) => dispatch(actions.fetchNotifications(data)),
-  // fetchNotificationCount: () => dispatch(actions.fetchNotificationCount())
+  fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id))
 });
 
 

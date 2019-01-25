@@ -38,7 +38,7 @@ export default class TagOffice extends React.Component {
           <Text style={{ color: brandPrimary, fontWeight: 'bold', fontSize: fontSize + 3, marginBottom: 10 }}>{officeDetail.office_name}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <View style={{ flex: 0.6 }}>
+          <View style={{ flex: 0.5 }}>
             {this.state.image_thumbnail_src ?
               <Image style={{ width: '100%', height: 120 }} resizeMode={'cover'}
                 onError={({ nativeEvent: { error } }) => { this.setState({ image_thumbnail_src: false }) }}
@@ -47,7 +47,7 @@ export default class TagOffice extends React.Component {
               <Image resizeMode={'cover'} style={{ width: '100%', height: 120 }} source={LOGO} />
             }
           </View>
-          <View style={{ flex: 0.4, paddingLeft: 10, }}>
+          <View style={{ flex: 0.5, paddingLeft: 10, }}>
             <View style={{ flexDirection: 'row' }}>
               <Icon style={{ color: textLightColor, fontSize: 20, marginRight: 10, marginBottom: 5 }} name='ios-expand' type='Ionicons' />
               <Text>{officeDetail.acreage_rent}m2</Text>

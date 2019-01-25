@@ -35,7 +35,7 @@ class Profile extends Component {
       headerTintColor: '#fff',
       headerBackground: (
         <LinearGradient
-          colors={['#072f6a', '#0d59ca']}
+          colors={['#2079ae', '#54ace0']}
           style={{ flex: 1 }}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}

@@ -16,13 +16,13 @@ class ChangePassword extends Component {
     formTouched: false,
     saving: false,
     form: {
-      currentPassword: {
+      password_old: {
         value: '',
         validation: {
           required: true
         }
       },
-      newPassword: {
+      password: {
         value: '',
         validation: {
           required: true,
@@ -33,7 +33,7 @@ class ChangePassword extends Component {
         value: '',
         validation: {
           required: true,
-          isEqualTo: 'newPassword'
+          isEqualTo: 'password'
         }
       }
     }
@@ -41,16 +41,17 @@ class ChangePassword extends Component {
   onSubmit = async () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     this.setState({ formTouched: true });
-    const { form, formIsValid, data } = validateForm({ ...this.state.form });
+    const { formIsValid, data } = validateForm({ ...this.state.form });
     if (formIsValid) {
       try {
         this.setState({ saving: true });
         data.customer_id = this.props.user.customer_id;
-        await axios.post('auth/changePassword', data);
+        await axios.post('customer/update-password', data);
+        this.setState({ saving: false });
         this.onUpdatedSuccess();
       } catch (error) {
         this.setState({ saving: false });
-        if (error.message === "Wrong password") {
+        if (error.message === "Password incorrect") {
           error.message = i18n.t('account.profile.currentPasswordIsIncorrect')
         }
         Alert.alert(i18n.t('global.error'), error.message);
@@ -93,21 +94,21 @@ class ChangePassword extends Component {
               <TextInput
                 label={i18n.t('account.profile.currentPassword')}
                 returnKeyType="next"
-                value={this.state.form.currentPassword.value}
+                value={this.state.form.password_old.value}
                 secureTextEntry
-                inValid={this.state.form.currentPassword.inValid}
+                inValid={this.state.form.password_old.inValid}
                 errorMessage={i18n.t('account.valid.currentPassword')}
                 icon={{ name: 'ios-lock' }}
-                onChangeText={(value) => this.inputChangeHandler(value, 'currentPassword')} />
+                onChangeText={(value) => this.inputChangeHandler(value, 'password_old')} />
               <TextInput
                 label={i18n.t('account.profile.newPassword')}
                 returnKeyType="next"
-                value={this.state.form.newPassword.value}
+                value={this.state.form.password.value}
                 secureTextEntry
-                inValid={this.state.form.newPassword.inValid}
+                inValid={this.state.form.password.inValid}
                 errorMessage={i18n.t('account.valid.newPassword')}
                 icon={{ name: 'ios-lock' }}
-                onChangeText={(value) => this.inputChangeHandler(value, 'newPassword')} />
+                onChangeText={(value) => this.inputChangeHandler(value, 'password')} />
               <TextInput
                 label={i18n.t('account.profile.confirmPassword')}
                 returnKeyType="next"

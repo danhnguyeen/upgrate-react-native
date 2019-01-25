@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, View, UIManager, YellowBox } from 'react-native';
+import { StatusBar, View, UIManager, YellowBox, AppState } from 'react-native';
 import { Root } from "native-base"
 import SplashScreen from 'react-native-splash-screen'
 import FCM from "react-native-fcm";
@@ -15,6 +15,9 @@ import * as actions from './src/stores/actions';
 YellowBox.ignoreWarnings(['Setting a timer', 'Remote debugger'])
 
 class App extends Component {
+  state = {
+    appState: AppState.currentState
+  }
   componentDidMount() {
     SplashScreen.hide();
     FCM.requestPermissions({ badge: true, sound: true, alert: true });
@@ -23,14 +26,28 @@ class App extends Component {
     }
     if (this.props.isAuth) {
       this.updateNotificationToken();
-      this.props.getNotificationCount(this.props.user.customer_id);
+      this.props.fetchNotificationCount(this.props.user.customer_id);
       this.props.getUser(this.props.user.customer_id);
     }
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
-  updateNotificationToken = async() => {
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      // if the App has come to the foreground, call refresh the promotion
+      if (this.props.isAuth) {
+        this.props.fetchNotificationCount(this.props.user.customer_id);
+        this.props.getUser(this.props.user.customer_id);
+      }
+    }
+    this.setState({ appState: nextAppState });
+  }
+  updateNotificationToken = async () => {
     try {
       await FCM.requestPermissions({ badge: true, sound: true, alert: true });
-    } catch (e) {}
+    } catch (e) { }
     const token = await FCM.getFCMToken().then(token => {
       return token;
     });
@@ -46,7 +63,7 @@ class App extends Component {
           backgroundColor={brandPrimary}
           barStyle="light-content"
         />
-       <Root>
+        <Root>
           <AppContainer ref={navigatorRef => {
             NavigationService.setTopLevelNavigator(navigatorRef);
           }} />
@@ -66,7 +83,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
+    fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
     updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId)),
     getUser: (customer_id) => dispatch(actions.getProfile(customer_id))
   }

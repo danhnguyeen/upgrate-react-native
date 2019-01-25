@@ -13,7 +13,7 @@ import { brandPrimary, isIphoneX, brandLight, platform, backgroundColor, textCol
 import { PostDetail, BuildingMaps, BuildingDescription } from '../../components/buildings'
 
 const STATUSBAR_PADDING = isIphoneX ? 24 : 0
-const HEADER_MAX_HEIGHT = 300;
+const HEADER_MAX_HEIGHT = 250;
 const HEADER_MIN_HEIGHT = Header.HEIGHT + STATUSBAR_PADDING;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
@@ -77,17 +77,6 @@ class BuildingDetails extends React.Component {
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
             { useNativeDriver: true },
           )}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={() => {
-                this.setState({ refreshing: true });
-                setTimeout(() => this.setState({ refreshing: false }), 1000);
-              }}
-              // Android offset for RefreshControl
-              progressViewOffset={HEADER_MAX_HEIGHT}
-            />
-          }
           // iOS offset for RefreshControl
           contentInset={{
             top: HEADER_MAX_HEIGHT,
@@ -97,41 +86,6 @@ class BuildingDetails extends React.Component {
           }}
         >
           <View style={styles.scrollViewContent}>
-            <View style={{ ...shadow, padding: 15, backgroundColor: brandLight, marginBottom: 15 }}>
-              <BuildingMaps style={{ margin: 15 }} building={detailBuilding} />
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
-                <Icon
-                  name='location-on'
-                  type='MaterialIcons'
-                  style={{ fontSize: fontSize + 2, color: textColor }}
-                />
-                <Text style={{ paddingLeft: 5, width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${detailBuilding.address}, ${detailBuilding.district}`}</Text>
-              </View>
-              <Divider style={{ marginVertical: 15 }} />
-              <View style={{ alignItems: 'flex-end' }}>
-                <Button
-                  icon={
-                    <Icon
-                      name='directions'
-                      type="MaterialCommunityIcons"
-                      style={{ color: brandPrimary, fontSize: fontSize + 6, marginLeft: 10 }}
-                    />
-                  }
-                  onPress={() => Linking.openURL(`https://www.google.com/maps?daddr=${detailBuilding.lat},${detailBuilding.long}`)}
-                  iconContainerStyle={{ marginHorizontal: 10 }}
-                  titleStyle={{ color: brandPrimary, fontSize }}
-                  buttonStyle={{
-                    elevation: 0,
-                    borderColor: brandPrimary,
-                    borderWidth: 1,
-                    backgroundColor: 'transparent',
-                    borderRadius: 20,
-                    paddingRight: 15
-                  }}
-                  title={i18n.t('buildingDetail.getDirection')}
-                />
-              </View>
-            </View>
             <View style={{ ...shadow, flex: 1, backgroundColor: brandLight, padding: 15, marginBottom: 15 }}>
               <View style={{ alignItems: 'center', marginBottom: 5 }}>
                 <Text style={[textH4, { color: brandPrimary }]} numberOfLines={1}>{detailBuilding.sub_name}</Text>
@@ -212,6 +166,41 @@ class BuildingDetails extends React.Component {
                 <Text style={[styles.buttonText, { lineHeight: 30 }]}>pkd@paxsky.vn</Text>
               </TouchableOpacity>
             </View>
+            <View style={{ ...shadow, padding: 15, backgroundColor: brandLight, marginBottom: 15 }}>
+              <BuildingMaps style={{ margin: 15 }} building={detailBuilding} />
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+                <Icon
+                  name='location-on'
+                  type='MaterialIcons'
+                  style={{ fontSize: fontSize + 2, color: textColor }}
+                />
+                <Text style={{ paddingLeft: 5, width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${detailBuilding.address}, ${detailBuilding.district}`}</Text>
+              </View>
+              <Divider style={{ marginVertical: 15 }} />
+              <View style={{ alignItems: 'flex-end' }}>
+                <Button
+                  icon={
+                    <Icon
+                      name='directions'
+                      type="MaterialCommunityIcons"
+                      style={{ color: brandPrimary, fontSize: fontSize + 6, marginLeft: 10 }}
+                    />
+                  }
+                  onPress={() => Linking.openURL(`https://www.google.com/maps?daddr=${detailBuilding.lat},${detailBuilding.long}`)}
+                  iconContainerStyle={{ marginHorizontal: 10 }}
+                  titleStyle={{ color: brandPrimary, fontSize }}
+                  buttonStyle={{
+                    elevation: 0,
+                    borderColor: brandPrimary,
+                    borderWidth: 1,
+                    backgroundColor: 'transparent',
+                    borderRadius: 20,
+                    paddingRight: 15
+                  }}
+                  title={i18n.t('buildingDetail.getDirection')}
+                />
+              </View>
+            </View>
           </View>
         </Animated.ScrollView>
         <Animated.View
@@ -222,7 +211,7 @@ class BuildingDetails extends React.Component {
           ]}
         >
           <LinearGradient
-            colors={[brandPrimary, '#0d59ca']}
+            colors={['#2079ae', '#54ace0']}
             style={{ flex: 1 }}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}

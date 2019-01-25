@@ -6,7 +6,6 @@ import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
 
 import { BuildingSlides, MapFilter } from '../../components/locations';
-import { brandPrimary } from '../../config/variables';
 
 class Locations extends React.Component {
   state = {

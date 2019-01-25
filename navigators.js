@@ -11,32 +11,33 @@ import { Appointment } from './src/containers/appointment';
 import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook, Profile } from './src/containers/account';
 import { Buildings, BuildingDetails, Offices, Booking } from './src/containers/buildings';
 import { Notifications } from './src/containers/notifications';
+import { NotificationIcon } from './src/components/notifications';
 import i18n from './src/i18n';
 import { inverseTextColor } from './src/config/variables';
 
-const NotificationIcon = (props) => (
-  <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')}>
-    <View>
-      <Icon
-        name='md-notifications'
-        style={{ paddingHorizontal: 10, marginRight: 5, color: inverseTextColor, fontSize: 20 }}
-      />
-      {/* <View style={{
-        position: 'absolute',
-        top: -5,
-        right: 5,
-        backgroundColor: 'red',
-        borderRadius: 8,
-        width: 18,
-        height: 16,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <Text style={{ color: inverseTextColor, fontSize: 9 }}>28</Text>
-      </View> */}
-    </View>
-  </TouchableOpacity>
-);
+// const NotificationIcon = (props) => (
+//   <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')}>
+//     <View>
+//       <Icon
+//         name='md-notifications'
+//         style={{ paddingHorizontal: 10, marginRight: 5, color: inverseTextColor, fontSize: 20 }}
+//       />
+//       <View style={{
+//         position: 'absolute',
+//         top: -5,
+//         right: 5,
+//         backgroundColor: 'red',
+//         borderRadius: 8,
+//         width: 18,
+//         height: 16,
+//         alignItems: 'center',
+//         justifyContent: 'center'
+//       }}>
+//         <Text style={{ color: inverseTextColor, fontSize: 9 }}>28</Text>
+//       </View>
+//     </View>
+//   </TouchableOpacity>
+// );
 
 const headerOptions = {
   headerTintColor: '#fff',
@@ -46,7 +47,7 @@ const headerOptions = {
   },
   headerBackground: (
     <LinearGradient
-      colors={['#072f6a', '#0d59ca']}
+      colors={['#2079ae', '#54ace0']}
       style={{ flex: 1 }}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
@@ -247,7 +248,7 @@ const MainNavigator = createBottomTabNavigator({
       }
     }),
     tabBarOptions: {
-      activeTintColor: '#1a70f0',
+      activeTintColor: '#2997d8',
       inactiveTintColor: '#919191'
     },
   }, {

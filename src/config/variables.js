@@ -25,7 +25,7 @@ export function getStatusBarHeight(skipAndroid = false) {
 export const navHeight = Header.HEIGHT + getStatusBarHeight() - 19;
 
 // Colors
-export const brandPrimary = '#072f6a'; //'#2997d8';
+export const brandPrimary = '#2997d8'; //'#2997d8';
 export const brandInfo = '#5F9EE7';
 export const brandSuccess = '#7ED321';
 export const brandDanger = '#D0021B';
@@ -54,9 +54,9 @@ export const shadowColor = '#161616';
 export const fontFamily = platform === 'ios' ? 'System' : 'Roboto-Regular';
 export const fontFamilyBold = 'Roboto-Bold';
 
-let fontScal = 14;
+let fontScal = 15;
 if (PixelRatio.get() > 2) {
-  fontScal = 15;
+  fontScal = 16;
 }
 // if (PixelRatio.get() > 3) {
 //   fontScal = 18;

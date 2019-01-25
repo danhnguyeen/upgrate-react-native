@@ -16,7 +16,7 @@ const Modal = (props) => {
       onRequestClose={props.onRequestClose}
     >
       <LinearGradient
-        colors={['#072f6a', '#0d59ca']}
+        colors={['#2079ae', '#54ace0']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
       >

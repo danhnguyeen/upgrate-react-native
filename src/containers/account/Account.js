@@ -11,11 +11,24 @@ import { shadow, backgroundColor, brandLight, textColor, fontSize, textLightColo
 import i18n from '../../i18n';
 
 class Account extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-    this._isMounted = false
-  }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      // headerTitle: <ProfileHeader navigation={navigation} editAvatar={() => _this.editAvatarHandler()} />,
+      headerTintColor: '#fff',
+      headerBackground: (
+        <LinearGradient
+          colors={['#2079ae', '#54ace0']}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+      headerStyle: {
+        borderBottomWidth: 0,
+        // height: 100
+      }
+    };
+  };
   componentDidMount() {
     if (!this.props.isAuth) {
       _dispatchStackActions(this.props.navigation, 'navigate', 'SignIn')
@@ -51,7 +64,7 @@ class Account extends React.Component {
             {!this.props.isAuth ?
               <TouchableOpacity onPress={() => this.props.navigation.navigate('SignIn')}>
                 <LinearGradient
-                  colors={['#072f6a', '#0d59ca']}
+                  colors={['#2079ae', '#54ace0']}
                   style={{ flex: 1 }}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
