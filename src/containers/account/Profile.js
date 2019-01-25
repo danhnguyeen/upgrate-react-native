@@ -10,7 +10,7 @@ import { textDarkColor, textTitleColor } from '../../config/variables';
 import { ProfileHeader, ChangePassword, ChangeEmail } from '../../components/account';
 import i18n from '../../i18n';
 import { validateForm, checkValidity, gender } from '../../util/utility';
-import { Button, TextInput } from '../../components/common';
+import { Button, TextInput, SpinnerOverlay } from '../../components/common';
 import * as actions from './auth-actions';
 import axios from '../../config/axios';
 
@@ -174,12 +174,10 @@ class Profile extends Component {
               'Content-Type': 'application/x-www-form-urlencoded',
             }
           });
-          console.log(res.customer)
           this.props.onUpdateProfile(res.customer);
           this.props.navigation.setParams({ updatedTime: new Date() });
           this.setState({ spinner: false });
         } catch (error) {
-          console.log(error)
           Alert.alert(i18n.t('global.error'), error.message,
             [{
               text: i18n.t('global.ok'),
@@ -248,6 +246,7 @@ class Profile extends Component {
             setModalVisible={this.showModalHandler}
           /> : null
         }
+        <SpinnerOverlay visible={this.state.spinner} />
         <KeyboardAvoidingView>
           <View style={{ padding: 15 }}>
             <TextInput

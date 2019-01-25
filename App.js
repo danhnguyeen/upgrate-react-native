@@ -21,8 +21,9 @@ class App extends Component {
     if (platform === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
     }
-    this.updateNotificationToken();
     if (this.props.isAuth) {
+      this.updateNotificationToken();
+      this.props.getNotificationCount(this.props.user.customer_id);
       this.props.getUser(this.props.user.customer_id);
     }
   }
@@ -63,6 +64,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    getNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
     updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId)),
     getUser: (customer_id) => dispatch(actions.getProfile(customer_id))
   }

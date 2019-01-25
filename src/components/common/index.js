@@ -5,6 +5,7 @@ import ReadMore from './ReadMore';
 import TextInput from './TextInput';
 import PickerSelect from './PickerSelect';
 import Spinner from './Spinner';
+import SpinnerOverlay from './SpinnerOverlay';
 import ModalPopup from './ModalPopup';
 import Modal from './Modal';
 export {
@@ -15,6 +16,7 @@ export {
   TextInput,
   PickerSelect,
   Spinner,
+  SpinnerOverlay,
   ModalPopup,
   Modal
 };

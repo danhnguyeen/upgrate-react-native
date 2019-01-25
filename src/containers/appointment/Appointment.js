@@ -35,7 +35,13 @@ class BookingItem extends React.Component {
       "status_name": "Pending",
     }
   }
-
+  componentDidMount() {
+    this.props.navigation.addListener('willFocus', () => {
+      setTimeout(() => {
+        this.props.navigation.setParams({ updatedTime: new Date() });
+      }, 1000);
+    });
+  }
   clickedCancel = () => {
     Alert.alert(
       i18n.t('appointment.deleteConfirm'),

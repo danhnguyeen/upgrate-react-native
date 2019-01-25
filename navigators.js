@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import { TouchableOpacity } from 'react-native';
-import { Icon } from 'native-base';
+import { TouchableOpacity, View, Text } from 'react-native';
+import { Icon, Badge } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Welcome } from './src/containers/welcome';
@@ -16,10 +16,25 @@ import { inverseTextColor } from './src/config/variables';
 
 const NotificationIcon = (props) => (
   <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')}>
-    <Icon
-      name='md-notifications'
-      style={{ paddingHorizontal: 10, marginRight: 5, color: inverseTextColor, fontSize: 20 }}
-    />
+    <View>
+      <Icon
+        name='md-notifications'
+        style={{ paddingHorizontal: 10, marginRight: 5, color: inverseTextColor, fontSize: 20 }}
+      />
+      {/* <View style={{
+        position: 'absolute',
+        top: -5,
+        right: 5,
+        backgroundColor: 'red',
+        borderRadius: 8,
+        width: 18,
+        height: 16,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <Text style={{ color: inverseTextColor, fontSize: 9 }}>28</Text>
+      </View> */}
+    </View>
   </TouchableOpacity>
 );
 
@@ -254,10 +269,10 @@ const AppNavigator = createStackNavigator({
   },
   Notifications: NotificationsStack
 }, {
-  defaultNavigationOptions: { header: null },
-  mode: 'modal',
-  initialRouteName: 'Main'
-});
+    defaultNavigationOptions: { header: null },
+    mode: 'modal',
+    initialRouteName: 'Main'
+  });
 const AppContainer = createAppContainer(AppNavigator);
 
 export default AppContainer;

@@ -20,6 +20,11 @@ class Account extends React.Component {
     if (!this.props.isAuth) {
       _dispatchStackActions(this.props.navigation, 'navigate', 'SignIn')
     }
+    this.props.navigation.addListener('willFocus', () => {
+      setTimeout(() => {
+        this.props.navigation.setParams({ updatedTime: new Date() });
+      }, 1000);
+    });
   }
 
   logoutHandler = () => {

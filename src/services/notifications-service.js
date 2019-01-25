@@ -31,7 +31,9 @@ class PushNotification extends Component {
     });
 
     this.notificationListner = FCM.on(FCMEvent.Notification, async (notif) => {
-      // this.props.fetchNotificationCount();
+      if(this.props.user) {
+        this.props.fetchNotificationCount(this.props.user.customer_id);
+      }
       // open from tray iOS
       if (notif.opened_from_tray) {
         if ((platform === 'android' && notif.local_notification)
@@ -93,10 +95,16 @@ class PushNotification extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    fetchNotificationCount: () => dispatch(actions.fetchNotificationCount())
+    isAuth: state.auth.token,
+    user: state.auth.user
   };
 };
 
-export default connect(null, mapDispatchToProps)(PushNotification);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id))
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(PushNotification);

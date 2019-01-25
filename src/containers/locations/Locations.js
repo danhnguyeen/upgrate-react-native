@@ -18,6 +18,13 @@ class Locations extends React.Component {
     },
     buildingList: this.props.buildings
   }
+  componentDidMount() {
+    this.props.navigation.addListener('willFocus', () => {
+      setTimeout(() => {
+        this.props.navigation.setParams({ updatedTime: new Date() });
+      }, 1000);
+    });
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.buildings.length !== this.props.buildings.length) {
       this.setState({ buildingList: nextProps.buildings });

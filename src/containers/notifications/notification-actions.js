@@ -29,10 +29,11 @@ const updateCheckNewNotification = (isNewNotification) => ({
 //   };
 // };
 
-export const fetchNotificationCount = () => {
+export const fetchNotificationCount = (customer_id) => {
   return async dispatch => {
-    const { Number } = await axios.post('notification/numberUnread');
-    dispatch(fetchNotificationCountSucess(Number));
+    const { count } = await axios.get('notification/count', { params: { customer_id } });
+    console.log('notification ' + count);
+    dispatch(fetchNotificationCountSucess(count));
   };
 };
 
