@@ -5,6 +5,7 @@ export default {
     delete: "Xóa",
     confirm: "Xác nhận",
     update: "Cập nhật",
+    submit: "Lưu",
     readMore: "Xem thêm",
     showLess: "Thu gọn",
     error: "Lỗi",

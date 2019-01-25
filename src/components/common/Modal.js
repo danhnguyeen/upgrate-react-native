@@ -37,7 +37,7 @@ const Modal = (props) => {
           }
           rightComponent={props.rightComponent}
           backgroundColor={'transparent'}
-          containerStyle={[platform === 'android' ? { paddingTop: 0, height: navHeight } : null]}
+          containerStyle={[{ height: navHeight }, platform === 'android' ? { paddingTop: 0 } : null]}
         />
       </LinearGradient>
       <SafeAreaView style={[styles.container]}>

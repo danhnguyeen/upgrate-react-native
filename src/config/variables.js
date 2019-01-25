@@ -1,4 +1,4 @@
-import { Platform, Dimensions, PixelRatio } from 'react-native';
+import { Platform, Dimensions, PixelRatio, StatusBar } from 'react-native';
 import { Header } from 'react-navigation';
 
 export const DEVICE_HEIGTH = Dimensions.get('window').height;
@@ -12,6 +12,17 @@ export const isIphoneX = Platform.OS === 'ios' &&
   !Platform.isPad &&
   !Platform.isTVOS &&
   ((dimen.height === 812 || dimen.width === 812) || (dimen.height === 896 || dimen.width === 896));
+
+export function getStatusBarHeight(skipAndroid = false) {
+  if (Platform.OS === 'ios') {
+    return isIphoneX ? 44 : 20;
+  }
+  if (skipAndroid) {
+    return 0;
+  }
+  return StatusBar.currentHeight;
+};
+export const navHeight = Header.HEIGHT + getStatusBarHeight() - 19;
 
 // Colors
 export const brandPrimary = '#072f6a'; //'#2997d8';
@@ -34,7 +45,7 @@ export const statusColors = {
   yellow: '#debb3d',
   heartColor: 'rgba(239,87,87,.9)',
   grey: '#A9A9A9',
-}
+};
 // Background Color
 
 // Shadow Color
