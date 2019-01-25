@@ -51,22 +51,18 @@ export function _dispatchStackActions(propsNavigation, propsActions, routeName =
 }
 export const winW = percent => (DEVICE_WIDTH * percent) / 100;
 export const winH = percent => (DEVICE_HEIGTH * percent) / 100;
-
-
-
-
-
-
-
-
-
 export const gender = (gender) => {
+  gender = typeof gender === 'string' ? parseInt(gender) : gender;
   if (gender === 0) {
-    return i18n.t('register.male');
+    return i18n.t('account.male');
   }
   if (gender === 1) {
-    return i18n.t('register.female');
+    return i18n.t('account.female');
   }
+  if (gender === 2) {
+    return i18n.t('account.other');
+  }
+  return null;
 };
 
 export const loadingColors = ['green', 'red', 'yellow', 'gray'];
@@ -140,7 +136,10 @@ export const encodeURI = (params) => {
   return Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
 }
 // format date
-export const formatDateTime = (time) => {
+export const formatDateTime = (time, formatType = null) => {
+  if (formatType) {
+    return time ? moment(time, formatType).format('HH:mm:ss DD/MM/YYYY') : null;
+  }
   return time ? moment(time).format('HH:mm:ss DD/MM/YYYY') : null;
 }
 /**

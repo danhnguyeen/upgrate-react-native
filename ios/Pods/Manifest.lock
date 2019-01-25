@@ -84,6 +84,8 @@ PODS:
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
+  - react-native-image-picker (0.28.0):
+    - React
   - react-native-maps (0.22.1):
     - React
   - React/Core (0.57.8):
@@ -153,6 +155,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Picker (from `../node_modules/react-native-picker`)
   - react-native-fast-image (from `../node_modules/react-native-fast-image`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -204,6 +207,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-fast-image:
     :path: "../node_modules/react-native-fast-image"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   RNAccountKit:
@@ -238,6 +243,7 @@ SPEC CHECKSUMS:
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   react-native-fast-image: cba3d9bf9c2cf8ddb643d887a686c53a5dd90a2c
+  react-native-image-picker: f42de90075c5b1af53417af927631d909a1a746e
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   RNAccountKit: 3dd31fff73c90378ac89dc7611da0dc22b29f84b
   RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
@@ -246,6 +252,6 @@ SPEC CHECKSUMS:
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 091fde72819d451551652b5edafc72f98bfd798b
+PODFILE CHECKSUM: f9d815825478d20e6f03e5b32b07fb978ec51098
 
 COCOAPODS: 1.5.3

@@ -25,6 +25,7 @@
     "react-native-gesture-handler": "^1.0.12",
     "react-native-global-props": "^1.1.5",
     "react-native-i18n": "^2.0.15",
+    "react-native-image-picker": "^0.28.0",
     "react-native-linear-gradient": "^2.5.3",
     "react-native-maps": "^0.22.1",
     "react-native-material-textfield": "^0.12.0",

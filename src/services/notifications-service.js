@@ -66,6 +66,7 @@ class PushNotification extends Component {
   }
   
   showLocalNotification(notif) {
+    console.log(notif)
     if (platform === 'android') {
       FCM.presentLocalNotification({
         body: notif.fcm.body,

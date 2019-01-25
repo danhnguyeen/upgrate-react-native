@@ -50,8 +50,8 @@ export const updateNotificationToken = (customer_id, fire_base_token, fire_base_
         fire_base_token,
         fire_base_device
       };
+      console.log(data)
       await axios.post('notification/create-token', data);
-      console.log('create token')
       return Promise.resolve();
     } catch (err) {
       return Promise.reject(err);

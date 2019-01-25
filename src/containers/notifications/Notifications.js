@@ -23,7 +23,7 @@ import {
 } from "../../config/variables";
 import i18n from "../../i18n";
 import { Spinner } from '../../components/common';
-// import { NotificationDetails } from '../../components/Notification';
+import { NotificationDetails } from '../../components/notifications';
 import { formatDateTime } from '../../util/utility';
 import axios from '../../config/axios';
 
@@ -70,46 +70,31 @@ class Notifications extends Component {
     this.getNotification();
   }
   getNotification = async (isLoadMore, isPullRefresh = false) => {
-    const result = [];
-    for (let i = 0; i < 20; i++) {
-      result.push({
-        Id: i,
-        Title: 'Xác nhận lịch hẹn',
-        ShortDesc: 'Lịch hẹn của bạn tại tòa nhà PaxSky Nguyễn Thị Minh Khai đã được xác nhận',
-        CreatedTime: '2019-02-19 10:02:00',
-        LastSeen: i > 2
-      });
+    if (isLoadMore && this.state.page > this.state.totalPage) {
+      return;
     }
-    console.log(result)
-    this.setState({
-      totalPage: 1,
-      notifications: isLoadMore ? [...this.state.notifications, ...result] : result,
-      isPullRefresh: false,
-      firstLoading: false
-    });
-    // if (isLoadMore && this.state.page > this.state.totalPage) {
-    //   return;
-    // }
-    // const prevState = { ...this.state };
-    // if (!isLoadMore) {
-    //   prevState.page = 1;
-    // }
-    // this.setState({ isPullRefresh, page: prevState.page + 1 });
-    // try {
-    //   const params = {
-    //     page: prevState.page,
-    //     pageSize: prevState.size
-    //   };
-    //   const result = await axios.post('notification/getAll', params);
-    //   this.setState({
-    //     totalPage: result.Paging.totalPage,
-    //     notifications: isLoadMore ? [...this.state.notifications, ...result.Notifications] : result.Notifications,
-    //     isPullRefresh: false,
-    //     firstLoading: false
-    //   });
-    // } catch (error) {
-    //   this.setState({ isPullRefresh: false });
-    // }
+    const prevState = { ...this.state };
+    if (!isLoadMore) {
+      prevState.page = 1;
+    }
+    this.setState({ isPullRefresh, page: prevState.page + 1 });
+    try {
+      const params = {
+        customer_id: this.props.user.customer_id,
+        page: prevState.page,
+        pageSize: prevState.size
+      };
+      const result = await axios.get('notification/notifications', { params });
+      console.log(result)
+      this.setState({
+        // totalPage: result.Paging.totalPage,
+        notifications: isLoadMore ? [...this.state.notifications, ...result] : result,
+        isPullRefresh: false,
+        firstLoading: false
+      });
+    } catch (error) {
+      this.setState({ isPullRefresh: false, firstLoading: false });
+    }
   }
   onSwipeOpen = (rowIndex) => {
     this.setState({ rowIndex });
@@ -126,11 +111,11 @@ class Notifications extends Component {
   }
   openModalHanlder = async (selectedItem) => {
     this.setState({ selectedItem });
-    await axios.post('notification/markAsRead', { notificationId: selectedItem.Id });
+    await axios.post('notification/update-read-notification', { notification_id: selectedItem.notification_id });
   }
   closeModalHandler = () => {
     this.getNotification();
-    this.props.fetchNotificationCount();
+    // this.props.fetchNotificationCount();
     this.setState({ selectedItem: null });
   }
   markAllAsReadConfirm = () => {
@@ -151,7 +136,7 @@ class Notifications extends Component {
   }
   markAsRead = async (id) => {
     this.setState({ rowIndex: null });
-    await axios.post('notification/markAsRead', { notificationId: id });
+    await axios.post('notification/update-read-notification', { notification_id: id });
     this.getNotification();
     this.props.fetchNotificationCount();
   }
@@ -166,9 +151,10 @@ class Notifications extends Component {
     )
   }
   deleteHandler = async (id) => {
-    await axios.post('notification/delete', { notificationId: id });
+    console.log(id)
+    await axios.post('notification/delete', { notification_id: id });
     this.getNotification();
-    this.props.fetchNotificationCount();
+    // this.props.fetchNotificationCount();
     this.setState({ rowIndex: null, selectedItem: null });
   }
   renderItem = ({ item, index }) => {
@@ -179,11 +165,11 @@ class Notifications extends Component {
         </View>
       ),
       type: 'primary',
-      onPress: () => this.markAsRead(item.Id)
+      onPress: () => this.markAsRead(item.notification_id)
     }, {
       text: i18n.t('global.delete'),
       type: 'delete',
-      onPress: () => this.deleteHandler(item.Id)
+      onPress: () => this.deleteHandler(item.notification_id)
     }];
     return (
       <Swipeout
@@ -196,18 +182,14 @@ class Notifications extends Component {
       >
         <TouchableOpacity style={styles.containerItem} onPress={() => this.openModalHanlder(item)}>
           <Icon
-            name={item.LastSeen ? 'ios-mail-open' : 'ios-mail'}
-            // type={'Octicons'}
-            style={{ paddingRight: 10, fontSize: 22, color: textLightColor, opacity: item.LastSeen ? 0.8 : 1 }}
+            name={item.is_read ? 'ios-mail-open' : 'ios-mail'}
+            style={{ paddingRight: 10, fontSize: 22, color: textLightColor, opacity: item.is_read ? 0.8 : 1 }}
           />
           <View style={{ flex: 1 }}>
-            <Text style={styles.textStyle}>{item.Title}</Text>
-            <Text style={styles.subtitle}>{item.ShortDesc}</Text>
-            <Text style={styles.subtitle}>{formatDateTime(item.CreatedTime)}</Text>
+            <Text style={styles.textStyle}>{item.title}</Text>
+            <Text style={styles.subtitle}>{item.body}</Text>
+            <Text style={styles.subtitle}>{formatDateTime(item.created_at, 'DD-MM-YYYY HH:mm')}</Text>
           </View>
-          {/* {!item.LastSeen ? (<View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ backgroundColor: brandPrimary, borderRadius: 50, width: 10, height: 10 }} />
-        </View>) : null} */}
         </TouchableOpacity>
       </Swipeout>
     );
@@ -216,14 +198,14 @@ class Notifications extends Component {
     const notifications = this.state.notifications || [];
     return (
       <View style={styles.container}>
-        {/* {this.state.selectedItem ? (
+        {this.state.selectedItem ? (
           <NotificationDetails
             show
             delete={this.deleteWithConfirm}
             data={this.state.selectedItem}
             onClose={this.closeModalHandler}
           />
-        ) : null} */}
+        ) : null}
         {this.state.firstLoading && !notifications.length ?
           <Spinner />
           :
@@ -231,7 +213,7 @@ class Notifications extends Component {
             onRefresh={this.getNotification}
             scrollEnabled={this.state.scrollEnabled}
             refreshing={this.state.isPullRefresh}
-            keyExtractor={(item) => item.Id.toString()}
+            keyExtractor={(item) => item.notification_id.toString()}
             data={notifications}
             renderItem={this.renderItem}
             onEndReached={() => this.getNotification(true)}
@@ -275,6 +257,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   // notifications: state.notificationState.notifications
+  user: state.auth.user
 });
 
 const mapDispatchToProps = dispatch => ({

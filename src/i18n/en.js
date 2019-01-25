@@ -4,11 +4,16 @@ export default {
     cancel: "Cancel",
     delete: "Delete",
     confirm: "Confirm",
+    update: "Update",
+    submit: "Submit",
     readMore: "Read more",
     showLess: "Show less",
     error: "Error",
     networkError: "No network connection detected. Please check your Internet Connection and Try Again",
     updating: "Updating...",
+    notification: "Notifications",
+    updatedSuccessfully: "Updated Successfully",
+    areYouSureToDelete: "Are you sure you want to delete?"
   },
   tabs: {
     home: 'Home',
@@ -79,11 +84,25 @@ export default {
     district: 'District',
     welcome: 'Welcome',
     welcomeToPaxSky: 'Welcome to PaxSky',
-    logout: 'Đăng xuất',
-    termsOfService: "Điều khoản sử dụng",
+    logout: 'Logout',
+    termsOfService: "Terms of service",
     areYouSureLogOut: "Are you sure you want to log out?",
+    selectAvatar: "Select Avatar",
+    takePhoto: "Take Photo...",
+    chooseFromLibrary: "Choose from Library...",
+    changePassword: "Change Password",
+    changeEmail: "Change Email",
+    changePhone: "Change Phone Number",
     profile: {
-      title: 'Hồ sơ'
+      title: 'Profile',
+      newEmailAddress: "New email address",
+      newPhoneNumber: "New phone number",
+      password: "Password",
+      changeYourPassword: "Change Password",
+      currentPassword: "Current Password",
+      newPassword: "New Password",
+      confirmPassword: "Re-type new Password",
+      currentPasswordIsIncorrect: "Your password was incorrect",
     },
     valid: {
       lastName: 'Please enter your last name',
@@ -93,7 +112,9 @@ export default {
       passwordRequired: 'Please enter your password',
       password: "Password does not match confirmation password",
       confirmPassword: "Confirmation password does not match new password",
-      emailExisted: 'This email already exists'
+      emailExisted: 'This email already exists',
+      currentPassword: "Please enter your current password",
+      newPassword: "Password does not match confirmation password",
     }
   },
   appointment: {

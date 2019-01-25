@@ -22,6 +22,9 @@ class App extends Component {
       UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
     }
     this.updateNotificationToken();
+    if (this.props.isAuth) {
+      this.props.getUser(this.props.user.customer_id);
+    }
   }
   updateNotificationToken = async() => {
     try {
@@ -32,8 +35,7 @@ class App extends Component {
     });
     if (token && this.props.isAuth) {
       const uniqueId = DeviceInfo.getUniqueID();
-      const deviceName = DeviceInfo.getModel();
-      this.props.updateFCMToken(this.props.user.customer_id, token, uniqueId, deviceName);
+      this.props.updateFCMToken(this.props.user.customer_id, token, uniqueId);
     }
   }
   render() {
@@ -63,7 +65,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateFCMToken: (customer_id, token, uniqueId, deviceName) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId, deviceName))
+    updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId)),
+    getUser: (customer_id) => dispatch(actions.getProfile(customer_id))
   }
 };
 

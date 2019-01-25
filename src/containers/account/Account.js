@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as actions from './auth-actions';
 import { _dispatchStackActions } from '../../util/utility';
 import { AccountItem } from '../../components/account';
-import { brandPrimary, backgroundColor, brandLight, textColor, fontSize, textLightColor, inverseTextColor } from '../../config/variables';
+import { shadow, backgroundColor, brandLight, textColor, fontSize, textLightColor, inverseTextColor } from '../../config/variables';
 import i18n from '../../i18n';
 
 class Account extends React.Component {
@@ -32,7 +32,6 @@ class Account extends React.Component {
       ],
       { cancelable: false }
     )
-
   }
   onLogout = async () => {
     await AsyncStorage.removeItem('token');
@@ -41,7 +40,6 @@ class Account extends React.Component {
   }
   render() {
     return (
-
       <View style={{ flex: 1, backgroundColor }}>
         <Content padder >
           <View style={styles.container}>
@@ -54,7 +52,7 @@ class Account extends React.Component {
                   end={{ x: 1, y: 0 }}
                 >
                   <View style={{ flexDirection: 'row', paddingLeft: 10, paddingVertical: 20, alignItems: 'center' }}>
-                    <Icon name="user-circle-o" type="FontAwesome" style={{ color: inverseTextColor, fontSize: 25, marginRight: 10 }} />
+                    <Icon name="user-circle-o" type="FontAwesome" style={{ color: inverseTextColor, fontSize: 25, marginRight: 10, paddingHorizontal: 10 }} />
                     <Text style={{ color: inverseTextColor, fontSize: fontSize + 1 }}>{i18n.t('account.signIn')}</Text>
                   </View>
                 </LinearGradient>
@@ -63,17 +61,17 @@ class Account extends React.Component {
             {this.props.isAuth ?
               <AccountItem onPress={() => this.props.navigation.navigate('Profile')}
                 title={i18n.t('account.profile.title')}
-                leftIcon={<Icon name="md-person" style={{ color: textLightColor, fontSize: fontSize + 6 }} />}
+                leftIcon={<Icon name="md-person" style={styles.icon} />}
               />
               : null}
             <AccountItem onPress={this.termsServiceModalHandler}
               title={i18n.t('account.termsOfService')}
-              leftIcon={<Icon name="md-document" style={{ color: textLightColor, fontSize: fontSize + 6 }} />}
+              leftIcon={<Icon name="md-document" style={styles.icon} />}
             />
             {this.props.isAuth ?
               <AccountItem onPress={this.logoutHandler}
                 title={i18n.t('account.logout')}
-                leftIcon={<Icon name="md-log-out" style={{ color: textLightColor, fontSize: fontSize + 6 }} />}
+                leftIcon={<Icon name="md-log-out" style={styles.icon} />}
               />
               : null}
           </View>
@@ -85,11 +83,17 @@ class Account extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    ...shadow,
     backgroundColor: brandLight,
     borderRadius: 3,
     overflow: 'hidden',
     marginBottom: 20
   },
+  icon: {
+    paddingHorizontal: 10,
+    color: textLightColor, 
+    fontSize: fontSize + 10
+  }
 })
 
 const mapStateToProps = state => {

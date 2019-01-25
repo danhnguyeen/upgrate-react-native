@@ -11,6 +11,7 @@ export const auth = (email, password) => {
   return async dispatch => {
     try {
       const { token, customer } = await axios.post('login', { email, password });
+      console.log(customer)
       dispatch(authSuccess(token, customer));
       return Promise.resolve(customer);
     } catch (err) {
@@ -25,7 +26,7 @@ export const authSignUp = (dataRegister) => {
       const { token, customer_id, customer, message } = await axios.post('customer/create', dataRegister);
       let dataResolve
       if (token && customer_id && customer) {
-        const user = { customer_id, customer }
+        const user = { customer_id, ...customer }
         dataResolve = { token: token }
         dispatch(authSuccess(token, user))
       }
@@ -55,9 +56,9 @@ export const authWithFacebook = (access_token) => {
   return async dispatch => {
     try {
       const res = await axios.get('customer/facebook/check-token', { params: { access_token } });
-      console.log(res);
-      console.log(res)
       if (res.first_login === false) {
+        res.provider = 'facebook';
+        console.log(res)
         dispatch(authWithPhoneAndFacebookSuccess(res.token, res));
       } else {
         dispatch(authWithPhoneAndFacebookSuccess(null, res));
@@ -76,6 +77,7 @@ export const authWithPhone = (access_token) => {
       const res = await axios.get('customer/facebook-account-kit/check-token', { params: { access_token } });
       console.log(res);
       if (res.first_login === false) {
+        res.provider = 'phone';
         dispatch(authWithPhoneAndFacebookSuccess(res.token, res));
       } else {
         dispatch(authWithPhoneAndFacebookSuccess(null, res));
@@ -111,7 +113,10 @@ export const logout = () => {
   }
 }
 
-
+export const updateProfile = (profile) => ({
+  type: actionTypes.AUTH_UPDATE_PROFILE,
+  profile
+});
 
 const updateUserProfile = (user) => ({
   type: actionTypes.UPDATE_USER_PROFILE,
@@ -120,11 +125,9 @@ const updateUserProfile = (user) => ({
 export const getProfile = (customer_id) => {
   return async dispatch => {
     try {
-      const result = await axios.get(`customer/info?customer_id=${customer_id}`)
-      consolelog('customer/info?customer_id', result)
-      let user
-      user.profile = result
-      dispatch(updateUserProfile(user))
+      const result = await axios.get(`customer/info?customer_id=${customer_id}`);
+      console.log(result)
+      dispatch(updateUserProfile(result))
       return Promise.resolve()
     } catch (err) {
       return Promise.reject(err)

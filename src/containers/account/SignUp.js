@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
+import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ActivityIndicator, Alert } from 'react-native';
 import { Content, Button, Text, Icon, ActionSheet, Picker } from 'native-base';
 import { connect } from 'react-redux';
 import FCM from 'react-native-fcm';
 import DeviceInfo from 'react-native-device-info';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 import { InputField } from '../../components/common';
 import * as actions from '../../stores/actions';
@@ -185,13 +186,8 @@ class SignUp extends Component {
       })
       .catch(error => {
         console.log(error)
-        this.setState({
-          isLogin: false,
-          alertModal: {
-            type: 'error',
-            content: error.message,
-          }
-        })
+        this.setState({ isLogin: false });
+        this._onSignUpFailed(error);
       })
   }
   onLoginSubmit = async (email, password) => {
@@ -202,19 +198,20 @@ class SignUp extends Component {
       })
       .catch(error => {
         console.log(error)
-        this.setState({
-          isLogin: false,
-          alertModal: {
-            type: 'error',
-            content: error.message,
-          }
-        })
+        this.setState({ isLogin: false });
+        this._onSignUpFailed(error);
       })
   }
   _onSignUpSuccess = () => {
     this.updateNotificationToken();
     AsyncStorage.setItem('token', this.props.isAuth);
-    _dispatchStackActions(this.props.navigation, 'reset', 'Account')
+    this.props.navigation.dispatch(StackActions.reset({
+      index: 0, key: null,
+      actions: [NavigationActions.navigate({
+        routeName: 'Main',
+        action: NavigationActions.navigate({ routeName: 'Account' })
+      })]
+    }));
 
   }
   updateNotificationToken = async () => {
@@ -231,18 +228,20 @@ class SignUp extends Component {
       // console.log(this.props.provinceId, province.province_id)
       await this.props._onfetchDistrictList(province.province_id).catch(error => {
         console.log(error.message)
-        this.setState({
-          isLogin: false,
-          alertModal: {
-            type: 'error',
-            content: error.message,
-          }
-        })
+        this.setState({ isLogin: false });
+        this._onSignUpFailed(error);
       })
     }
     this.setState({ provinceSelected: province })
   }
-
+  _onSignUpFailed = (error) => {
+    Alert.alert(
+      i18n.t('account.loginFail'),
+      error.message,
+      [{ text: i18n.t('global.ok') }],
+      { cancelable: false }
+    );
+  }
   _onDistrictChange(district = { "district_id": null, "district_name": '' }) {
     this.setState({ districtSelected: district })
   }

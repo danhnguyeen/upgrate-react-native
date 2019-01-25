@@ -62,10 +62,8 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.AUTH_LOGIN: return auth(state, action);
 		case actionTypes.AUTH_LOGOUT: return authLogout(state, action);
 		case actionTypes.AUTH_WITH_FACEBOOK: return authWithFacebook(state, action);
-
-
-		case actionTypes.AUTH_WITH_FACEBOOK: return authWithPhone(state, action);
 		case actionTypes.AUTH_UPDATE_PROFILE: return updateProfile(state, action);
+
 		case actionTypes.UPDATE_USER_PROFILE: return updateUserProfile(state, action);
 		default: return state;
 	}

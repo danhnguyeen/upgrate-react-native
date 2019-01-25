@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, ImageBackground } from 'react-native'
-import { Text } from "native-base";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native'
+// import { Text } from "native-base";
 import FastImage from 'react-native-fast-image'
 
 import { shadow, DEVICE_WIDTH } from '../../config/variables';
@@ -19,7 +19,7 @@ class TagBuilding extends React.Component {
       <TouchableOpacity
         style={styles.container}
         onPress={() => this.props.selectBuilding(detail)}>
-        <View style={{ borderRadius: 5, overflow: 'hidden' }}>
+        <View style={{ borderRadius: 3, overflow: 'hidden' }}>
           <FastImage source={{ uri: detail.main_image, priority: FastImage.priority.high }} style={{ width: '100%', height: '100%' }}>
             <View style={{
               backgroundColor: 'rgba(13, 61, 116,0.65)',
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     width: (DEVICE_WIDTH - 10) / 2 - 15,
     height: (DEVICE_WIDTH - 10) / 2 - 15 + ((DEVICE_WIDTH - 10) / 2 - 15) * 0.2,
     // padding: 10,
-    borderRadius: 5,
+    borderRadius: 3,
     margin: 5
   },
   district: { color: '#FFF', lineHeight: 20, fontSize: 13, },
