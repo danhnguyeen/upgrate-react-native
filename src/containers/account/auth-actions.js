@@ -57,6 +57,8 @@ export const authWithFacebook = (access_token) => {
     try {
       const res = await axios.get('customer/facebook/check-token', { params: { access_token } });
       if (res.first_login === false) {
+        res.provider = 'facebook';
+        console.log(res)
         dispatch(authWithPhoneAndFacebookSuccess(res.token, res));
       } else {
         dispatch(authWithPhoneAndFacebookSuccess(null, res));
@@ -75,6 +77,7 @@ export const authWithPhone = (access_token) => {
       const res = await axios.get('customer/facebook-account-kit/check-token', { params: { access_token } });
       console.log(res);
       if (res.first_login === false) {
+        res.provider = 'phone';
         dispatch(authWithPhoneAndFacebookSuccess(res.token, res));
       } else {
         dispatch(authWithPhoneAndFacebookSuccess(null, res));

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
+import { AsyncStorage, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ActivityIndicator, Alert } from 'react-native';
 import { Content, Button, Text, Icon, ActionSheet, Picker } from 'native-base';
 import { connect } from 'react-redux';
 import FCM from 'react-native-fcm';
@@ -186,13 +186,8 @@ class SignUp extends Component {
       })
       .catch(error => {
         console.log(error)
-        this.setState({
-          isLogin: false,
-          alertModal: {
-            type: 'error',
-            content: error.message,
-          }
-        })
+        this.setState({ isLogin: false });
+        this._onSignUpFailed(error);
       })
   }
   onLoginSubmit = async (email, password) => {
@@ -203,13 +198,8 @@ class SignUp extends Component {
       })
       .catch(error => {
         console.log(error)
-        this.setState({
-          isLogin: false,
-          alertModal: {
-            type: 'error',
-            content: error.message,
-          }
-        })
+        this.setState({ isLogin: false });
+        this._onSignUpFailed(error);
       })
   }
   _onSignUpSuccess = () => {
@@ -238,18 +228,20 @@ class SignUp extends Component {
       // console.log(this.props.provinceId, province.province_id)
       await this.props._onfetchDistrictList(province.province_id).catch(error => {
         console.log(error.message)
-        this.setState({
-          isLogin: false,
-          alertModal: {
-            type: 'error',
-            content: error.message,
-          }
-        })
+        this.setState({ isLogin: false });
+        this._onSignUpFailed(error);
       })
     }
     this.setState({ provinceSelected: province })
   }
-
+  _onSignUpFailed = (error) => {
+    Alert.alert(
+      i18n.t('account.loginFail'),
+      error.message,
+      [{ text: i18n.t('global.ok') }],
+      { cancelable: false }
+    );
+  }
   _onDistrictChange(district = { "district_id": null, "district_name": '' }) {
     this.setState({ districtSelected: district })
   }

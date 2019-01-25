@@ -52,7 +52,7 @@ class Account extends React.Component {
                   end={{ x: 1, y: 0 }}
                 >
                   <View style={{ flexDirection: 'row', paddingLeft: 10, paddingVertical: 20, alignItems: 'center' }}>
-                    <Icon name="user-circle-o" type="FontAwesome" style={{ color: inverseTextColor, fontSize: 25, marginRight: 10 }} />
+                    <Icon name="user-circle-o" type="FontAwesome" style={{ color: inverseTextColor, fontSize: 25, marginRight: 10, paddingHorizontal: 10 }} />
                     <Text style={{ color: inverseTextColor, fontSize: fontSize + 1 }}>{i18n.t('account.signIn')}</Text>
                   </View>
                 </LinearGradient>

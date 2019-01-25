@@ -5,6 +5,7 @@ export default {
     delete: "Xóa",
     confirm: "Xác nhận",
     update: "Cập nhật",
+    submit: "Lưu",
     readMore: "Xem thêm",
     showLess: "Thu gọn",
     error: "Lỗi",
@@ -86,8 +87,19 @@ export default {
     selectAvatar: "Chọn Hình",
     takePhoto: "Chụp ảnh mới",
     chooseFromLibrary: "Chọn từ thư viện ảnh",
+    changePassword: "Đổi mật khẩu",
+    changeEmail: "Đổi địa chỉ email",
+    changePhone: "Đổi số điện thoại",
     profile: {
       title: 'Hồ sơ',
+      newEmailAddress: "Địa chỉ email mới",
+      newPhoneNumber: "Số điện thoại mới",
+      password: "Mật khẩu",
+      changeYourPassword: "Thay đổi mật khẩu của bạn",
+      currentPassword: "Mật khẩu hiện tại",
+      newPassword: "Mật khẩu mới",
+      confirmPassword: "Xác nhận mật khẩu mới",
+      currentPasswordIsIncorrect: "Mật khẩu hiện tại không chính xác"
     },
     valid: {
       lastName: 'Vui lòng nhập họ của bạn',
@@ -97,7 +109,9 @@ export default {
       passwordRequired: 'Vui lòng nhập mật khẩu của bạn',
       password: "Mật khẩu không trùng với mật khẩu xác nhận",
       confirmPassword: "Mật khẩu xác nhận không trùng với mật khẩu",
-      emailExisted: 'Địa chỉ email đã tồn tại'
+      emailExisted: 'Địa chỉ email đã tồn tại',
+      currentPassword: "Vui lòng nhập mật khẩu hiện tại",
+      newPassword: "Mật khẩu mới không trùng với mật khẩu xác nhận"
     }
   },
   appointment: {

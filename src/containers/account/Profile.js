@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, Alert } from 'react-native';
-import { Content, ActionSheet, Text, } from "native-base";
+import { Content, ActionSheet } from "native-base";
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
 import moment from 'moment';
 
-import { brandPrimary, textDarkColor, textTitleColor, inverseTextColor } from '../../config/variables';
-import { ProfileHeader } from '../../components/account';
+import { textDarkColor, textTitleColor } from '../../config/variables';
+import { ProfileHeader, ChangePassword, ChangeEmail } from '../../components/account';
 import i18n from '../../i18n';
-import { validateForm, checkValidity, capitalize, gender } from '../../util/utility';
+import { validateForm, checkValidity, gender } from '../../util/utility';
 import { Button, TextInput } from '../../components/common';
 import * as actions from './auth-actions';
 import axios from '../../config/axios';
@@ -27,10 +27,11 @@ const imagePickerOptions = {
   quality: 0.8
 };
 let _this = null;
+
 class Profile extends Component {
-  static navigationOptions = () => {
+  static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: <ProfileHeader editAvatar={() => _this.editAvatarHandler()} />,
+      headerTitle: <ProfileHeader navigation={navigation} editAvatar={() => _this.editAvatarHandler()} />,
       headerTintColor: '#fff',
       headerBackground: (
         <LinearGradient
@@ -42,8 +43,7 @@ class Profile extends Component {
       ),
       headerStyle: {
         borderBottomWidth: 0,
-        height: 100,
-        // alignSelf: 'center'
+        height: 100
       }
     };
   };
@@ -55,6 +55,8 @@ class Profile extends Component {
     callToLogout: () => { },
   }
   state = {
+    passwordModal: false,
+    emailModal: false,
     formTouched: false,
     form: {
       customer_id: { value: this.props.user.customer_id },
@@ -161,24 +163,23 @@ class Profile extends Component {
             response.fileName = response.fileName.replace(".HEIC", ".jpg");
           }
           const data = new FormData();
-          data.append('postedFile', {
+          data.append('customer_id', this.props.user.customer_id);
+          data.append('profile_image', {
             uri: response.uri,
             type: response.type,
             name: response.fileName ? response.fileName : `avatar${moment().format('x')}.jpg`
           });
-          const res = await axios.post('user/profile/uploadPicture', data, {
+          const res = await axios.post('customer/update-profile-image', data, {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
             }
           });
-          if (res.msg) {
-            const { profilePicture } = JSON.parse(res.msg);
-            const user = { ...this.props.user };
-            user.profilePicture = profilePicture;
-            this.props.onUpdateProfile(user);
-          }
+          console.log(res.customer)
+          this.props.onUpdateProfile(res.customer);
+          this.props.navigation.setParams({ updatedTime: new Date() });
           this.setState({ spinner: false });
         } catch (error) {
+          console.log(error)
           Alert.alert(i18n.t('global.error'), error.message,
             [{
               text: i18n.t('global.ok'),
@@ -219,10 +220,34 @@ class Profile extends Component {
       gender => this.inputChangeHandler(gender, 'gender')
     );
   }
+  showModalHandler = (modalType) => {
+    // reinit form when the user open the profile modal
+    if (!this.state[modalType]) {
+      if (modalType === 'profileModal') {
+        this.onInitForm();
+      }
+    }
+    this.setState(prevState => {
+      return {
+        [modalType]: !prevState[modalType]
+      }
+    });
+  }
   render() {
-    const profile = this.props.user;
     return (
       <Content style={{ paddingHorizontal: 15 }}>
+        {this.state.passwordModal ?
+          <ChangePassword
+            modalVisible={this.state.passwordModal}
+            setModalVisible={this.showModalHandler}
+          /> : null
+        }
+        {this.state.emailModal ?
+          <ChangeEmail
+            modalVisible={this.state.emailModal}
+            setModalVisible={this.showModalHandler}
+          /> : null
+        }
         <KeyboardAvoidingView>
           <View style={{ padding: 15 }}>
             <TextInput
@@ -243,18 +268,22 @@ class Profile extends Component {
               inValid={this.state.form.first_name.inValid}
               errorMessage={i18n.t('account.valid.firstName')}
             />
-            <TextInput
-              value={this.state.form.email.value}
-              onChangeText={email => this.inputChangeHandler(email, 'email')}
-              label={i18n.t('account.email')}
-              editable={!this.props.user.email}
-              autoCapitalize="none"
-              returnKeyType="next"
-              icon={{ name: 'envelope', type: 'EvilIcons', size: 28 }}
-              keyboardType="email-address"
-              inValid={this.state.form.email.inValid}
-              errorMessage={i18n.t('account.valid.email')}
-            />
+            <TouchableOpacity onPress={() => this.showModalHandler('emailModal')}>
+              <View pointerEvents="none">
+                <TextInput
+                  value={this.state.form.email.value}
+                  onChangeText={email => this.inputChangeHandler(email, 'email')}
+                  label={i18n.t('account.email')}
+                  editable={!this.props.user.email}
+                  autoCapitalize="none"
+                  returnKeyType="next"
+                  icon={{ name: 'envelope', type: 'EvilIcons', size: 28 }}
+                  keyboardType="email-address"
+                  inValid={this.state.form.email.inValid}
+                  errorMessage={i18n.t('account.valid.email')}
+                />
+              </View>
+            </TouchableOpacity>
             <TextInput
               value={this.state.form.mobile_phone.value}
               onChangeText={mobile_phone => this.inputChangeHandler(mobile_phone, 'mobile_phone')}
@@ -277,22 +306,22 @@ class Profile extends Component {
               </View>
             </TouchableOpacity>
             <ActionSheet ref={o => this.ActionSheet = o} />
-            {/* <PickerSelect
-                label={i18n.t('account.province')}
-                onChange={this.onProvinceChange}
-                data={this.props.provinceList}
-                keyName={'province_name'}
-                keyId='province_id'
-                value={this.state.form.province_id.value}
-              />
-              <PickerSelect
-                label={i18n.t('account.district')}
-                onChange={district_id => this.inputChangeHandler(district_id, 'district_id')}
-                data={this.props.districtList}
-                keyName={'district_name'}
-                keyId='district_id'
-                value={this.state.form.district_id.value}
-              /> */}
+            {!this.props.provider ?
+              <TouchableOpacity onPress={() => this.showModalHandler('passwordModal')}>
+                <View pointerEvents="none">
+                  <TextInput
+                    value={'******'}
+                    label={i18n.t('account.password')}
+                    editable={false}
+                    secureTextEntry
+                    autoCapitalize="none"
+                    returnKeyType="next"
+                    icon={{ name: 'lock', type: 'SimpleLineIcons', size: 22 }}
+                    keyboardType="phone-pad"
+                  />
+                </View>
+              </TouchableOpacity>
+              : null}
           </View>
           <View style={{ flex: 1, alignItems: 'center', paddingVertical: 10 }}>
             <Button
@@ -307,38 +336,10 @@ class Profile extends Component {
     )
   }
 }
-const styles = StyleSheet.create({
-  paragraph: {
-    paddingVertical: 10,
-  },
-  lineBottom: {
-    borderBottomColor: 'rgba(0,0,0,0.5)',
-    borderBottomWidth: 0.3,
-    marginVertical: 5,
-    paddingBottom: 10,
-  },
-  textHeadline: {
-    color: textTitleColor,
-    fontSize: 24,
-    fontWeight: '700',
-    lineHeight: 24 * 1.5
-  },
-  textTitle: {
-    color: textDarkColor,
-    fontSize: 16,
-    fontWeight: '500',
-    lineHeight: 30
-  },
-  textContent: {
-    color: textDarkColor,
-    fontSize: 18,
-    fontWeight: '300',
-    lineHeight: 30
-  },
-});
 const mapStateToProps = state => {
   return {
-    user: state.auth.user
+    user: state.auth.user,
+    provider: state.auth.provider
   }
 };
 const mapDispatchToProps = dispatch => {

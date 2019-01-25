@@ -5,15 +5,15 @@ import FastImage from 'react-native-fast-image';
 import { Avatar } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { inverseTextColor, brandPrimary, DEVICE_WIDTH, platform, textColor, textLightColor } from '../../config/variables';
+import { inverseTextColor, DEVICE_WIDTH, platform, textColor, textLightColor } from '../../config/variables';
 
 const ProfileHeader = (props) => {
   return (
     <TouchableOpacity onPress={props.editAvatar}>
       <View style={platform === 'android' ? styles.container : null}>
-        {props.user.profilePicture ?
+        {props.user.image_profile && props.user.image_profile !==  'http://paxsky.amagumolabs.io/images/no_image_available.jpg' ?
           <FastImage
-            source={{ uri: props.user.profilePicture, priority: FastImage.priority.high }}
+            source={{ uri: props.user.image_profile, priority: FastImage.priority.high }}
             style={{ height: 76, width: 76, borderRadius: 50 }} />
           :
           <Avatar

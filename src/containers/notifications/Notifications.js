@@ -93,8 +93,7 @@ class Notifications extends Component {
         firstLoading: false
       });
     } catch (error) {
-      console.log(error)
-      this.setState({ isPullRefresh: false });
+      this.setState({ isPullRefresh: false, firstLoading: false });
     }
   }
   onSwipeOpen = (rowIndex) => {

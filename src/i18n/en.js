@@ -5,6 +5,7 @@ export default {
     delete: "Delete",
     confirm: "Confirm",
     update: "Update",
+    submit: "Submit",
     readMore: "Read more",
     showLess: "Show less",
     error: "Error",
@@ -86,8 +87,19 @@ export default {
     selectAvatar: "Select Avatar",
     takePhoto: "Take Photo...",
     chooseFromLibrary: "Choose from Library...",
+    changePassword: "Change Password",
+    changeEmail: "Change Email",
+    changePhone: "Change Phone Number",
     profile: {
-      title: 'Profile'
+      title: 'Profile',
+      newEmailAddress: "New email address",
+      newPhoneNumber: "New phone number",
+      password: "Password",
+      changeYourPassword: "Change Password",
+      currentPassword: "Current Password",
+      newPassword: "New Password",
+      confirmPassword: "Re-type new Password",
+      currentPasswordIsIncorrect: "Your password was incorrect",
     },
     valid: {
       lastName: 'Please enter your last name',
@@ -97,7 +109,9 @@ export default {
       passwordRequired: 'Please enter your password',
       password: "Password does not match confirmation password",
       confirmPassword: "Confirmation password does not match new password",
-      emailExisted: 'This email already exists'
+      emailExisted: 'This email already exists',
+      currentPassword: "Please enter your current password",
+      newPassword: "Password does not match confirmation password",
     }
   },
   appointment: {
