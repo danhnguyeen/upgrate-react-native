@@ -7,7 +7,7 @@ import ImagePicker from 'react-native-image-picker';
 import moment from 'moment';
 
 import { textDarkColor, textTitleColor } from '../../config/variables';
-import { ProfileHeader, ChangePassword, ChangeEmail } from '../../components/account';
+import { ProfileHeader, ChangePassword, ChangeEmail, ChangePhone } from '../../components/account';
 import i18n from '../../i18n';
 import { validateForm, checkValidity, gender } from '../../util/utility';
 import { Button, TextInput, SpinnerOverlay } from '../../components/common';
@@ -58,6 +58,7 @@ class Profile extends Component {
     passwordModal: false,
     emailModal: false,
     formTouched: false,
+    phoneModal: false,
     form: {
       customer_id: { value: this.props.user.customer_id },
       first_name: {
@@ -196,6 +197,11 @@ class Profile extends Component {
       }]
     );
   }
+  updateProfileHandler = (data, key) => {
+    const form = { ...this.state.form };
+    form[key].value = data[key];
+    this.setState({ form });
+  }
   inputChangeHandler = (value, key) => {
     const form = { ...this.state.form };
     if (key === 'gender' && value === 3) {
@@ -244,6 +250,18 @@ class Profile extends Component {
           <ChangeEmail
             modalVisible={this.state.emailModal}
             setModalVisible={this.showModalHandler}
+            updateLocalProfile={this.updateProfileHandler}
+            user={this.props.user}
+            onUpdateProfile={this.props.onUpdateProfile}
+          /> : null
+        }
+        {this.state.phoneModal ?
+          <ChangePhone
+            modalVisible={this.state.phoneModal}
+            setModalVisible={this.showModalHandler}
+            updateLocalProfile={this.updateProfileHandler}
+            user={this.props.user}
+            onUpdateProfile={this.props.onUpdateProfile}
           /> : null
         }
         <SpinnerOverlay visible={this.state.spinner} />
@@ -267,34 +285,64 @@ class Profile extends Component {
               inValid={this.state.form.first_name.inValid}
               errorMessage={i18n.t('account.valid.firstName')}
             />
-            <TouchableOpacity onPress={() => this.showModalHandler('emailModal')}>
-              <View pointerEvents="none">
-                <TextInput
-                  value={this.state.form.email.value}
-                  onChangeText={email => this.inputChangeHandler(email, 'email')}
-                  label={i18n.t('account.email')}
-                  editable={!this.props.user.email}
-                  autoCapitalize="none"
-                  returnKeyType="next"
-                  icon={{ name: 'envelope', type: 'EvilIcons', size: 28 }}
-                  keyboardType="email-address"
-                  inValid={this.state.form.email.inValid}
-                  errorMessage={i18n.t('account.valid.email')}
-                />
-              </View>
-            </TouchableOpacity>
-            <TextInput
-              value={this.state.form.mobile_phone.value}
-              onChangeText={mobile_phone => this.inputChangeHandler(mobile_phone, 'mobile_phone')}
-              label={i18n.t('account.phoneNumber')}
-              editable={!this.props.user.mobile_phone}
-              autoCapitalize="none"
-              returnKeyType="next"
-              icon={{ name: 'phone', type: 'SimpleLineIcons', size: 24 }}
-              keyboardType="phone-pad"
-              inValid={this.state.form.mobile_phone.inValid}
-              errorMessage={i18n.t('account.valid.phone')}
-            />
+            {!this.props.provider ?
+              <TouchableOpacity onPress={() => this.showModalHandler('emailModal')}>
+                <View pointerEvents="none">
+                  <TextInput
+                    value={this.state.form.email.value}
+                    label={i18n.t('account.email')}
+                    editable={false}
+                    autoCapitalize="none"
+                    returnKeyType="next"
+                    icon={{ name: 'envelope', type: 'EvilIcons', size: 28 }}
+                    keyboardType="email-address"
+                    inValid={this.state.form.email.inValid}
+                    errorMessage={i18n.t('account.valid.email')}
+                  />
+                </View>
+              </TouchableOpacity>
+              :
+              <TextInput
+                value={this.state.form.email.value}
+                label={i18n.t('account.email')}
+                editable={this.props.provider === 'phone'}
+                autoCapitalize="none"
+                returnKeyType="next"
+                icon={{ name: 'envelope', type: 'EvilIcons', size: 28 }}
+                keyboardType="email-address"
+                inValid={this.state.form.email.inValid}
+                errorMessage={i18n.t('account.valid.email')}
+              />
+            }
+            {!this.props.provider ?
+              <TouchableOpacity onPress={() => this.showModalHandler('phoneModal')}>
+                <View pointerEvents="none">
+                  <TextInput
+                    value={this.state.form.mobile_phone.value}
+                    label={i18n.t('account.phoneNumber')}
+                    editable={false}
+                    autoCapitalize="none"
+                    returnKeyType="next"
+                    icon={{ name: 'phone', type: 'SimpleLineIcons', size: 22 }}
+                    keyboardType="phone-pad"
+                    inValid={this.state.form.mobile_phone.inValid}
+                    errorMessage={i18n.t('account.valid.phone')}
+                  />
+                </View>
+              </TouchableOpacity>
+              :
+              <TextInput
+                value={this.state.form.mobile_phone.value}
+                label={i18n.t('account.phoneNumber')}
+                editable={this.props.provider === 'facebook'}
+                autoCapitalize="none"
+                returnKeyType="next"
+                icon={{ name: 'phone', type: 'SimpleLineIcons', size: 22 }}
+                keyboardType="phone-pad"
+                inValid={this.state.form.mobile_phone.inValid}
+                errorMessage={i18n.t('account.valid.phone')}
+              />
+            }
             <TouchableOpacity onPress={this.showActionSheet}>
               <View pointerEvents="none">
                 <TextInput

@@ -11,24 +11,6 @@ import { shadow, backgroundColor, brandLight, textColor, fontSize, textLightColo
 import i18n from '../../i18n';
 
 class Account extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      // headerTitle: <ProfileHeader navigation={navigation} editAvatar={() => _this.editAvatarHandler()} />,
-      headerTintColor: '#fff',
-      headerBackground: (
-        <LinearGradient
-          colors={['#2079ae', '#54ace0']}
-          style={{ flex: 1 }}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        />
-      ),
-      headerStyle: {
-        borderBottomWidth: 0,
-        // height: 100
-      }
-    };
-  };
   componentDidMount() {
     if (!this.props.isAuth) {
       _dispatchStackActions(this.props.navigation, 'navigate', 'SignIn')

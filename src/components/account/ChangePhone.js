@@ -4,13 +4,13 @@ import { Content } from 'native-base';
 
 import i18n from '../../i18n';
 import { TextInput, Modal, Button } from '../common';
-import { brandDark, brandLight } from '../../config/variables';
+import { brandLight } from '../../config/variables';
 import axios from '../../config/axios';
 import { validateForm, checkValidity } from '../../util/utility';
 
-const formType = 'emailModal';
+const formType = 'phoneModal';
 
-class ChangeEmail extends Component {
+class ChangePhone extends Component {
   state = {
     formTouched: false,
     saving: false,
@@ -21,11 +21,11 @@ class ChangeEmail extends Component {
           required: true
         }
       },
-      email: {
+      mobile_phone: {
         value: '',
         validation: {
           required: true,
-          isEmail: true
+          isPhone: true
         }
       }
     },
@@ -38,18 +38,18 @@ class ChangeEmail extends Component {
       try {
         this.setState({ saving: true });
         data.customer_id = this.props.user.customer_id;
-        const { customer } = await axios.post('customer/update-email', data);
+        const { customer } = await axios.post('customer/update-mobile-phone', data);
         this.setState({ saving: false });
         this.props.onUpdateProfile(customer);
-        this.props.updateLocalProfile(customer, 'email');
+        this.props.updateLocalProfile(customer, 'mobile_phone');
         this.onUpdatedSuccess();
       } catch (error) {
         this.setState({ saving: false });
         if (error.message === "Password incorrect") {
           error.message = i18n.t('account.profile.currentPasswordIsIncorrect')
         }
-        if (error.message === "Email has exist") {
-          error.message = i18n.t('account.valid.emailExisted')
+        if (error.message === "Phone has exist") {
+          error.message = i18n.t('account.valid.phoneExisted')
         }
         Alert.alert(i18n.t('global.error'), error.message);
       }
@@ -79,7 +79,7 @@ class ChangeEmail extends Component {
       <Modal
         visible={this.props.modalVisible}
         onRequestClose={() => this.props.setModalVisible(formType)}
-        title={i18n.t('account.changeEmail')}
+        title={i18n.t('account.changePhone')}
       >
         <Content style={{ paddingHorizontal: 25, backgroundColor: brandLight }}>
           <KeyboardAvoidingView>
@@ -94,15 +94,15 @@ class ChangeEmail extends Component {
                 icon={{ name: 'ios-lock' }}
                 onChangeText={(value) => this.inputChangeHandler(value, 'password')} />
               <TextInput
-                value={this.state.form.email.value}
-                onChangeText={email => this.inputChangeHandler(email, 'email')}
-                label={i18n.t('account.profile.newEmailAddress')}
+                value={this.state.form.mobile_phone.value}
+                onChangeText={mobile_phone => this.inputChangeHandler(mobile_phone, 'mobile_phone')}
+                label={i18n.t('account.profile.newPhoneNumber')}
                 autoCapitalize="none"
                 returnKeyType="next"
                 icon={{ name: 'ios-mail' }}
-                keyboardType="email-address"
-                inValid={this.state.form.email.inValid}
-                errorMessage={i18n.t('account.valid.email')}
+                keyboardType="phone-pad"
+                inValid={this.state.form.mobile_phone.inValid}
+                errorMessage={i18n.t('account.valid.phone')}
               />
               <View style={{ flex: 1, alignItems: 'center', marginTop: 25 }}>
                 <Button
@@ -119,4 +119,4 @@ class ChangeEmail extends Component {
   }
 }
 
-export default ChangeEmail;
+export default ChangePhone;
