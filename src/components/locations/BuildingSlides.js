@@ -44,19 +44,11 @@ class BuildingSlides extends Component {
 const styles = {
   container: {
     flex: 1,
-    width: 230,
+    width: 250,
     backgroundColor: '#fff',
     marginRight: 10,
     marginVertical: 5,
-    borderRadius: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.20,
-    shadowRadius: 1.41,
-    elevation: 2
+    borderRadius: 5
   },
   slideStyle: {
     overflow: 'hidden',
@@ -75,7 +67,7 @@ const styles = {
   },
   subTitleStyle: {
     fontSize: 13,
-    width: 120,
+    width: 140,
     color: '#616161'
   },
   priceStyle: {

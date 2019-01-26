@@ -7,7 +7,7 @@ import * as actions from '../building-actions';
 import { Spinner } from '../../../components/common';
 import { isEmpty } from '../../../util/utility';
 import { TagOffice } from '../../../components/buildings';
-import { backgroundColor, brandPrimary } from '../../../config/variables';
+import { backgroundColor, brandPrimary, fontSize, brandLight } from '../../../config/variables';
 import OfficeFilter from './OfficeFilter';
 import i18n from '../../../i18n';
 
@@ -87,62 +87,81 @@ class Offices extends React.Component {
             filterRequired={filterRequired}
           />
           : null}
-        <Content style={{ backgroundColor: '#DCDCDC' }} >
-          {(isFetching && officeList) ? <Spinner /> :
-            <View >
-              <View style={{ padding: 15, backgroundColor: '#FFF', marginBottom: 10 }}>
-                <TouchableOpacity
-                  onPress={() => { this.setState({ modalVisible: true }) }}
-                  style={[styles.button, { alignSelf: 'flex-end', borderWidth: 0 }]}>
-                  <Text style={[styles.buttonText]}>{i18n.t('filter.filters')}</Text>
-                </TouchableOpacity>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
-                  {!isEmpty(filterRequired.acreage_rent) &&
-                    <TouchableOpacity
-                      onPress={() => { this._clearFilterPress() }}
-                      style={[styles.button, { flexDirection: 'row' }]}>
-                      <Text style={[styles.buttonText]}>{filterRequired.acreage_rent[0]}m2 - {filterRequired.acreage_rent[filterRequired.acreage_rent.length - 1]}m2</Text>
-                      <Icon style={[styles.buttonText, { marginLeft: 5, fontSize: 18 }]} name='md-close' type="Ionicons" />
+        <View style={styles.filterContainer}>
+          <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
+            {!isEmpty(filterRequired.acreage_rent) &&
+              <TouchableOpacity
+                onPress={() => { this._clearFilterPress() }}
+                style={styles.button}>
+                <Text style={styles.buttonText}>{filterRequired.acreage_rent[0]}m2 - {filterRequired.acreage_rent[filterRequired.acreage_rent.length - 1]}m2</Text>
+                <Icon style={styles.closeIcon} name='md-close' type="Ionicons" />
+              </TouchableOpacity>
+            }
+          </View>
+          <View style={{ alignItems: 'flex-start', justifyContent: 'flex-end' }}>
+            <TouchableOpacity
+              onPress={() => { this.setState({ modalVisible: true }) }}
+              style={{ alignSelf: 'flex-end', paddingVertical: 15 }}>
+              <Text style={[styles.buttonText, { fontSize }]}>{i18n.t('filter.filters')}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {(isFetching && officeList) ? <Spinner /> :
+          <Content style={{ backgroundColor, paddingTop: 10 }} >
+            {officeList.length < 1 ?
+              <Text>{i18n.t('global.updating')}</Text>
+              : officeList.map((item, index) => {
+                item.building_id = building_id
+                item.building_name = building_name
+                if (isEmpty(filterRequired.acreage_rent) ||
+                  (!isEmpty(filterRequired.acreage_rent) &&
+                    (filterRequired.acreage_rent[0] <= item.acreage_rent && item.acreage_rent <= filterRequired.acreage_rent[1]))) {
+                  return (
+                    <TouchableOpacity key={index}
+                      onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: item } }) }} >
+                      <TagOffice officeDetail={item} navigation={this.props.navigation} />
                     </TouchableOpacity>
-                  }
-                </View>
-              </View>
-              <View >
-                {officeList.length < 1 ?
-                  <Text>{i18n.t('global.updating')}</Text>
-                  : officeList.map((item, index) => {
-                    item.building_id = building_id
-                    item.building_name = building_name
-                    if (isEmpty(filterRequired.acreage_rent) ||
-                      (!isEmpty(filterRequired.acreage_rent) &&
-                        (filterRequired.acreage_rent[0] <= item.acreage_rent && item.acreage_rent <= filterRequired.acreage_rent[1]))) {
-                      return (
-                        <TouchableOpacity key={index}
-                          onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: item } }) }} >
-                          <TagOffice officeDetail={item} navigation={this.props.navigation} />
-                        </TouchableOpacity>
-                      )
-                    }
-                    else return (<Text>{i18n.t('filter.noResult')}</Text>)
-                  })}
-              </View>
-            </View>}
-        </Content>
+                  )
+                }
+                else return (<Text>{i18n.t('filter.noResult')}</Text>)
+              })}
+          </Content>
+        }
       </View>
     )
   }
 };
 
 const styles = StyleSheet.create({
+  filterContainer: {
+    backgroundColor: brandLight,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
   buttonText: {
+    fontSize: fontSize - 3,
     color: brandPrimary,
     textAlign: 'center'
   },
   button: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#C7DDF6',
-    borderRadius: 2,
-    paddingHorizontal: 10
+    borderColor: brandPrimary,
+    borderRadius: 3,
+    padding: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    marginRight: 5
+  },
+  closeIcon: {
+    fontSize: fontSize - 3,
+    color: brandPrimary,
+    textAlign: 'center',
+    marginLeft: 5, fontSize: fontSize + 1
   },
   headerIcon: {
     flex: 0.2,

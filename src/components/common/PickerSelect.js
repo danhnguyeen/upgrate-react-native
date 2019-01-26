@@ -24,7 +24,8 @@ class PickerSelect extends Component {
   initInputValue = () => {
     if (this.props.data) {
       const keyName = this.state.keyName;
-      const data = this.props.data.find(item => item[this.state.keyId] === this.props.value);
+      const value = this.props.isObject ? this.props.value[this.state.keyId] : this.props.value;
+      const data = this.props.data.find(item => item[this.state.keyId] === value);
       if (data) {
         this.setState({ inputValue: data[keyName], selectedValue: data[keyName] });
       } else {
@@ -59,7 +60,7 @@ class PickerSelect extends Component {
       selectedValue: [this.state.selectedValue],
       onPickerConfirm: (pickedValue, pickedIndex) => {
         const data = this.props.data[pickedIndex];
-        this.props.onChange(data[this.state.keyId]);
+        this.props.onChange(this.props.isObject ? data : data[this.state.keyId]);
         this.hidePicker();
       },
       onPickerCancel: () => {

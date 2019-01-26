@@ -1,8 +1,11 @@
+import React from 'react';
+import StarRating from 'react-native-star-rating';
+import { ScrollView, StyleSheet, TouchableOpacity, View, Alert, Text, KeyboardAvoidingView } from 'react-native';
+import { Textarea, Content } from 'native-base';
 
-import React from 'react'
-import StarRating from 'react-native-star-rating'
-import { ScrollView, StyleSheet, TouchableOpacity, TextInput, View, Alert, Text } from 'react-native'
-import { brandPrimary, textDarkColor, brandWarning } from '../../config/variables'
+import { Modal, Button } from '../common';
+import { RatingSuggestion } from '../booking';
+import { brandPrimary, textDarkColor, brandWarning, brandLight, fontSize, DEVICE_WIDTH, platform } from '../../config/variables'
 import i18n from '../../i18n'
 export default class BookingRating extends React.Component {
   constructor(props) {
@@ -62,18 +65,21 @@ export default class BookingRating extends React.Component {
           : i18n.t('review.great')
 
     return (
-      <View style={{ paddingTop: 20 }}>
-        <ScrollView scrollEnabled={this.state.scrollEnabled}>
+      <Modal
+        title={i18n.t('review.rating')}
+        visible={this.props.modalVisible}
+        onRequestClose={this.props.onRequestClose} >
+        <Content style={{ backgroundColor: brandLight, flex: 1, padding: 20 }}>
           <View style={styles.lineBottom}>
             <Text style={[styles.textHeadline, { textAlign: 'center' }]}>{itemRating.building_name}</Text>
-            <View style={{ padding: 15 }}>
+            <View style={{ padding: 15, paddingHorizontal: 30 }}>
               <StarRating
                 emptyStar={'ios-star-outline'}
                 fullStar={'ios-star'}
                 iconSet={'Ionicons'}
                 maxStars={5}
-                starSize={34}
-                starStyle={{ paddingHorizontal: 12 }}
+                starSize={38}
+                starStyle={{ paddingHorizontal: 8 }}
                 halfStarEnabled={false}
                 selectedStar={(rating) => this.inputHandler(rating, 'rate_number')}
                 rating={rating.rate_number}
@@ -81,52 +87,45 @@ export default class BookingRating extends React.Component {
               />
             </View>
             <Text style={[styles.textContent, { textAlign: 'center', marginVertical: 10, }]}>{question}</Text>
-            <View style={{ marginVertical: 5, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <View style={{ marginVertical: 5, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
               {['Văn phòng', 'Tiện ích', 'Dịch vụ', 'Tư vấn', 'An ninh', 'Quản lý'].map((item, index) => {
                 const selected = rating.rate_tag.search(item) > -1 ? true : false
                 return (
-                  <TouchableOpacity key={index}
-                    style={[selected ? styles.buttonBg : styles.button]}
-                    onPress={() => { this._onDirectionChange(item) }}>
-                    <Text style={selected ? styles.buttonBgText : styles.buttonText}>{item}</Text>
-                  </TouchableOpacity>
+                  <RatingSuggestion key={item}
+                    title={item}
+                    selected={selected}
+                    onPress={() => { this._onDirectionChange(item) }}
+                  />
                 )
               })}
             </View>
           </View>
           <View style={styles.lineBottom}>
-            <Text style={styles.textTitle}>{i18n.t('review.addYourCommentsHere')}</Text>
-            <TextInput
-              multiline
-              style={[styles.textContent, { maxHeight: 100, minHeight: 90 }]}
-              numberOfLines={3}
-              textAlignVertical={'top'}
-              returnKeyType='done'
-              placeholderTextColor={textDarkColor}
-              value={rating.rate_comment}
+            <Text style={{ marginBottom: 5 }}>{i18n.t('review.addYourCommentsHere')}</Text>
+            <Textarea
+              rowSpan={5}
+              bordered
               onChangeText={(value) => this.inputHandler(value, 'rate_comment')}
-              underlineColorAndroid='transparent'
+              value={rating.rate_comment}
             />
           </View>
-        </ScrollView>
-        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 10, paddingBottom: 10 }}>
-          <TouchableOpacity style={[styles.buttonBg, { flex: 1 }]}
-            onPress={this._onRatingSubmit}>
-            <Text style={[styles.buttonBgText, { fontSize: 20 }]}>{i18n.t('global.ok').toUpperCase()}</Text>
-          </TouchableOpacity>
-        </View>
-      </View >
+          <View style={{ justifyContent: 'center', paddingHorizontal: 10, alignItems: 'center' }}>
+            <Button
+              buttonStyle={{ width: DEVICE_WIDTH - 50 }}
+              title={i18n.t('global.ok').toUpperCase()}
+              onPress={this._onRatingSubmit}
+            />
+          </View>
+        </Content>
+      </Modal>
     )
   }
 }
 
 const styles = StyleSheet.create({
   lineBottom: {
-    borderBottomColor: '#AAAAAA',
-    borderBottomWidth: 0.5,
     marginBottom: 10,
-    paddingBottom: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
   },
   textHeadline: {
     fontSize: 24,
@@ -134,17 +133,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#0D3D74',
   },
-  textTitle: {
-    color: textDarkColor,
-    fontSize: 16,
-    fontWeight: '500',
-    lineHeight: 30,
-  },
   textContent: {
-    color: textDarkColor,
-    fontSize: 18,
-    fontWeight: '300',
     lineHeight: 30,
+    fontSize: fontSize + 1
   },
   button: {
     borderWidth: 1,

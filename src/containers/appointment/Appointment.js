@@ -4,11 +4,12 @@ import { StyleSheet, TouchableOpacity, View, Alert, Linking, RefreshControl } fr
 import { Content, Text, ActionSheet } from "native-base";
 import { connect } from 'react-redux';
 import axios from '../../config/axios';
-import { ModalPopup } from '../../components/common';
+
 import { BookingRating } from '../../components/booking/';
 import { brandPrimary, textDarkColor, shadow, brandLight, backgroundColor, statusColors } from '../../config/variables';
 import { _dispatchStackActions } from '../../util/utility';
 import i18n from '../../i18n';
+
 var BUTTONS = [
   { text: i18n.t('global.cancel'), url: '' },
   { text: i18n.t('contact.call'), url: 'tel:+84911072299' },
@@ -191,6 +192,7 @@ class Appointment extends React.Component {
     })
   }
   _onRatingSubmit = async (ratingData) => {
+    console.log(ratingData)
     await axios.post(`appointment/rating?appointment_id=${ratingData.appointment_id}`, ratingData).catch(error => {
       if (error && error.status === '1') {
         Alert.alert(null, error.message, [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false, modalVisible: false }) } }])
@@ -239,12 +241,13 @@ class Appointment extends React.Component {
             }
           </Content>
         }
-        <ModalPopup title={i18n.t('review.rating')} visible={this.state.modalVisible} onRequestClose={this._modalHandler} >
+        {this.state.modalVisible ?
           <BookingRating
+            visible={this.state.modalVisible}
             onRequestClose={this._modalHandler}
             onRatingSubmit={this._onRatingSubmit}
             itemRating={this.state.itemRating} />
-        </ModalPopup>
+          : null}
       </View >
     )
   }

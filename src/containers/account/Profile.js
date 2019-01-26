@@ -266,7 +266,7 @@ class Profile extends Component {
         }
         <SpinnerOverlay visible={this.state.spinner} />
         <KeyboardAvoidingView>
-          <View style={{ padding: 15 }}>
+          <View style={{ padding: 15, paddingBottom: 0 }}>
             <TextInput
               value={this.state.form.last_name.value}
               onChangeText={last_name => this.inputChangeHandler(last_name, 'last_name')}

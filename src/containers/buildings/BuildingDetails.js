@@ -89,7 +89,7 @@ class BuildingDetails extends React.Component {
             <View style={{ ...shadow, flex: 1, backgroundColor: brandLight, padding: 15, marginBottom: 15 }}>
               <View style={{ alignItems: 'center', marginBottom: 5 }}>
                 <Text style={[textH4, { color: brandPrimary }]} numberOfLines={1}>{detailBuilding.sub_name}</Text>
-                <Text style={{ fontStyle: 'italic' }}>{detailBuilding.address}, {detailBuilding.district}</Text>
+                <Text style={{ fontStyle: 'italic', fontSize: fontSize - 2 }}>{detailBuilding.address}, {detailBuilding.district}</Text>
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='building-o' type='FontAwesome' />

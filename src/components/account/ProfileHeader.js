@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import { Avatar } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { inverseTextColor, DEVICE_WIDTH, platform, textColor, textLightColor } from '../../config/variables';
+import { inverseTextColor, DEVICE_WIDTH, platform, textColor, textLightColor, brandPrimary } from '../../config/variables';
 
 const ProfileHeader = (props) => {
   return (
@@ -20,7 +20,7 @@ const ProfileHeader = (props) => {
             size="large"
             rounded
             placeholderStyle={{ backgroundColor: inverseTextColor }}
-            icon={{ name: 'user', type: 'font-awesome', color: textColor }}
+            icon={{ name: 'user', type: 'font-awesome', color: brandPrimary }}
           />
         }
         <View style={{ width: 76 }}>
