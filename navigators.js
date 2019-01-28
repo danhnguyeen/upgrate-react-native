@@ -221,6 +221,10 @@ const MainNavigator = createBottomTabNavigator({
   Account: AccountStack
 }, {
     defaultNavigationOptions: ({ navigation }) => ({
+      tabBarOptions: {
+        activeTintColor: '#2997d8',
+        inactiveTintColor: '#919191'
+      },
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
@@ -247,18 +251,11 @@ const MainNavigator = createBottomTabNavigator({
         return <Icon name={iconName} style={{ color: tintColor, fontSize: iconSize }} type={iconType} />;
       }
     }),
-    tabBarOptions: {
-      activeTintColor: '#2997d8',
-      inactiveTintColor: '#919191'
-    },
-  }, {
     initialRouteName: 'Home'
   });
 
 const AppNavigator = createStackNavigator({
-  Main: createSwitchNavigator(
-    { MainNavigator }
-  ),
+  Main: createSwitchNavigator({ MainNavigator }),
   ModalNews: ModalNewsStack,
   ModalBooking: ModalBookingStack,
   Notifications: NotificationsStack

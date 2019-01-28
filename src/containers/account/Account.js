@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AsyncStorage, StyleSheet, TouchableOpacity, View, Text, Alert } from 'react-native';
-import { Content, Icon } from "native-base";
+import { Content, Icon, ActionSheet } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
 
 import * as actions from './auth-actions';
@@ -11,15 +11,51 @@ import { shadow, backgroundColor, brandLight, textColor, fontSize, textLightColo
 import i18n from '../../i18n';
 
 class Account extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      configLanguage: ''
+    }
+  }
   componentDidMount() {
     if (!this.props.isAuth) {
       _dispatchStackActions(this.props.navigation, 'navigate', 'SignIn')
     }
     this.props.navigation.addListener('willFocus', () => {
+      this.getAsyncStorage()
       setTimeout(() => {
         this.props.navigation.setParams({ updatedTime: new Date() });
       }, 1000);
     });
+  }
+  getAsyncStorage = async () => {
+    await AsyncStorage.getItem('language', (err, result) => {
+      if (result) {
+        const configLanguage = JSON.parse(result)
+        if (configLanguage) {
+          this.setState({ configLanguage })
+        }
+      }
+    })
+  }
+  settingLanguage = () => {
+    ActionSheet.show({
+      options: [
+        i18n.t('global.cancel'), i18n.t('global.default'),
+        i18n.t('account.vn'), i18n.t('account.en')
+      ],
+      cancelButtonIndex: 0,
+      destructiveButtonIndex: 1,
+      title: i18n.t('account.language')
+    },
+      buttonIndex => {
+        console.log(buttonIndex)
+        if (buttonIndex !== 0 && buttonIndex) {
+          // AsyncStorage.setItem('language', );
+          // Linking.openURL(BUTTONS[buttonIndex].url)
+        }
+      }
+    )
   }
 
   logoutHandler = () => {
@@ -68,6 +104,12 @@ class Account extends React.Component {
               title={i18n.t('account.termsOfService')}
               leftIcon={<Icon name="md-document" style={styles.icon} />}
             />
+            <AccountItem onPress={this.settingLanguage}
+              title={i18n.t('account.language')}
+              leftIcon={<Icon name="language" style={styles.icon} type={'MaterialIcons'} />}
+              rightTitle={this.state.language}
+              rightIcon={<Icon name="arrow-forward" style={styles.rightIcon} />}
+            />
             {this.props.isAuth ?
               <AccountItem onPress={this.logoutHandler}
                 title={i18n.t('account.logout')}
@@ -93,6 +135,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: textLightColor, 
     fontSize: fontSize + 10
+  },
+  rightIcon: {
+    color: 'rgba(0, 0, 0, 0.54)',
+    fontSize: fontSize + 5,
   }
 })
 

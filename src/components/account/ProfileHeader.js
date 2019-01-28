@@ -11,12 +11,13 @@ const ProfileHeader = (props) => {
   return (
     <TouchableOpacity onPress={props.editAvatar}>
       <View style={platform === 'android' ? styles.container : null}>
-        {props.user.image_profile && props.user.image_profile !==  'http://paxsky.amagumolabs.io/images/no_image_available.jpg' ?
+        {props.user.image_profile && props.user.image_profile !== 'http://paxsky.amagumolabs.io/images/no_image_available.jpg' ?
           <FastImage
             source={{ uri: props.user.image_profile, priority: FastImage.priority.high }}
             style={{ height: 76, width: 76, borderRadius: 50 }} />
           :
           <Avatar
+            ImageComponent={() => { return null }}
             size="large"
             rounded
             placeholderStyle={{ backgroundColor: inverseTextColor }}

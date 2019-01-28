@@ -8,6 +8,7 @@ export default {
     submit: "Lưu",
     readMore: "Xem thêm",
     showLess: "Thu gọn",
+    default: "Mặc định",
     error: "Lỗi",
     networkError: "Không có kết nối mạng. Vui lòng kiểm tra kết nối internet của bạn và thử lại",
     updating: "Đang cập nhật",
@@ -38,7 +39,7 @@ export default {
     all: "Tất cả",
     price: "Mức giá",
     acreage: "Diện tích",
-    noResult : "Không tìm thấy kết quả phù hợp."
+    noResult: "Không tìm thấy kết quả phù hợp."
   },
   buildingDetail: {
     updating: "Đang cập nhật",
@@ -86,6 +87,9 @@ export default {
     welcomeToPaxSky: 'Chào mừng đến PaxSky',
     logout: 'Đăng xuất',
     termsOfService: 'Điều khoản sử dụng',
+    language: "Language",
+    en: "English",
+    vn: "Tiếng Việt",
     areYouSureLogOut: "Bạn có chắc chắn muốn đăng xuất?",
     selectAvatar: "Chọn Hình",
     takePhoto: "Chụp ảnh mới",

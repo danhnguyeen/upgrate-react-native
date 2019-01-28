@@ -5,6 +5,7 @@ import { Content, Text, ActionSheet } from "native-base";
 import { connect } from 'react-redux';
 import axios from '../../config/axios';
 
+import { ModalPopup } from '../../components/common';
 import { BookingRating } from '../../components/booking/';
 import { brandPrimary, textDarkColor, shadow, brandLight, backgroundColor, statusColors } from '../../config/variables';
 import { _dispatchStackActions } from '../../util/utility';
@@ -89,8 +90,8 @@ class BookingItem extends React.Component {
         booking.status.color = statusColors.green
         booking.status.icon = 'check-circle'
         booking.status.text = i18n.t('appointment.scheduled')
-        btnFuncText = i18n.t('appointment.btContact')
-        onPressFunction = this.contactFunction
+        btnFuncText = i18n.t('appointment.btUpdate')
+        onPressFunction = () => this.props.navigation.navigate('ModalBooking', { dataProps: { bookingDetail: booking } })
         break
       case 'Done':
         booking.status.color = statusColors.grey
@@ -192,12 +193,13 @@ class Appointment extends React.Component {
     })
   }
   _onRatingSubmit = async (ratingData) => {
-    console.log(ratingData)
     await axios.post(`appointment/rating?appointment_id=${ratingData.appointment_id}`, ratingData).catch(error => {
+      console.log('error',error)
       if (error && error.status === '1') {
         Alert.alert(null, error.message, [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false, modalVisible: false }) } }])
       }
     }).then((response) => {
+      console.log('response',response)
       if (response && response.status == '0') {
         this.setState({ isFetching: false, modalVisible: false, itemRating: null })
       }
@@ -241,13 +243,12 @@ class Appointment extends React.Component {
             }
           </Content>
         }
-        {this.state.modalVisible ?
+        <ModalPopup title={i18n.t('review.rating')} visible={this.state.modalVisible} onRequestClose={this._modalHandler} >
           <BookingRating
-            visible={this.state.modalVisible}
             onRequestClose={this._modalHandler}
             onRatingSubmit={this._onRatingSubmit}
             itemRating={this.state.itemRating} />
-          : null}
+        </ModalPopup>
       </View >
     )
   }
