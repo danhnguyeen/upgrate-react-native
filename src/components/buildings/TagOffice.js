@@ -4,7 +4,6 @@ import { Icon } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
 
 import { brandLight, textLightColor, brandPrimary, fontSize, shadow } from '../../config/variables';
-
 import i18n from '../../i18n';
 const LOGO = require('../../assets/images/logo-grey.jpg')
 
@@ -33,7 +32,7 @@ export default class TagOffice extends React.Component {
     const officeDetail = this.props.officeDetail
 
     return (
-      <View style={[styles.container, { paddingHorizontal: 15 }]}>
+      <View style={styles.container}>
         <View>
           <Text style={{ color: brandPrimary, fontWeight: 'bold', fontSize: fontSize + 3, marginBottom: 10 }}>{officeDetail.office_name}</Text>
         </View>
@@ -79,11 +78,7 @@ const styles = StyleSheet.create({
   container: {
     // ...shadow,
     backgroundColor: brandLight,
-    borderRadius: 3,
     marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: 5,
     padding: 15
   },
   buttonBgText: {

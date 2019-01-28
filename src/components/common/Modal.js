@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal as RNModal, StyleSheet, TouchableOpacity } from 'react-native';
+import { Modal as RNModal, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import { Icon } from 'native-base';
 import { SafeAreaView } from 'react-navigation';
@@ -40,9 +40,9 @@ const Modal = (props) => {
           containerStyle={[{ height: navHeight }, platform === 'android' ? { paddingTop: 0 } : null]}
         />
       </LinearGradient>
-      <SafeAreaView style={[styles.container]}>
+      <View style={[styles.container]}>
         {props.children}
-      </SafeAreaView>
+      </View>
     </RNModal>
   )
 };

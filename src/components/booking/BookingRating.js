@@ -19,6 +19,9 @@ export default class BookingRating extends React.Component {
       }
     }
   }
+  componentDidMount() {
+    console.log(this.props.itemRating);
+  }
   _onRatingSubmit = () => {
     this.setState({ isFetching: true })
     const { itemRating } = this.props
@@ -109,7 +112,7 @@ export default class BookingRating extends React.Component {
               value={rating.rate_comment}
             />
           </View>
-          <View style={{ justifyContent: 'center', paddingHorizontal: 10, alignItems: 'center' }}>
+          <View style={{ justifyContent: 'center', paddingHorizontal: 10, alignItems: 'center', marginBottom: 20 }}>
             <Button
               buttonStyle={{ width: DEVICE_WIDTH - 50 }}
               title={i18n.t('global.ok').toUpperCase()}

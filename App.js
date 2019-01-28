@@ -60,7 +60,7 @@ class App extends Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
-          backgroundColor={brandPrimary}
+          backgroundColor={'#2079ae'}
           barStyle="light-content"
         />
         <Root>

@@ -32,6 +32,7 @@ class PushNotification extends Component {
 
     this.notificationListner = FCM.on(FCMEvent.Notification, async (notif) => {
       if(this.props.user) {
+        this.props.fetchAppointments(this.props.user.customer_id);
         this.props.fetchNotificationCount(this.props.user.customer_id);
       }
       // open from tray iOS
@@ -104,7 +105,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id))
+    fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
+    fetchAppointments: (customer_id) => dispatch(actions.fetchAppointments(customer_id))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PushNotification);

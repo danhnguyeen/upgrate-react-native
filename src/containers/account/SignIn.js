@@ -98,7 +98,7 @@ class SignIn extends Component {
       } else {
         const data = await AccessToken.getCurrentAccessToken();
         const token = data.accessToken.toString();
-        console.log(token);
+        console.log(data);
         try {
           this.setState({ loginingFb: true });
           const result = await this.props.onAuthWithFacebook(token);
@@ -122,8 +122,8 @@ class SignIn extends Component {
   }
   onLoginWithPhone = async () => {
     try {
-      const { token } = await RNAccountKit.loginWithPhone();
-      console.log(token)
+      const { token, ...other } = await RNAccountKit.loginWithPhone();
+      console.log(other)
       try {
         this.setState({ loginingPhone: true });
         const result = await this.props.onAuthWithPhone(token);

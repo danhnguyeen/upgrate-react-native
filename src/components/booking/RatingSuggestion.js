@@ -9,7 +9,6 @@ const RatingSuggestion = (props) => (
       backgroundColor: props.selected ? brandPrimary : 'transparent',
       borderColor: brandPrimary,
       borderWidth: 1,
-      // borderRadius: 3,
       margin: 5
     }]}
     textStyle={{ color: props.selected ? inverseTextColor : brandPrimary, padding: 5 }}

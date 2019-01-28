@@ -41,10 +41,8 @@ class Buildings extends React.Component {
       this.props._onfetchDistrictList();
     }
     this.setState({ isFetching: false });
-    this.props.navigation.addListener('willFocus', () => {
-      setTimeout(() => {
-        this.props.navigation.setParams({ updatedTime: new Date() });
-      }, 1000);
+    this.props.navigation.addListener('didFocus', () => {
+      this.props.navigation.setParams({ updatedTime: new Date() });
     });
   }
   _onRefresh = async () => {

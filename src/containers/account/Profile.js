@@ -135,6 +135,7 @@ class Profile extends Component {
     if (formIsValid) {
       try {
         this.setState({ submiting: true });
+        console.log(data)
         if (data.dateOfBirth) {
           data.dateOfBirth = moment(data.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD');
         }
@@ -305,6 +306,7 @@ class Profile extends Component {
               <TextInput
                 value={this.state.form.email.value}
                 label={i18n.t('account.email')}
+                onChangeText={email => this.inputChangeHandler(email, 'email')}
                 editable={this.props.provider === 'phone'}
                 autoCapitalize="none"
                 returnKeyType="next"
@@ -334,6 +336,7 @@ class Profile extends Component {
               <TextInput
                 value={this.state.form.mobile_phone.value}
                 label={i18n.t('account.phoneNumber')}
+                onChangeText={mobile_phone => this.inputChangeHandler(mobile_phone, 'mobile_phone')}
                 editable={this.props.provider === 'facebook'}
                 autoCapitalize="none"
                 returnKeyType="next"

@@ -30,10 +30,17 @@ class TagBuilding extends React.Component {
           <Swiper
             showsButtons={false}
             showsPagination={true}
-            index={0}
-            loop={false}
             autoplay={false}
-            dotColor={textLightColor}
+            loop={false}
+            dot={ 
+              <View style={{
+                backgroundColor: '#cccccc', 
+                width: 6, 
+                height: 6,
+                borderRadius: 3, 
+                margin: 3
+              }} />
+            }
             activeDotColor={inverseTextColor}
           >
             {images.map((image) => (

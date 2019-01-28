@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Header } from 'react-navigation';
 import { Divider, Button } from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
+import Swiper from 'react-native-swiper';
 
 import i18n from '../../i18n';
 import * as actions from './building-actions';
@@ -216,7 +217,49 @@ class BuildingDetails extends React.Component {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
           >
-            <AnimatedFastImage
+            <Swiper
+              showsButtons={false}
+              showsPagination={true}
+              autoplay={true}
+              autoplayTimeout={4}
+              dot={ 
+                <Animated.View style={{
+                  backgroundColor: '#cccccc', 
+                  width: 6, 
+                  height: 6,
+                  borderRadius: 3, 
+                  margin: 3,
+                  opacity: imageOpacity
+                }} />
+              }
+              activeDot={
+                <Animated.View style={{
+                  backgroundColor: inverseTextColor, 
+                  width: 8, 
+                  height: 8, 
+                  borderRadius: 4, 
+                  margin: 3,
+                  opacity: imageOpacity
+                }} />
+              }
+            >
+              {detailBuilding.sub_images.map((image) => (
+                <AnimatedFastImage
+                  key={image}
+                  style={[
+                    styles.backgroundImage,
+                    {
+                      flex: 1,
+                      width: '100%',
+                      opacity: imageOpacity,
+                      transform: [{ translateY: imageTranslate }],
+                    },
+                  ]}
+                  source={{ uri: image }}
+                />
+              ))}
+            </Swiper>
+            {/* <AnimatedFastImage
               style={[
                 styles.backgroundImage,
                 {
@@ -227,7 +270,7 @@ class BuildingDetails extends React.Component {
                 },
               ]}
               source={{ uri: detailBuilding.sub_images[0] }}
-            />
+            /> */}
           </LinearGradient>
         </Animated.View>
         <Animated.View

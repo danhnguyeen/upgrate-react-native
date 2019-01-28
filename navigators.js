@@ -139,13 +139,13 @@ const LocationStack = createStackNavigator({
 const AccountStack = createStackNavigator({
   Account: {
     screen: Account,
-    navigationOptions: ({ navigation }) => {
-      return {
-        ...headerOptions,
-        title: i18n.t('tabs.account'),
-        headerRight: <NotificationIcon navigation={navigation} />
-      }
-    }
+    // navigationOptions: ({ navigation }) => {
+    //   return {
+    //     ...headerOptions,
+    //     title: i18n.t('tabs.account'),
+    //     headerRight: <NotificationIcon navigation={navigation} />
+    //   }
+    // }
   },
   Profile: {
     screen: Profile,

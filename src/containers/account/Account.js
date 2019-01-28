@@ -3,25 +3,66 @@ import { connect } from 'react-redux';
 import { AsyncStorage, StyleSheet, TouchableOpacity, View, Text, Alert } from 'react-native';
 import { Content, Icon } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
+import { Avatar } from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 
 import * as actions from './auth-actions';
 import { _dispatchStackActions } from '../../util/utility';
+import { NotificationIcon } from '../../components/notifications';
 import { AccountItem } from '../../components/account';
-import { shadow, backgroundColor, brandLight, textColor, fontSize, textLightColor, inverseTextColor } from '../../config/variables';
+import { shadow, backgroundColor, brandLight, brandPrimary, fontSize, textLightColor, inverseTextColor } from '../../config/variables';
 import i18n from '../../i18n';
 
 class Account extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      headerTintColor: '#fff',
+      headerBackTitle: null,
+      headerTitleStyle: {
+        color: '#fff'
+      },
+      headerBackground: (
+        <LinearGradient
+          colors={['#2079ae', '#54ace0']}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+      headerStyle: {
+        borderBottomWidth: 0
+      },
+      title: params && params.user ? null : i18n.t('tabs.notifications'),
+      headerLeft: params && params.user ? (
+        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+          {params.user.image_profile ?
+            <FastImage
+              source={{ uri: params.user.image_profile, priority: FastImage.priority.high }}
+              style={{ height: 36, width: 36, borderRadius: 50, marginHorizontal: 10 }} />
+            :
+            <Avatar
+              containerStyle={{ marginHorizontal: 10 }}
+              rounded
+              placeholderStyle={{ backgroundColor: inverseTextColor }}
+              icon={{ name: 'user', type: 'font-awesome', color: brandPrimary }}
+            />
+          }
+          <Text style={{ color: inverseTextColor }}>{`${params.user.last_name} ${params.user.first_name}`}</Text>
+        </View>
+      ) : null,
+      headerRight: <NotificationIcon navigation={navigation} />
+    };
+  };
   componentDidMount() {
+    this.props.navigation.setParams({ user: this.props.user });
     if (!this.props.isAuth) {
       _dispatchStackActions(this.props.navigation, 'navigate', 'SignIn')
     }
-    this.props.navigation.addListener('willFocus', () => {
-      setTimeout(() => {
-        this.props.navigation.setParams({ updatedTime: new Date() });
-      }, 1000);
+    this.props.navigation.addListener('didFocus', () => {
+      this.props.navigation.setParams({ updatedTime: new Date(), user: this.props.user });
     });
   }
-
   logoutHandler = () => {
     Alert.alert(
       i18n.t('global.confirm'),
@@ -91,7 +132,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     paddingHorizontal: 10,
-    color: textLightColor, 
+    color: textLightColor,
     fontSize: fontSize + 10
   }
 })

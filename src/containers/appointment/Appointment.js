@@ -1,14 +1,16 @@
 import React from 'react';
 import moment from 'moment';
-import { StyleSheet, TouchableOpacity, View, Alert, Linking, RefreshControl } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Alert, Linking, RefreshControl, LayoutAnimation } from 'react-native';
 import { Content, Text, ActionSheet } from "native-base";
 import { connect } from 'react-redux';
 import axios from '../../config/axios';
 
+import * as actions from './appointment-actions';
 import { BookingRating } from '../../components/booking/';
 import { brandPrimary, textDarkColor, shadow, brandLight, backgroundColor, statusColors } from '../../config/variables';
 import { _dispatchStackActions } from '../../util/utility';
 import i18n from '../../i18n';
+import { Spinner } from '../../components/common';
 
 var BUTTONS = [
   { text: i18n.t('global.cancel'), url: '' },
@@ -34,13 +36,6 @@ class BookingItem extends React.Component {
       "status_code": 0,
       "status_name": "Pending",
     }
-  }
-  componentDidMount() {
-    this.props.navigation.addListener('willFocus', () => {
-      setTimeout(() => {
-        this.props.navigation.setParams({ updatedTime: new Date() });
-      }, 1000);
-    });
   }
   clickedCancel = () => {
     Alert.alert(
@@ -152,8 +147,7 @@ class Appointment extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      appointmentList: null,
-      isFetching: true,
+      firstLoading: true,
       modalVisible: false,
       itemRating: null,
       refreshing: false
@@ -162,33 +156,27 @@ class Appointment extends React.Component {
   componentWillUnmount() {
     this.didFocusListener.remove()
   }
-  componentDidMount() {
+  async componentDidMount() {
     this.didFocusListener = this.props.navigation.addListener('didFocus', () => {
+      this.props.navigation.setParams({ updatedTime: new Date() });
       if (this.props.isAuth) {
-        this._onFetching()
+        this.props.fetchAppointments(this.props.user.customer_id);
       }
     })
   }
   _onFetching = async () => {
-    this.setState({ refreshing: true })
-    const customer_id = this.props.user.customer_id
-    await axios.get(`appointment/list?customer_id=${customer_id}`).catch(error => {
-      this.setState({ isFetching: false })
-      Alert.alert(null, error.message, [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false, refreshing: false }) } }])
-    }).then((response) => {
-      const appointmentList = response.sort((fisrt, next) => {
-        const aDate = moment(fisrt.date_schedule, 'DD/MM/YYYY HH:mm').format('YYYYMMDDHH')
-        const bDate = moment(next.date_schedule, 'DD/MM/YYYY HH:mm').format('YYYYMMDDHH')
-        return aDate > bDate ? -1 : aDate < bDate ? 1 : 0;
-      })
-      this.setState({ appointmentList, isFetching: false, refreshing: false })
-    })
+    try {
+      await this.props.fetchAppointments(this.props.user.customer_id);
+      this.setState({ firstLoading: false, refreshing: false });
+    } catch (error) {
+
+    }
   }
   _onCancelSubmit = async (appointment_id) => {
     await axios.post(`appointment/delete?appointment_id=${appointment_id}`).catch(error => {
       Alert.alert(null, error.message[{ text: 'Ok', onPress: () => this.setState({ isFetching: false }) }])
-    }).then((response) => {
-      this._onFetching()
+    }).then(() => {
+      this._onFetching();
     })
   }
   _onRatingSubmit = async (ratingData) => {
@@ -209,7 +197,6 @@ class Appointment extends React.Component {
     })
   }
   render() {
-    const { appointmentList, isFetching } = this.state
     return (
       <View style={{ flex: 1, backgroundColor }}>
         {!this.props.isAuth ?
@@ -223,23 +210,32 @@ class Appointment extends React.Component {
             </View>
           </Content>
           :
-          <Content padder style={{ flex: 1, backgroundColor }} refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onFetching} />}>
-            {appointmentList ?
-              appointmentList.length > 0 ?
-                appointmentList.map((item, index) => (
+          (this.state.firstLoading && this.props.appointments.length ?
+            <Content padder
+              style={{ flex: 1, backgroundColor }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing && !this.state.firstLoading}
+                  onRefresh={this._onFetching}
+                />
+              }
+            >
+              {this.props.appointments.length > 0 ?
+                this.props.appointments.map((item, index) => (
                   <BookingItem booking={item} key={index}
                     navigation={this.props.navigation}
                     onCancelSubmit={(appointment_id) => { this._onCancelSubmit(appointment_id) }}
-                    onRatingPress={(itemRating) => { this.setState({ modalVisible: true, itemRating }) }}
+                    onRatingPress={() => { this.setState({ modalVisible: true, itemRating: item }) }}
                   />))
                 :
                 <TouchableOpacity onPress={() => { this.props.navigation.navigate('Buildings') }}>
                   <Text style={{ color: brandPrimary, textAlign: 'center' }}>{i18n.t('appointment.appointmentEmpty')}</Text>
                 </TouchableOpacity>
-              :
-              <Text style={{ color: brandPrimary, textAlign: 'center' }}>{i18n.t('global.updating')}</Text>
-            }
-          </Content>
+              }
+            </Content>
+            :
+            <Spinner />
+          )
         }
         {this.state.modalVisible ?
           <BookingRating
@@ -279,7 +275,11 @@ const mapStateToProps = state => ({
   isAuth: state.auth.token,
   user: state.auth.user,
   buildings: state.buildings.buildings,
+  appointments: state.appointments.appointments
 });
 
+const mapDispatchToProps = dispatch => ({
+  fetchAppointments: (customer_id) => dispatch(actions.fetchAppointments(customer_id))
+});
 
-export default connect(mapStateToProps, null)(Appointment);
+export default connect(mapStateToProps, mapDispatchToProps)(Appointment);

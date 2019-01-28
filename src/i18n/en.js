@@ -31,7 +31,7 @@ export default {
     filters: "Filters",
     filter: "Filter",
     clear: "Clear",
-    reset: "X Reset filter",
+    reset: "Reset filter",
     select: "Select",
     selectDistrict: "Select a district",
     selectDirection: "Select a direction",
