@@ -132,8 +132,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   icon: {
-    paddingHorizontal: 10,
-    color: textLightColor, 
+    color: textLightColor,
     fontSize: fontSize + 10
   },
   rightIcon: {

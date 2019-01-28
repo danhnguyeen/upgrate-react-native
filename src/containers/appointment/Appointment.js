@@ -49,7 +49,7 @@ class BookingItem extends React.Component {
       i18n.t('appointment.cancelContent'),
       [
         { text: i18n.t('global.cancel'), style: 'cancel' },
-        { text: i18n.t('global.confirm'), onPress: () => this.props.onCancelSubmit(this.props.booking.appointment_id) },
+        { text: i18n.t('global.confirm'), onPress: this.props.onCancelSubmit },
       ],
       { cancelable: false }
     );
@@ -77,7 +77,6 @@ class BookingItem extends React.Component {
     }
     let btnFuncText = i18n.t('appointment.btContact')
     let onPressFunction = this.contactFunction
-
     switch (booking.status_name) {
       case 'Pending':
         booking.status.color = statusColors.yellow
@@ -186,6 +185,7 @@ class Appointment extends React.Component {
     })
   }
   _onCancelSubmit = async (appointment_id) => {
+    this.setState({ refreshing: true })
     await axios.post(`appointment/delete?appointment_id=${appointment_id}`).catch(error => {
       Alert.alert(null, error.message[{ text: 'Ok', onPress: () => this.setState({ isFetching: false }) }])
     }).then((response) => {
@@ -194,21 +194,17 @@ class Appointment extends React.Component {
   }
   _onRatingSubmit = async (ratingData) => {
     await axios.post(`appointment/rating?appointment_id=${ratingData.appointment_id}`, ratingData).catch(error => {
-      console.log('error',error)
       if (error && error.status === '1') {
         Alert.alert(null, error.message, [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false, modalVisible: false }) } }])
       }
     }).then((response) => {
-      console.log('response',response)
       if (response && response.status == '0') {
         this.setState({ isFetching: false, modalVisible: false, itemRating: null })
       }
     })
   }
   _modalHandler = () => {
-    this.setState(prevState => {
-      return { modalVisible: !prevState.modalVisible }
-    })
+    this.setState({ modalVisible: false, itemRating: null })
   }
   render() {
     const { appointmentList, isFetching } = this.state
@@ -231,8 +227,8 @@ class Appointment extends React.Component {
                 appointmentList.map((item, index) => (
                   <BookingItem booking={item} key={index}
                     navigation={this.props.navigation}
-                    onCancelSubmit={(appointment_id) => { this._onCancelSubmit(appointment_id) }}
-                    onRatingPress={(itemRating) => { this.setState({ modalVisible: true, itemRating }) }}
+                    onCancelSubmit={() => { this._onCancelSubmit(item.appointment_id) }}
+                    onRatingPress={() => { this.setState({ modalVisible: true, itemRating: item }) }}
                   />))
                 :
                 <TouchableOpacity onPress={() => { this.props.navigation.navigate('Buildings') }}>
@@ -243,12 +239,13 @@ class Appointment extends React.Component {
             }
           </Content>
         }
-        <ModalPopup title={i18n.t('review.rating')} visible={this.state.modalVisible} onRequestClose={this._modalHandler} >
+        {this.state.modalVisible ?
           <BookingRating
+            visible={this.state.modalVisible}
             onRequestClose={this._modalHandler}
             onRatingSubmit={this._onRatingSubmit}
             itemRating={this.state.itemRating} />
-        </ModalPopup>
+          : null}
       </View >
     )
   }
