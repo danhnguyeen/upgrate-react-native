@@ -43,7 +43,7 @@ class BookingItem extends React.Component {
       i18n.t('appointment.cancelContent'),
       [
         { text: i18n.t('global.cancel'), style: 'cancel' },
-        { text: i18n.t('global.confirm'), onPress: () => this.props.onCancelSubmit(this.props.booking.appointment_id) },
+        { text: i18n.t('global.confirm'), onPress: this.props.onCancelSubmit },
       ],
       { cancelable: false }
     );
@@ -71,7 +71,6 @@ class BookingItem extends React.Component {
     }
     let btnFuncText = i18n.t('appointment.btContact')
     let onPressFunction = this.contactFunction
-
     switch (booking.status_name) {
       case 'Pending':
         booking.status.color = statusColors.yellow
@@ -84,8 +83,8 @@ class BookingItem extends React.Component {
         booking.status.color = statusColors.green
         booking.status.icon = 'check-circle'
         booking.status.text = i18n.t('appointment.scheduled')
-        btnFuncText = i18n.t('appointment.btContact')
-        onPressFunction = this.contactFunction
+        btnFuncText = i18n.t('appointment.btUpdate')
+        onPressFunction = () => this.props.navigation.navigate('ModalBooking', { dataProps: { bookingDetail: booking } })
         break
       case 'Done':
         booking.status.color = statusColors.grey
@@ -167,12 +166,14 @@ class Appointment extends React.Component {
   _onFetching = async () => {
     try {
       await this.props.fetchAppointments(this.props.user.customer_id);
+      console.log(this.props.appointments)
       this.setState({ firstLoading: false, refreshing: false });
     } catch (error) {
 
     }
   }
   _onCancelSubmit = async (appointment_id) => {
+    this.setState({ refreshing: true })
     await axios.post(`appointment/delete?appointment_id=${appointment_id}`).catch(error => {
       Alert.alert(null, error.message[{ text: 'Ok', onPress: () => this.setState({ isFetching: false }) }])
     }).then(() => {
@@ -180,7 +181,6 @@ class Appointment extends React.Component {
     })
   }
   _onRatingSubmit = async (ratingData) => {
-    console.log(ratingData)
     await axios.post(`appointment/rating?appointment_id=${ratingData.appointment_id}`, ratingData).catch(error => {
       if (error && error.status === '1') {
         Alert.alert(null, error.message, [{ text: 'Ok', onPress: () => { this.setState({ isFetching: false, modalVisible: false }) } }])
@@ -192,9 +192,7 @@ class Appointment extends React.Component {
     })
   }
   _modalHandler = () => {
-    this.setState(prevState => {
-      return { modalVisible: !prevState.modalVisible }
-    })
+    this.setState({ modalVisible: false, itemRating: null })
   }
   render() {
     return (
@@ -210,7 +208,9 @@ class Appointment extends React.Component {
             </View>
           </Content>
           :
-          (this.state.firstLoading && this.props.appointments.length ?
+          (this.state.firstLoading && !this.props.appointments.length ?
+            <Spinner />
+            :
             <Content padder
               style={{ flex: 1, backgroundColor }}
               refreshControl={
@@ -224,7 +224,7 @@ class Appointment extends React.Component {
                 this.props.appointments.map((item, index) => (
                   <BookingItem booking={item} key={index}
                     navigation={this.props.navigation}
-                    onCancelSubmit={(appointment_id) => { this._onCancelSubmit(appointment_id) }}
+                    onCancelSubmit={() => { this._onCancelSubmit(item.appointment_id) }}
                     onRatingPress={() => { this.setState({ modalVisible: true, itemRating: item }) }}
                   />))
                 :
@@ -233,8 +233,6 @@ class Appointment extends React.Component {
                 </TouchableOpacity>
               }
             </Content>
-            :
-            <Spinner />
           )
         }
         {this.state.modalVisible ?

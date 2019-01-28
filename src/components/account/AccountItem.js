@@ -11,6 +11,8 @@ const AccountItem = (props) => (
       title={props.title}
       titleStyle={styles.titleStyle}
       leftIcon={props.leftIcon}
+      rightSubtitle={props.rightTitle}
+      rightIcon={props.rightIcon}
     />
   </TouchableOpacity>
 );
