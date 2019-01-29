@@ -139,29 +139,6 @@ const styles = StyleSheet.create({
   textContent: {
     lineHeight: 30,
     fontSize: fontSize + 1
-  },
-  button: {
-    borderWidth: 1,
-    borderColor: '#C7DDF6',
-    borderRadius: 2,
-    padding: 5,
-    paddingHorizontal: 10,
-    margin: 5,
-  },
-  buttonText: {
-    color: brandPrimary,
-    textAlign: 'center'
-  },
-  buttonBg: {
-    backgroundColor: brandPrimary,
-    borderRadius: 2,
-    padding: 5,
-    paddingHorizontal: 10,
-    margin: 5,
-  },
-  buttonBgText: {
-    color: '#FFF',
-    textAlign: 'center'
-  },
-})
+  }
+});
 

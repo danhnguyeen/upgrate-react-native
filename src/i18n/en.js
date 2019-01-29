@@ -117,6 +117,7 @@ export default {
       password: "Password does not match confirmation password",
       confirmPassword: "Confirmation password does not match new password",
       emailExisted: 'This email already exists',
+      phoneExisted: "This phone already exists",
       currentPassword: "Please enter your current password",
       newPassword: "Password does not match confirmation password",
     }
@@ -154,8 +155,13 @@ export default {
     addYourReview: "Add Review",
     rating: "Ratings",
     great: "Great!!!",
-    pleaseAddYourRating: "Please choose a star rating",
-    addYourCommentsHere: "Add your comments"
+    pleaseAddYourRating: "Please click the star to rate",
+    addYourCommentsHere: "Add your comments",
+    yourAppointmentHasBeenCompleted: 'Your appointment has been completed',
+    ratingTitle: "Please help us improve our service by leave us a review",
+    pleaseLetUsKnow: "Please let us know",
+    whatNeedsToChange: "What needs to change?",
+    sentSuccessfully: "Sent successfully"
   },
   news: {
     news: 'NEWS',

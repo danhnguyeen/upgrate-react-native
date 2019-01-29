@@ -159,7 +159,7 @@ class Appointment extends React.Component {
     this.didFocusListener = this.props.navigation.addListener('didFocus', () => {
       this.props.navigation.setParams({ updatedTime: new Date() });
       if (this.props.isAuth) {
-        this.props.fetchAppointments(this.props.user.customer_id);
+        this._onFetching();
       }
     })
   }
@@ -221,11 +221,14 @@ class Appointment extends React.Component {
               }
             >
               {this.props.appointments.length > 0 ?
-                this.props.appointments.map((item, index) => (
-                  <BookingItem booking={item} key={index}
+                this.props.appointments.map((item) => (
+                  <BookingItem 
+                    booking={item} 
+                    key={item.appointment_id}
                     navigation={this.props.navigation}
                     onCancelSubmit={() => { this._onCancelSubmit(item.appointment_id) }}
-                    onRatingPress={() => { this.setState({ modalVisible: true, itemRating: item }) }}
+                    onRatingPress={() => { this.props.navigation.navigate('Rating', { itemRating: item }) }}
+                    // onRatingPress={() => { this.setState({ modalVisible: true, itemRating: item }) }}
                   />))
                 :
                 <TouchableOpacity onPress={() => { this.props.navigation.navigate('Buildings') }}>

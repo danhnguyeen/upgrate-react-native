@@ -7,37 +7,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Welcome } from './src/containers/welcome';
 import { News, NewsDetail } from './src/containers/news';
 import { Locations } from './src/containers/locations';
-import { Appointment } from './src/containers/appointment';
+import { Appointment, Rating } from './src/containers/appointment';
 import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook, Profile } from './src/containers/account';
 import { Buildings, BuildingDetails, Offices, Booking } from './src/containers/buildings';
 import { Notifications } from './src/containers/notifications';
 import { NotificationIcon } from './src/components/notifications';
 import i18n from './src/i18n';
-import { inverseTextColor } from './src/config/variables';
-
-// const NotificationIcon = (props) => (
-//   <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')}>
-//     <View>
-//       <Icon
-//         name='md-notifications'
-//         style={{ paddingHorizontal: 10, marginRight: 5, color: inverseTextColor, fontSize: 20 }}
-//       />
-//       <View style={{
-//         position: 'absolute',
-//         top: -5,
-//         right: 5,
-//         backgroundColor: 'red',
-//         borderRadius: 8,
-//         width: 18,
-//         height: 16,
-//         alignItems: 'center',
-//         justifyContent: 'center'
-//       }}>
-//         <Text style={{ color: inverseTextColor, fontSize: 9 }}>28</Text>
-//       </View>
-//     </View>
-//   </TouchableOpacity>
-// );
 
 const headerOptions = {
   headerTintColor: '#fff',
@@ -213,6 +188,15 @@ const ModalBookingStack = createStackNavigator({
 const ModalNewsStack = createStackNavigator({
   ModalNews: { screen: NewsDetail, navigationOptions: headerOptions }
 });
+const RatingStack = createStackNavigator({
+  Rating: { 
+    screen: Rating, 
+    navigationOptions: {
+      ...headerOptions,
+      title: i18n.t('review.rating')
+    }
+  }
+});
 const MainNavigator = createBottomTabNavigator({
   Home: HomeStack,
   Buildings: BuildingStack,
@@ -258,7 +242,8 @@ const AppNavigator = createStackNavigator({
   Main: createSwitchNavigator({ MainNavigator }),
   ModalNews: ModalNewsStack,
   ModalBooking: ModalBookingStack,
-  Notifications: NotificationsStack
+  Notifications: NotificationsStack,
+  Rating: RatingStack
 }, {
   defaultNavigationOptions: { header: null },
   initialRouteName: 'Main'

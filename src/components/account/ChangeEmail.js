@@ -48,7 +48,7 @@ class ChangeEmail extends Component {
         if (error.message === "Password incorrect") {
           error.message = i18n.t('account.profile.currentPasswordIsIncorrect')
         }
-        if (error.message === "Email has exist") {
+        if (error.message === "Email address already exists") {
           error.message = i18n.t('account.valid.emailExisted')
         }
         Alert.alert(i18n.t('global.error'), error.message);

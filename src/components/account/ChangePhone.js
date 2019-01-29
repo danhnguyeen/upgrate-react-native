@@ -48,7 +48,7 @@ class ChangePhone extends Component {
         if (error.message === "Password incorrect") {
           error.message = i18n.t('account.profile.currentPasswordIsIncorrect')
         }
-        if (error.message === "Phone has exist") {
+        if (error.message === "Mobile phone already exists") {
           error.message = i18n.t('account.valid.phoneExisted')
         }
         Alert.alert(i18n.t('global.error'), error.message);

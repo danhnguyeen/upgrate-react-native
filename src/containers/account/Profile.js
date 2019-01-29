@@ -136,15 +136,18 @@ class Profile extends Component {
       try {
         this.setState({ submiting: true });
         console.log(data)
-        if (data.dateOfBirth) {
-          data.dateOfBirth = moment(data.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD');
-        }
         const { customer } = await axios.post('customer/update', data);
         this.props.onUpdateProfile(customer);
         this.onInitForm();
         this.onUpdatedSuccess();
       } catch (error) {
         this.setState({ submiting: false });
+        if (error.message === 'Mobile phone already exists') {
+          error.message = i18n.t('account.valid.phoneExisted');
+        }
+        if (error.message === 'Email address already exists') {
+          error.message = i18n.t('account.valid.emailExisted');
+        }
         Alert.alert(i18n.t('global.error'), error.message);
       }
     }

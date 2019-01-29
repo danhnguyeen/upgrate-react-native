@@ -25,6 +25,11 @@ class App extends Component {
       UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
     }
     if (this.props.isAuth) {
+      this.props.findLastAppointmentDone(this.props.user.customer_id).then((result) => {
+        if (result.count > 0) {
+          NavigationService.navigate('Rating', { itemRating: result.appointment });
+        }
+      })
       this.updateNotificationToken();
       this.props.fetchNotificationCount(this.props.user.customer_id);
       this.props.getUser(this.props.user.customer_id);
@@ -84,6 +89,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
+    findLastAppointmentDone: (customer_id) => dispatch(actions.findLastAppointmentDone(customer_id)),
     updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId)),
     getUser: (customer_id) => dispatch(actions.getProfile(customer_id))
   }

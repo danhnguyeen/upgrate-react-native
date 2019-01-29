@@ -117,6 +117,7 @@ export default {
       password: "Mật khẩu không trùng với mật khẩu xác nhận",
       confirmPassword: "Mật khẩu xác nhận không trùng với mật khẩu",
       emailExisted: 'Địa chỉ email đã tồn tại',
+      phoneExisted: "Số điện thoại đã tồn tại",
       currentPassword: "Vui lòng nhập mật khẩu hiện tại",
       newPassword: "Mật khẩu mới không trùng với mật khẩu xác nhận"
     }
@@ -154,8 +155,13 @@ export default {
     addYourReview: "Đánh giá",
     rating: "Đánh giá",
     great: "Tuyệt vời!!!",
-    pleaseAddYourRating: "Bạn chưa đánh giá, vui lòng đánh giá sao",
+    pleaseAddYourRating: "Vui lòng bấm vào biểu tượng sao để đánh giá",
     addYourCommentsHere: "Nhận xét của bạn",
+    yourAppointmentHasBeenCompleted: 'Cuộc hẹn của bạn đã hoàn thành',
+    ratingTitle: 'Vui lòng giúp chúng tôi cải thiện dịch vụ bằng cách để lại đánh giá của bạn',
+    pleaseLetUsKnow: "Vui lòng cho chúng tôi biết",
+    whatNeedsToChange: "Bạn cảm thấy điều gì cần thay đổi?",
+    sentSuccessfully: "Đã gửi thành công",
   },
   news: {
     news: 'Tin tức',

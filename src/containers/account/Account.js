@@ -36,7 +36,7 @@ class Account extends React.Component {
       title: params && params.user ? null : i18n.t('tabs.notifications'),
       headerLeft: params && params.user ? (
         <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-          {params.user.image_profile ?
+          {params.user.image_profile && props.user.image_profile !== 'http://paxsky.amagumolabs.io/images/no_image_available.jpg' ?
             <FastImage
               source={{ uri: params.user.image_profile, priority: FastImage.priority.high }}
               style={{ height: 36, width: 36, borderRadius: 50, marginHorizontal: 10 }} />
