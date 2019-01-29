@@ -193,8 +193,7 @@ const AccountStack = createStackNavigator({
 const AppointmentStack = createStackNavigator({
   Appointment: {
     screen: Appointment,
-    navigationOptions: ({ navigation, screenProps }) => {
-      console.log(screenProps)
+    navigationOptions: ({ navigation }) => {
       return {
         ...headerOptions,
         title: i18n.t('appointment.appointmentList'),
