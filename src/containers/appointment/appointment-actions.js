@@ -8,9 +8,7 @@ const fetchAppointmentsSuccess = (appointments) => ({
 export const fetchAppointments = (customer_id) => {
   return async dispatch => {
     try {
-      console.log(customer_id)
       const result = await axios.get('appointment/list', { params: { customer_id } });
-      console.log(result)
       dispatch(fetchAppointmentsSuccess(result));
       return Promise.resolve(result);
     } catch (err) {

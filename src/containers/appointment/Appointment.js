@@ -80,14 +80,14 @@ class BookingItem extends React.Component {
         onPressFunction = () => this.props.navigation.navigate('ModalBooking', { dataProps: { bookingDetail: booking } })
         break
       case 'Schedule':
-        booking.status.color = statusColors.green
+        booking.status.color = brandPrimary
         booking.status.icon = 'check-circle'
         booking.status.text = i18n.t('appointment.scheduled')
         btnFuncText = i18n.t('appointment.btUpdate')
         onPressFunction = () => this.props.navigation.navigate('ModalBooking', { dataProps: { bookingDetail: booking } })
         break
       case 'Done':
-        booking.status.color = statusColors.grey
+        booking.status.color = statusColors.green
         booking.status.icon = 'checkbox-multiple-marked-circle'
         booking.status.text = i18n.t('appointment.done')
         btnFuncText = i18n.t('appointment.btRating')

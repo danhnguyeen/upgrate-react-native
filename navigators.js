@@ -77,10 +77,12 @@ const HomeStack = createStackNavigator({
   }
 }, {
     initialRouteName: 'Welcome',
-    navigationOptions: {
-      ...headerOptions,
-      tabBarLabel: i18n.t('tabs.home'),
-      tabBarVisible: false
+    navigationOptions: ({ screenProps }) => {
+      return {
+        ...headerOptions,
+        tabBarLabel: i18n.t('tabs.home', screenProps.language),
+        tabBarVisible: false
+      }
     }
   });
 
@@ -111,9 +113,11 @@ const BuildingStack = createStackNavigator({
   },
 }, {
     initialRouteName: 'Buildings',
-    navigationOptions: {
-      tabBarLabel: i18n.t('tabs.buildings'),
-      ...headerOptions
+    navigationOptions: ({ screenProps }) => {
+      return {
+        ...headerOptions,
+        tabBarLabel: i18n.t('tabs.buildings', screenProps.language),
+      }
     }
   });
 
@@ -123,16 +127,17 @@ const LocationStack = createStackNavigator({
     navigationOptions: ({ navigation }) => {
       return {
         ...headerOptions,
-        tabBarLabel: i18n.t('tabs.locations'),
         title: i18n.t('tabs.locations'),
         headerRight: <NotificationIcon navigation={navigation} />
       }
     }
   }
 }, {
-    navigationOptions: {
-      ...headerOptions,
-      tabBarLabel: i18n.t('tabs.locations')
+    navigationOptions: ({ screenProps }) => {
+      return {
+        ...headerOptions,
+        tabBarLabel: i18n.t('tabs.locations', screenProps.language),
+      }
     }
   });
 
@@ -177,16 +182,19 @@ const AccountStack = createStackNavigator({
   }
 }, {
     initialRouteName: 'Account',
-    navigationOptions: {
-      ...headerOptions,
-      tabBarLabel: i18n.t('tabs.account')
+    navigationOptions: ({ screenProps }) => {
+      return {
+        ...headerOptions,
+        tabBarLabel: i18n.t('tabs.account', screenProps.language),
+      }
     }
   });
 
 const AppointmentStack = createStackNavigator({
   Appointment: {
     screen: Appointment,
-    navigationOptions: ({ navigation }) => {
+    navigationOptions: ({ navigation, screenProps }) => {
+      console.log(screenProps)
       return {
         ...headerOptions,
         title: i18n.t('appointment.appointmentList'),
@@ -195,9 +203,11 @@ const AppointmentStack = createStackNavigator({
     }
   }
 }, {
-    navigationOptions: {
-      ...headerOptions,
-      tabBarLabel: i18n.t('tabs.appointment')
+    navigationOptions: ({ screenProps }) => {
+      return {
+        ...headerOptions,
+        tabBarLabel: i18n.t('tabs.appointment', screenProps.language),
+      }
     }
   });
 
@@ -260,9 +270,9 @@ const AppNavigator = createStackNavigator({
   ModalBooking: ModalBookingStack,
   Notifications: NotificationsStack
 }, {
-  defaultNavigationOptions: { header: null },
-  initialRouteName: 'Main'
-});
+    defaultNavigationOptions: { header: null },
+    initialRouteName: 'Main'
+  });
 const AppContainer = createAppContainer(AppNavigator);
 
 export default AppContainer;
