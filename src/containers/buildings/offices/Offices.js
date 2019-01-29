@@ -72,9 +72,19 @@ class Offices extends React.Component {
   }
   render() {
     const { filterRequired, filterData, isFetching } = this.state
-    const officeList = this.props.officeList
     const building_id = this.props.navigation.getParam('building_id')
     const building_name = this.props.navigation.getParam('building_name')
+    let officeList = []
+    if (!isEmpty(filterRequired.acreage_rent)) {
+      this.props.officeList.forEach(item => {
+        if ((filterRequired.acreage_rent[0] <= item.acreage_rent && item.acreage_rent <= filterRequired.acreage_rent[1])) {
+          officeList.push(item);
+        }
+      })
+    }
+    else {
+      officeList = this.props.officeList
+    }
     return (
       <View style={{ flex: 1, backgroundColor }}>
         {this.state.modalVisible ?
@@ -108,23 +118,19 @@ class Offices extends React.Component {
         </View>
         {(isFetching && officeList) ? <Spinner /> :
           <Content style={{ backgroundColor, paddingTop: 10 }}>
-            {officeList.length < 1 ?
-              <Text>{i18n.t('global.updating')}</Text>
-              : officeList.map((item, index) => {
-                item.building_id = building_id
-                item.building_name = building_name
-                if (isEmpty(filterRequired.acreage_rent) ||
-                  (!isEmpty(filterRequired.acreage_rent) &&
-                    (filterRequired.acreage_rent[0] <= item.acreage_rent && item.acreage_rent <= filterRequired.acreage_rent[1]))) {
+            {!isEmpty(filterRequired.acreage_rent) && officeList.length < 1 ?
+              <Text style={{ textAlign: 'center' }}>{i18n.t('filter.noResult')}</Text>
+              : isEmpty(filterRequired.acreage_rent) && officeList.length < 1 ? <Text style={{ textAlign: 'center' }}>{i18n.t('global.updating')}</Text>
+                : officeList.map((item, index) => {
+                  item.building_id = building_id
+                  item.building_name = building_name
                   return (
                     <TouchableOpacity key={index}
                       onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: item } }) }} >
                       <TagOffice officeDetail={item} navigation={this.props.navigation} />
                     </TouchableOpacity>
                   )
-                }
-                else return (<Text>{i18n.t('filter.noResult')}</Text>)
-              })}
+                })}
           </Content>
         }
       </View>

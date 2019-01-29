@@ -32,7 +32,6 @@ class Buildings extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.buildings)
     const { buildings, districtList, buildingsFilterData } = this.props;
     if (isEmpty(buildings) || isEmpty(buildingsFilterData)) {
       this._onRefresh();

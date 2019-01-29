@@ -56,7 +56,6 @@ class BuildingFilter extends Component {
   _onFilterChange(value, key) {
     const { selectedData } = this.state
     selectedData[`${key}`] = value
-    console.log(selectedData)
     this.setState({ selectedData })
   }
   enableScroll = () => this.setState({ scrollEnabled: true })
