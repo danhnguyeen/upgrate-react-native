@@ -90,6 +90,7 @@ export default {
     language: "Language",
     en: "English",
     vn: "Tiếng Việt",
+    deviceLanguage: "Device language",
     areYouSureLogOut: "Are you sure you want to log out?",
     selectAvatar: "Select Avatar",
     takePhoto: "Take Photo...",

@@ -78,7 +78,6 @@ class Notifications extends Component {
         pageSize: prevState.size
       };
       const result = await axios.get('notification/notifications', { params });
-      console.log(result)
       this.setState({
         // totalPage: result.Paging.totalPage,
         notifications: isLoadMore ? [...this.state.notifications, ...result] : result,

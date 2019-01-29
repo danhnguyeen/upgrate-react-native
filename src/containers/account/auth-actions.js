@@ -49,7 +49,7 @@ const authWithPhoneAndFacebookSuccess = (token, result) => ({
   token,
   user: result.customer,
   provider: result.provider,
-	provider_user_id: result.provider_user_id
+  provider_user_id: result.provider_user_id
 });
 
 export const authWithFacebook = (access_token) => {
@@ -126,7 +126,6 @@ export const getProfile = (customer_id) => {
   return async dispatch => {
     try {
       const result = await axios.get(`customer/info?customer_id=${customer_id}`);
-      console.log(result)
       dispatch(updateUserProfile(result))
       return Promise.resolve()
     } catch (err) {

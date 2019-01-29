@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, View, UIManager, YellowBox, AppState } from 'react-native';
+import { AsyncStorage, StatusBar, View, UIManager, YellowBox, AppState } from 'react-native';
 import { Root } from "native-base"
 import SplashScreen from 'react-native-splash-screen'
 import FCM from "react-native-fcm";
@@ -11,6 +11,7 @@ import PushNotification from './src/services/notifications-service';
 import NavigationService from './src/services/navigation-service';
 import { brandPrimary, platform } from './src/config/variables';
 import * as actions from './src/stores/actions';
+import i18n from './src/i18n';
 
 YellowBox.ignoreWarnings(['Setting a timer', 'Remote debugger'])
 
@@ -18,8 +19,12 @@ class App extends Component {
   state = {
     appState: AppState.currentState
   }
-  componentDidMount() {
+  async componentDidMount() {
     SplashScreen.hide();
+    const asyncLanguage = await AsyncStorage.getItem('preferredLanguage');
+    if (asyncLanguage) {
+      this.props.setLanguage(asyncLanguage)
+    }
     FCM.requestPermissions({ badge: true, sound: true, alert: true });
     if (platform === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -69,7 +74,7 @@ class App extends Component {
           barStyle="light-content"
         />
         <Root>
-          <AppContainer ref={navigatorRef => {
+          <AppContainer screenProps={{ language: this.props.preferredLanguage == i18n.t('account.en') ? 'en' : 'vi_VN' }} ref={navigatorRef => {
             NavigationService.setTopLevelNavigator(navigatorRef);
           }} />
         </Root>
@@ -81,6 +86,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
+    preferredLanguage: state.translations.preferredLanguage,
     isAuth: state.auth.token,
     user: state.auth.user
   }
@@ -88,6 +94,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    setLanguage: (preferredLanguage) => dispatch(actions.setLanguage(preferredLanguage)),
     fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
     findLastAppointmentDone: (customer_id) => dispatch(actions.findLastAppointmentDone(customer_id)),
     updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId)),

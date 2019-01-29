@@ -193,7 +193,6 @@ class SignUp extends Component {
   onLoginSubmit = async (email, password) => {
     await this.props._onAuth(email, password)
       .then((user) => {
-        console.log('_onSignUpSuccess', user)
         this._onSignUpSuccess();
       })
       .catch(error => {
@@ -225,7 +224,6 @@ class SignUp extends Component {
   }
   async _onProvinceChange(province = { "province_id": null, "province_name": '' }) {
     if (!this.props.provinceId || this.props.provinceId !== province.province_id) {
-      // console.log(this.props.provinceId, province.province_id)
       await this.props._onfetchDistrictList(province.province_id).catch(error => {
         console.log(error.message)
         this.setState({ isLogin: false });

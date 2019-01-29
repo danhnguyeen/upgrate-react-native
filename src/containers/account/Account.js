@@ -6,13 +6,18 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Avatar } from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 
-import * as actions from './auth-actions';
+import * as actions from '../../stores/actions';
 import { _dispatchStackActions } from '../../util/utility';
 import { NotificationIcon } from '../../components/notifications';
 import { AccountItem } from '../../components/account';
 import { shadow, backgroundColor, brandLight, brandPrimary, fontSize, textLightColor, inverseTextColor } from '../../config/variables';
 import i18n from '../../i18n';
 
+const TRANSLATIONS = [
+  { text: i18n.t('global.cancel') },
+  { text: i18n.t('account.vn') },
+  { text: i18n.t('account.en') },
+]
 class Account extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
@@ -54,10 +59,7 @@ class Account extends React.Component {
       headerRight: <NotificationIcon navigation={navigation} />
     };
   };
-  state = {
-    configLanguage: ''
-  }
-  componentDidMount() {
+  async componentDidMount() {
     this.props.navigation.setParams({ user: this.props.user });
     if (!this.props.isAuth) {
       _dispatchStackActions(this.props.navigation, 'navigate', 'SignIn')
@@ -65,35 +67,19 @@ class Account extends React.Component {
     this.props.navigation.addListener('didFocus', () => {
       this.props.navigation.setParams({ updatedTime: new Date(), user: this.props.user });
     });
-    this.props.navigation.addListener('willFocus', () => {
-      this.getAsyncStorage();
-    });
-  }
-  getAsyncStorage = async () => {
-    await AsyncStorage.getItem('language', (err, result) => {
-      if (result) {
-        const configLanguage = JSON.parse(result)
-        if (configLanguage) {
-          this.setState({ configLanguage })
-        }
-      }
-    })
   }
   settingLanguage = () => {
     ActionSheet.show({
-      options: [
-        i18n.t('global.cancel'), i18n.t('global.default'),
-        i18n.t('account.vn'), i18n.t('account.en')
-      ],
+      options: TRANSLATIONS,
       cancelButtonIndex: 0,
-      destructiveButtonIndex: 1,
       title: i18n.t('account.language')
     },
       buttonIndex => {
-        console.log(buttonIndex)
-        if (buttonIndex !== 0 && buttonIndex) {
-          // AsyncStorage.setItem('language', );
-          // Linking.openURL(BUTTONS[buttonIndex].url)
+        if (buttonIndex && buttonIndex !== 0) {
+          const preferredLanguage = TRANSLATIONS[buttonIndex].text
+          AsyncStorage.setItem('preferredLanguage', TRANSLATIONS[buttonIndex].text)
+          this.props.setLanguage(preferredLanguage)
+          this.forceUpdate()
         }
       }
     )
@@ -148,8 +134,8 @@ class Account extends React.Component {
             <AccountItem onPress={this.settingLanguage}
               title={i18n.t('account.language')}
               leftIcon={<Icon name="language" style={styles.icon} type={'MaterialIcons'} />}
-              rightTitle={this.state.language}
-              rightIcon={<Icon name="arrow-forward" style={styles.rightIcon} />}
+              rightTitle={this.props.preferredLanguage}
+              // rightIcon={<Icon name="arrow-forward" style={styles.rightIcon} />}
             />
             {this.props.isAuth ?
               <AccountItem onPress={this.logoutHandler}
@@ -185,6 +171,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    preferredLanguage: state.translations.preferredLanguage,
     isAuth: state.auth.token,
     user: state.auth.user
   }
@@ -192,6 +179,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    setLanguage: (preferredLanguage) => dispatch(actions.setLanguage(preferredLanguage)),
     onAuth: (username, password) => dispatch(actions.auth(username, password)),
     onLogout: () => dispatch(actions.logout())
   }

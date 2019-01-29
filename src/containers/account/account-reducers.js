@@ -47,7 +47,7 @@ const auth = (state, action) => updateObject(state, {
 	loginWithFbAccountKit: action.loginWithFbAccountKit
 });
 
-const authLogout = (state) => updateObject(state, { 
+const authLogout = (state) => updateObject(state, {
 	accountKitToken: null,
 	provider: null,
 	provider_user_id: null,

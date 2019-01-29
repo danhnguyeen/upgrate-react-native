@@ -26,6 +26,7 @@ export const navHeight = Header.HEIGHT + getStatusBarHeight() - 19;
 
 // Colors
 export const brandPrimary = '#2997d8'; //'#2997d8';
+// export const brandSecondary = '#2997d8'; //'#2997d8';
 export const brandInfo = '#5F9EE7';
 export const brandSuccess = '#7ED321';
 export const brandDanger = '#D0021B';

@@ -107,7 +107,7 @@ class Offices extends React.Component {
           </View>
         </View>
         {(isFetching && officeList) ? <Spinner /> :
-          <Content style={{ backgroundColor, paddingTop: 10 }} >
+          <Content style={{ backgroundColor, paddingTop: 10 }}>
             {officeList.length < 1 ?
               <Text>{i18n.t('global.updating')}</Text>
               : officeList.map((item, index) => {
