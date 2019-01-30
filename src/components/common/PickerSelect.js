@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Modal, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableOpacity, Modal, TouchableWithoutFeedback, Picker as RNPicker } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import { Icon } from 'native-base';
 import Picker from 'react-native-picker';
 
-import i18n from '../../i18n';
 import { brandPrimary, fontSize, textLightColor, DEVICE_WIDTH, DEVICE_HEIGTH, platform } from '../../config/variables';
 
 class PickerSelect extends Component {
@@ -13,7 +12,8 @@ class PickerSelect extends Component {
     keyName: this.props.keyName ? this.props.keyName : 'name',
     keyId: this.props.keyId ? this.props.keyId : 'id',
     selectedValue: '',
-    isPickerShowing: false
+    isPickerShowing: false,
+    language: null
   }
   componentDidUpdate(prevProps) {
     if ((this.props.data && prevProps.data && prevProps.data.length !== this.props.data.length)
@@ -24,10 +24,10 @@ class PickerSelect extends Component {
   initInputValue = () => {
     if (this.props.data) {
       const keyName = this.state.keyName;
-      const value = this.props.isObject ? this.props.value[this.state.keyId] : this.props.value;
+      const value = this.props.isObject && this.props.value ? this.props.value[this.state.keyId] : this.props.value;
       const data = this.props.data.find(item => item[this.state.keyId] === value);
       if (data) {
-        this.setState({ inputValue: data[keyName], selectedValue: data[keyName] });
+        this.setState({ inputValue: data[keyName], selectedValue: platform === 'ios' ? data[this.state.keyId] : data[keyName] });
       } else {
         this.setState({ inputValue: '', selectedValue: '' })
       }
@@ -47,29 +47,43 @@ class PickerSelect extends Component {
     this.setState({ isPickerShowing: false });
     Picker.hide();
   }
+  onChangeHandler = (value, index) => {
+    if (platform === 'ios') {
+      this.props.onChange(this.props.isObject ? this.props.data[index] : value);
+    }
+  }
   _showDatePicker = () => {
-    Picker.init({
-      pickerData: this._createData(),
-      pickerTitleText: '',
-      pickerTextEllipsisLen: 20,
-      pickerFontFamily: platform === 'android' ? 'Roboto-Regular' : null,
-      pickerFontSize: 18,
-      pickerConfirmBtnText: i18n.t('global.confirm'),
-      pickerCancelBtnText: i18n.t('global.cancel'),
-      pickerTitleColor: [7, 47, 106, 1],
-      selectedValue: [this.state.selectedValue],
-      onPickerConfirm: (pickedValue, pickedIndex) => {
-        const data = this.props.data[pickedIndex];
-        this.props.onChange(this.props.isObject ? data : data[this.state.keyId]);
-        this.hidePicker();
-      },
-      onPickerCancel: () => {
-        this.hidePicker();
-      }
-    });
-    Picker.show();
+    if (platform === 'android') {
+      Picker.init({
+        pickerData: this._createData(),
+        pickerTitleText: '',
+        pickerTextEllipsisLen: 20,
+        pickerFontFamily: platform === 'android' ? 'Roboto-Regular' : null,
+        pickerFontSize: 24,
+        pickerConfirmBtnText: '',
+        pickerCancelBtnText: '',
+        pickerTitleColor: [7, 47, 106, 1],
+        pickerBg: [255, 255, 255, 1],
+        pickerToolBarBg: [255, 255, 255, 1],
+        selectedValue: [this.state.selectedValue],
+        onPickerConfirm: (pickedValue, pickedIndex) => {
+          // const data = this.props.data[pickedIndex];
+          // this.props.onChange(this.props.isObject ? data : data[this.state.keyId]);
+          // this.hidePicker();
+        },
+        onPickerSelect: (pickedValue, pickedIndex) => {
+          const data = this.props.data[pickedIndex];
+          this.props.onChange(this.props.isObject ? data : data[this.state.keyId]);
+        },
+        onPickerCancel: () => {
+          this.hidePicker();
+        }
+      });
+      Picker.show();
+    }
   }
   render() {
+    const data = this.props.data || [];
     return (
       <View>
         {this.state.isPickerShowing ?
@@ -89,8 +103,26 @@ class PickerSelect extends Component {
             onShow={this._showDatePicker}
           >
             <TouchableWithoutFeedback style={{ flex: 1 }} onPress={this.hidePicker}>
-              <View style={{ flex: 1, backgroundColor: '#000', opacity: 0.3, width: DEVICE_WIDTH, height: DEVICE_HEIGTH, zIndex: 1 }} />
+              <View style={{
+                flex: 1,
+                backgroundColor: '#000',
+                opacity: 0.3,
+                width: DEVICE_WIDTH,
+                height: platform === 'ios' ? (DEVICE_HEIGTH - 250) : DEVICE_HEIGTH,
+                zIndex: 1
+              }}
+              />
             </TouchableWithoutFeedback>
+            {platform === 'ios' ?
+              <RNPicker
+                selectedValue={this.state.selectedValue}
+                style={{ height: 250, width: '100%', position: 'absolute', bottom: 0, zIndex: 2, backgroundColor: 'white' }}
+                onValueChange={this.onChangeHandler}>
+                {data.map(item => (
+                  <RNPicker.Item key={item[this.state.keyId]} label={item[this.state.keyName]} value={item[this.state.keyId]} />
+                ))}
+              </RNPicker>
+              : null}
           </Modal>
           : null
         }
