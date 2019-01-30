@@ -72,6 +72,7 @@ class Rating extends Component {
     try {
       const dataRating = {
         appointment_id: itemRating.appointment_id,
+        rate_number: rating.rate_number,
         rate_comment: rating.rate_tag + `${rating.rate_comment}`,
         rating_number: rating.rate_number,
         rating_comment: rating.rate_tag + `${rating.rate_comment}`,
@@ -119,12 +120,12 @@ class Rating extends Component {
             <Image source={Logo} style={{ width: 80, height: 80 }} />
             <View style={{ justifyContent: 'center', marginLeft: 10 }}>
               <Text style={styles.textHeadline}>{itemRating.building_name}</Text>
-              <Text>{itemRating.office_name}</Text>
+              <Text style={{ width: DEVICE_WIDTH - 140 }}>{itemRating.office_name}</Text>
             </View>
           </View>
           <Divider style={{ marginVertical: 15 }} />
-          <Text style={{ fontSize: fontSize + 1, textAlign: 'center' }}>{i18n.t('review.yourAppointmentHasBeenCompleted')}</Text>
-          <Text style={{ fontSize: fontSize + 1, textAlign: 'center' }}>{i18n.t('review.ratingTitle')}</Text>
+          <Text style={{ textAlign: 'center' }}>{i18n.t('review.yourAppointmentHasBeenCompleted')}</Text>
+          <Text style={{ textAlign: 'center' }}>{i18n.t('review.ratingTitle')}</Text>
           <View style={{ padding: 20, paddingHorizontal: 30 }}>
             <StarRating
               emptyStar={'ios-star-outline'}
@@ -165,6 +166,7 @@ class Rating extends Component {
         </View>
         <View style={{ justifyContent: 'center', paddingHorizontal: 10, alignItems: 'center', marginBottom: 20 }}>
           <Button
+            loading={this.state.saving}
             buttonStyle={{ width: DEVICE_WIDTH - 50 }}
             title={i18n.t('global.ok').toUpperCase()}
             onPress={this._onRatingSubmit}
@@ -181,13 +183,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   textHeadline: {
-    fontSize: 20,
+    width: DEVICE_WIDTH - 140,
+    fontSize: fontSize + 3,
     marginBottom: 5,
     fontWeight: 'bold',
     color: brandPrimary
   },
   textContent: {
-    fontSize: fontSize + 1,
+    // fontSize: fontSize + 1,
     textAlign: 'center',
     marginBottom: 15
   }

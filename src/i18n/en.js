@@ -137,7 +137,7 @@ export default {
     office: "Office",
     saler: "Saler",
     appointmentList: 'Appointment List',
-    appointmentRequest: "Appointment Request",
+    appointmentRequest: "Appointment",
     appointmentEmpty: "I have not booked yet",
     bookingFail: "Your request has failed",
     bookingSuccess: "Your request has been submitted",

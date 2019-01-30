@@ -41,7 +41,7 @@ class Account extends React.Component {
       title: params && params.user ? null : i18n.t('tabs.notifications'),
       headerLeft: params && params.user ? (
         <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-          {params.user.image_profile && props.user.image_profile !== 'http://paxsky.amagumolabs.io/images/no_image_available.jpg' ?
+          {params.user.image_profile && params.user.image_profile !== 'http://paxsky.amagumolabs.io/images/no_image_available.jpg' ?
             <FastImage
               source={{ uri: params.user.image_profile, priority: FastImage.priority.high }}
               style={{ height: 36, width: 36, borderRadius: 50, marginHorizontal: 10 }} />
@@ -124,16 +124,16 @@ class Account extends React.Component {
             {this.props.isAuth ?
               <AccountItem onPress={() => this.props.navigation.navigate('Profile')}
                 title={i18n.t('account.profile.title')}
-                leftIcon={<Icon name="md-person" style={styles.icon} />}
+                leftIcon={<Icon name="user-circle-o" type="FontAwesome" style={[styles.icon, { fontSize: fontSize + 8 }]} />}
               />
               : null}
             <AccountItem onPress={this.termsServiceModalHandler}
               title={i18n.t('account.termsOfService')}
-              leftIcon={<Icon name="md-document" style={styles.icon} />}
+              leftIcon={<Icon name="md-paper" style={styles.icon} />}
             />
             <AccountItem onPress={this.settingLanguage}
               title={i18n.t('account.language')}
-              leftIcon={<Icon name="language" style={styles.icon} type={'MaterialIcons'} />}
+              leftIcon={<Icon name="md-globe" style={styles.icon} />}
               rightTitle={this.props.preferredLanguage}
               // rightIcon={<Icon name="arrow-forward" style={styles.rightIcon} />}
             />

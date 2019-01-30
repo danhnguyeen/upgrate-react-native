@@ -7,7 +7,7 @@ import axios from '../../config/axios';
 
 import * as actions from './appointment-actions';
 import { BookingRating } from '../../components/booking/';
-import { brandPrimary, textDarkColor, shadow, brandLight, backgroundColor, statusColors } from '../../config/variables';
+import { brandPrimary, textDarkColor, shadow, brandLight, backgroundColor, statusColors, brandSuccess, brandDanger, brandWarning } from '../../config/variables';
 import { _dispatchStackActions } from '../../util/utility';
 import i18n from '../../i18n';
 import { Spinner } from '../../components/common';
@@ -73,7 +73,7 @@ class BookingItem extends React.Component {
     let onPressFunction = this.contactFunction
     switch (booking.status_name) {
       case 'Pending':
-        booking.status.color = statusColors.yellow
+        booking.status.color = brandWarning
         booking.status.icon = 'circle'
         booking.status.text = i18n.t('appointment.pending')
         btnFuncText = i18n.t('appointment.btUpdate')
@@ -87,14 +87,14 @@ class BookingItem extends React.Component {
         onPressFunction = () => this.props.navigation.navigate('ModalBooking', { dataProps: { bookingDetail: booking } })
         break
       case 'Done':
-        booking.status.color = statusColors.green
+        booking.status.color = brandSuccess
         booking.status.icon = 'checkbox-multiple-marked-circle'
         booking.status.text = i18n.t('appointment.done')
         btnFuncText = i18n.t('appointment.btRating')
         onPressFunction = this.props.onRatingPress
         break
       case 'Cancel':
-        booking.status.color = statusColors.red
+        booking.status.color = brandDanger
         booking.status.icon = 'close-circle'
         booking.status.text = i18n.t('appointment.cancelled')
         btnFuncText = i18n.t('appointment.btReport')
