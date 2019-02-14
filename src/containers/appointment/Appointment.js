@@ -116,7 +116,7 @@ class BookingItem extends React.Component {
               <Text numberOfLines={1} allowFontScaling style={{ flex: 0.6, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '300' }} >{booking.office_name}</Text>
             </View>
             <View style={{ flexDirection: 'row', marginHorizontal: 5 }} >
-              <Text numberOfLines={1} allowFontScaling style={{ flex: 0.3, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '500', textAlign: 'right', marginRight: 5 }}>{`${i18n.t('appointment.saler')}`}</Text>
+              <Text numberOfLines={1} allowFontScaling style={{ flex: 0.3, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '500', textAlign: 'right', marginRight: 5 }}>{`${i18n.t('appointment.saler')}:`}</Text>
               <Text numberOfLines={1} allowFontScaling style={{ flex: 0.6, color: textDarkColor, fontSize: 15, lineHeight: 23, fontWeight: '300' }}>{`${booking.sale_person_name ? booking.sale_person_name : '--'}`}</Text>
             </View>
           </View>

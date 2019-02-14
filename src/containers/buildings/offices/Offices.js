@@ -56,35 +56,35 @@ class Offices extends React.Component {
     filterData.acreage_rent = [...new Set(filterData.acreage_rent)].sort((a, b) => { return a - b })
     filterData.direction = [...new Set(filterData.direction)].sort((a, b) => { return a - b })
     filterData.floor_name = [...new Set(filterData.floor_name)].sort((a, b) => { return a - b })
-
-    this.setState({ filterData, isFetching: false })
-  }
-  _clearFilterPress = () => {
-    let { filterRequired } = this.state
-    filterRequired.acreage_rent = null
-    this.setState({ filterRequired })
+    this.setState({ filterData, officeList, isFetching: false })
   }
   _onFilterPress(filterRequired) {
-    this.setState({ filterRequired, modalVisible: false })
-  }
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible })
-  }
-  render() {
-    const { filterRequired, filterData, isFetching } = this.state
-    const building_id = this.props.navigation.getParam('building_id')
-    const building_name = this.props.navigation.getParam('building_name')
     let officeList = []
-    if (!isEmpty(filterRequired.acreage_rent)) {
-      this.props.officeList.forEach(item => {
-        if ((filterRequired.acreage_rent[0] <= item.acreage_rent && item.acreage_rent <= filterRequired.acreage_rent[1])) {
-          officeList.push(item);
+    if (!isEmpty(filterRequired) && !isEmpty(filterRequired.acreage_rent)) {
+      this.props.officeList.forEach(itemOffice => {
+        if ((filterRequired.acreage_rent[0] <= itemOffice.acreage_rent && itemOffice.acreage_rent <= filterRequired.acreage_rent[1])) {
+          officeList.push(itemOffice);
         }
       })
     }
     else {
       officeList = this.props.officeList
     }
+    this.setState({ filterRequired, officeList, isFetching: false, modalVisible: false })
+  }
+  _clearFilterPress = () => {
+    let { filterRequired } = this.state
+    const officeList = this.props.officeList
+    filterRequired.acreage_rent = null
+    this.setState({ filterRequired, officeList })
+  }
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible })
+  }
+  render() {
+    const { filterRequired, filterData, isFetching, officeList } = this.state
+    const building_id = this.props.navigation.getParam('building_id')
+    const building_name = this.props.navigation.getParam('building_name')
     return (
       <View style={{ flex: 1, backgroundColor }}>
         {this.state.modalVisible ?
@@ -97,30 +97,30 @@ class Offices extends React.Component {
             filterRequired={filterRequired}
           />
           : null}
-        <View style={styles.filterContainer}>
-          <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
-            {!isEmpty(filterRequired.acreage_rent) &&
-              <TouchableOpacity
-                onPress={() => { this._clearFilterPress() }}
-                style={styles.button}>
-                <Text style={styles.buttonText}>{filterRequired.acreage_rent[0]}m2 - {filterRequired.acreage_rent[filterRequired.acreage_rent.length - 1]}m2</Text>
-                <Icon style={styles.closeIcon} name='md-close' type="Ionicons" />
-              </TouchableOpacity>
-            }
-          </View>
-          <View style={{ alignItems: 'flex-start', justifyContent: 'flex-end' }}>
-            <TouchableOpacity
-              onPress={() => { this.setState({ modalVisible: true }) }}
-              style={{ alignSelf: 'flex-end', paddingVertical: 15 }}>
-              <Text style={[styles.buttonText, { fontSize }]}>{i18n.t('filter.filters')}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {(isFetching && officeList) ? <Spinner /> :
-          <Content style={{ backgroundColor, paddingTop: 10 }}>
-            {!isEmpty(filterRequired.acreage_rent) && officeList.length < 1 ?
-              <Text style={{ textAlign: 'center' }}>{i18n.t('filter.noResult')}</Text>
-              : isEmpty(filterRequired.acreage_rent) && officeList.length < 1 ? <Text style={{ textAlign: 'center' }}>{i18n.t('global.updating')}</Text>
+
+        {(!isFetching && officeList) ?
+          <Content style={{ backgroundColor }}>
+            <View style={styles.filterContainer}>
+              <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
+                {!isEmpty(filterRequired.acreage_rent) &&
+                  <TouchableOpacity
+                    onPress={() => { this._clearFilterPress() }}
+                    style={styles.button}>
+                    <Text style={styles.buttonText}>{filterRequired.acreage_rent[0]}m2 - {filterRequired.acreage_rent[filterRequired.acreage_rent.length - 1]}m2</Text>
+                    <Icon style={styles.closeIcon} name='md-close' type="Ionicons" />
+                  </TouchableOpacity>
+                }
+              </View>
+              <View style={{ alignItems: 'flex-start', justifyContent: 'flex-end' }}>
+                <TouchableOpacity
+                  onPress={() => { this.setState({ modalVisible: true }) }}
+                  style={{ alignSelf: 'flex-end', paddingVertical: 15 }}>
+                  <Text style={[styles.buttonText, { fontSize }]}>{i18n.t('filter.filters')}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            {isEmpty(filterRequired.acreage_rent) && officeList.length < 1 ? <Text style={{ textAlign: 'center' }}>{i18n.t('global.updating')}</Text>
+              : !isEmpty(filterRequired.acreage_rent) && officeList.length < 1 ? <Text style={{ textAlign: 'center' }}>{i18n.t('filter.noResult')}</Text>
                 : officeList.map((item, index) => {
                   item.building_id = building_id
                   item.building_name = building_name
@@ -131,7 +131,8 @@ class Offices extends React.Component {
                     </TouchableOpacity>
                   )
                 })}
-          </Content>
+          </Content> :
+          <Spinner />
         }
       </View>
     )

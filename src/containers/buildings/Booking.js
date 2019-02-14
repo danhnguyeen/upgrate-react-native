@@ -165,7 +165,7 @@ class Booking extends React.Component {
               <Text style={[styles.textContent, { flex: 0.7 }]}>{mobile_phone}</Text>
             </View>
             <View style={styles.line} >
-              <Text style={styles.textTitle}>{'Email :'}</Text>
+              <Text style={styles.textTitle}>{'Email'}</Text>
               <Text style={[styles.textContent, { flex: 0.7 }]} numberOfLines={1}>{email}</Text>
             </View>
             {isBookingUpdate &&
