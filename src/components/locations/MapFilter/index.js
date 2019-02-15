@@ -14,6 +14,20 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
+import { platform } from '../../../config/variables';
+
+const CustomAnimation = {
+  duration: 350,
+  create: {
+    type: LayoutAnimation.Types.linear,
+    property: LayoutAnimation.Properties.opacity,
+    springDamping: 0.7
+  },
+  update: {
+    type: LayoutAnimation.Types.linear,
+    springDamping: 0.7
+  }
+};
 
 class DropdownMenu extends Component {
   constructor(props, context) {
@@ -40,7 +54,7 @@ class DropdownMenu extends Component {
     };
 
   }
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.districts.length !== this.props.districts.length) {
       this.setState({ dataFilter: [[{ district_name: 'Quận : Tất cả' }, ...nextProps.districts]] })
     }
@@ -61,13 +75,13 @@ class DropdownMenu extends Component {
             style={[
               styles.item_text_style,
               this.props.optionTextStyle,
-              {color: this.props.activityTintColor ? this.props.activityTintColor : this.defaultConfig.activityTintColor}
+              { color: this.props.activityTintColor ? this.props.activityTintColor : this.defaultConfig.activityTintColor }
             ]}>
             {title.district_name}
           </Text>
           <Image
             source={checkImage}
-            style={{tintColor: this.props.activityTintColor ? this.props.activityTintColor : this.defaultConfig.activityTintColor}}/>
+            style={{ tintColor: this.props.activityTintColor ? this.props.activityTintColor : this.defaultConfig.activityTintColor }} />
         </View>
       );
     } else {
@@ -82,7 +96,7 @@ class DropdownMenu extends Component {
           <Text style={[
             styles.item_text_style,
             this.props.optionTextStyle,
-            {color: this.props.tintColor ? this.props.tintColor : this.defaultConfig.tintColor}
+            { color: this.props.tintColor ? this.props.tintColor : this.defaultConfig.tintColor }
           ]}>{title.district_name}</Text>
         </View>
       );
@@ -100,15 +114,15 @@ class DropdownMenu extends Component {
       }
 
       return (
-        <View style={{position: 'absolute', left: 20, right: 20, top: 40, bottom: 0}}>
+        <View style={{ position: 'absolute', left: 20, right: 20, top: 40, bottom: 0 }}>
           <ScrollView
-            style={[{position: 'absolute', top: 12, left: 0, right: 0, backgroundColor: 'white', borderRadius: 5}, heightStyle]}>
+            style={[{ position: 'absolute', top: 12, left: 0, right: 0, backgroundColor: 'white', borderRadius: 5 }, heightStyle]}>
             {
               currentTitles.map((title, index) =>
-                <TouchableOpacity key={index} activeOpacity={1} style={{flex: 1, height: 44}}
-                                  onPress={this.itemOnPress.bind(this, index)}>
+                <TouchableOpacity key={index} activeOpacity={1} style={{ flex: 1, height: 44 }}
+                  onPress={this.itemOnPress.bind(this, index)}>
                   {this.renderCheck(index, title)}
-                  <View style={{backgroundColor: '#F6F6F6', height: 1, marginHorizontal: 15}}/>
+                  <View style={{ backgroundColor: '#F6F6F6', height: 1, marginHorizontal: 15 }} />
                 </TouchableOpacity>
               )
             }
@@ -121,9 +135,10 @@ class DropdownMenu extends Component {
   }
 
   openOrClosePanel(index) {
-
     this.props.bannerAction ? this.props.bannerAction() : null;
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    if (platform === 'ios') {
+      LayoutAnimation.configureNext(platform === 'android' ? CustomAnimation : LayoutAnimation.Presets.linear);
+    }
     // var toValue = 0.5;
     if (this.state.activityIndex === index) {
       this.closePanel(index);
@@ -195,13 +210,13 @@ class DropdownMenu extends Component {
               outputRange: ['0deg', '360deg']
             })
           }]
-        }}/>
+        }} />
     );
   }
 
   render() {
     return (
-      <View style={{flexDirection: 'column', flex: 1, paddingTop: 5, paddingHorizontal: 20 }}>
+      <View style={{ flexDirection: 'column', flex: 1, paddingTop: 5, paddingHorizontal: 20 }}>
         <View style={{
           flexDirection: 'row',
           borderRadius: 5,
@@ -215,7 +230,7 @@ class DropdownMenu extends Component {
                 activeOpacity={1}
                 onPress={this.openOrClosePanel.bind(this, index)}
                 key={index}
-                style={{flexDirection: 'row', flex: 1, height: 44, alignItems: "center", justifyContent: "space-between", paddingLeft: 15, paddingRight: 18}}>
+                style={{ flexDirection: 'row', flex: 1, height: 44, alignItems: "center", justifyContent: "space-between", paddingLeft: 15, paddingRight: 18 }}>
                 <View style={{ alignItems: "center", justifyContent: "space-between" }}>
                   <Text
                     style={[

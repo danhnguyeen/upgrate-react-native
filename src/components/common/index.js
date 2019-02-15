@@ -8,6 +8,8 @@ import Spinner from './Spinner';
 import SpinnerOverlay from './SpinnerOverlay';
 import ModalPopup from './ModalPopup';
 import Modal from './Modal';
+import SliderMarker from './SliderMarker';
+
 export {
   InputField,
   Header,
@@ -18,5 +20,6 @@ export {
   Spinner,
   SpinnerOverlay,
   ModalPopup,
-  Modal
+  Modal,
+  SliderMarker
 };

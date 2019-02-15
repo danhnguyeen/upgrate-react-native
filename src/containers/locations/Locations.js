@@ -156,7 +156,7 @@ class Locations extends React.Component {
             handler={(selection, row, dataFilter) => this.filterShopHandler(selection, row, dataFilter)}
           />
         </View>
-        <View style={{ position: 'absolute', bottom: 150, right: 5 }}>
+        <View style={{ position: 'absolute', bottom: 170, right: 5 }}>
           <Icon
             reverse
             name='my-location'
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   buildingSlides: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 5,
     left: 0,
     right: 0
   },

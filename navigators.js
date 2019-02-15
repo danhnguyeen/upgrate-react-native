@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import { TouchableOpacity, View, Text } from 'react-native';
-import { Icon, Badge } from 'native-base';
+import { Icon } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Welcome } from './src/containers/welcome';

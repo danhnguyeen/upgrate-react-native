@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import i18n from '../../i18n';
-import { brandPrimary } from '../../config/variables';
+import { brandPrimary, shadow, fontSize } from '../../config/variables';
 
 class BuildingSlides extends Component {
 
@@ -23,7 +23,7 @@ class BuildingSlides extends Component {
             <Text style={styles.subTitleStyle} numberOfLines={2}>{`${slide.sub_name}, ${slide.district}`}</Text>
           </View>
           <View>
-            <Text style={{ width: 140, fontSize: 13 }} numberOfLines={2}>{slide.building_detail.structure ? slide.building_detail.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
+            <Text style={{ width: 170 }} numberOfLines={2}>{slide.building_detail.structure ? slide.building_detail.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
             <Text style={styles.priceStyle}>{`$${slide.rent_cost.toFixed(2)}/m2`}</Text>
           </View>
         </View>
@@ -46,11 +46,12 @@ class BuildingSlides extends Component {
 
 const styles = {
   container: {
+    ...shadow,
     flex: 1,
-    width: 250,
+    width: 280,
     backgroundColor: '#fff',
     marginRight: 10,
-    marginVertical: 5,
+    marginVertical: 10,
     borderRadius: 5
   },
   slideStyle: {
@@ -69,8 +70,8 @@ const styles = {
     marginBottom: 5
   },
   subTitleStyle: {
-    fontSize: 13,
-    width: 140,
+    fontSize: fontSize - 2,
+    width: 170,
     color: '#616161'
   },
   priceStyle: {
@@ -80,8 +81,8 @@ const styles = {
     // fontSize: 15
   },
   image: {
-    width: 80,
-    height: 130
+    width: 90,
+    height: 150
   }
 };
 

@@ -111,7 +111,7 @@ class PickerSelect extends Component {
                 backgroundColor: '#000',
                 opacity: 0.3,
                 width: DEVICE_WIDTH,
-                height: platform === 'ios' ? (DEVICE_HEIGTH - 300) : DEVICE_HEIGTH,
+                height: platform === 'ios' ? (DEVICE_HEIGTH - 320) : DEVICE_HEIGTH,
                 zIndex: 1
               }}
               />
@@ -119,7 +119,7 @@ class PickerSelect extends Component {
             {platform === 'ios' ?
               <RNPicker
                 selectedValue={this.state.selectedValue}
-                style={{ height: 300, width: '100%', position: 'absolute', bottom: 0, zIndex: 2, backgroundColor: 'white' }}
+                style={{ height: 320, width: '100%', position: 'absolute', bottom: 0, zIndex: 2, backgroundColor: 'white' }}
                 onValueChange={this.onChangeHandler}>
                 {data.map(item => (
                   <RNPicker.Item key={item[this.state.keyId]} label={item[this.state.keyName]} value={item[this.state.keyId]} />

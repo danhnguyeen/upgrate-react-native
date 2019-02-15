@@ -49,7 +49,7 @@ class Account extends React.Component {
             <Avatar
               containerStyle={{ marginHorizontal: 10 }}
               rounded
-              placeholderStyle={{ backgroundColor: inverseTextColor }}
+              overlayContainerStyle={{ backgroundColor: inverseTextColor }}
               icon={{ name: 'user', type: 'font-awesome', color: brandPrimary }}
             />
           }

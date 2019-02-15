@@ -20,7 +20,7 @@ const ProfileHeader = (props) => {
             ImageComponent={() => { return null }}
             size="large"
             rounded
-            placeholderStyle={{ backgroundColor: inverseTextColor }}
+            overlayContainerStyle={{ backgroundColor: inverseTextColor }}
             icon={{ name: 'user', type: 'font-awesome', color: brandPrimary }}
           />
         }

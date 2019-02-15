@@ -7,9 +7,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Icon } from 'native-base';
-import { Divider } from 'react-native-elements';
 
-import { brandPrimary, backgroundColor, brandLight, DEVICE_WIDTH, fontSize, textColor, phoneNumber, inverseTextColor, textLightColor } from '../../config/variables';
+import { brandPrimary, backgroundColor, brandLight, DEVICE_WIDTH, fontSize, textColor, phoneNumber, inverseTextColor, textLightColor, isIphoneX } from '../../config/variables';
 import { BuildingMaps, BuildingSlider } from '../buildings';
 import i18n from '../../i18n';
 import { Modal, Button } from '../common';
@@ -24,7 +23,7 @@ const LocationDetails = (props) => {
       title={`PAXSKY ${building.sub_name}`}
     >
       <View style={{ flex: 1, backgroundColor }}>
-        <ScrollView>
+        <ScrollView contentContainerStyle={{ paddingBottom: isIphoneX ? 20 : 0 }}>
           <BuildingSlider
             height={220}
             showsPagination={true}
@@ -62,7 +61,7 @@ const LocationDetails = (props) => {
                 <Icon
                   name='directions'
                   type="MaterialCommunityIcons"
-                  style={{ color: inverseTextColor, fontSize: fontSize + 6, marginLeft: 10 }}
+                  style={{ color: inverseTextColor, fontSize: fontSize + 6, marginRight: 5 }}
                 />
               }
               onPress={() => Linking.openURL(`https://www.google.com/maps?daddr=${building.lat},${building.long}`)}
@@ -81,10 +80,10 @@ const LocationDetails = (props) => {
               <Icon style={styles.icon} name='building-o' type='FontAwesome' />
               <Text>{building.building_detail.structure ? building.building_detail.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
             </View>
-            <View style={styles.line}>
+            {/* <View style={styles.line}>
               <Icon style={styles.icon} name='directions-fork' type='MaterialCommunityIcons' />
               <Text>{building.building_detail.direction}</Text>
-            </View>
+            </View> */}
             <View style={styles.line}>
               <Icon style={[styles.icon, { fontSize: 28 }]} name='md-star-outline' />
               <Text>{building.building_detail.classify_name}</Text>
@@ -94,20 +93,18 @@ const LocationDetails = (props) => {
               <Text style={{ color: brandPrimary }}>{building.building_detail.rent_cost.toFixed(1)}$/m2</Text>
             </View>
           </View>
-          {/* <Details selectedShop={props.shop} /> */}
           <View style={styles.buttonArea}>
             <Button
               icon={
                 <Icon
                   name='md-arrow-dropright-circle'
                   type="Ionicons"
-                  style={{ color: inverseTextColor, fontSize: fontSize + 6, marginLeft: 10 }}
+                  style={{ color: inverseTextColor, fontSize: fontSize + 6, marginRight: 5 }}
                 />
               }
               onPress={() => Linking.openURL(`https://www.google.com/maps?daddr=${building.lat},${building.long}`)}
               titleStyle={{ fontSize }}
               buttonStyle={{
-                // backgroundColor: 'transparent',
                 borderRadius: 20,
                 paddingRight: 15,
                 minWidth: 200,
@@ -116,11 +113,6 @@ const LocationDetails = (props) => {
               title={i18n.t('buildingDetail.viewDetails')}
               onPress={() => props.gotoBuilding(building)}
             />
-            {/* <OutlineButton
-            buttonStyle={{ width: 200 }}
-            title={i18n.t('booking.about.btnBooking')}
-            onPress={() => props.makeABooking(props.shop)}
-          /> */}
           </View>
         </ScrollView>
       </View>

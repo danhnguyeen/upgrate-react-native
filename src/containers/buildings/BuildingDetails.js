@@ -187,7 +187,7 @@ class BuildingDetails extends React.Component {
                     <Icon
                       name='directions'
                       type="MaterialCommunityIcons"
-                      style={{ color: brandPrimary, fontSize: fontSize + 6, marginLeft: 10 }}
+                      style={{ color: brandPrimary, fontSize: fontSize + 6, marginRight: 5 }}
                     />
                   }
                   onPress={() => Linking.openURL(`https://www.google.com/maps?daddr=${detailBuilding.lat},${detailBuilding.long}`)}

@@ -7,10 +7,9 @@ import {
 } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-import { Modal, PickerSelect, Button } from '../../components/common';
+import { Modal, PickerSelect, Button, SliderMarker } from '../../components/common';
 import { brandLight, brandPrimary, DEVICE_WIDTH } from '../../config/variables';
 import i18n from '../../i18n';
-
 
 class BuildingFilter extends Component {
   constructor(props) {
@@ -97,8 +96,9 @@ class BuildingFilter extends Component {
                     onValuesChange={values => { this._onFilterChange(values, 'rent_cost') }}
                     min={filterData.rent_cost[0]} max={filterData.rent_cost[1]}
                     step={1}
+                    customMarker={SliderMarker}
                     allowOverlap snapped
-                    selectedStyle={{ backgroundColor: '#0d3d74', }}
+                    selectedStyle={{ backgroundColor: brandPrimary }}
                     unselectedStyle={{ backgroundColor: 'silver', }}
                     containerStyle={{ height: 30, marginHorizontal: 20 }}
                     trackStyle={{ height: 4, backgroundColor: 'silver', }}
@@ -121,7 +121,8 @@ class BuildingFilter extends Component {
                     min={filterData.acreage[0]} max={filterData.acreage[1]}
                     step={1}
                     allowOverlap snapped
-                    selectedStyle={{ backgroundColor: '#0d3d74', }}
+                    customMarker={SliderMarker}
+                    selectedStyle={{ backgroundColor: brandPrimary }}
                     unselectedStyle={{ backgroundColor: 'silver', }}
                     trackStyle={{ height: 4, backgroundColor: 'silver', }}
                     containerStyle={{ height: 30, marginHorizontal: 20 }}

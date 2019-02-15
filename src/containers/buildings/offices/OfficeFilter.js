@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 
 import { shadow, brandLight, brandPrimary, DEVICE_WIDTH } from '../../../config/variables';
-import { Modal, Button } from '../../../components/common';
+import { Modal, Button, SliderMarker } from '../../../components/common';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import i18n from '../../../i18n';
 
@@ -93,8 +93,9 @@ class OfficeFilter extends React.Component {
                     onValuesChange={values => { this._onacreage_rentChange(values) }}
                     min={filterData.acreage_rent[0]} max={filterData.acreage_rent[filterData.acreage_rent.length - 1]}
                     step={1}
+                    customMarker={SliderMarker}
                     allowOverlap snapped
-                    selectedStyle={{ backgroundColor: '#5092E3', }}
+                    selectedStyle={{ backgroundColor: brandPrimary, }}
                     unselectedStyle={{ backgroundColor: 'silver', }}
                     containerStyle={{ height: 30, marginHorizontal: 20 }}
                     trackStyle={{ height: 4, backgroundColor: 'silver' }}

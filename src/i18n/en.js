@@ -150,7 +150,7 @@ export default {
     timeError: "Your Booking time is not available",
     selectDate: "Select date",
     selectTime: "Select time",
-    note: "Ghi chú",
+    note: "Note",
   },
   review: {
     myReviews: "My Reviews",
