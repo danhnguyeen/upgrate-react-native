@@ -18,10 +18,10 @@ class BuildingFilter extends Component {
     this.state = {
       sliderLength: DEVICE_WIDTH/2,
       selectedData: {
-        district: null,
+        district: { district_id: -1 },
         rent_cost: null,
         acreage: null,
-        direction: null
+        direction: { direction_id: -1 }
       }
     }
   }
@@ -34,24 +34,21 @@ class BuildingFilter extends Component {
   _onResetPress = () => {
     this.setState({
       selectedData: {
-        district: null,
+        district: { district_id: -1 },
         rent_cost: null,
         acreage: null,
-        direction: null
+        direction: { direction_id: -1 }
       }
     })
     if (this.props.clearFilterPress) {
-      this.props.clearFilterPress()
+      this.props.clearFilterPress();
     }
   }
   _onFilterPress = () => {
     if (this.props.onFilterPress) {
-      const filterRequired = this.state.selectedData
-      this.props.onFilterPress(filterRequired)
+      const filterRequired = this.state.selectedData;
+      this.props.onFilterPress(filterRequired);
     }
-  }
-  _onCloselPress = () => {
-    this.props.closeModal()
   }
   _onFilterChange(value, key) {
     const { selectedData } = this.state
@@ -62,8 +59,8 @@ class BuildingFilter extends Component {
   disableScroll = () => this.setState({ scrollEnabled: false })
 
   render() {
-    const { filterData } = this.props
-    const { selectedData } = this.state
+    const { filterData } = this.props;
+    const { selectedData } = this.state;
     return (
       <Modal
         visible={this.props.visible}
@@ -75,7 +72,7 @@ class BuildingFilter extends Component {
               label={i18n.t('filter.selectDistrict')}
               onChange={district => this._onFilterChange(district, 'district')}
               isObject
-              data={this.props.districtList}
+              data={[{ district_id: -1, district_name: i18n.t('filter.allData') }, ...this.props.districtList]}
               keyName={'district_name'}
               keyId='district_id'
               value={this.state.selectedData.district}
@@ -84,7 +81,7 @@ class BuildingFilter extends Component {
               label={i18n.t('filter.selectDirection')}
               onChange={direction => this._onFilterChange(direction, 'direction')}
               isObject
-              data={filterData.direction_array}
+              data={[{ direction_id: -1, direction_name: i18n.t('filter.allData') }, ...filterData.direction_array]}
               keyName={'direction_name'}
               keyId='direction_id'
               value={this.state.selectedData.direction}
@@ -153,8 +150,4 @@ class BuildingFilter extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  
-})
-
-export default BuildingFilter
+export default BuildingFilter;

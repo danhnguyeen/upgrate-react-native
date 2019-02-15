@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from '../../config/axios';
-import { StyleSheet, TouchableOpacity, View, TextInput, ActivityIndicator, Alert } from 'react-native';
-import { Content, Icon, Text, } from "native-base";
+import { StyleSheet, TouchableOpacity, View, Text, ActivityIndicator, Alert } from 'react-native';
+import { Content, Icon } from "native-base";
 import { BookingDateTime } from '../../components/booking/';
-import { backgroundColor, textDarkColor, brandLight, inverseTextColor } from '../../config/variables';
+import { backgroundColor, textDarkColor, brandLight, inverseTextColor, textH4, brandPrimary } from '../../config/variables';
 import { _dispatchStackActions, isEmpty } from '../../util/utility';
 import i18n from "../../i18n";
 
@@ -45,8 +45,7 @@ class Booking extends React.Component {
   componentDidMount() {
     if (this.props.isAuth) {
       this._onFetching()
-    }
-    else {
+    } else {
       const dataProps = this.props.navigation.getParam('dataProps')
       this.props.navigation.navigate('SignIn', { dataProps, routeNameProps: 'Booking' })
     }
@@ -56,8 +55,7 @@ class Booking extends React.Component {
     const nextDataProps = nextProps.navigation.getParam('dataProps')
     if (nextDataProps !== dataProps) {
       this._onFetching(nextDataProps)
-    }
-    else {
+    } else {
       console.log('nextDataProps == dataProps', nextDataProps == dataProps)
     }
   }
@@ -157,7 +155,7 @@ class Booking extends React.Component {
               <Text style={[styles.textContent, { flex: 0.7 }]}>{`${bookingDetail.office_name}`}</Text>
             </View>
             <View style={styles.line} >
-              <Text style={styles.textTitle}>{i18n.t('account.firstName')}</Text>
+              <Text style={styles.textTitle}>{i18n.t('account.name')}</Text>
               <Text style={[styles.textContent, { flex: 0.7 }]}>{`${first_name} ${last_name}`}</Text>
             </View>
             <View style={styles.line} >
@@ -217,21 +215,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   textHeadline: {
-    fontSize: 24,
+    ...textH4,
     lineHeight: 40,
-    fontWeight: '700',
-    color: '#0D3D74',
+    color: brandPrimary,
   },
   textTitle: {
     color: textDarkColor,
-    fontSize: 16,
     fontWeight: '500',
     lineHeight: 30,
-    flex: 0.3
+    flex: 0.28
   },
   textContent: {
     color: textDarkColor,
-    fontSize: 18,
     fontWeight: '300',
     lineHeight: 30,
   },

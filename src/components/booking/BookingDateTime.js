@@ -1,10 +1,9 @@
-
-import React from 'react'
-import moment from 'moment'
-import DatePicker from 'react-native-datepicker'
-import { StyleSheet, TouchableOpacity, View, TextInput, Alert, ActivityIndicator } from 'react-native'
-import { Icon, Text, } from "native-base"
-import { backgroundColor, textDarkColor, inverseTextColor, brandPrimary, brandLight, winH, inputFontSize } from '../../config/variables';
+import React from 'react';
+import moment from 'moment';
+import DatePicker from 'react-native-datepicker';
+import { StyleSheet, TouchableOpacity, View, TextInput, Alert, ActivityIndicator, Text } from 'react-native';
+import { Icon } from "native-base";
+import { backgroundColor, textDarkColor, textColor, inverseTextColor, brandPrimary, brandLight, winH, inputFontSize, fontSize } from '../../config/variables';
 import i18n from "../../i18n";
 
 const OPENTIME = '10:00'
@@ -119,7 +118,7 @@ export default class BookingDateTime extends React.Component {
       <View >
         <View style={[styles.paragraph, { borderRadius: 0, borderBottomColor: '#AAAAAA', borderBottomWidth: 1, flex: 1, flexDirection: 'row' }]}>
           <View style={[styles.bookingCard, { borderRightWidth: 0.5, borderRightColor: textDarkColor, }]}>
-            <Icon type='SimpleLineIcons' name='calendar' color={inverseTextColor} />
+            <Icon type='SimpleLineIcons' name='calendar' style={styles.iconStyle} />
             <DatePicker
               date={this.state.data.date}
               minDate={currentDate}
@@ -139,7 +138,7 @@ export default class BookingDateTime extends React.Component {
             />
           </View>
           <View style={styles.bookingCard}>
-            <Icon type='SimpleLineIcons' name='clock' color={inverseTextColor} />
+            <Icon type='SimpleLineIcons' name='clock' style={styles.iconStyle} />
             <DatePicker
               date={this.state.data.time}
               minDate={minTime}
@@ -165,7 +164,7 @@ export default class BookingDateTime extends React.Component {
           <Text style={{ color: textDarkColor, fontSize: 16, fontWeight: '500', lineHeight: 30, }}>{i18n.t('appointment.note')}</Text>
           <TextInput
             multiline
-            style={{ color: textDarkColor, minHeight: 100, fontSize: inputFontSize }}
+            style={{ color: textDarkColor, minHeight: 100 }}
             numberOfLines={5}
             textAlignVertical={'top'}
             value={this.state.data.ReserDescription}
@@ -216,6 +215,12 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: brandPrimary,
+    fontSize: fontSize + 4,
+    fontWeight: 'bold'
   },
+  iconStyle: {
+    color: textColor, 
+    fontSize: fontSize + 10
+  }
 });
 

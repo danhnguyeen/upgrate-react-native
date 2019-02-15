@@ -37,6 +37,7 @@ export default {
     selectDistrict: "Chọn quận",
     selectDirection: "Chọn hướng",
     all: "Tất cả",
+    allData: "Tất cả",
     price: "Mức giá",
     acreage: "Diện tích",
     noResult: "Không tìm thấy kết quả phù hợp."
@@ -50,6 +51,7 @@ export default {
     management: "Đơn vị quản lý",
     electricityHour: " K/h",
     viewOffices: "Xem văn phòng",
+    viewDetails: "Xem chi tiết",
     getDirection: "Chỉ đường đến đây"
   },
   notifications: {
@@ -72,6 +74,7 @@ export default {
     emailNotFound: "Không tìm thấy email",
     pleaseCheckEmail: "Vui lòng kiểm tra email",
     resetPassSuccess: "Đặt lại mật khẩu thành công",
+    name: 'Tên',
     firstName: 'Tên',
     lastName: 'Họ',
     gender: 'Giới tính',
@@ -133,7 +136,6 @@ export default {
     btRating: "Đánh giá",
     btReport: "Báo cáo",
     btContact: "Liên hệ",
-    btCancel: "Hủy",
     office: "Văn phòng",
     saler: "Tư vấn",
     appointmentList: 'Danh sách lịch hẹn',

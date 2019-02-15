@@ -10,15 +10,14 @@ import Swiper from 'react-native-swiper';
 
 import i18n from '../../i18n';
 import * as actions from './building-actions';
-import { brandPrimary, isIphoneX, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4, shadow } from '../../config/variables';
-import { PostDetail, BuildingMaps, BuildingDescription } from '../../components/buildings'
+import { brandPrimary, isIphoneX, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4, shadow, brandSuccess } from '../../config/variables';
+import { PostDetail, BuildingMaps, BuildingDescription, ContactItem } from '../../components/buildings'
 
 const STATUSBAR_PADDING = isIphoneX ? 24 : 0
 const HEADER_MAX_HEIGHT = 250;
 const HEADER_MIN_HEIGHT = Header.HEIGHT + STATUSBAR_PADDING;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
-
 
 class BuildingDetails extends React.Component {
   state = {
@@ -87,7 +86,7 @@ class BuildingDetails extends React.Component {
           }}
         >
           <View style={styles.scrollViewContent}>
-            <View style={{ ...shadow, flex: 1, backgroundColor: brandLight, padding: 15, marginBottom: 15 }}>
+            <View style={styles.blockContainer}>
               <View style={{ alignItems: 'center', marginBottom: 5 }}>
                 <Text style={[textH4, { color: brandPrimary }]} numberOfLines={1}>{detailBuilding.sub_name}</Text>
                 <Text style={{ fontStyle: 'italic', fontSize: fontSize - 2 }}>{detailBuilding.address}, {detailBuilding.district}</Text>
@@ -140,34 +139,38 @@ class BuildingDetails extends React.Component {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={[shadow, { padding: 15, backgroundColor: brandLight, marginBottom: 15 }]}>
-              <Text style={styles.buttonText}>{i18n.t('contact.paxsky')}</Text>
-              <View style={styles.line}>
-                <Icon style={styles.icon} name='ios-person' type='Ionicons' />
-                <Text style={[styles.buttonText, { lineHeight: 30 }]}>Ms. Phương Linh</Text>
-              </View>
-              <TouchableOpacity style={styles.line}
-                onPress={() => Linking.openURL(`tel:+84911072299`)}>
-                <Icon style={styles.icon} name='ios-call' type='Ionicons' />
-                <Text style={[styles.buttonText, { lineHeight: 30 }]}>0911 07 22 99</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.line}
-                onPress={() => Linking.openURL(`https://zalo.me/1732464775151258581`)}>
-                <Icon style={styles.icon} name='message-text' type='MaterialCommunityIcons' />
-                <Text style={[styles.buttonText, { lineHeight: 30 }]}>{i18n.t('contact.zalo')}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.line}
-                onPress={() => Linking.openURL(`https://m.me/paxskydotvn`)}>
-                <Icon style={styles.icon} name='facebook-messenger' type='MaterialCommunityIcons' />
-                <Text style={[styles.buttonText, { lineHeight: 30 }]}>{i18n.t('contact.messenger')}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.line}
-                onPress={() => Linking.openURL(`mailto:paxsky.vn?subject=Đăng ký tư vấn tòa nhà ${detailBuilding.sub_name}`)}>
-                <Icon style={styles.icon} name='ios-mail' type='Ionicons' />
-                <Text style={[styles.buttonText, { lineHeight: 30 }]}>pkd@paxsky.vn</Text>
-              </TouchableOpacity>
+            <View style={[styles.blockContainer, { padding: 0 }]}>
+              <ContactItem
+                title={'Ms. Phương Linh'}
+                color={textLightColor}
+                icon={<Icon active name="user-circle-o" type="FontAwesome" style={{ fontSize: 17 }} />}
+              />
+              <ContactItem
+                title={'0911 07 22 99'}
+                color={brandSuccess}
+                onPress={() => Linking.openURL(`tel:+84911072299`)}
+                icon={<Icon active name='old-phone' type='Entypo' style={{ fontSize: 17 }} />}
+              />
+              <ContactItem
+                onPress={() => Linking.openURL(`https://zalo.me/1732464775151258581`)}
+                title={i18n.t('contact.zalo')}
+                color={'#008FF3'}
+                icon={<Icon active name='message' type='Entypo' style={{ fontSize: 17 }} />}
+              />
+              <ContactItem
+                onPress={() => Linking.openURL(`https://m.me/paxskydotvn`)}
+                title={i18n.t('contact.messenger')}
+                color={'#4584ff'}
+                icon={<Icon active name='facebook-messenger' type='MaterialCommunityIcons' style={{ fontSize: 18 }} />}
+              />
+              <ContactItem
+                nonBorder
+                onPress={() => Linking.openURL(`mailto:paxsky.vn?subject=Đăng ký tư vấn tòa nhà ${detailBuilding.sub_name}`)}
+                title={'pkd@paxsky.vn'}
+                icon={<Icon active name='ios-mail' type='Ionicons' style={{ fontSize: 18 }} />}
+              />
             </View>
-            <View style={{ ...shadow, padding: 15, backgroundColor: brandLight, marginBottom: 15 }}>
+            <View style={styles.blockContainer}>
               <BuildingMaps style={{ margin: 15 }} building={detailBuilding} />
               <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
                 <Icon
@@ -222,22 +225,22 @@ class BuildingDetails extends React.Component {
               showsPagination={true}
               autoplay={true}
               autoplayTimeout={4}
-              dot={ 
+              dot={
                 <Animated.View style={{
-                  backgroundColor: '#cccccc', 
-                  width: 6, 
+                  backgroundColor: '#cccccc',
+                  width: 6,
                   height: 6,
-                  borderRadius: 3, 
+                  borderRadius: 3,
                   margin: 3,
                   opacity: imageOpacity
                 }} />
               }
               activeDot={
                 <Animated.View style={{
-                  backgroundColor: inverseTextColor, 
-                  width: 8, 
-                  height: 8, 
-                  borderRadius: 4, 
+                  backgroundColor: inverseTextColor,
+                  width: 8,
+                  height: 8,
+                  borderRadius: 4,
                   margin: 3,
                   opacity: imageOpacity
                 }} />
@@ -259,18 +262,6 @@ class BuildingDetails extends React.Component {
                 />
               ))}
             </Swiper>
-            {/* <AnimatedFastImage
-              style={[
-                styles.backgroundImage,
-                {
-                  flex: 1,
-                  width: '100%',
-                  opacity: imageOpacity,
-                  transform: [{ translateY: imageTranslate }],
-                },
-              ]}
-              source={{ uri: detailBuilding.sub_images[0] }}
-            /> */}
           </LinearGradient>
         </Animated.View>
         <Animated.View
@@ -310,6 +301,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor
+  },
+  blockContainer: {
+    ...shadow,
+    padding: 15,
+    backgroundColor: brandLight,
+    marginBottom: 15,
+    shadowRadius: 1,
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 1 }
   },
   header: {
     position: 'absolute',

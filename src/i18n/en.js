@@ -37,6 +37,7 @@ export default {
     selectDistrict: "Select a district",
     selectDirection: "Select a direction",
     all: "Select all",
+    allData: "All",
     price: "Price",
     acreage: "Acreage",
     noResult: "Sorry, There are no results matching your filters."
@@ -50,6 +51,7 @@ export default {
     management: "Management",
     electricityHour: " K/h",
     viewOffices: "Office List",
+    viewDetails: "View Details",
     getDirection: "Get Directions"
   },
   notifications: {
@@ -72,6 +74,7 @@ export default {
     emailNotFound: "Couldn't find your email",
     pleaseCheckEmail: "Please check your email",
     resetPassSuccess: "Reset password successfully",
+    name: 'Name',
     firstName: 'First name',
     lastName: 'Last name',
     gender: 'Gender',
@@ -133,7 +136,6 @@ export default {
     btRating: "Rating",
     btReport: "Report",
     btContact: "Contact",
-    btCancel: "Cance",
     office: "Office",
     saler: "Saler",
     appointmentList: 'Appointment List',
@@ -171,7 +173,7 @@ export default {
   contact: {
     paxsky: "Contact PAXSKY",
     call: "Call",
-    zalo: "Zalo Message",
-    messenger: "Messenger",
+    zalo: "Zalo Messenger",
+    messenger: "Facebook Messenger",
   }
 }

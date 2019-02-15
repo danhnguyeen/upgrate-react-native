@@ -4,17 +4,17 @@ import { TouchableOpacity, View, StyleSheet, RefreshControl, Text } from 'react-
 import { Container, Content, Icon, } from "native-base"
 
 import * as actions from './building-actions';
-import { winW, winH, isEmpty } from '../../util/utility';
+import { isEmpty } from '../../util/utility';
 import { fontSize, brandPrimary, brandLight } from '../../config/variables';
 import { TagBuilding } from '../../components/buildings';
 import BuildingFilter from './BuildingFilter';
 import i18n from '../../i18n';
 
 const FilterDefault = {
-  district: null,
+  district: { district_id: -1 },
   rent_cost: null,
   acreage: null,
-  direction: null,
+  direction: { direction_id: -1 }
 }
 
 class Buildings extends React.Component {
@@ -45,16 +45,19 @@ class Buildings extends React.Component {
     });
   }
   _onRefresh = async () => {
-    this.setState({ refreshing: true })
-    await this.props._onfetchBuidlings();
-    this.setState({ refreshing: false });
+    try {
+      this.setState({ refreshing: true })
+      await this.props._onfetchBuidlings();
+      this.setState({ refreshing: false });
+    } catch (error) {
+      this.setState({ refreshing: false });
+    }
   }
   _clearFilterPress = (key = 'all') => {
     let { filterRequired } = this.state
     if (key == 'all') {
       filterRequired = FilterDefault
-    }
-    else {
+    } else {
       filterRequired[key] = null
     }
     this.setState({ filterRequired })
@@ -81,7 +84,7 @@ class Buildings extends React.Component {
         <Container style={styles.container}>
           <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
-              {district &&
+              {district && district.district_id > 0 &&
                 <TouchableOpacity
                   onPress={() => { this._clearFilterPress('district') }}
                   style={styles.button}>
@@ -105,7 +108,7 @@ class Buildings extends React.Component {
                   <Icon style={styles.closeIcon} name='md-close' type="Ionicons" />
                 </TouchableOpacity>
               }
-              {direction &&
+              {direction && direction.direction_id > 0 &&
                 <TouchableOpacity
                   onPress={() => { this._clearFilterPress('direction') }}
                   style={[styles.button, { flexDirection: 'row' }]}>
@@ -128,10 +131,10 @@ class Buildings extends React.Component {
             <View style={{ alignItems: 'center' }}>
               {this.props.buildings && this.props.buildings.map((item, index) => {
                 if (district || rent_cost || acreage || direction) {
-                  if (district && district.district_name !== item.district) { }
+                  if (district && district.district_id > 0 && district.district_name !== item.district) { }
                   else if (rent_cost && (rent_cost[0] > item.rent_cost || item.rent_cost > rent_cost[1])) { }
                   else if (acreage && (acreage[0] > item.acreage_rent_array[0] || item.acreage_rent_array[item.acreage_rent_array.length - 1] > acreage[1])) { }
-                  else if (direction && direction.direction_name !== item.direction) { }
+                  else if (direction && direction.direction_id > 0 && direction.direction_name !== item.direction) { }
                   else return <TagBuilding building={item} key={item.building_id} selectBuilding={this.selectBuilding} />
                 }
                 else return <TagBuilding building={item} key={item.building_id} selectBuilding={this.selectBuilding} />

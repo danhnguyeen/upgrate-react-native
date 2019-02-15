@@ -1,6 +1,8 @@
 import { Platform, Dimensions, PixelRatio, StatusBar } from 'react-native';
 import { Header } from 'react-navigation';
 
+export const phoneNumber = '0911 07 22 99';
+
 export const DEVICE_HEIGTH = Dimensions.get('window').height;
 export const DEVICE_WIDTH = Dimensions.get('window').width;
 export const winW = percent => (DEVICE_WIDTH * percent) / 100;
@@ -28,7 +30,7 @@ export const navHeight = Header.HEIGHT + getStatusBarHeight() - 19;
 export const brandPrimary = '#2997d8'; //'#2997d8';
 // export const brandSecondary = '#2997d8'; //'#2997d8';
 export const brandInfo = '#5F9EE7';
-export const brandSuccess = '#28871c';
+export const brandSuccess = '#59d742';
 export const brandDanger = '#b31919';
 export const brandWarning = "#f7941e";
 export const backgroundColor = "#efeef4";

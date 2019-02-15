@@ -21,12 +21,16 @@ class News extends React.Component {
     }
   }
   componentDidMount() {
-    this._onRefresh()
+    this._onRefresh();
   }
   _onRefresh = async () => {
-    this.setState({ refreshing: true })
-    await this.props._onfetchNews().catch(error => Alert.alert(i18n.t('global.error'), error.message))
-    this.setState({ refreshing: false })
+    try {
+      this.setState({ refreshing: true });
+      await this.props._onfetchNews().catch(error => Alert.alert(i18n.t('global.error'), error.message))
+      this.setState({ refreshing: false });
+    } catch (error) {
+      this.setState({ refreshing: false });
+    }
   }
   showDetails = (selectedItem) => {
     this.setState({ selectedItem });
@@ -58,7 +62,7 @@ class News extends React.Component {
           refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
           {this.props.specialNews.length > 0 &&
             <View style={{ paddingVertical: 20 }} >
-              <Text style={[textH4, { paddingHorizontal: 20, color: brandPrimary }]}>{i18n.t('news.specialNews')}</Text>
+              <Text style={{ paddingHorizontal: 20, color: brandPrimary, fontWeight: 'bold', fontSize: 18 }}>{i18n.t('news.specialNews')}</Text>
               <ScrollView horizontal
                 showsHorizontalScrollIndicator={false}
                 ref={ref => { this.renderSpecialNewsScroll = ref }} >
@@ -70,7 +74,7 @@ class News extends React.Component {
           }
           {this.props.news.length > 0 &&
             <View style={{ paddingHorizontal: 20 }} >
-              <Text style={[textH4, { color: brandPrimary }]}>{i18n.t('news.news')}</Text>
+              <Text style={{ color: brandPrimary, fontWeight: 'bold', fontSize: 18  }}>{i18n.t('news.news')}</Text>
               {this.props.news.map((item, index) =>
                 <TouchableOpacity activeOpacity={1} key={index} onPress={() => this.showDetails(item)}>
                   <View style={[styles.tagNewsVer, shadow]}>

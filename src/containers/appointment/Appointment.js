@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { StyleSheet, TouchableOpacity, View, Alert, Linking, RefreshControl, LayoutAnimation } from 'react-native';
-import { Content, Text, ActionSheet } from "native-base";
+import { StyleSheet, TouchableOpacity, View, Alert, Linking, RefreshControl, LayoutAnimation, Text } from 'react-native';
+import { Content, ActionSheet } from "native-base";
 import { connect } from 'react-redux';
 import axios from '../../config/axios';
 
@@ -128,7 +128,7 @@ class BookingItem extends React.Component {
             {booking.status_name == 'Pending' &&
               <TouchableOpacity onPress={() => { this.clickedCancel() }}
                 style={{ color: statusColors.red, paddingHorizontal: 10, margin: 5, }}>
-                <Text style={[styles.buttonText, { color: statusColors.red }]}>{i18n.t('appointment.btCancel')}</Text>
+                <Text style={[styles.buttonText, { color: statusColors.red }]}>{i18n.t('global.cancel')}</Text>
               </TouchableOpacity>
             }
             <TouchableOpacity onPress={onPressFunction}
@@ -150,6 +150,11 @@ class Appointment extends React.Component {
       modalVisible: false,
       itemRating: null,
       refreshing: false
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.firstLoading && this.props.appointments.length !== nextProps.appointments.length) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     }
   }
   componentWillUnmount() {

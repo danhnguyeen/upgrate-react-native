@@ -4,6 +4,8 @@ import MultiSelect from './multi-select';
 import TagOffice from './TagOffice';
 import BuildingMaps from './BuildingMaps';
 import BuildingDescription from './BuildingDescription';
+import BuildingSlider from './BuildingSlider';
+import ContactItem from './ContactItem';
 
 export {
   TagBuilding,
@@ -11,5 +13,7 @@ export {
   MultiSelect,
   TagOffice,
   BuildingMaps,
-  BuildingDescription
+  BuildingDescription,
+  BuildingSlider,
+  ContactItem
 };

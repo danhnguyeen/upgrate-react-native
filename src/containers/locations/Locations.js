@@ -5,7 +5,8 @@ import { Text } from "native-base"
 import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
 
-import { BuildingSlides, MapFilter } from '../../components/locations';
+import * as actions from '../../stores/actions';
+import { BuildingSlides, MapFilter, LocationDetails } from '../../components/locations';
 
 class Locations extends React.Component {
   state = {
@@ -15,7 +16,9 @@ class Locations extends React.Component {
       latitudeDelta: 0.045,
       longitudeDelta: 0.02,
     },
-    buildingList: this.props.buildings
+    buildingList: this.props.buildings,
+    detailBuilding: null,
+    modalVisible: false
   }
   componentDidMount() {
     this.props.navigation.addListener('didFocus', () => {
@@ -49,7 +52,8 @@ class Locations extends React.Component {
       latitudeDelta: 0.005,
       longitudeDelta: 0.002
     };
-    this.setState({ region });
+    console.log(building)
+    this.setState({ region, detailBuilding: building, modalVisible: true });
     this.pickLocationHandler(region);
   }
   pickLocationHandler = (region) => {
@@ -88,6 +92,14 @@ class Locations extends React.Component {
       this.setState({ buildingList });
     }
   }
+  selectBuilding = (building) => {
+    this.props._onfetchBuildingDetail(building.building_detail);
+    this.props.navigation.navigate('BuildingDetails');
+    this.closeModalHandler();
+  }
+  closeModalHandler = () => {
+    this.setState({ modalVisible: false, detailBuilding: null });
+  }
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -119,10 +131,21 @@ class Locations extends React.Component {
         </MapView>
         {this.state.buildingList.length ?
           <View style={styles.buildingSlides}>
-            <BuildingSlides buildings={this.state.buildingList} selectedBuilding={this.handleSelectedBuilding} />
+            <BuildingSlides
+              buildings={this.state.buildingList}
+              selectedBuilding={this.handleSelectedBuilding}
+            />
           </View>
           : null
         }
+        {this.state.modalVisible ?
+          <LocationDetails
+            visible={this.state.modalVisible}
+            building={this.state.detailBuilding}
+            gotoBuilding={this.selectBuilding}
+            closeModal={this.closeModalHandler}
+          />
+          : null}
         <View style={styles.selectBox}>
           <MapFilter
             style={{ flex: 1 }}
@@ -174,5 +197,10 @@ const mapStateToProps = state => ({
   buildings: state.buildings.buildings
 });
 
+const mapDispatchToProps = dispatch => {
+  return {
+    _onfetchBuildingDetail: (building) => dispatch(actions.fetchBuildingDetail(building))
+  }
+}
 
-export default connect(mapStateToProps, null)(Locations);
+export default connect(mapStateToProps, mapDispatchToProps)(Locations);

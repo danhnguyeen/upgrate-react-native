@@ -37,7 +37,7 @@ const Modal = (props) => {
           }
           rightComponent={props.rightComponent}
           backgroundColor={'transparent'}
-          containerStyle={[{ height: navHeight }, platform === 'android' ? { paddingTop: 0 } : null]}
+          containerStyle={[{ height: navHeight, borderBottomWidth: 0 }, platform === 'android' ? { paddingTop: 0 } : null]}
         />
       </LinearGradient>
       <View style={[styles.container]}>

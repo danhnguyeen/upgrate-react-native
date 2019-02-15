@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
+import i18n from '../../i18n';
+import { brandPrimary } from '../../config/variables';
+
 class BuildingSlides extends Component {
 
   renderSlides = () => this.props.buildings.map((slide, idx) => (
@@ -20,7 +23,7 @@ class BuildingSlides extends Component {
             <Text style={styles.subTitleStyle} numberOfLines={2}>{`${slide.sub_name}, ${slide.district}`}</Text>
           </View>
           <View>
-            <Text>2 hầm, 11 tầng</Text>
+            <Text style={{ width: 140, fontSize: 13 }} numberOfLines={2}>{slide.building_detail.structure ? slide.building_detail.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
             <Text style={styles.priceStyle}>{`$${slide.rent_cost.toFixed(2)}/m2`}</Text>
           </View>
         </View>
@@ -73,6 +76,7 @@ const styles = {
   priceStyle: {
     // fontWeight: 'bold',
     marginTop: 3,
+    color: brandPrimary
     // fontSize: 15
   },
   image: {
