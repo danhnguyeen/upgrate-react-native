@@ -49,6 +49,10 @@ class SignIn extends Component {
     this._onCheckAuth();
     this.configureAccountKit();
   }
+  componentWillReceiveProps(nextProps) {
+    this.routeNameProps = nextProps.navigation.getParam('routeNameProps', null);
+    this.dataProps = nextProps.navigation.getParam('dataProps', null);
+  }
   configureAccountKit() {
     RNAccountKit.configure({
       theme: {
@@ -66,7 +70,7 @@ class SignIn extends Component {
 
   _onCheckAuth = () => {
     this.routeNameProps = this.props.navigation.getParam('routeNameProps', null)
-    this.dataProps = this.props.navigation.getParam('dataProps', null)
+    this.dataProps = this.props.navigation.getParam('dataProps', null);
     if (this.props.isAuth) {
       this._onLoginSuccess();
     }
@@ -109,13 +113,11 @@ class SignIn extends Component {
             this.props.navigation.navigate('SignUpWithPhoneAndFacebook', { name: result.name });
           }
         } catch (err) {
-          console.log(err);
           this.setState({ loginingFb: false });
           this._onLoginFailed(err);
         }
       }
     } catch (e) {
-      console.log(e)
       this.setState({ loginingFb: false });
     }
   }
@@ -147,16 +149,31 @@ class SignIn extends Component {
     this.updateNotificationToken();
     const dataProps = this.dataProps;
     const sub_routeName = this.routeNameProps ? this.routeNameProps : 'Account';
-    this.props.navigation.dispatch(StackActions.reset({
-      index: 0, key: null,
-      actions: [NavigationActions.navigate({
-        routeName: 'Main',
-        params: { dataProps },
-        action: NavigationActions.navigate({ routeName: sub_routeName, params: { dataProps } })
-      })]
-    }));
+    if (sub_routeName === 'Booking') {
+      this.props.navigation.dispatch(StackActions.reset({
+        index: 1, key: null,
+        actions: [NavigationActions.navigate({
+          routeName: 'Main',
+          action: NavigationActions.navigate({ routeName: 'Buildings' })
+        }),
+        NavigationActions.navigate({
+          routeName: 'ModalBooking',
+          params: { dataProps },
+          action: NavigationActions.navigate({ routeName: 'Booking', params: { dataProps } })
+        })]
+      }));
+    } else {
+      this.props.navigation.dispatch(StackActions.reset({
+        index: 0, key: null,
+        actions: [NavigationActions.navigate({
+          routeName: 'Main',
+          params: { dataProps },
+          action: NavigationActions.navigate({ routeName: sub_routeName, params: { dataProps } })
+        })]
+      }));
+    }
   }
-  updateNotificationToken = async() => {
+  updateNotificationToken = async () => {
     const token = await FCM.getFCMToken().then(token => {
       return token;
     });
