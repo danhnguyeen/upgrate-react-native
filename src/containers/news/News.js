@@ -8,7 +8,7 @@ import {
   fontSize, textH4, textDarkColor, textLightColor,
 } from '../../config/variables';
 import FastImage from 'react-native-fast-image'
-const marginHorizontal = 20;
+const marginHorizontal = 15;
 const itemHeight = 185
 const itemWidth = (DEVICE_WIDTH - (marginHorizontal * 2));
 const itemWidthHor = itemWidth * 0.9;
@@ -61,20 +61,20 @@ class News extends React.Component {
         <ScrollView horizontal={false}
           refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
           {this.props.specialNews.length > 0 &&
-            <View style={{ paddingVertical: 20 }} >
-              <Text style={{ paddingHorizontal: 20, color: brandPrimary, fontWeight: 'bold', fontSize: 18 }}>{i18n.t('news.specialNews')}</Text>
+            <View style={{ paddingVertical: 15 }} >
+              <Text style={{ paddingHorizontal: 15, color: brandPrimary, fontWeight: 'bold', fontSize: 18 }}>{i18n.t('news.specialNews')}</Text>
               <ScrollView horizontal
                 showsHorizontalScrollIndicator={false}
                 ref={ref => { this.renderSpecialNewsScroll = ref }} >
-                <View style={{ paddingHorizontal: 15, flexDirection: 'row' }} >
+                <View style={{ paddingHorizontal: 10, flexDirection: 'row' }} >
                   {this.renderSpecialNews()}
                 </View>
               </ScrollView>
             </View>
           }
           {this.props.news.length > 0 &&
-            <View style={{ paddingHorizontal: 20 }} >
-              <Text style={{ color: brandPrimary, fontWeight: 'bold', fontSize: 18  }}>{i18n.t('news.news')}</Text>
+            <View style={{ paddingHorizontal: 15 }} >
+              <Text style={{ color: brandPrimary, fontWeight: 'bold', fontSize: 18, marginBottom: 5  }}>{i18n.t('news.news')}</Text>
               {this.props.news.map((item, index) =>
                 <TouchableOpacity activeOpacity={1} key={index} onPress={() => this.showDetails(item)}>
                   <View style={[styles.tagNewsVer, shadow]}>
@@ -130,7 +130,8 @@ const styles = StyleSheet.create({
     ...shadow,
     backgroundColor: brandLight,
     borderRadius: 3,
-    marginVertical: 10,
+    marginTop: 5,
+    marginBottom: 10,
   }
 });
 

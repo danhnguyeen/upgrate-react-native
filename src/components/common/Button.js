@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     margin: 20,
-    height: platform === 'ios' ? 40 : 45,
+    // height: platform === 'ios' ? 40 : 45,
     elevation: 0,
     backgroundColor: brandPrimary,
     borderWidth: 1,

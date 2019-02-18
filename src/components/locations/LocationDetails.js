@@ -31,28 +31,28 @@ const LocationDetails = (props) => {
             buildingDetail={building.building_detail}
           />
           <View style={{ paddingVertical: 15, backgroundColor: brandLight }}>
-            <View style={{ paddingHorizontal: 15 }}>
-              <BuildingMaps building={building} />
-              <View style={{ marginTop: 15, justifyContent: 'center' }}>
-                <View style={{ flexDirection: 'row' }}>
+            <BuildingMaps building={building} />
+            <View style={{ marginTop: 10, justifyContent: 'center' }}>
+              <View style={styles.phoneContainer}>
+                <View style={styles.locationIcon}>
                   <Icon
-                    name='location-on'
-                    type='MaterialIcons'
-                    style={{ fontSize: fontSize + 2, color: textColor }}
+                    name='location-pin'
+                    type='SimpleLineIcons'
+                    style={{ fontSize, color: textLightColor }}
                   />
-                  <Text style={{ paddingLeft: 8, width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${building.building_detail.address}, ${building.building_detail.district}`}</Text>
                 </View>
-                <View style={styles.phoneContainer}>
-                  <TouchableOpacity onPress={() => Linking.openURL(`tel:${phoneNumber}`)} style={styles.phoneTouch}>
-                    <Icon
-                      name='old-phone'
-                      type='Entypo'
-                      style={{ fontSize }}
-                    />
-                    <Text style={styles.phoneNumber}>{phoneNumber}</Text>
-                  </TouchableOpacity>
-                </View>
+                <Text style={{ width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${building.building_detail.address}, ${building.building_detail.district}`}</Text>
               </View>
+              <TouchableOpacity onPress={() => Linking.openURL(`tel:${phoneNumber}`)} style={styles.phoneContainer}>
+                <View style={styles.locationIcon}>
+                  <Icon
+                    name='old-phone'
+                    type='Entypo'
+                    style={{ fontSize, color: brandPrimary }}
+                  />
+                </View>
+                <Text style={styles.phoneNumber}>{phoneNumber}</Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.buttonArea}>
@@ -75,22 +75,24 @@ const LocationDetails = (props) => {
               title={i18n.t('buildingDetail.getDirection')}
             />
           </View>
-          <View style={{ backgroundColor: brandLight, padding: 15 }}>
+          <View style={{ backgroundColor: brandLight, paddingVertical: 15 }}>
             <View style={styles.line}>
-              <Icon style={styles.icon} name='building-o' type='FontAwesome' />
-              <Text>{building.building_detail.structure ? building.building_detail.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
+              <View style={styles.iconContainer}>
+                <Icon style={styles.icon} name='building-o' type='FontAwesome' />
+              </View>
+              <Text style={{ width: DEVICE_WIDTH - 50 }}>{building.building_detail.structure ? building.building_detail.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
             </View>
-            {/* <View style={styles.line}>
-              <Icon style={styles.icon} name='directions-fork' type='MaterialCommunityIcons' />
-              <Text>{building.building_detail.direction}</Text>
-            </View> */}
             <View style={styles.line}>
-              <Icon style={[styles.icon, { fontSize: 28 }]} name='md-star-outline' />
+              <View style={styles.iconContainer}>
+                <Icon style={[styles.icon, { fontSize: 24 }]} name='md-star-outline' />
+              </View>
               <Text>{building.building_detail.classify_name}</Text>
             </View>
-            <View style={styles.line}>
-              <Icon style={[styles.icon, { fontSize: 26, color: brandPrimary }]} name='md-pricetag' />
-              <Text style={{ color: brandPrimary }}>{building.building_detail.rent_cost.toFixed(1)}$/m2</Text>
+            <View style={[styles.line, { marginBottom: 0 }]}>
+              <View style={styles.iconContainer}>
+                <Icon style={[styles.icon, { fontSize: 22, color: brandPrimary }]} name='md-pricetag' />
+              </View>
+              <Text style={{ color: brandPrimary, fontWeight: 'bold' }}>{building.building_detail.rent_cost.toFixed(1)}$/m2</Text>
             </View>
           </View>
           <View style={styles.buttonArea}>
@@ -134,25 +136,29 @@ const styles = {
     flexDirection: 'row',
     paddingTop: 5
   },
-  phoneTouch: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
   phoneNumber: {
-    paddingLeft: 8
+    color: brandPrimary
   },
   line: {
-    flex: 1,
     flexDirection: 'row',
-    paddingVertical: 5,
     alignItems: 'center',
-    marginRight: 10
+    marginRight: 10,
+    marginBottom: 5
   },
   icon: {
     color: textLightColor,
-    fontSize: 22,
-    width: 40
+    fontSize: 18
   },
+  locationIcon: {
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  iconContainer:  {
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 };
 
 export default LocationDetails;
