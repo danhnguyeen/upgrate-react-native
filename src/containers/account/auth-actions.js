@@ -23,22 +23,11 @@ export const auth = (email, password) => {
 export const authSignUp = (dataRegister) => {
   return async dispatch => {
     try {
-      const { token, customer_id, customer, message } = await axios.post('customer/create', dataRegister);
-      let dataResolve
-      if (token && customer_id && customer) {
-        const user = { customer_id, ...customer }
-        dataResolve = { token: token }
-        dispatch(authSuccess(token, user))
-      }
-      else if (!token && message == 'Success') {
-        dataResolve = {
-          token: null,
-          email: dataRegister.email,
-          password: dataRegister.password
-        }
-      }
-      return Promise.resolve(dataResolve)
+      const { token, customer } = await axios.post('customer/create', dataRegister);
+      dispatch(authSuccess(token, customer));
+      return Promise.resolve(token, customer)
     } catch (err) {
+      console.log(err)
       return Promise.reject(err)
     }
   }
