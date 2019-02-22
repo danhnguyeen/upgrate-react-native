@@ -17,7 +17,7 @@
 		04D23E2FF8E82D5840417559 /* libPods-PaxSky.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FBB9F2990350566EFC0A3F /* libPods-PaxSky.a */; };
 		0820A43F21E0BBF80043C171 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0820A43E21E0BBF10043C171 /* libSplashScreen.a */; };
 		0820A4FA21E0FFDA0043C171 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0820A4F921E0FF7E0043C171 /* libRNFIRMessaging.a */; };
-		0820A4FC21E100950043C171 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0820A4FB21E100940043C171 /* GoogleService-Info.plist */; };
+		08283744221EA32D00CDBC01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08283743221EA32D00CDBC01 /* GoogleService-Info.plist */; };
 		0861F6C221EA230B003DDD47 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0861F6BE21EA2308003DDD47 /* FBSDKShareKit.framework */; };
 		0861F6C321EA230B003DDD47 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0861F6BF21EA2309003DDD47 /* Bolts.framework */; };
 		0861F6C421EA230B003DDD47 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0861F6C021EA230A003DDD47 /* FBSDKCoreKit.framework */; };
@@ -394,7 +394,7 @@
 		081D7A4821F04011004F7A3B /* PaxSky.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = PaxSky.entitlements; path = PaxSky/PaxSky.entitlements; sourceTree = "<group>"; };
 		0820A43921E0BBF10043C171 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		0820A4F421E0FF7E0043C171 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
-		0820A4FB21E100940043C171 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "PaxSky/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		08283743221EA32D00CDBC01 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Users/danhnguyen/Documents/PaxSky/Live/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0861F6BE21EA2308003DDD47 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		0861F6BF21EA2309003DDD47 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		0861F6C021EA230A003DDD47 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -619,8 +619,8 @@
 		13B07FAE1A68108700A75B9A /* PaxSky */ = {
 			isa = PBXGroup;
 			children = (
+				08283743221EA32D00CDBC01 /* GoogleService-Info.plist */,
 				081D7A4821F04011004F7A3B /* PaxSky.entitlements */,
-				0820A4FB21E100940043C171 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -902,7 +902,8 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 3FCVNKMYT3;
+						DevelopmentTeam = 38M2WTX856;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1300,13 +1301,13 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				0820A4FC21E100950043C171 /* GoogleService-Info.plist in Resources */,
 				EC6F34C81700470880287E1C /* AntDesign.ttf in Resources */,
 				F10C896C850C4222A059A9A5 /* Entypo.ttf in Resources */,
 				0D13944129664821BDAA9E4D /* EvilIcons.ttf in Resources */,
 				B58FBE3912A945869A553411 /* Feather.ttf in Resources */,
 				80081007C16A4DA39F0C077E /* FontAwesome.ttf in Resources */,
 				B32C6579CE784C43964DF45B /* FontAwesome5_Brands.ttf in Resources */,
+				08283744221EA32D00CDBC01 /* GoogleService-Info.plist in Resources */,
 				017BB7B96901442A92A53EED /* FontAwesome5_Regular.ttf in Resources */,
 				21233D8D26E949A88D7243C3 /* FontAwesome5_Solid.ttf in Resources */,
 				95F236D3177449C787B202B1 /* Foundation.ttf in Resources */,
@@ -1534,9 +1535,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PaxSky/PaxSky.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 3FCVNKMYT3;
+				DEVELOPMENT_TEAM = 38M2WTX856;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/AccountKit\"",
@@ -1569,8 +1572,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.amagumolabs.PaxSky;
+				PRODUCT_BUNDLE_IDENTIFIER = org.paxsky.PaxSky;
 				PRODUCT_NAME = PaxSky;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1581,8 +1585,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PaxSky/PaxSky.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3FCVNKMYT3;
+				DEVELOPMENT_TEAM = 38M2WTX856;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/AccountKit\"",
@@ -1615,8 +1621,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.amagumolabs.PaxSky;
+				PRODUCT_BUNDLE_IDENTIFIER = org.paxsky.PaxSky;
 				PRODUCT_NAME = PaxSky;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

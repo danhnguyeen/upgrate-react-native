@@ -30,7 +30,7 @@ const LocationDetails = (props) => {
             autoplay={true}
             buildingDetail={building.building_detail}
           />
-          <View style={{ paddingVertical: 15, backgroundColor: brandLight }}>
+          <View style={{ paddingBottom: 15, backgroundColor: brandLight }}>
             <BuildingMaps building={building} />
             <View style={{ marginTop: 10, justifyContent: 'center' }}>
               <View style={styles.phoneContainer}>

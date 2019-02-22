@@ -236,10 +236,10 @@ class SignUp extends Component {
                   buttonStyle={{ minWidth: 200 }}
                   title={i18n.t('account.signUp')}
                 />
-                <TouchableOpacity style={{ margin: 10 }} activeOpacity={0.6}
+                {/* <TouchableOpacity style={{ margin: 10 }} activeOpacity={0.6}
                   onPress={() => { this.props.navigation.push('SignIn') }}>
                   <Text style={{ color: brandPrimary }}>{i18n.t('account.goToSignIn')}</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
           </KeyboardAvoidingView>

@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>964306782642-u2hufgirbng9k869ua7jhf1vtjr3avgp.apps.googleusercontent.com</string>
+	<string>964306782642-psmpddve47e758mrp9aajg9etep2lu4l.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.964306782642-u2hufgirbng9k869ua7jhf1vtjr3avgp</string>
+	<string>com.googleusercontent.apps.964306782642-psmpddve47e758mrp9aajg9etep2lu4l</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBCMv4e1HlbTseCEzQOduRjYE-3vTj6Gx0</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,7 +17,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.amagumolabs.PaxSky</string>
+	<string>org.paxsky.PaxSky</string>
 	<key>PROJECT_ID</key>
 	<string>paxsky-f9bb2</string>
 	<key>STORAGE_BUCKET</key>
@@ -27,13 +27,13 @@
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
 	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:964306782642:ios:6f1653a34525a26c</string>
+	<string>1:964306782642:ios:9d23cddc818ee2f5</string>
 	<key>DATABASE_URL</key>
 	<string>https://paxsky-f9bb2.firebaseio.com</string>
 </dict>
