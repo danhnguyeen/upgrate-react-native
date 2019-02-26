@@ -1,84 +1,39 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native'
-import FastImage from 'react-native-fast-image'
-import StarRating from 'react-native-star-rating';
-import Swiper from 'react-native-swiper';
+import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
+import FastImage from 'react-native-fast-image';
+import { Divider } from 'react-native-elements';
 
-import { fontSize, DEVICE_WIDTH, brandPrimary, brandWarning, textLightColor, textColor, inverseTextColor } from '../../config/variables';
+
+import { fontSize, DEVICE_WIDTH, brandPrimary, brandWarning, textLightColor, textColor, inverseTextColor, shadow } from '../../config/variables';
 import i18n from '../../i18n';
 
 class TagBuilding extends React.Component {
   render() {
     const building = this.props.building;
     const buildingDetail = building.building_detail;
-    building.acreage_rent_array.sort((a, b) => { return a - b })
-    building.sub_name = building.sub_name.replace("PAX SKY", "").replace("PAXSKY", "").trim()
-
-    building.rent_acreage = building.acreage_rent_array.length > 1 ?
-      `${building.acreage_rent_array[0]}m2 - ${building.acreage_rent_array[building.acreage_rent_array.length - 1]}m2` :
-      building.acreage_rent_array.length == 1 ? `${building.acreage_rent_array[0]}m2` : i18n.t('buildingDetail.updating');
-    const images = [building.main_image, ...buildingDetail.sub_images];
-    let rate = 0;
-    switch (buildingDetail.classify_name) {
-      case "Văn phòng hạng A": rate = 5; break;
-      case "Văn phòng hạng B": rate = 4; break
-      case "Văn phòng hạng C": rate = 3; break
-    }
+    const maxAcreage = Math.max(...building.acreage_rent_array);
+    building.rent_acreage = maxAcreage !== -Infinity ? `${Math.min(...building.acreage_rent_array)} - ${maxAcreage} m2` : '';
     return (
-      <View style={styles.container} >
+      <TouchableOpacity style={[styles.container, , {
+        marginLeft: this.props.index % 2 ? 5 : 10,
+        marginRight: this.props.index % 2 ? 10 : 5
+      }]}
+        onPress={() => this.props.selectBuilding(building)}>
         <View style={styles.imageContainer}>
-          <Swiper
-            showsButtons={false}
-            showsPagination={true}
-            autoplay={false}
-            loop={false}
-            dot={ 
-              <View style={{
-                backgroundColor: '#cccccc', 
-                width: 6, 
-                height: 6,
-                borderRadius: 3, 
-                margin: 3
-              }} />
-            }
-            activeDotColor={inverseTextColor}
-          >
-            {images.map((image) => (
-              <View style={styles.slide} key={image}>
-                <FastImage
-                  source={{ uri: image }}
-                  style={styles.image}
-                />
-              </View>
-            ))}
-          </Swiper>
-          {/* <FastImage source={{ uri: building.main_image, priority: FastImage.priority.high }} style={{ width: '100%', height: '100%' }} /> */}
-        </View>
-        <TouchableOpacity
-          onPress={() => this.props.selectBuilding(building)}>
-          <View>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 5, color: brandPrimary }} numberOfLines={2} >PAXSKY {building.sub_name}</Text>
-            <Text numberOfLines={1} style={{ fontSize: fontSize - 2, marginBottom: 5 }}>{buildingDetail.address}, {buildingDetail.district}</Text>
-            <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 5 }}>
-              <Text style={{ marginRight: 5 }}>{buildingDetail.classify_name}</Text>
-              <StarRating
-                disabled
-                emptyStar={'ios-star-outline'}
-                fullStar={'ios-star'}
-                halfStar={'ios-star-half'}
-                iconSet={'Ionicons'}
-                maxStars={5}
-                starSize={fontSize}
-                starStyle={{ paddingHorizontal: 1 }}
-                rating={rate}
-                fullStarColor={brandWarning}
-              />
+          <FastImage source={{ uri: building.main_image, priority: FastImage.priority.high }} style={styles.image} />
+          <View style={styles.infoContainer}>
+            <View style={{ justifyContent: 'space-between', alignItems: 'center', flex: 1, paddingHorizontal: 10 }}>
+              <Text style={{ color: inverseTextColor, fontSize: fontSize - 4 }}>{buildingDetail.district}</Text>
+              <Text style={{ color: inverseTextColor, textAlign: 'center', fontWeight: '500' }} numberOfLines={2}>{buildingDetail.address}</Text>
             </View>
-            <Text style={{ marginBottom: 5, fontWeight: 'bold' }}>{`$${building.rent_cost.toFixed(1)}`}/m2 </Text>
-            <Text>{building.rent_acreage}</Text>
+            <Divider style={{ backgroundColor: inverseTextColor, marginVertical: 5, width: '100%' }} />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
+              <Text style={{ color: inverseTextColor, fontSize: fontSize - 4, color: '#DEBB3D' }}>{building.rent_acreage}</Text>
+              <Text style={{ color: inverseTextColor, fontSize: fontSize - 4, color: '#DEBB3D' }}>${building.rent_cost.toFixed(1)}</Text>
+            </View>
           </View>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
     )
   }
 }
@@ -86,43 +41,29 @@ class TagBuilding extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 35
+    marginBottom: 20,
+    width: (DEVICE_WIDTH / 2) - 15,
+    ...shadow,
+    shadowOpacity: 0.3
   },
   imageContainer: {
-    width: DEVICE_WIDTH - 40,
-    height: (DEVICE_WIDTH - 40) * 0.65,
-    // padding: 10,
+    width: (DEVICE_WIDTH / 2) - 15,
+    height: ((DEVICE_WIDTH / 2) - 15) * 1.2,
     borderRadius: 3,
-    marginBottom: 10,
     overflow: 'hidden'
   },
-  slide: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+  infoContainer: {
+    position: 'absolute',
+    paddingVertical: 5,
+    bottom: 0,
+    width: (DEVICE_WIDTH / 2) - 15,
+    height: 100,
+    backgroundColor: 'rgba(13, 78, 128, 0.8)'
   },
   image: {
     width: '100%',
     height: '100%'
-  },
-  district: { color: '#FFF', lineHeight: 20, fontSize: 13, },
-  sub_name: {
-    color: '#FFF',
-    lineHeight: 24,
-    fontSize: 16,
-    height: 24 * 2,
-    textAlign: 'center',
-    // fontWeight: 'bold'
-  },
-  rent_acreage: { color: '#DEBB3D', lineHeight: 21, fontSize: 14, flex: 0.6 },
-  rent_cost: { color: '#DEBB3D', lineHeight: 42, fontSize: 18, flex: 0.4, textAlign: 'right' },
-  spectators: {
-    backgroundColor: '#FFF',
-    height: 0.5,
-    width: '70%',
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
+  }
 });
 
 export default TagBuilding;

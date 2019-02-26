@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
   filterContainer: {
     backgroundColor: brandLight,
     paddingHorizontal: 20,
+    marginBottom: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',

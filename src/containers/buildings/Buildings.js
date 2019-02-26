@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { TouchableOpacity, View, StyleSheet, RefreshControl, Text } from 'react-native'
+import { TouchableOpacity, View, StyleSheet, RefreshControl, Text, FlatList } from 'react-native'
 import { Container, Content, Icon, } from "native-base"
 
 import * as actions from './building-actions';
 import { isEmpty } from '../../util/utility';
-import { fontSize, brandPrimary, brandLight } from '../../config/variables';
+import { fontSize, brandPrimary, brandLight, DEVICE_WIDTH } from '../../config/variables';
 import { TagBuilding } from '../../components/buildings';
 import BuildingFilter from './BuildingFilter';
 import i18n from '../../i18n';
@@ -125,7 +125,29 @@ class Buildings extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-          <Content
+          <FlatList
+            onRefresh={this._onRefresh}
+            refreshing={this.state.refreshing}
+            numColumns={2}
+            // contentContainerStyle={{ paddingTop: 10 }}
+            style={{ width: DEVICE_WIDTH }}
+            data={this.props.buildings}
+            renderItem={({ item, index }) => {
+              if (district || rent_cost || acreage || direction) {
+                if (district && district.district_id > 0 && district.district_name !== item.district) { }
+                else if (rent_cost && (rent_cost[0] > item.rent_cost || item.rent_cost > rent_cost[1])) { }
+                else if (acreage && (acreage[0] > item.acreage_rent_array[0] || item.acreage_rent_array[item.acreage_rent_array.length - 1] > acreage[1])) { }
+                else if (direction && direction.direction_id > 0 && direction.direction_name !== item.direction) { }
+                else return <TagBuilding building={item} index={index} key={item.building_id} selectBuilding={this.selectBuilding} />
+              }
+              else return <TagBuilding building={item} index={index} key={item.building_id} selectBuilding={this.selectBuilding} />
+            }
+            }
+            keyExtractor={item => item.building_id.toString()}
+            // onEndReached={() => this.props.fetchMenuByCategory(true)}
+            // onEndReachedThreshold={0.5}
+          />
+          {/* <Content
             contentContainerStyle={{ paddingHorizontal: 25, paddingBottom: 5 }}
             refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
             <View style={{ alignItems: 'center' }}>
@@ -140,7 +162,7 @@ class Buildings extends React.Component {
                 else return <TagBuilding building={item} key={item.building_id} selectBuilding={this.selectBuilding} />
               })}
             </View>
-          </Content>
+          </Content> */}
         </Container>
       </View >
     )

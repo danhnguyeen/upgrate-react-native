@@ -144,6 +144,7 @@ class BuildingDetails extends React.Component {
                 title={'Ms. Phương Linh'}
                 color={textLightColor}
                 icon={<Icon active name="user-circle-o" type="FontAwesome" style={{ fontSize: 17 }} />}
+                hideRight
               />
               <ContactItem
                 title={'0911 07 22 99'}
@@ -171,7 +172,7 @@ class BuildingDetails extends React.Component {
               />
             </View>
             <View style={styles.blockContainer}>
-              <BuildingMaps style={{ margin: 15 }} building={detailBuilding} />
+              <BuildingMaps style={{ margin: 15 }} height={180} building={detailBuilding} />
               <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
                 <Icon
                   name='location-on'

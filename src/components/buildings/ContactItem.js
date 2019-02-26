@@ -12,9 +12,11 @@ const ContactItem = (props) => (
     <Body style={props.nonBorder ? { borderBottomWidth: 0 } : null}>
       <Text>{props.title}</Text>
     </Body>
-    <Right style={props.nonBorder ? { borderBottomWidth: 0 } : null}>
-      <Icon active name="arrow-forward" />
-    </Right>
+    {!props.hideRight ?
+      <Right style={props.nonBorder ? { borderBottomWidth: 0 } : null}>
+        <Icon active name="arrow-forward" />
+      </Right>
+      : null}
   </ListItem>
 );
 
