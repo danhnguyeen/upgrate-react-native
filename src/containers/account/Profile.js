@@ -208,6 +208,9 @@ class Profile extends Component {
   }
   inputChangeHandler = (value, key) => {
     const form = { ...this.state.form };
+    if (key === 'gender' && value === 2) {
+      return;
+    }
     if (key === 'gender') {
       if (value === 0) {
         value = 'male';

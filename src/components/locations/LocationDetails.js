@@ -31,7 +31,7 @@ const LocationDetails = (props) => {
             buildingDetail={building.building_detail}
           />
           <View style={{ paddingBottom: 15, backgroundColor: brandLight }}>
-            <BuildingMaps building={building} />
+            <BuildingMaps building={building} height={150} />
             <View style={{ marginTop: 10, justifyContent: 'center' }}>
               <View style={styles.phoneContainer}>
                 <View style={styles.locationIcon}>
