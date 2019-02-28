@@ -21,9 +21,7 @@ class Buildings extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      filterRequired: FilterDefault,
-      filterData: FilterDefault,
-      listBuildings: [],
+      filterRequired: { ...FilterDefault },
       districList: [],
       isFetching: true,
       modalVisible: false,
@@ -56,9 +54,9 @@ class Buildings extends React.Component {
   _clearFilterPress = (key = 'all') => {
     let { filterRequired } = this.state
     if (key == 'all') {
-      filterRequired = FilterDefault
+      filterRequired = { ...FilterDefault }
     } else {
-      filterRequired[key] = null
+      filterRequired[key] = FilterDefault[key];
     }
     this.setState({ filterRequired })
   }
@@ -67,7 +65,17 @@ class Buildings extends React.Component {
     this.props.navigation.navigate('BuildingDetails');
   }
   render() {
-    const { district, rent_cost, acreage, direction } = this.state.filterRequired
+    const { district, rent_cost, acreage, direction } = this.state.filterRequired;
+    const buildings = this.props.buildings.filter((item) => {
+      if (district || rent_cost || acreage || direction) {
+        if (district && district.district_id > 0 && district.district_name !== item.district) { }
+        else if (rent_cost && (rent_cost[0] > item.rent_cost || item.rent_cost > rent_cost[1])) { }
+        else if (acreage && (acreage[0] > item.acreage_rent_array[0] || item.acreage_rent_array[item.acreage_rent_array.length - 1] > acreage[1])) { }
+        else if (direction && direction.direction_id > 0 && direction.direction_name !== item.direction) { }
+        else return item;
+      }
+      else return item;
+    });
     return (
       <View style={[styles.container]}>
         {this.state.modalVisible ?
@@ -129,40 +137,13 @@ class Buildings extends React.Component {
             onRefresh={this._onRefresh}
             refreshing={this.state.refreshing}
             numColumns={2}
-            // contentContainerStyle={{ paddingTop: 10 }}
             style={{ width: DEVICE_WIDTH }}
-            data={this.props.buildings}
-            renderItem={({ item, index }) => {
-              if (district || rent_cost || acreage || direction) {
-                if (district && district.district_id > 0 && district.district_name !== item.district) { }
-                else if (rent_cost && (rent_cost[0] > item.rent_cost || item.rent_cost > rent_cost[1])) { }
-                else if (acreage && (acreage[0] > item.acreage_rent_array[0] || item.acreage_rent_array[item.acreage_rent_array.length - 1] > acreage[1])) { }
-                else if (direction && direction.direction_id > 0 && direction.direction_name !== item.direction) { }
-                else return <TagBuilding building={item} index={index} key={item.building_id} selectBuilding={this.selectBuilding} />
-              }
-              else return <TagBuilding building={item} index={index} key={item.building_id} selectBuilding={this.selectBuilding} />
-            }
+            data={buildings}
+            renderItem={({ item, index }) =>
+              <TagBuilding building={item} index={index} key={item.building_id} selectBuilding={this.selectBuilding} />
             }
             keyExtractor={item => item.building_id.toString()}
-            // onEndReached={() => this.props.fetchMenuByCategory(true)}
-            // onEndReachedThreshold={0.5}
           />
-          {/* <Content
-            contentContainerStyle={{ paddingHorizontal: 25, paddingBottom: 5 }}
-            refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
-            <View style={{ alignItems: 'center' }}>
-              {this.props.buildings && this.props.buildings.map((item, index) => {
-                if (district || rent_cost || acreage || direction) {
-                  if (district && district.district_id > 0 && district.district_name !== item.district) { }
-                  else if (rent_cost && (rent_cost[0] > item.rent_cost || item.rent_cost > rent_cost[1])) { }
-                  else if (acreage && (acreage[0] > item.acreage_rent_array[0] || item.acreage_rent_array[item.acreage_rent_array.length - 1] > acreage[1])) { }
-                  else if (direction && direction.direction_id > 0 && direction.direction_name !== item.direction) { }
-                  else return <TagBuilding building={item} key={item.building_id} selectBuilding={this.selectBuilding} />
-                }
-                else return <TagBuilding building={item} key={item.building_id} selectBuilding={this.selectBuilding} />
-              })}
-            </View>
-          </Content> */}
         </Container>
       </View >
     )

@@ -48,15 +48,15 @@ export default class TagOffice extends React.Component {
           </View>
           <View style={{ flex: 0.5, paddingLeft: 10, }}>
             <View style={{ flexDirection: 'row' }}>
-              <Icon style={{ color: textLightColor, fontSize: 20, marginRight: 10, marginBottom: 5 }} name='ios-expand' type='Ionicons' />
+              <Icon style={styles.icon} name='vector-square' type='MaterialCommunityIcons' />
               <Text>{officeDetail.acreage_rent}m2</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <Icon style={{ color: textLightColor, fontSize: 20, marginRight: 10, marginBottom: 5 }} name='elevator' type='Foundation' />
+              <Icon style={styles.icon} name='floor-plan' type='MaterialCommunityIcons' />
               <Text>{officeDetail.floor_name}</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <Icon style={{ color: textLightColor, fontSize: 20, marginRight: 10, marginBottom: 5 }} name='ios-eye' type='Ionicons' />
+              <Icon style={styles.icon} name='directions-fork' type='MaterialCommunityIcons' />
               <Text>{officeDetail.direction}</Text>
             </View>
             <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }}
@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   icon: {
-    color: '#686868',
-    width: 30,
+    color: textLightColor,
     fontSize: 22,
+    width: 30
   }
 })

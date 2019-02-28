@@ -105,7 +105,7 @@ class SignIn extends Component {
         try {
           this.setState({ loginingFb: true });
           const result = await this.props.onAuthWithFacebook(token);
-          this.setState({ loginingFb: true });
+          this.setState({ loginingFb: false });
           if (this.props.isAuth) {
             this._onLoginSuccess();
           } else {
@@ -127,7 +127,7 @@ class SignIn extends Component {
       try {
         this.setState({ loginingPhone: true });
         const result = await this.props.onAuthWithPhone(token);
-        this.setState({ loginingPhone: true });
+        this.setState({ loginingPhone: false });
         if (this.props.isAuth) {
           this._onLoginSuccess();
         } else {

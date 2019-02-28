@@ -6,29 +6,15 @@ import {
   StyleSheet
 } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import { Divider } from 'react-native-elements';
 
 import { Modal, PickerSelect, Button, SliderMarker } from '../../components/common';
-import { brandLight, brandPrimary, DEVICE_WIDTH } from '../../config/variables';
+import { brandLight, brandPrimary, DEVICE_WIDTH, textLightColor } from '../../config/variables';
 import i18n from '../../i18n';
 
 class BuildingFilter extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      sliderLength: DEVICE_WIDTH/2,
-      selectedData: {
-        district: { district_id: -1 },
-        rent_cost: null,
-        acreage: null,
-        direction: { direction_id: -1 }
-      }
-    }
-  }
-  componentDidMount() {
-    const filterRequired = this.props.filterRequired
-    if (filterRequired.district || filterRequired.rent_cost || filterRequired.acreage || filterRequired.direction) {
-      this.setState({ selectedData: filterRequired })
-    }
+  state = {
+    selectedData: { ...this.props.filterRequired }
   }
   _onResetPress = () => {
     this.setState({
@@ -44,10 +30,8 @@ class BuildingFilter extends Component {
     }
   }
   _onFilterPress = () => {
-    if (this.props.onFilterPress) {
-      const filterRequired = this.state.selectedData;
-      this.props.onFilterPress(filterRequired);
-    }
+    const filterRequired = this.state.selectedData;
+    this.props.onFilterPress(filterRequired);
   }
   _onFilterChange(value, key) {
     const { selectedData } = this.state
@@ -65,8 +49,8 @@ class BuildingFilter extends Component {
         visible={this.props.visible}
         title={i18n.t('filter.filters')}
         onRequestClose={this.props.closeModal} >
-        <View style={{ flex: 1 }}>
-          <ScrollView contentContainerStyle={{ padding: 25, backgroundColor: brandLight }}>
+        <View style={{ flex: 1, backgroundColor: brandLight }}>
+          <ScrollView contentContainerStyle={{ padding: 25 }}>
             <PickerSelect
               label={i18n.t('filter.selectDistrict')}
               onChange={district => this._onFilterChange(district, 'district')}
@@ -92,7 +76,7 @@ class BuildingFilter extends Component {
                   <Text>${selectedData.rent_cost ? selectedData.rent_cost[0].toFixed(0) : filterData.rent_cost[0].toFixed(0)}</Text>
                   <MultiSlider
                     values={selectedData.rent_cost ? selectedData.rent_cost : filterData.rent_cost}
-                    sliderLength={this.state.sliderLength}
+                    sliderLength={DEVICE_WIDTH / 2}
                     onValuesChange={values => { this._onFilterChange(values, 'rent_cost') }}
                     min={filterData.rent_cost[0]} max={filterData.rent_cost[1]}
                     step={1}
@@ -116,7 +100,7 @@ class BuildingFilter extends Component {
                   <Text>{selectedData.acreage ? selectedData.acreage[0] : filterData.acreage[0]}m2</Text>
                   <MultiSlider
                     values={selectedData.acreage ? selectedData.acreage : filterData.acreage}
-                    sliderLength={this.state.sliderLength}
+                    sliderLength={DEVICE_WIDTH / 2}
                     onValuesChange={values => { this._onFilterChange(values, 'acreage') }}
                     min={filterData.acreage[0]} max={filterData.acreage[1]}
                     step={1}
@@ -132,6 +116,7 @@ class BuildingFilter extends Component {
               </View>
             }
           </ScrollView>
+          <Divider />
           <View style={{ heigth: 100, flexDirection: 'row', backgroundColor: brandLight }}>
             <Button
               buttonStyle={{ width: (DEVICE_WIDTH / 2) - 30, marginRight: 10, backgroundColor: 'transparent' }}

@@ -94,7 +94,7 @@ class Offices extends React.Component {
             onFilterPress={(dataRequired) => { this._onFilterPress(dataRequired) }}
             clearFilterPress={() => { this._clearFilterPress() }}
             filterData={filterData}
-            filterRequired={filterRequired}
+            filterRequired={{ ...filterRequired }}
           />
           : null}
 

@@ -208,8 +208,12 @@ class Profile extends Component {
   }
   inputChangeHandler = (value, key) => {
     const form = { ...this.state.form };
-    if (key === 'gender' && value === 3) {
-      return;
+    if (key === 'gender') {
+      if (value === 0) {
+        value = 'male';
+      } else {
+        value = 'female';
+      }
     }
     form[key].value = value;
     if (this.state.formTouched) {
@@ -220,9 +224,8 @@ class Profile extends Component {
   }
   showActionSheet = () => {
     this.ActionSheet._root.showActionSheet({
-      options: [i18n.t('account.male'), i18n.t('account.female'), i18n.t('account.other'), i18n.t('global.cancel')],
-      cancelButtonIndex: 3,
-      destructiveButtonIndex: 2,
+      options: [i18n.t('account.male'), i18n.t('account.female'), i18n.t('global.cancel')],
+      cancelButtonIndex: 2,
       title: i18n.t('account.yourGender')
     },
       gender => this.inputChangeHandler(gender, 'gender')

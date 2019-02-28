@@ -52,15 +52,8 @@ export function _dispatchStackActions(propsNavigation, propsActions, routeName =
 export const winW = percent => (DEVICE_WIDTH * percent) / 100;
 export const winH = percent => (DEVICE_HEIGTH * percent) / 100;
 export const gender = (gender) => {
-  gender = typeof gender === 'string' ? parseInt(gender) : gender;
-  if (gender === 0) {
-    return i18n.t('account.male');
-  }
-  if (gender === 1) {
-    return i18n.t('account.female');
-  }
-  if (gender === 2) {
-    return i18n.t('account.other');
+  if (gender) {
+    return i18n.t(`account.${gender}`);
   }
   return null;
 };

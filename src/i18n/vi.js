@@ -81,7 +81,7 @@ export default {
     male: 'Nam',
     female: 'Nữ',
     other: 'Khác',
-    yourGender: "Giới tính của ban?",
+    yourGender: "Giới tính của bạn?",
     phoneNumber: 'Điện thoại',
     address: 'Địa chỉ',
     province: 'Tỉnh',

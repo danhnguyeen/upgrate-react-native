@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: (DEVICE_WIDTH / 2) - 15,
-    height: ((DEVICE_WIDTH / 2) - 15) * 1.2,
+    height: ((DEVICE_WIDTH / 2) - 15) * 1.1,
     borderRadius: 3,
     overflow: 'hidden'
   },
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     bottom: 0,
     width: (DEVICE_WIDTH / 2) - 15,
-    height: 100,
+    height: 90,
     backgroundColor: 'rgba(13, 78, 128, 0.8)'
   },
   image: {

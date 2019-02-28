@@ -110,23 +110,24 @@ class Locations extends React.Component {
           ref={ref => this.maps = ref}
         >
           {this.state.buildingList.map((building) => (
-            <MapView.Marker
-              key={building.building_id}
-              coordinate={{
-                latitude: parseFloat(building.lat),
-                longitude: parseFloat(building.long)
-              }}
-              title={building.sub_name}
-              description={building.sub_name}
-              onPress={() => this.handleSelectedBuilding(building)}
-            >
-              <MapView.Callout tooltip style={styles.callout}>
-                <View>
-                  <Text>{`${building.sub_name}, ${building.district}`}</Text>
-                  <Text style={{ fontSize: 14 }}>{building.rent_acreage}</Text>
-                </View>
-              </MapView.Callout>
-            </MapView.Marker>
+            building.lat && building.long ?
+              <MapView.Marker
+                key={building.building_id}
+                coordinate={{
+                  latitude: parseFloat(building.lat),
+                  longitude: parseFloat(building.long)
+                }}
+                title={building.sub_name}
+                description={building.sub_name}
+                onPress={() => this.handleSelectedBuilding(building)}
+              >
+                <MapView.Callout tooltip style={styles.callout}>
+                  <View>
+                    <Text>{`${building.sub_name}, ${building.district}`}</Text>
+                    <Text style={{ fontSize: 14 }}>{building.rent_acreage}</Text>
+                  </View>
+                </MapView.Callout>
+              </MapView.Marker> : null
           ))}
         </MapView>
         {this.state.buildingList.length ?

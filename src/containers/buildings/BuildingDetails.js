@@ -96,7 +96,7 @@ class BuildingDetails extends React.Component {
                 <Text>{detailBuilding.structure ? detailBuilding.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
               </View>
               <View style={styles.line}>
-                <Icon style={styles.icon} name='address-book-o' type='FontAwesome' />
+                <Icon style={styles.icon} name='vector-square' type='MaterialCommunityIcons' />
 
                 {detailBuilding.acreage_rent_array && detailBuilding.acreage_rent_array.length > 0 ?
                   <Text style={{ width: DEVICE_WIDTH - 50 }}>

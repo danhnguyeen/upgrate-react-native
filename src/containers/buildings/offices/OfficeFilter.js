@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, Text } from 'react-native';
+import { Divider } from 'react-native-elements';
 
 import { shadow, brandLight, brandPrimary, DEVICE_WIDTH } from '../../../config/variables';
 import { Modal, Button, SliderMarker } from '../../../components/common';
@@ -80,8 +81,8 @@ class OfficeFilter extends React.Component {
         visible={this.props.visible}
         title={i18n.t('filter.filters')}
         onRequestClose={this.props.closeModal} >
-        <View style={{ flex: 1 }}>
-          <ScrollView contentContainerStyle={{ paddingVertical: 50, backgroundColor: brandLight }}>
+        <View style={{ flex: 1, backgroundColor: brandLight }}>
+          <ScrollView contentContainerStyle={{ paddingVertical: 50 }}>
             {!onReady ? <ActivityIndicator /> :
               <View style={{ paddingHorizontal: 20 }}>
                 <Text style={{ marginBottom: 10 }}>{i18n.t('filter.acreage')}</Text>
@@ -105,6 +106,7 @@ class OfficeFilter extends React.Component {
               </View>
             }
           </ScrollView>
+          <Divider />
           <View style={{ heigth: 100, flexDirection: 'row', backgroundColor: brandLight }}>
             <Button
               buttonStyle={{ width: (DEVICE_WIDTH / 2) - 30, marginRight: 10, backgroundColor: 'transparent' }}

@@ -10,7 +10,7 @@ import i18n from '../../i18n';
 import * as actions from '../../stores/actions';
 import { Button, TextInput } from '../../components/common';
 import { backgroundColor } from '../../config/variables';
-import { validateForm, checkValidity, capitalize } from '../../util/utility';
+import { validateForm, checkValidity, capitalize, gender } from '../../util/utility';
 
 class SignUpWithPhoneAndFacebook extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -103,11 +103,12 @@ class SignUpWithPhoneAndFacebook extends Component {
   }
   inputChangeHandler = (value, key) => {
     const form = { ...this.state.form };
-    if (key === 'gender' && value === 3) {
-      return;
-    }
-    if (key === 'gender' && value === 2) {
-      value = null;
+    if (key === 'gender') {
+      if (value === 0) {
+        value = 'male';
+      } else {
+        value = 'female';
+      }
     }
     form[key].value = value;
     if (this.state.formTouched) {
@@ -118,9 +119,8 @@ class SignUpWithPhoneAndFacebook extends Component {
   }
   showActionSheet = () => {
     this.ActionSheet._root.showActionSheet({
-      options: [i18n.t('account.male'), i18n.t('account.female'), i18n.t('account.other'), i18n.t('global.cancel')],
-      cancelButtonIndex: 3,
-      destructiveButtonIndex: 2,
+      options: [i18n.t('account.male'), i18n.t('account.female'), i18n.t('global.cancel')],
+      cancelButtonIndex: 2,
       title: i18n.t('account.yourGender')
     },
       gender => this.inputChangeHandler(gender, 'gender')
@@ -177,11 +177,7 @@ class SignUpWithPhoneAndFacebook extends Component {
               <TouchableOpacity onPress={this.showActionSheet}>
                 <View pointerEvents="none">
                   <TextInput
-                    value={
-                      this.state.form.gender.value === 0 || this.state.form.gender.value === 1 ?
-                        capitalize((this.state.form.gender.value === 0 ? i18n.t('account.male') : i18n.t('account.female')))
-                        : null
-                    }
+                    value={gender(this.state.form.gender.value)}
                     icon={{ name: 'human-male-female', type: 'MaterialCommunityIcons' }}
                     label={i18n.t('account.gender')}
                   />
