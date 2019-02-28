@@ -20,11 +20,9 @@ class App extends Component {
     appState: AppState.currentState
   }
   async componentDidMount() {
+    console.log(this.props.preferredLanguage);
+    this.props.setLanguage(this.props.preferredLanguage);
     SplashScreen.hide();
-    const asyncLanguage = await AsyncStorage.getItem('preferredLanguage');
-    if (asyncLanguage) {
-      this.props.setLanguage(asyncLanguage)
-    }
     FCM.requestPermissions({ badge: true, sound: true, alert: true });
     if (platform === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);

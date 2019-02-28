@@ -76,10 +76,8 @@ class Account extends React.Component {
     },
       buttonIndex => {
         if (buttonIndex && buttonIndex !== 0) {
-          const preferredLanguage = TRANSLATIONS[buttonIndex].text
-          AsyncStorage.setItem('preferredLanguage', TRANSLATIONS[buttonIndex].text)
-          this.props.setLanguage(preferredLanguage)
-          this.forceUpdate()
+          this.props.setLanguage(TRANSLATIONS[buttonIndex].text)
+          this.forceUpdate();
         }
       }
     )
@@ -135,7 +133,6 @@ class Account extends React.Component {
               title={i18n.t('account.language')}
               leftIcon={<Icon name="md-globe" style={styles.icon} />}
               rightTitle={this.props.preferredLanguage}
-              // rightIcon={<Icon name="arrow-forward" style={styles.rightIcon} />}
             />
             {this.props.isAuth ?
               <AccountItem onPress={this.logoutHandler}

@@ -67,6 +67,30 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.6):
     - GoogleUtilities/Logger
+  - libwebp (0.6.1):
+    - libwebp/core (= 0.6.1)
+    - libwebp/dec (= 0.6.1)
+    - libwebp/demux (= 0.6.1)
+    - libwebp/dsp (= 0.6.1)
+    - libwebp/enc (= 0.6.1)
+    - libwebp/mux (= 0.6.1)
+    - libwebp/utils (= 0.6.1)
+    - libwebp/webp (= 0.6.1)
+  - libwebp/core (0.6.1):
+    - libwebp/webp
+  - libwebp/dec (0.6.1):
+    - libwebp/core
+  - libwebp/demux (0.6.1):
+    - libwebp/core
+  - libwebp/dsp (0.6.1):
+    - libwebp/core
+  - libwebp/enc (0.6.1):
+    - libwebp/core
+  - libwebp/mux (0.6.1):
+    - libwebp/core
+  - libwebp/utils (0.6.1):
+    - libwebp/core
+  - libwebp/webp (0.6.1)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -79,11 +103,12 @@ PODS:
   - Protobuf (3.6.1)
   - React (0.57.8):
     - React/Core (= 0.57.8)
-  - react-native-fast-image (5.1.2):
+  - react-native-fast-image (5.2.0):
     - FLAnimatedImage
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
+    - SDWebImage/WebP
   - react-native-image-picker (0.28.0):
     - React
   - react-native-maps (0.22.1):
@@ -144,6 +169,9 @@ PODS:
   - SDWebImage/GIF (4.4.3):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
+  - SDWebImage/WebP (4.4.3):
+    - libwebp (~> 0.5)
+    - SDWebImage/Core
   - yoga (0.57.8.React)
 
 DEPENDENCIES:
@@ -188,6 +216,7 @@ SPEC REPOS:
     - FLAnimatedImage
     - GoogleAppMeasurement
     - GoogleUtilities
+    - libwebp
     - nanopb
     - Protobuf
     - SDWebImage
@@ -238,11 +267,12 @@ SPEC CHECKSUMS:
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
   GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
+  libwebp: 0f01098c6c17175391af621b2f14150f3ca16e16
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Picker: 67a2566d9ff6b141d505d88b9177f905aaa5f1a6
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
-  react-native-fast-image: cba3d9bf9c2cf8ddb643d887a686c53a5dd90a2c
+  react-native-fast-image: 4170ad074e9de6c428fc4580ecbaacabf74901a6
   react-native-image-picker: f42de90075c5b1af53417af927631d909a1a746e
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   RNAccountKit: 3dd31fff73c90378ac89dc7611da0dc22b29f84b
