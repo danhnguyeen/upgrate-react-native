@@ -23,13 +23,13 @@ class TagBuilding extends React.Component {
           <FastImage source={{ uri: building.main_image, priority: FastImage.priority.high }} style={styles.image} />
           <View style={styles.infoContainer}>
             <View style={{ justifyContent: 'space-between', alignItems: 'center', flex: 1, paddingHorizontal: 10 }}>
-              <Text style={{ color: inverseTextColor, fontSize: fontSize - 4 }}>{buildingDetail.district}</Text>
+              <Text style={{ color: inverseTextColor, fontSize: fontSize - 3 }}>{buildingDetail.district}</Text>
               <Text style={{ color: inverseTextColor, textAlign: 'center', fontWeight: '500' }} numberOfLines={2}>{buildingDetail.address}</Text>
             </View>
             <Divider style={{ backgroundColor: inverseTextColor, marginVertical: 5, width: '100%' }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-              <Text style={{ color: inverseTextColor, fontSize: fontSize - 4, color: '#DEBB3D' }}>{building.rent_acreage}</Text>
-              <Text style={{ color: inverseTextColor, fontSize: fontSize - 4, color: '#DEBB3D' }}>${building.rent_cost.toFixed(1)}</Text>
+              <Text style={{ color: inverseTextColor, fontSize: fontSize - 3, color: '#DEBB3D' }}>{building.rent_acreage}</Text>
+              <Text style={{ color: inverseTextColor, fontSize: fontSize - 3, color: '#DEBB3D' }}>${building.rent_cost.toFixed(1)}</Text>
             </View>
           </View>
         </View>
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     width: (DEVICE_WIDTH / 2) - 15,
     height: ((DEVICE_WIDTH / 2) - 15) * 1.1,
     borderRadius: 3,
+    elevation: 4,
     overflow: 'hidden'
   },
   infoContainer: {

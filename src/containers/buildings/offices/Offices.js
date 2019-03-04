@@ -115,7 +115,7 @@ class Offices extends React.Component {
                 <TouchableOpacity
                   onPress={() => { this.setState({ modalVisible: true }) }}
                   style={{ alignSelf: 'flex-end', paddingVertical: 15 }}>
-                  <Text style={[styles.buttonText, { fontSize }]}>{i18n.t('filter.filters')}</Text>
+                  <Text style={[styles.buttonText, { fontSize: fontSize + 2 }]}>{i18n.t('filter.filters')}</Text>
                 </TouchableOpacity>
               </View>
             </View>

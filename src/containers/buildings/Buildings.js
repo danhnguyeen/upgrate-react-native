@@ -129,7 +129,7 @@ class Buildings extends React.Component {
               <TouchableOpacity
                 onPress={() => { this.setState({ modalVisible: true }) }}
                 style={{ alignSelf: 'flex-end', paddingVertical: 15 }}>
-                <Text style={[styles.buttonText, { fontSize }]}>{i18n.t('filter.filters')}</Text>
+                <Text style={[styles.buttonText, { fontSize: fontSize + 2 }]}>{i18n.t('filter.filters')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -156,12 +156,12 @@ const styles = StyleSheet.create({
     backgroundColor: brandLight
   },
   buttonText: {
-    fontSize: fontSize - 3,
+    fontSize: fontSize - 2,
     color: brandPrimary,
     textAlign: 'center'
   },
   closeIcon: {
-    fontSize: fontSize - 3,
+    fontSize: fontSize - 2,
     color: brandPrimary,
     textAlign: 'center',
     marginLeft: 5, fontSize: fontSize + 1

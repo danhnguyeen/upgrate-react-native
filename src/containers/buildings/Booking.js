@@ -138,9 +138,9 @@ class Booking extends React.Component {
       })
   }
   render() {
-    const { bookingDetail, isFetching, isBookingUpdate } = this.state
+    const { bookingDetail, isBookingUpdate } = this.state
     let ContentBooking = <ActivityIndicator />
-    if (!isFetching && this.props.user) {
+    if (this.props.user) {
       const { first_name, last_name, email, mobile_phone } = this.props.user
       ContentBooking = (
         <View style={styles.container}>
@@ -183,6 +183,7 @@ class Booking extends React.Component {
           <BookingDateTime
             date_schedule={isBookingUpdate ? bookingDetail.date_schedule : null}
             notes={isBookingUpdate ? bookingDetail.notes : null}
+            loading={this.state.isFetching}
             onSignUpSubmit={(bookingDetail) => { this.onSignUpSubmit(bookingDetail) }}
           />
         </View >

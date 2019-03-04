@@ -64,9 +64,9 @@ const styles = {
     justifyContent: 'space-between'
   },
   titleStyle: {
-    color: '#156DAC',
+    color: brandPrimary,
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: fontSize + 2,
     marginBottom: 5
   },
   subTitleStyle: {

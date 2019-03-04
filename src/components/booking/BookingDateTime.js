@@ -5,6 +5,7 @@ import { StyleSheet, TouchableOpacity, View, TextInput, Alert, ActivityIndicator
 import { Icon } from "native-base";
 import { backgroundColor, textDarkColor, textColor, inverseTextColor, brandPrimary, brandLight, winH, inputFontSize, fontSize } from '../../config/variables';
 import i18n from "../../i18n";
+import { Button } from '../common';
 
 const OPENTIME = '10:00'
 const CLOSETIME = '17:00'
@@ -173,10 +174,11 @@ export default class BookingDateTime extends React.Component {
           />
         </View>
         <View style={styles.paragraph}>
-          <TouchableOpacity onPress={() => { this.collectBooking() }}
-            style={[styles.buttonBg, { padding: 10 }]}>
-            <Text style={[styles.buttonBgText]}>{i18n.t('global.confirm').toUpperCase()}</Text>{this.state.isChecking && <ActivityIndicator color={'white'} />}
-          </TouchableOpacity>
+            <Button onPress={this.collectBooking} 
+              loading={this.props.loading}
+              loadingWithBg
+              title={i18n.t('global.confirm').toUpperCase()}
+            />
         </View>
       </View>
     )
@@ -189,11 +191,12 @@ const styles = StyleSheet.create({
     backgroundColor
   },
   paragraph: {
-    backgroundColor: brandLight,
-    borderRadius: 3,
-    marginBottom: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    // backgroundColor: brandLight,
+    // borderRadius: 3,
+    // marginBottom: 20,
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
+    justifyContent: 'center',
   },
   buttonBg: {
     backgroundColor: brandPrimary,
