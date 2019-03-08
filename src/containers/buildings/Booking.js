@@ -55,8 +55,6 @@ class Booking extends React.Component {
     const nextDataProps = nextProps.navigation.getParam('dataProps')
     if (nextDataProps !== dataProps) {
       this._onFetching(nextDataProps)
-    } else {
-      console.log('nextDataProps == dataProps', nextDataProps == dataProps)
     }
   }
   _onFetching = (nextProps) => {
@@ -70,9 +68,6 @@ class Booking extends React.Component {
       this.setState({ bookingDetail: dataProps.officeDetail, isBookingUpdate: false }, () => {
         this.setState({ isFetching: false })
       })
-    }
-    else {
-      console.log('dataProps:', dataProps)
     }
   }
   onSignUpSubmit = async (dataDatetime) => {
@@ -150,32 +145,32 @@ class Booking extends React.Component {
             </View>
           </View>
           <View style={styles.paragraph}>
-            <View style={styles.line} >
+            <View style={styles.line}>
               <Text style={styles.textTitle}>{i18n.t('appointment.office')}</Text>
-              <Text style={[styles.textContent, { flex: 0.7 }]}>{`${bookingDetail.office_name}`}</Text>
+              <Text style={styles.textContent}>{`${bookingDetail.office_name}`}</Text>
             </View>
-            <View style={styles.line} >
+            <View style={styles.line}>
               <Text style={styles.textTitle}>{i18n.t('account.name')}</Text>
-              <Text style={[styles.textContent, { flex: 0.7 }]}>{`${first_name} ${last_name}`}</Text>
+              <Text style={styles.textContent}>{`${first_name} ${last_name}`}</Text>
             </View>
-            <View style={styles.line} >
+            <View style={styles.line}>
               <Text style={styles.textTitle}>{i18n.t('account.phoneNumber')}</Text>
-              <Text style={[styles.textContent, { flex: 0.7 }]}>{mobile_phone}</Text>
+              <Text style={styles.textContent}>{mobile_phone}</Text>
             </View>
-            <View style={styles.line} >
+            <View style={styles.line}>
               <Text style={styles.textTitle}>{'Email'}</Text>
-              <Text style={[styles.textContent, { flex: 0.7 }]} numberOfLines={1}>{email}</Text>
+              <Text style={styles.textContent} numberOfLines={1}>{email}</Text>
             </View>
             {isBookingUpdate &&
               <View>
-                <View style={styles.line} >
+                <View style={styles.line}>
                   <Text style={styles.textTitle}>{i18n.t('appointment.status')}</Text>
-                  <Text style={[styles.textContent, { flex: 0.7, fontWeight: '500', color: bookingDetail.status.color }]}>{bookingDetail.status.text}</Text>
+                  <Text style={[styles.textContent, { fontWeight: '500', color: bookingDetail.status.color }]}>{bookingDetail.status.text}</Text>
                 </View>
                 {bookingDetail.sale_person_name && bookingDetail.sale_person_name !== '' &&
-                  <View style={styles.line} >
+                  <View style={styles.line}>
                     <Text style={styles.textTitle}>{i18n.t('appointment.saler')}</Text>
-                    <Text style={[styles.textContent, { flex: 0.7 }]}>{bookingDetail.sale_person_name}</Text>
+                    <Text style={styles.textContent}>{bookingDetail.sale_person_name}</Text>
                   </View>}
               </View>
             }
@@ -230,6 +225,7 @@ const styles = StyleSheet.create({
     color: textDarkColor,
     fontWeight: '300',
     lineHeight: 30,
+    flex: 0.7
   },
 });
 

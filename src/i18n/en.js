@@ -147,7 +147,7 @@ export default {
     cancelConfirm: "Cancel confirm",
     cancelContent: "Are you sure you want to cancel this booking?",
     updateFail: "Update has failed",
-    timeError: "Your Booking time is not available",
+    timeError: "The time is not available",
     selectDate: "Select date",
     selectTime: "Select time",
     note: "Note",

@@ -147,7 +147,7 @@ export default {
     cancelConfirm: "Xác nhận hủy",
     cancelContent: "Bạn có muốn hủy cuộc hẹn này?",
     updateFail: "Cập nhật không thành công",
-    timeError: "Thời gian đặt bàn không hợp lệ",
+    timeError: "Thời gian không hợp lệ",
     selectDate: "Chọn ngày",
     selectTime: "Chọn giờ",
     note: "Ghi chú",

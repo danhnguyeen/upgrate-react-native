@@ -154,7 +154,6 @@ class SignUp extends Component {
     );
   }
   render() {
-    const { isFetching, dataRegister, alertModal, provinceSelected, districtSelected } = this.state
     return (
       <View style={{ flex: 1, backgroundColor }}>
         <Content padder>

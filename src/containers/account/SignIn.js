@@ -85,6 +85,7 @@ class SignIn extends Component {
         this.setState({ submiting: false });
         this._onLoginSuccess();
       } catch (e) {
+        console.log(e)
         this.setState({ submiting: false });
         if (e.message === 'invalid email or password') {
           e.message = i18n.t('account.loginFailMsg');

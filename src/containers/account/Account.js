@@ -38,8 +38,8 @@ class Account extends React.Component {
       headerStyle: {
         borderBottomWidth: 0
       },
-      title: params && params.user ? null : i18n.t('tabs.notifications'),
-      headerLeft: params && params.user ? (
+      title: params && params.user ? null : i18n.t('tabs.account'),
+      headerLeft: params && params.user && params.user.customer_id ? (
         <View style={{ alignItems: 'center', flexDirection: 'row' }}>
           {params.user.image_profile && params.user.image_profile !== 'http://paxsky.amagumolabs.io/images/no_image_available.jpg' ?
             <FastImage
@@ -53,7 +53,7 @@ class Account extends React.Component {
               icon={{ name: 'user', type: 'font-awesome', color: brandPrimary }}
             />
           }
-          <Text style={{ color: inverseTextColor }}>{`${params.user.last_name} ${params.user.first_name}`}</Text>
+          <Text style={{ color: inverseTextColor }}>{params.user ? `${params.user.last_name} ${params.user.first_name}` : ''}</Text>
         </View>
       ) : null,
       headerRight: <NotificationIcon navigation={navigation} />

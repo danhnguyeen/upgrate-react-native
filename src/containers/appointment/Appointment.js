@@ -42,7 +42,6 @@ class Appointment extends React.Component {
   _onFetching = async () => {
     try {
       await this.props.fetchAppointments(this.props.user.customer_id);
-      console.log(this.props.appointments)
       this.setState({ firstLoading: false, refreshing: false });
     } catch (error) {
 

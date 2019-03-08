@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
-import { StyleSheet, TouchableOpacity, View, TextInput, Alert, ActivityIndicator, Text } from 'react-native';
-import { Icon } from "native-base";
-import { backgroundColor, textDarkColor, textColor, inverseTextColor, brandPrimary, brandLight, winH, inputFontSize, fontSize } from '../../config/variables';
+import { StyleSheet, TouchableOpacity, View, Alert, ActivityIndicator, Text } from 'react-native';
+import { Icon, Textarea } from "native-base";
+import { backgroundColor, textLightColor, brandPrimary, winH, fontSize } from '../../config/variables';
 import i18n from "../../i18n";
 import { Button } from '../common';
 
@@ -21,76 +21,67 @@ export default class BookingDateTime extends React.Component {
     isChecking: false
   }
   componentDidMount() {
-    this.initBooking()
+    this.initBooking();
   }
 
   componentWillReceiveProps(nextProps) {
-    const dataProps = this.props
-    const nextDataProps = nextProps
-    if (nextDataProps !== dataProps) {
-      this.initBooking()
+    if (nextProps.date_schedule !== this.props.date_schedule
+      || nextProps.notes !== this.props.notes) {
+      this.initBooking(nextProps);
     }
   }
-  initBooking = () => {
+  initBooking = (nextProps) => {
+    const dataProps = nextProps ? nextProps : this.props;
     let data = { ...this.state.data }
-    const date_schedule = this.props.date_schedule
+    const date_schedule = dataProps.date_schedule
     if (date_schedule) {
       data = {
-        ReserDescription: this.props.notes,
+        ReserDescription: dataProps.notes,
         date: moment(date_schedule, 'DD-MM-YYYY HH:mm').format('DD/MM/YYYY'),
-        time: moment(date_schedule, 'DD-MM-YYYY HH:mm').format('HH:mm'),
+        time: moment(date_schedule, 'DD-MM-YYYY HH:mm').format('HH:mm')
       }
-    }
-    let bookingTime = data.time
-    let bookingDate = data.date
-    const currentDate = moment().format('DD/MM/YYYY')
-    if (bookingDate <= currentDate) {
-      if (bookingDate < currentDate) {
-        bookingDate = currentDate
-      }
-      if (OPENTIME > bookingTime) {
+    } else {
+      let bookingTime = data.time;
+      let bookingDate = data.date;
+      const currentDate = moment().format('DD/MM/YYYY');
+      if (bookingDate <= currentDate) {
+        if (bookingDate < currentDate) {
+          bookingDate = currentDate
+        }
+        if (OPENTIME > bookingTime) {
+          bookingTime = OPENTIME
+        }
+        else if (bookingTime > CLOSETIME) {
+          bookingTime = OPENTIME
+          bookingDate = moment(bookingDate, "DD/MM/YYYY").add(1, 'days')
+        }
+      } else {
         bookingTime = OPENTIME
       }
-      else if (bookingTime > CLOSETIME) {
-        bookingTime = OPENTIME
-        bookingDate = moment(bookingDate, "DD/MM/YYYY").add(1, 'days')
-      }
+      data.date = bookingDate
+      data.time = bookingTime
     }
-    else {
-      bookingTime = OPENTIME
-    }
-    data.date = bookingDate
-    data.time = bookingTime
+
     this.setState({ data })
   }
 
   collectBooking = async () => {
     if (!this.state.isChecking) {
-      this.setState({ isChecking: true })
-      const data = { ...this.state.data }
-      let bookingTime = data.time
-      let bookingDate = data.date
-      const currentTime = moment().format('HH:mm')
-      const currentDate = moment().format('DD/MM/YYYY')
-      if (bookingDate < currentDate) {
-        Alert.alert(i18n.t('appointment.timeError'), null)
+      this.setState({ isChecking: true });
+      const data = { ...this.state.data };
+      let bookingTime = moment(data.time, 'HH:mm').format('HH:mm');
+      let bookingDate = moment(data.date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      const currentTime = moment().format('HH:mm');
+      const currentDate = moment().format('YYYY-MM-DD');
+      if (bookingDate < currentDate
+        || (bookingDate > currentDate && (bookingTime < OPENTIME || bookingTime > CLOSETIME))
+        || (bookingDate == currentDate && (bookingTime < currentTime || bookingTime < OPENTIME || bookingTime > CLOSETIME))) {
+        Alert.alert(i18n.t('global.error'), i18n.t('appointment.timeError'))
         this.setState({ isChecking: false })
-      }
-      else if (bookingDate > currentDate && (bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
-        Alert.alert(i18n.t('appointment.timeError'), null)
-        this.setState({ isChecking: false })
-      }
-      else if (bookingDate == currentDate && (bookingTime < currentTime || bookingTime < OPENTIME || bookingTime > CLOSETIME)) {
-        Alert.alert(i18n.t('appointment.timeError'), null)
-        this.setState({ isChecking: false })
-      }
-      else {
-        const schedule_date = moment(bookingDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
-        const schedule_time = moment(bookingTime, 'HH:mm').format('HH:mm')
-        // console.log(schedule_date, schedule_time)
+      } else {
         const dataBooking = {
-          schedule_date: schedule_date,
-          schedule_time: schedule_time,
+          schedule_date: bookingDate,
+          schedule_time: bookingTime,
           notes: data.ReserDescription,
         }
         this.props.onSignUpSubmit(dataBooking)
@@ -117,12 +108,12 @@ export default class BookingDateTime extends React.Component {
     }
     return (
       <View >
-        <View style={[styles.paragraph, { borderRadius: 0, borderBottomColor: '#AAAAAA', borderBottomWidth: 1, flex: 1, flexDirection: 'row' }]}>
-          <View style={[styles.bookingCard, { borderRightWidth: 0.5, borderRightColor: textDarkColor, }]}>
+        <View style={[styles.paragraph, { borderRadius: 0, flex: 1, flexDirection: 'row', paddingTop: 15 }]}>
+          <View style={[styles.bookingCard, { borderRightWidth: 0.5, borderRightColor: '#AAAAAA' }]}>
             <Icon type='SimpleLineIcons' name='calendar' style={styles.iconStyle} />
             <DatePicker
               date={this.state.data.date}
-              minDate={currentDate}
+              // minDate={currentDate}
               mode="date"
               showIcon={false}
               format="DD/MM/YYYY"
@@ -161,24 +152,22 @@ export default class BookingDateTime extends React.Component {
             />
           </View>
         </View>
-        <View style={[styles.paragraph, { borderRadius: 0, borderBottomColor: '#AAAAAA', borderBottomWidth: 1 }]}>
-          <Text style={{ color: textDarkColor, fontSize: 16, fontWeight: '500', lineHeight: 30, }}>{i18n.t('appointment.note')}</Text>
-          <TextInput
-            multiline
-            style={{ color: textDarkColor, minHeight: 100 }}
-            numberOfLines={5}
-            textAlignVertical={'top'}
+        <View style={{ padding: 10 }}>
+          <Textarea
+            bordered
+            placeholder={i18n.t('appointment.note')}
+            rowSpan={5}
             value={this.state.data.ReserDescription}
             onChangeText={(value) => this.onChangeHandler(value, 'ReserDescription')}
             underlineColorAndroid='transparent'
           />
         </View>
         <View style={styles.paragraph}>
-            <Button onPress={this.collectBooking} 
-              loading={this.props.loading}
-              loadingWithBg
-              title={i18n.t('global.confirm').toUpperCase()}
-            />
+          <Button onPress={this.collectBooking}
+            loading={this.props.loading}
+            loadingWithBg
+            title={i18n.t('global.confirm').toUpperCase()}
+          />
         </View>
       </View>
     )
@@ -219,10 +208,10 @@ const styles = StyleSheet.create({
   textStyle: {
     color: brandPrimary,
     fontSize: fontSize + 4,
-    fontWeight: 'bold'
+    fontWeight: '500'
   },
   iconStyle: {
-    color: textColor, 
+    color: textLightColor,
     fontSize: fontSize + 10
   }
 });

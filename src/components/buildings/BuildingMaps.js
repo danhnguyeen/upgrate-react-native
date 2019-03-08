@@ -4,7 +4,7 @@ import { platform } from '../../config/variables';
 
 const BuildingMaps = (props) => (
       <MapView
-        style={{ flex: 1, minHeight: 120, height: props.height ? props.height : 120 }}
+        style={{ flex: 1, height: props.height ? props.height : 120 }}
         scrollEnabled={false}
         region={{
           latitude: props.building.lat ? parseFloat(props.building.lat) : 10.767932254302465,
