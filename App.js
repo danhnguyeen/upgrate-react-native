@@ -20,7 +20,6 @@ class App extends Component {
     appState: AppState.currentState
   }
   async componentDidMount() {
-    console.log(this.props.preferredLanguage);
     this.props.setLanguage(this.props.preferredLanguage);
     SplashScreen.hide();
     FCM.requestPermissions({ badge: true, sound: true, alert: true });
@@ -59,6 +58,7 @@ class App extends Component {
     const token = await FCM.getFCMToken().then(token => {
       return token;
     });
+    console.log(token)
     if (token && this.props.isAuth) {
       const uniqueId = DeviceInfo.getUniqueID();
       this.props.updateFCMToken(this.props.user.customer_id, token, uniqueId);

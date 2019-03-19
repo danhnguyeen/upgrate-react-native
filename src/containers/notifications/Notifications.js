@@ -14,7 +14,7 @@ import {
   backgroundColor,
   textLightColor
 } from "../../config/variables";
-import i18n from "../../i18n";
+import i18n, { getCurrentLocale } from "../../i18n";
 import { Spinner } from '../../components/common';
 import { NotificationDetails } from '../../components/notifications';
 import { formatDateTime } from '../../util/utility';
@@ -122,9 +122,13 @@ class Notifications extends Component {
     )
   }
   markAllAsRead = async () => {
-    await axios.post('notification/markReadAll');
-    this.getNotification();
-    await this.props.fetchNotificationCount(this.props.user.customer_id);
+    try {
+      await axios.post('notification/mark-all-notification-as-read', { customer_id: this.props.user.customer_id });
+      this.getNotification();
+      await this.props.fetchNotificationCount(this.props.user.customer_id);
+    } catch (error) {
+      Alert.alert(i18n.t('global.error'), error.message);
+    }
   }
   markAsRead = async (id) => {
     this.setState({ rowIndex: null });
@@ -162,6 +166,7 @@ class Notifications extends Component {
       type: 'delete',
       onPress: () => this.deleteHandler(item.notification_id)
     }];
+    console.log(item)
     return (
       <Swipeout
         right={swipeoutBtns}
@@ -177,8 +182,8 @@ class Notifications extends Component {
             style={{ paddingRight: 10, fontSize: 22, color: textLightColor, opacity: item.is_read ? 0.8 : 1 }}
           />
           <View style={{ flex: 1 }}>
-            <Text style={styles.textStyle}>{item.title}</Text>
-            <Text style={styles.subtitle}>{item.body}</Text>
+            <Text style={styles.textStyle}>{item[`title_${getCurrentLocale()}`]}</Text>
+            <Text style={styles.subtitle}>{item[`body_${getCurrentLocale()}`]}</Text>
             <Text style={styles.subtitle}>{formatDateTime(item.created_at, 'DD-MM-YYYY HH:mm')}</Text>
           </View>
         </TouchableOpacity>

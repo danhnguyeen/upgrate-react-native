@@ -22,7 +22,7 @@ class TagBuilding extends React.Component {
           <View style={styles.infoContainer}>
             <View style={{ justifyContent: 'space-between', alignItems: 'center', flex: 1, paddingHorizontal: 10 }}>
               <Text style={{ color: inverseTextColor, fontSize: fontSize - 3 }}>{buildingDetail.district}</Text>
-              <Text style={{ color: inverseTextColor, textAlign: 'center', fontWeight: '500' }} numberOfLines={2}>{buildingDetail.address}</Text>
+              <Text style={{ color: inverseTextColor, textAlign: 'center', fontWeight: '500' }} numberOfLines={2}>{buildingDetail.sub_name}</Text>
             </View>
             <Divider style={{ backgroundColor: inverseTextColor, marginVertical: 5, width: '100%' }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>

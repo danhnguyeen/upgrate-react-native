@@ -3,8 +3,8 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
 import { Icon } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
 
-import { brandLight, textLightColor, brandPrimary, fontSize, shadow } from '../../config/variables';
-import i18n from '../../i18n';
+import { brandLight, textLightColor, brandPrimary, fontSize } from '../../config/variables';
+import i18n, { getCurrentLocale } from '../../i18n';
 const LOGO = require('../../assets/images/logo-grey.jpg')
 
 export default class TagOffice extends React.Component {
@@ -29,8 +29,8 @@ export default class TagOffice extends React.Component {
       "office_id": 12,
       "office_name": "Office layout 230m2",
     }
-    const officeDetail = this.props.officeDetail
-
+    const officeDetail = this.props.officeDetail;
+    const locale = getCurrentLocale();
     return (
       <View style={styles.container}>
         <View>
@@ -57,7 +57,7 @@ export default class TagOffice extends React.Component {
             </View>
             <View style={{ flexDirection: 'row' }}>
               <Icon style={styles.icon} name='directions-fork' type='MaterialCommunityIcons' />
-              <Text>{officeDetail.direction}</Text>
+              <Text>{officeDetail[`direction_${locale}`]}</Text>
             </View>
             <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }}
               onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: officeDetail } }) }}>

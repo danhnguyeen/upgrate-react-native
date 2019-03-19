@@ -91,13 +91,16 @@ export const authSignUpPhoneAndFacebook = (data) => {
   };
 };
 
-export const logout = () => {
+export const logout = (customer_id, fire_base_device) => {
   return async dispatch => {
     try {
-      dispatch({ type: actionTypes.AUTH_LOGOUT })
-      return Promise.resolve()
+      console.log({customer_id, fire_base_device})
+      const res = await axios.post('notification/remove-token', { customer_id, fire_base_device });
+      console.log(res)
+      dispatch({ type: actionTypes.AUTH_LOGOUT });
+      return Promise.resolve();
     } catch (err) {
-      return Promise.reject(err)
+      return Promise.reject(err);
     }
   }
 }

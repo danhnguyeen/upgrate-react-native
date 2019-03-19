@@ -52,12 +52,16 @@ export default {
     electricityHour: " K/h",
     viewOffices: "Office List",
     viewDetails: "View Details",
-    getDirection: "Get Directions"
+    getDirection: "Get Directions",
+    currencyRate: "Tỷ giá đô được tính theo lãi suất ngân hàng Vietcombank"
   },
   notifications: {
     markAsRead: 'Mark As Read',
     areYouSureWantToMarkAllAsRead: 'Are you sure you want to mark all notification as read?'
   },
+  locations: {
+    canNotGetLocation: 'Your location could not be determined'
+  },  
   account: {
     signIn: 'Sign in',
     signUp: 'Sign up',

@@ -1,6 +1,6 @@
 import axios from '../../config/axios';
-import * as actionTypes from './building-action-types'
-import { Image } from 'react-native'
+import * as actionTypes from './building-action-types';
+import { getCurrentLocale } from '../../i18n';
 
 const fetchBuidlingsSuccess = (buildings, buildingsFilterData) => ({
   type: actionTypes.FETCH_BUILDINGS,
@@ -12,19 +12,16 @@ export const fetchBuidlings = (district_id = null) => {
     try {
       const requestUrl = district_id ? `building?district_id=${district_id}` : 'building'
       const data = await axios.get(requestUrl);
-      data.buildings.sort((a, b) => { return a.acreage_rent_array > b.acreage_rent_array ? -1 : 1 })
-      data.direction_array.sort((a, b) => { return a.direction_name > b.direction_name ? 1 : -1 })
+      data.buildings.sort((a, b) => { return a.acreage_rent_array > b.acreage_rent_array ? -1 : 1 });
+      data.direction_array.sort((a, b) => { return a[`direction_name_${getCurrentLocale()}`] > b[`direction_name_${getCurrentLocale()}`] ? 1 : -1 })
       const buildingsFilterData = {
         direction_array: data.direction_array,
         acreage: [data.min_acreage, data.max_acreage],
         rent_cost: data.rent_cost_array
       }
-      const main_images = []
-      data.buildings.forEach(item => { main_images.push(item.main_image) })
-      _loadResourcesImage(main_images)
-
+      console.log(data.buildings);
       dispatch(fetchBuidlingsSuccess(data.buildings, buildingsFilterData))
-      return Promise.resolve(true)
+      return Promise.resolve()
     }
     catch (err) {
       console.log(err)
@@ -91,12 +88,7 @@ export const fetchOfficeList = (buildingsId = 3) => {
   return async dispatch => {
     try {
       const data = await axios.get(`office?building_id=${buildingsId}`)
-      // const sub_images = []
-      // data.forEach(item => {
-      //   sub_images.push(item.image_thumbnail_src, item.image_src)
-      // })
       dispatch(fetchOfficeListSuccess(data, buildingsId))
-      // _loadResourcesImage(sub_images)
       return Promise.resolve(data)
     }
     catch (err) {
@@ -104,7 +96,6 @@ export const fetchOfficeList = (buildingsId = 3) => {
     }
   }
 }
-
 
 const fetchBuildingDetailSuccess = (buildingDetail, buildingsId) => ({
   type: actionTypes.FETCH_BUILDING_DETAIL,
@@ -115,20 +106,4 @@ export const fetchBuildingDetail = (buildingDetail) => {
   return async dispatch => {
     dispatch(fetchBuildingDetailSuccess(buildingDetail, buildingDetail.building_id));
   }
-}
-
-
-
-const _loadResourcesImage = async (sub_images) => {
-  let imageAssets = []
-  imageAssets = imageAssets.concat(sub_images)
-  return Promise.all([
-    await imageAssets.map(image => {
-      if (typeof image === 'string') {
-        Image.prefetch(image).catch((ignored) => {
-          return false
-        })
-      }
-    })
-  ])
 }

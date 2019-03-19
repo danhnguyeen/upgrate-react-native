@@ -5,9 +5,10 @@ import { Content, Icon, ActionSheet } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
 import { Avatar } from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
+import FCM from 'react-native-fcm';
 
 import * as actions from '../../stores/actions';
-import { _dispatchStackActions } from '../../util/utility';
+import { _dispatchStackActions, uniqueDeviceId } from '../../util/utility';
 import { NotificationIcon } from '../../components/notifications';
 import { AccountItem } from '../../components/account';
 import { shadow, backgroundColor, brandLight, brandPrimary, fontSize, textLightColor, inverseTextColor } from '../../config/variables';
@@ -76,13 +77,21 @@ class Account extends React.Component {
     },
       buttonIndex => {
         if (buttonIndex && buttonIndex !== 0) {
-          this.props.setLanguage(TRANSLATIONS[buttonIndex].text)
+          this.props.setLanguage(TRANSLATIONS[buttonIndex].text);
+          this.updateNotificationToken();
           this.forceUpdate();
         }
       }
     )
   }
-
+  updateNotificationToken = async () => {
+    const token = await FCM.getFCMToken().then(token => {
+      return token;
+    });
+    if (token && this.props.isAuth) {
+      this.props.updateFCMToken(this.props.user.customer_id, token, uniqueDeviceId);
+    }
+  }
   logoutHandler = () => {
     Alert.alert(
       i18n.t('global.confirm'),
@@ -95,9 +104,19 @@ class Account extends React.Component {
     )
   }
   onLogout = async () => {
-    await AsyncStorage.removeItem('token');
-    await this.props.onLogout();
-    _dispatchStackActions(this.props.navigation, 'reset', 'Main', 'Account');
+    try {
+      await this.props.onLogout(this.props.user.customer_id, uniqueDeviceId);
+      this.props.onResetNotificationCount();
+      await AsyncStorage.removeItem('token');
+      _dispatchStackActions(this.props.navigation, 'reset', 'Main', 'Account');
+    }  catch (error) {
+      Alert.alert(
+        i18n.t('global.error'),
+        error.message,
+        [{ text: i18n.t('global.ok') }],
+        { cancelable: false }
+      );
+    }
   }
   render() {
     return (
@@ -178,7 +197,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setLanguage: (preferredLanguage) => dispatch(actions.setLanguage(preferredLanguage)),
     onAuth: (username, password) => dispatch(actions.auth(username, password)),
-    onLogout: () => dispatch(actions.logout())
+    updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId)),
+    onLogout: (customer_id, uniqueId) => dispatch(actions.logout(customer_id, uniqueId)),
+    onResetNotificationCount: () => dispatch(actions.fetchNotificationCountSucess(0))
   }
 }
 

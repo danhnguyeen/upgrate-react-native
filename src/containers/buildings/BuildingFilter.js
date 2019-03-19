@@ -2,15 +2,14 @@ import React, { Component } from 'react'
 import {
   Text,
   View,
-  ScrollView,
-  StyleSheet
+  ScrollView
 } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { Divider } from 'react-native-elements';
 
 import { Modal, PickerSelect, Button, SliderMarker } from '../../components/common';
 import { brandLight, brandPrimary, DEVICE_WIDTH, textLightColor } from '../../config/variables';
-import i18n from '../../i18n';
+import i18n, { getCurrentLocale } from '../../i18n';
 
 class BuildingFilter extends Component {
   state = {
@@ -44,6 +43,7 @@ class BuildingFilter extends Component {
   render() {
     const { filterData } = this.props;
     const { selectedData } = this.state;
+    const locale = getCurrentLocale();
     return (
       <Modal
         visible={this.props.visible}
@@ -64,8 +64,8 @@ class BuildingFilter extends Component {
               label={i18n.t('filter.selectDirection')}
               onChange={direction => this._onFilterChange(direction, 'direction')}
               isObject
-              data={[{ direction_id: -1, direction_name: i18n.t('filter.allData') }, ...filterData.direction_array]}
-              keyName={'direction_name'}
+              data={[{ direction_id: -1, [`direction_name_${locale}`]: i18n.t('filter.allData') }, ...filterData.direction_array]}
+              keyName={`direction_name_${locale}`}
               keyId='direction_id'
               value={this.state.selectedData.direction}
             />

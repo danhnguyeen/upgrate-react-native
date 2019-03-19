@@ -1,14 +1,14 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { TouchableOpacity, View, StyleSheet, RefreshControl, Text, FlatList } from 'react-native'
-import { Container, Content, Icon, } from "native-base"
+import React from 'react';
+import { connect } from 'react-redux';
+import { TouchableOpacity, View, StyleSheet, Text, FlatList } from 'react-native';
+import { Container, Icon, } from "native-base";
 
 import * as actions from './building-actions';
 import { isEmpty } from '../../util/utility';
 import { fontSize, brandPrimary, brandLight, DEVICE_WIDTH } from '../../config/variables';
 import { TagBuilding } from '../../components/buildings';
 import BuildingFilter from './BuildingFilter';
-import i18n from '../../i18n';
+import i18n, { getCurrentLocale } from '../../i18n';
 
 const FilterDefault = {
   district: { district_id: -1 },
@@ -76,6 +76,7 @@ class Buildings extends React.Component {
       }
       else return item;
     });
+    const locale = getCurrentLocale();
     return (
       <View style={[styles.container]}>
         {this.state.modalVisible ?
@@ -90,7 +91,7 @@ class Buildings extends React.Component {
           />
           : null}
         <Container style={styles.container}>
-          <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <View style={{ paddingHorizontal: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
               {district && district.district_id > 0 &&
                 <TouchableOpacity
@@ -120,7 +121,7 @@ class Buildings extends React.Component {
                 <TouchableOpacity
                   onPress={() => { this._clearFilterPress('direction') }}
                   style={[styles.button, { flexDirection: 'row' }]}>
-                  <Text style={[styles.buttonText]}>{direction.direction_name}</Text>
+                  <Text style={[styles.buttonText]}>{direction[`direction_name_${locale}`]}</Text>
                   <Icon style={styles.closeIcon} name='md-close' type="Ionicons" />
                 </TouchableOpacity>
               }
@@ -128,7 +129,7 @@ class Buildings extends React.Component {
             <View style={{ alignItems: 'flex-start', justifyContent: 'flex-end' }}>
               <TouchableOpacity
                 onPress={() => { this.setState({ modalVisible: true }) }}
-                style={{ alignSelf: 'flex-end', paddingVertical: 15 }}>
+                style={{ alignSelf: 'flex-end', paddingTop: 15, paddingBottom: 10 }}>
                 <Text style={[styles.buttonText, { fontSize: fontSize + 2 }]}>{i18n.t('filter.filters')}</Text>
               </TouchableOpacity>
             </View>
@@ -139,6 +140,7 @@ class Buildings extends React.Component {
             numColumns={2}
             style={{ width: DEVICE_WIDTH }}
             data={buildings}
+            contentContainerStyle={{ paddingTop: 8 }}
             renderItem={({ item, index }) =>
               <TagBuilding building={item} index={index} key={item.building_id} selectBuilding={this.selectBuilding} />
             }

@@ -3,7 +3,7 @@ import { REHYDRATE } from 'redux-persist';
 import { getCurrentLocale } from './index';
 
 const initialState = {
-  preferredLanguage: getCurrentLocale()
+  preferredLanguage: getCurrentLocale(true)
 }
 
 const rehydrate = (state, action) => {

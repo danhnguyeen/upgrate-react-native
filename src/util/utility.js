@@ -2,6 +2,7 @@
 import { StyleSheet } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation'
 import moment from 'moment';
+import DeviceInfo from 'react-native-device-info';
 
 import i18n from '../i18n';
 import { DEVICE_HEIGTH, DEVICE_WIDTH } from '../config/variables';
@@ -57,6 +58,8 @@ export const gender = (gender) => {
   }
   return null;
 };
+
+export const uniqueDeviceId = DeviceInfo.getUniqueID();
 
 export const loadingColors = ['green', 'red', 'yellow', 'gray'];
 

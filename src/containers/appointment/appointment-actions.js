@@ -22,7 +22,6 @@ export const findLastAppointmentDone = (customer_id) => {
   return async dispatch => {
     try {
       const result = await axios.get('appointment/last-done-not-rating', { params: { customer_id } });
-      console.log(result)
       return Promise.resolve(result);
     } catch (err) {
       console.log(err)

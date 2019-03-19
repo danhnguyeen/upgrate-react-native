@@ -27,17 +27,17 @@ export const setLocale = (translation) => {
       I18n.locale = 'vi_VN';
   }
 };
-export const getCurrentLocale = () => {
+export const getCurrentLocale = (text = null) => {
   let currentLocale
   const translation = I18n.currentLocale();
   switch (translation) {
     case 'en':
     case 'en-GB':
     case 'en-US':
-      currentLocale = I18n.t('account.en')
+      currentLocale = text? I18n.t('account.en') : 'en'
       break;
     default:
-      currentLocale = I18n.t('account.vn')
+      currentLocale = text ? I18n.t('account.vn') : 'vi'
   }
   return currentLocale
 }

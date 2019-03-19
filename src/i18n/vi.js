@@ -52,11 +52,15 @@ export default {
     electricityHour: " K/h",
     viewOffices: "Xem văn phòng",
     viewDetails: "Xem chi tiết",
-    getDirection: "Chỉ đường đến đây"
+    getDirection: "Chỉ đường đến đây",
+    currencyRate: "Tỷ giá đô được tính theo lãi suất ngân hàng Vietcombank"
   },
   notifications: {
     markAsRead: 'Đánh dấu đã đọc',
     areYouSureWantToMarkAllAsRead: 'Bạn có chắc chắn muốn đánh dấu đã xem tất cả các thông báo?'
+  },
+  locations: {
+    canNotGetLocation: 'Không thể xác định vị trí của bạn'
   },
   account: {
     signIn: 'Đăng nhập',

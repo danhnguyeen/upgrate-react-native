@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Image, StyleSheet, TouchableOpacity, Text, Linking, Animated, RefreshControl } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, Text, Linking, Animated } from 'react-native';
 import { Container, Icon } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import { Header } from 'react-navigation';
@@ -8,10 +8,10 @@ import { Divider, Button } from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import Swiper from 'react-native-swiper';
 
-import i18n from '../../i18n';
+import i18n, { getCurrentLocale } from '../../i18n';
 import * as actions from './building-actions';
 import { brandPrimary, isIphoneX, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4, shadow, brandSuccess } from '../../config/variables';
-import { PostDetail, BuildingMaps, BuildingDescription, ContactItem } from '../../components/buildings'
+import { BuildingMaps, BuildingDescription, ContactItem } from '../../components/buildings'
 
 const STATUSBAR_PADDING = isIphoneX ? 24 : 0
 const HEADER_MAX_HEIGHT = 250;
@@ -65,9 +65,8 @@ class BuildingDetails extends React.Component {
       extrapolate: 'clamp',
     });
 
-
-    const detailBuilding = this.props.buildingDetail
-    const { isFetching } = this.state
+    const detailBuilding = this.props.buildingDetail;
+    const locale = getCurrentLocale();
     return (
       <Container style={styles.container} >
         <Animated.ScrollView
@@ -110,7 +109,7 @@ class BuildingDetails extends React.Component {
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='directions-fork' type='MaterialCommunityIcons' />
-                <Text>{detailBuilding.direction}</Text>
+                <Text>{detailBuilding[`direction_${locale}`]}</Text>
               </View>
               <View style={styles.line}>
                 <Icon style={[styles.icon, { fontSize: 28 }]} name='md-star-outline' type='Ionicons' />
@@ -138,6 +137,11 @@ class BuildingDetails extends React.Component {
                   <Icon style={[styles.buttonBgText]} name='md-arrow-forward' type='Ionicons' />
                 </TouchableOpacity>
               </View>
+              <View style={{ marginTop: 5 }}>
+                <Text style={{ fontSize: fontSize - 2, fontStyle: 'italic' }}>
+                  {i18n.t('buildingDetail.currencyRate')}
+                </Text>
+              </View>
             </View>
             <View style={[styles.blockContainer, { padding: 0 }]}>
               <ContactItem
@@ -156,7 +160,8 @@ class BuildingDetails extends React.Component {
                 onPress={() => Linking.openURL(`https://zalo.me/1732464775151258581`)}
                 title={i18n.t('contact.zalo')}
                 color={'#008FF3'}
-                icon={<Icon active name='message' type='Entypo' style={{ fontSize: 17 }} />}
+                isImage
+                icon={<FastImage source={require('../../assets/images/zalo-icon.png')} style={{ width: 28, height: 28}}/>}
               />
               <ContactItem
                 onPress={() => Linking.openURL(`https://m.me/paxskydotvn`)}
@@ -392,7 +397,8 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     padding: 5,
     paddingHorizontal: 10,
-    margin: 5
+    marginVertical: 5,
+    marginRight: 5
   },
   line: {
     flex: 1,
@@ -429,7 +435,8 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     padding: 5,
     paddingHorizontal: 10,
-    margin: 5,
+    marginVertical: 5,
+    marginLeft: 5
   },
 })
 

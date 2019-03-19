@@ -1,7 +1,8 @@
 import * as actionTypes from './notification-action-types';
 import axios from '../../config/axios';
+import { getCurrentLocale } from '../../i18n';
 
-const fetchNotificationCountSucess = (count) => ({
+export const fetchNotificationCountSucess = (count) => ({
   type: actionTypes.FETCH_NOTIFICATION_COUNT,
   count
 });
@@ -29,9 +30,9 @@ export const updateNotificationToken = (customer_id, fire_base_token, fire_base_
       const data = {
         customer_id,
         fire_base_token,
-        fire_base_device
+        fire_base_device,
+        locale: getCurrentLocale()
       };
-      console.log(data)
       await axios.post('notification/create-token', data);
       return Promise.resolve();
     } catch (err) {

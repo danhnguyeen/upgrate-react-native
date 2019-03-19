@@ -4,10 +4,12 @@ import { Icon } from 'native-base';
 import HTMLView from 'react-native-htmlview';
 
 import { Modal } from '../common';
+import { getCurrentLocale } from '../../i18n';
 import { brandLight, inverseTextColor, shadow } from '../../config/variables';
 
 const NotificationDetails = (props) => {
-  const content = props.data.content ? props.data.content.replace(/(\r\n|\n|\r)/gm, "") : props.data.content;
+  let content = props.data[`content_${getCurrentLocale()}`];
+  content = content ? content.replace(/(\r\n|\n|\r)/gm, "") : content;
   return (
     <Modal
       visible={props.show}

@@ -6,6 +6,7 @@ import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
 
 import * as actions from '../../stores/actions';
+import i18n from '../../i18n';
 import { BuildingSlides, MapFilter, LocationDetails } from '../../components/locations';
 
 class Locations extends React.Component {
@@ -32,6 +33,7 @@ class Locations extends React.Component {
   }
   getCurrentPosition = (isAction) => {
     navigator.geolocation.getCurrentPosition(pos => {
+      console.log(pos)
       const region = {
         ...this.state.region,
         latitude: pos.coords.latitude,
@@ -40,8 +42,9 @@ class Locations extends React.Component {
       this.setState({ region });
       this.pickLocationHandler(region);
     }, error => {
+      console.log(error)
       if (isAction) {
-        Alert.alert('Không tìm thấy vị trí');
+        Alert.alert(i18n.t('locations.canNotGetLocation'));
       }
     });
   }

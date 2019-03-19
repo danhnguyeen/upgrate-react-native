@@ -8,7 +8,7 @@ import FCM, {
 } from "react-native-fcm";
 
 import * as actions from '../stores/actions';
-import { platform } from "../config/variables";
+import { platform, brandPrimary } from "../config/variables";
 import NavigationService from './navigation-service';
 
 class PushNotification extends Component {
@@ -18,7 +18,7 @@ class PushNotification extends Component {
     FCM.createNotificationChannel({
       id: 'paxsky_chanel',
       name: 'PaxSky',
-      priority: 'max'
+      priority: 'high'
     });
     // await FCM.requestPermissions({ badge: true, sound: true, alert: true });
     FCM.getInitialNotification().then(notif => {
@@ -81,6 +81,7 @@ class PushNotification extends Component {
         body: notif.fcm.body,
         priority: "high",
         title: notif.fcm.title,
+        icon: 'ic_notif',
         click_action: "fcm.ACTION.HELLO",
         channel: "paxsky_chanel",
         show_in_foreground: true, /* notification when app is in foreground (local & remote)*/

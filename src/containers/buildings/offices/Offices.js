@@ -82,9 +82,9 @@ class Offices extends React.Component {
     this.setState({ modalVisible: visible })
   }
   render() {
-    const { filterRequired, filterData, isFetching, officeList } = this.state
-    const building_id = this.props.navigation.getParam('building_id')
-    const building_name = this.props.navigation.getParam('building_name')
+    const { filterRequired, filterData, isFetching, officeList } = this.state;
+    const building_id = this.props.navigation.getParam('building_id');
+    const building_name = this.props.navigation.getParam('building_name');
     return (
       <View style={{ flex: 1, backgroundColor }}>
         {this.state.modalVisible ?
