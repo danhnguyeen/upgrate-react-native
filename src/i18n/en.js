@@ -53,7 +53,7 @@ export default {
     viewOffices: "Office List",
     viewDetails: "View Details",
     getDirection: "Get Directions",
-    currencyRate: "Tỷ giá đô được tính theo lãi suất ngân hàng Vietcombank"
+    currencyRate: "The exchange rate is determined according to Vietcombank"
   },
   notifications: {
     markAsRead: 'Mark As Read',

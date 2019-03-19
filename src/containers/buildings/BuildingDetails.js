@@ -113,7 +113,7 @@ class BuildingDetails extends React.Component {
               </View>
               <View style={styles.line}>
                 <Icon style={[styles.icon, { fontSize: 28 }]} name='md-star-outline' type='Ionicons' />
-                <Text>{detailBuilding.classify_name}</Text>
+                <Text>{detailBuilding[`classify_name_${locale}`]}</Text>
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='settings' type='SimpleLineIcons' />

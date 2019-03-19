@@ -10,12 +10,12 @@ import { Icon } from 'native-base';
 
 import { brandPrimary, backgroundColor, brandLight, DEVICE_WIDTH, fontSize, textColor, phoneNumber, inverseTextColor, textLightColor, isIphoneX } from '../../config/variables';
 import { BuildingMaps, BuildingSlider } from '../buildings';
-import i18n from '../../i18n';
+import i18n, { getCurrentLocale } from '../../i18n';
 import { Modal, Button } from '../common';
 
 const LocationDetails = (props) => {
   const building = props.building;
-
+  const locale = getCurrentLocale();
   return (
     <Modal
       visible={props.visible}
@@ -86,7 +86,7 @@ const LocationDetails = (props) => {
               <View style={styles.iconContainer}>
                 <Icon style={[styles.icon, { fontSize: 24 }]} name='md-star-outline' />
               </View>
-              <Text>{building.building_detail.classify_name}</Text>
+              <Text>{building.building_detail[`classify_name_${locale}`]}</Text>
             </View>
             <View style={[styles.line, { marginBottom: 0 }]}>
               <View style={styles.iconContainer}>
