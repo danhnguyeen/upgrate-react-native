@@ -59,6 +59,23 @@ export const gender = (gender) => {
   return null;
 };
 
+export const getBuildingStructure = (building, locale) => {
+  let structure = [];
+    if (building.basement_number > 0) {
+      structure.push(`${building.basement_number} ${i18n.t('buildingDetail.basement')}${locale === 'en' &&  building.basement_number > 1 ? 's' : '' }`);
+    }
+    if (building.ground_floor_number > 0) {
+      structure.push(`${building.ground_floor_number} ${i18n.t('buildingDetail.ground')}${locale === 'en' &&  building.ground_floor_number > 1 ? 's' : '' }`);
+    }
+    if (building.mezzanine_number > 0) {
+      structure.push(`${building.mezzanine_number} ${i18n.t('buildingDetail.mezzanine')}${locale === 'en' &&  building.mezzanine_number > 1 ? 's' : '' }`);
+    }
+    if (building.floor_number > 0) {
+      structure.push(`${building.floor_number} ${i18n.t('buildingDetail.floor')}${locale === 'en' &&  building.floor_number > 1 ? 's' : '' }`);
+      structure.push(`${building.floor_number} ${i18n.t('buildingDetail.terrace')}${locale === 'en' &&  building.floor_number > 1 ? 's' : '' }`);
+    }
+    return structure = structure.join(', ');
+}
 export const uniqueDeviceId = DeviceInfo.getUniqueID();
 
 export const loadingColors = ['green', 'red', 'yellow', 'gray'];

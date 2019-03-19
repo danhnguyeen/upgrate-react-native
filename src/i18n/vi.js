@@ -53,7 +53,12 @@ export default {
     viewOffices: "Xem văn phòng",
     viewDetails: "Xem chi tiết",
     getDirection: "Chỉ đường đến đây",
-    currencyRate: "Tỷ giá đô được tính theo lãi suất ngân hàng Vietcombank"
+    currencyRate: "Tỷ giá đô được tính theo lãi suất ngân hàng Vietcombank",
+    basement: 'hầm',
+    mezzanine: 'lửng',
+    ground: 'trệt',
+    floor: 'tầng',
+    terrace: 'sân thượng'
   },
   notifications: {
     markAsRead: 'Đánh dấu đã đọc',

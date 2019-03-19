@@ -12,6 +12,7 @@ import i18n, { getCurrentLocale } from '../../i18n';
 import * as actions from './building-actions';
 import { brandPrimary, isIphoneX, brandLight, platform, backgroundColor, textColor, fontSize, inverseTextColor, DEVICE_WIDTH, textLightColor, textH4, shadow, brandSuccess } from '../../config/variables';
 import { BuildingMaps, BuildingDescription, ContactItem } from '../../components/buildings'
+import { getBuildingStructure } from '../../util/utility';
 
 const STATUSBAR_PADDING = isIphoneX ? 24 : 0
 const HEADER_MAX_HEIGHT = 250;
@@ -67,6 +68,8 @@ class BuildingDetails extends React.Component {
 
     const detailBuilding = this.props.buildingDetail;
     const locale = getCurrentLocale();
+
+    const structure = getBuildingStructure(detailBuilding, locale);
     return (
       <Container style={styles.container} >
         <Animated.ScrollView
@@ -92,7 +95,7 @@ class BuildingDetails extends React.Component {
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='building-o' type='FontAwesome' />
-                <Text>{detailBuilding.structure ? detailBuilding.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
+                <Text>{structure ? structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='vector-square' type='MaterialCommunityIcons' />
@@ -161,7 +164,7 @@ class BuildingDetails extends React.Component {
                 title={i18n.t('contact.zalo')}
                 color={'#008FF3'}
                 isImage
-                icon={<FastImage source={require('../../assets/images/zalo-icon.png')} style={{ width: 28, height: 28}}/>}
+                icon={<FastImage source={require('../../assets/images/zalo-icon.png')} style={{ width: 28, height: 28 }} />}
               />
               <ContactItem
                 onPress={() => Linking.openURL(`https://m.me/paxskydotvn`)}

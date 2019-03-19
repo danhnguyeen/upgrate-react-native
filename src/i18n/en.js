@@ -53,7 +53,12 @@ export default {
     viewOffices: "Office List",
     viewDetails: "View Details",
     getDirection: "Get Directions",
-    currencyRate: "The exchange rate is determined according to Vietcombank"
+    currencyRate: "The exchange rate is determined according to Vietcombank",
+    basement: 'basement',
+    mezzanine: 'mezzanine',
+    ground: 'ground',
+    floor: 'floor',
+    terrace: 'terrace'
   },
   notifications: {
     markAsRead: 'Mark As Read',

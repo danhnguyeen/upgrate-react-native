@@ -11,11 +11,13 @@ import { Icon } from 'native-base';
 import { brandPrimary, backgroundColor, brandLight, DEVICE_WIDTH, fontSize, textColor, phoneNumber, inverseTextColor, textLightColor, isIphoneX } from '../../config/variables';
 import { BuildingMaps, BuildingSlider } from '../buildings';
 import i18n, { getCurrentLocale } from '../../i18n';
+import { getBuildingStructure } from '../../util/utility';
 import { Modal, Button } from '../common';
 
 const LocationDetails = (props) => {
   const building = props.building;
   const locale = getCurrentLocale();
+  const structure = getBuildingStructure(building.building_detail, locale);
   return (
     <Modal
       visible={props.visible}
@@ -80,7 +82,7 @@ const LocationDetails = (props) => {
               <View style={styles.iconContainer}>
                 <Icon style={styles.icon} name='building-o' type='FontAwesome' />
               </View>
-              <Text style={{ width: DEVICE_WIDTH - 50 }}>{building.building_detail.structure ? building.building_detail.structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
+              <Text style={{ width: DEVICE_WIDTH - 50 }}>{structure ? structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>
             </View>
             <View style={styles.line}>
               <View style={styles.iconContainer}>
