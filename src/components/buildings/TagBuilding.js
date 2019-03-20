@@ -4,9 +4,11 @@ import FastImage from 'react-native-fast-image';
 import { Divider } from 'react-native-elements';
 
 import { fontSize, DEVICE_WIDTH, inverseTextColor, shadow, brandLight } from '../../config/variables';
+import { getCurrentLocale } from '../../i18n';
 
 class TagBuilding extends React.Component {
   render() {
+    const locale = getCurrentLocale();
     const building = this.props.building;
     const buildingDetail = building.building_detail;
     const maxAcreage = Math.max(...building.acreage_rent_array);
@@ -21,7 +23,7 @@ class TagBuilding extends React.Component {
           <FastImage source={{ uri: building.main_image, priority: FastImage.priority.high }} style={styles.image} />
           <View style={styles.infoContainer}>
             <View style={{ justifyContent: 'space-between', alignItems: 'center', flex: 1, paddingHorizontal: 10 }}>
-              <Text style={{ color: inverseTextColor, fontSize: fontSize - 3 }}>{buildingDetail.district}</Text>
+              <Text style={{ color: inverseTextColor, fontSize: fontSize - 3 }}>{building[`district_${locale}`]}</Text>
               <Text style={{ color: inverseTextColor, textAlign: 'center', fontWeight: '500' }} numberOfLines={2}>{buildingDetail.sub_name}</Text>
             </View>
             <Divider style={{ backgroundColor: inverseTextColor, marginVertical: 5, width: '100%' }} />

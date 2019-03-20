@@ -37,6 +37,7 @@ export default {
     selectDistrict: "Chọn quận",
     selectDirection: "Chọn hướng",
     all: "Tất cả",
+    district: 'Quận',
     allData: "Tất cả",
     price: "Mức giá",
     acreage: "Diện tích",
@@ -58,7 +59,9 @@ export default {
     mezzanine: 'lửng',
     ground: 'trệt',
     floor: 'tầng',
-    terrace: 'sân thượng'
+    terrace: 'sân thượng',
+    groundFloor: 'Tầng trệt',
+    rooftop: 'Sân thượng'
   },
   notifications: {
     markAsRead: 'Đánh dấu đã đọc',

@@ -47,7 +47,8 @@ class Offices extends React.Component {
     }
   }
   _onFetching = () => {
-    const officeList = this.props.officeList
+    const officeList = this.props.officeList;
+    console.log(officeList)
     officeList.forEach(item => {
       filterData.acreage_rent.push(item.acreage_rent)
       filterData.direction.push(item.direction)
@@ -125,10 +126,10 @@ class Offices extends React.Component {
                   item.building_id = building_id
                   item.building_name = building_name
                   return (
-                    <TouchableOpacity key={index}
-                      onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: item } }) }} >
-                      <TagOffice officeDetail={item} navigation={this.props.navigation} />
-                    </TouchableOpacity>
+                    <TagOffice 
+                      key={item.office_id}
+                      onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: item } }) }}
+                      officeDetail={item} navigation={this.props.navigation} />
                   )
                 })}
           </Content> :

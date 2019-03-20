@@ -55,8 +55,8 @@ class BuildingFilter extends Component {
               label={i18n.t('filter.selectDistrict')}
               onChange={district => this._onFilterChange(district, 'district')}
               isObject
-              data={[{ district_id: -1, district_name: i18n.t('filter.allData') }, ...this.props.districtList]}
-              keyName={'district_name'}
+              data={[{ district_id: -1, [`district_name_${locale}`]: i18n.t('filter.allData') }, ...this.props.districtList]}
+              keyName={`district_name_${locale}`}
               keyId='district_id'
               value={this.state.selectedData.district}
             />

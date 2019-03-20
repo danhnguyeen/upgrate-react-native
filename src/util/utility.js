@@ -30,10 +30,10 @@ export const isEmpty = value => {
 }
 export function _dispatchStackActions(propsNavigation, propsActions, routeName = null, sub_routeName = null, sub_dataProp = null) {
 
-  console.log('_dispatchStackActions','sub_routeName ========= ',sub_routeName, 'sub_dataProp ========= ', sub_dataProp)
+  console.log('_dispatchStackActions', 'sub_routeName ========= ', sub_routeName, 'sub_dataProp ========= ', sub_dataProp)
 
   if (propsNavigation && propsActions) {
-    const _subAction = sub_routeName != null ? NavigationActions.navigate({ routeName: sub_routeName, params: { sub_dataProp }}) : {}
+    const _subAction = sub_routeName != null ? NavigationActions.navigate({ routeName: sub_routeName, params: { sub_dataProp } }) : {}
     const navigateAction = NavigationActions.navigate({ routeName: routeName, params: { sub_dataProp }, action: _subAction })
 
     switch (propsActions) {
@@ -61,20 +61,38 @@ export const gender = (gender) => {
 
 export const getBuildingStructure = (building, locale) => {
   let structure = [];
-    if (building.basement_number > 0) {
-      structure.push(`${building.basement_number} ${i18n.t('buildingDetail.basement')}${locale === 'en' &&  building.basement_number > 1 ? 's' : '' }`);
-    }
-    if (building.ground_floor_number > 0) {
-      structure.push(`${building.ground_floor_number} ${i18n.t('buildingDetail.ground')}${locale === 'en' &&  building.ground_floor_number > 1 ? 's' : '' }`);
-    }
-    if (building.mezzanine_number > 0) {
-      structure.push(`${building.mezzanine_number} ${i18n.t('buildingDetail.mezzanine')}${locale === 'en' &&  building.mezzanine_number > 1 ? 's' : '' }`);
-    }
-    if (building.floor_number > 0) {
-      structure.push(`${building.floor_number} ${i18n.t('buildingDetail.floor')}${locale === 'en' &&  building.floor_number > 1 ? 's' : '' }`);
-      structure.push(`${building.floor_number} ${i18n.t('buildingDetail.terrace')}${locale === 'en' &&  building.floor_number > 1 ? 's' : '' }`);
-    }
-    return structure = structure.join(', ');
+  if (building.basement_number > 0) {
+    structure.push(`${building.basement_number} ${i18n.t('buildingDetail.basement')}${locale === 'en' && building.basement_number > 1 ? 's' : ''}`);
+  }
+  if (building.ground_floor_number > 0) {
+    structure.push(`${building.ground_floor_number} ${i18n.t('buildingDetail.ground')}${locale === 'en' && building.ground_floor_number > 1 ? 's' : ''}`);
+  }
+  if (building.mezzanine_number > 0) {
+    structure.push(`${building.mezzanine_number} ${i18n.t('buildingDetail.mezzanine')}${locale === 'en' && building.mezzanine_number > 1 ? 's' : ''}`);
+  }
+  if (building.floor_number > 0) {
+    structure.push(`${building.floor_number} ${i18n.t('buildingDetail.floor')}${locale === 'en' && building.floor_number > 1 ? 's' : ''}`);
+    structure.push(`${building.floor_number} ${i18n.t('buildingDetail.terrace')}${locale === 'en' && building.floor_number > 1 ? 's' : ''}`);
+  }
+  return structure = structure.join(', ');
+}
+export const getOfficeFloorName = (floorId) => {
+  let floorName = "";
+  switch (floorId) {
+    case -1:
+      floorName = i18n.t('buildingDetail.groundFloor');
+      break;
+    case 0:
+      floorName = i18n.t('buildingDetail.mezzanine');
+      break;
+    case 99:
+      floorName = i18n.t('buildingDetail.rooftop');
+      break;
+    default:
+      floorName = `${i18n.t('buildingDetail.floor')} ${floorId}`;
+      break;
+  }
+  return floorName;
 }
 export const uniqueDeviceId = DeviceInfo.getUniqueID();
 
@@ -93,34 +111,34 @@ export const validatePhone = (phone) => {
 export const checkValidity = (value, rules, formData = null) => {
   let isValid = true;
   if (!rules) {
-      return true;
+    return true;
   }
 
   if (rules.required) {
-      isValid = value !== null && value !== undefined && value.toString().trim() !== '' && isValid;
+    isValid = value !== null && value !== undefined && value.toString().trim() !== '' && isValid;
   }
 
   if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
+    isValid = value.length >= rules.minLength && isValid;
   }
 
   if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
+    isValid = value.length <= rules.maxLength && isValid;
   }
 
   if (value && rules.isEmail) {
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      isValid = re.test(String(value).toLowerCase()) && isValid;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    isValid = re.test(String(value).toLowerCase()) && isValid;
   }
 
   if (value && rules.isPhone) {
-      const pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
-      isValid = pattern.test(value) && isValid;
+    const pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+    isValid = pattern.test(value) && isValid;
   }
 
   if (value && rules.isNumeric) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(value) && isValid;
+    const pattern = /^\d+$/;
+    isValid = pattern.test(value) && isValid;
   }
 
   if (rules.isEqualTo) {

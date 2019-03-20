@@ -6,7 +6,7 @@ import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
 
 import * as actions from '../../stores/actions';
-import i18n from '../../i18n';
+import i18n, { getCurrentLocale } from '../../i18n';
 import { BuildingSlides, MapFilter, LocationDetails } from '../../components/locations';
 
 class Locations extends React.Component {
@@ -104,6 +104,7 @@ class Locations extends React.Component {
     this.setState({ modalVisible: false, detailBuilding: null });
   }
   render() {
+    const locale = getCurrentLocale();
     return (
       <View style={{ flex: 1 }}>
         <MapView
@@ -126,7 +127,7 @@ class Locations extends React.Component {
               >
                 <MapView.Callout tooltip style={styles.callout}>
                   <View>
-                    <Text>{`${building.sub_name}, ${building.district}`}</Text>
+                    <Text>{`${building.building_detail[`address_${locale}`]}, ${building[`district_${locale}`]}`}</Text>
                     <Text style={{ fontSize: 14 }}>{building.rent_acreage}</Text>
                   </View>
                 </MapView.Callout>

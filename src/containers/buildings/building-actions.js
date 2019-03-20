@@ -39,17 +39,18 @@ export const fetchDistrictList = (provinceId = 4) => {
   return async dispatch => {
     try {
       let buildingsDistricts = []
-      const data = await axios.get(`district?province_id=${provinceId}`)
+      const data = await axios.get(`district?province_id=${provinceId}`);
+      console.log(data);
       data.sort((a, b) => {
-        let newA = a.district_name
-        let newB = b.district_name
+        let newA = a.district_name_vi
+        let newB = b.district_name_vi
         if (newA.startsWith("Quận")) {
           newA = parseInt(newA.replace("Quận", "").trim())
         }
         if (newB.startsWith("Quận")) {
           newB = parseInt(newB.replace("Quận", "").trim())
         }
-        if (a.district_name.startsWith("Quận") && b.district_name.startsWith("Quận")) { return newA - newB }
+        if (a.district_name_vi.startsWith("Quận") && b.district_name_vi.startsWith("Quận")) { return newA - newB }
         else {
           return -1
         }

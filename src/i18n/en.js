@@ -38,6 +38,7 @@ export default {
     selectDirection: "Select a direction",
     all: "Select all",
     allData: "All",
+    district: 'District',
     price: "Price",
     acreage: "Acreage",
     noResult: "Sorry, There are no results matching your filters."
@@ -58,7 +59,9 @@ export default {
     mezzanine: 'mezzanine',
     ground: 'ground',
     floor: 'floor',
-    terrace: 'terrace'
+    terrace: 'terrace',
+    groundFloor: 'Ground Floor',
+    rooftop: 'Rooftop'
   },
   notifications: {
     markAsRead: 'Mark As Read',
@@ -148,7 +151,7 @@ export default {
     office: "Office",
     saler: "Saler",
     appointmentList: 'Appointment List',
-    appointmentRequest: "Appointment",
+    appointmentRequest: "Make an Appointment",
     appointmentEmpty: "I have not booked yet",
     bookingFail: "Your request has failed",
     bookingSuccess: "Your request has been submitted",

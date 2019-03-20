@@ -91,7 +91,7 @@ class BuildingDetails extends React.Component {
             <View style={styles.blockContainer}>
               <View style={{ alignItems: 'center', marginBottom: 5 }}>
                 <Text style={[textH4, { color: brandPrimary }]} numberOfLines={1}>{detailBuilding.sub_name}</Text>
-                <Text style={{ fontStyle: 'italic', fontSize: fontSize - 2 }}>{detailBuilding.address}, {detailBuilding.district}</Text>
+                <Text style={{ fontStyle: 'italic', fontSize: fontSize - 2 }}>{detailBuilding[`address_${locale}`]}, {detailBuilding[`district_${locale}`]}</Text>
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='building-o' type='FontAwesome' />
@@ -126,8 +126,12 @@ class BuildingDetails extends React.Component {
                 <Icon style={styles.icon} name='car-battery' type='MaterialCommunityIcons' />
                 <Text>{detailBuilding.electricity_cost}{i18n.t('buildingDetail.electricityHour')}</Text>
               </View>
-              <Divider style={{ marginVertical: 15 }} />
-              <BuildingDescription text={detailBuilding.description} />
+              {detailBuilding[`description_${locale}`] ?
+                <React.Fragment>
+                  <Divider style={{ marginVertical: 15 }} />
+                  <BuildingDescription text={detailBuilding[`description_${locale}`]} />
+                </React.Fragment>
+                : null }
               <Divider style={{ marginVertical: 15 }} />
               <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                 <TouchableOpacity style={[styles.buttonComon, styles.button, { flex: 0.5, borderColor: '#e12d2d' }]}>
@@ -187,7 +191,7 @@ class BuildingDetails extends React.Component {
                   type='MaterialIcons'
                   style={{ fontSize: fontSize + 2, color: textColor }}
                 />
-                <Text style={{ paddingLeft: 5, width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${detailBuilding.address}, ${detailBuilding.district}`}</Text>
+                <Text style={{ paddingLeft: 5, width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${detailBuilding[`address_${locale}`]}, ${detailBuilding.district}`}</Text>
               </View>
               <Divider style={{ marginVertical: 15 }} />
               <View style={{ alignItems: 'flex-end' }}>

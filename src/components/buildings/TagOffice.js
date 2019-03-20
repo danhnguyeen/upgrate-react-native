@@ -1,74 +1,67 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
-import { Icon } from "native-base";
+import { Icon, ListItem, Left, Body, Button } from "native-base";
 import LinearGradient from 'react-native-linear-gradient';
+import { Divider } from 'react-native-elements';
 
-import { brandLight, textLightColor, brandPrimary, fontSize } from '../../config/variables';
+import { brandLight, textLightColor, brandPrimary, fontSize, textColor, shadow } from '../../config/variables';
 import i18n, { getCurrentLocale } from '../../i18n';
-const LOGO = require('../../assets/images/logo-grey.jpg')
+import { getOfficeFloorName, capitalize } from '../../util/utility';
 
 export default class TagOffice extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      image_srcFailed: null,
-      image_thumbnail_srcFailed: null,
-      image_thumbnail_src: true
-    }
+  state = {
+    image_srcFailed: null,
+    image_thumbnail_srcFailed: null,
+    image_thumbnail_src: true
   }
 
   render() {
-    const data = {
-      "acreage_rent": 230,
-      "acreage_total": 230,
-      "building_id": 3,
-      "direction": "Hướng Bắc",
-      "floor_name": "Mezzanine",
-      "image_src": "http://paxsky.amagumolabs.io/storage/app/public/offices/12/1543333793_180425_Layout_PAX SKY 13-15_1,2,3,4,5,6,7,8F.jpg",
-      "image_thumbnail_src": "http://paxsky.amagumolabs.io/storage/app/public/offices/12/thumbnail/1543333793_180425_Layout_PAX SKY 13-15_1,2,3,4,5,6,7,8F.jpg",
-      "office_id": 12,
-      "office_name": "Office layout 230m2",
-    }
     const officeDetail = this.props.officeDetail;
     const locale = getCurrentLocale();
+    const floorName = getOfficeFloorName(officeDetail.floor);
     return (
       <View style={styles.container}>
-        <View>
-          <Text style={{ color: brandPrimary, fontWeight: 'bold', fontSize: fontSize + 3, marginBottom: 10 }}>{officeDetail.office_name}</Text>
-        </View>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flex: 0.5 }}>
-            {this.state.image_thumbnail_src ?
-              <Image style={{ width: '100%', height: 120 }} resizeMode={'cover'}
-                onError={({ nativeEvent: { error } }) => { this.setState({ image_thumbnail_src: false }) }}
-                source={{ uri: data.image_thumbnail_src }} />
-              :
-              <Image resizeMode={'cover'} style={{ width: '100%', height: 120 }} source={LOGO} />
-            }
+        <Text style={styles.title}>{officeDetail.office_name}</Text>
+        {this.state.image_thumbnail_src ?
+          <Image style={{ width: '100%', height: 180 }} 
+            source={{ uri: officeDetail.image_src }}
+            onError={({ nativeEvent: { error } }) => { this.setState({ image_thumbnail_src: false }) }}
+          />
+          :
+          <View style={styles.noImage}>
+            <Icon
+              name='md-images'
+              type='Ionicons'
+              style={{ color: '#bbbbbb', fontSize: 55 }}
+            />
           </View>
-          <View style={{ flex: 0.5, paddingLeft: 10, }}>
-            <View style={{ flexDirection: 'row' }}>
-              <Icon style={styles.icon} name='vector-square' type='MaterialCommunityIcons' />
-              <Text>{officeDetail.acreage_rent}m2</Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <Icon style={styles.icon} name='floor-plan' type='MaterialCommunityIcons' />
-              <Text>{officeDetail.floor_name}</Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <Icon style={styles.icon} name='directions-fork' type='MaterialCommunityIcons' />
-              <Text>{officeDetail[`direction_${locale}`]}</Text>
-            </View>
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }}
-              onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: officeDetail } }) }}>
-              <LinearGradient start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }} colors={['#80C2F3', '#3E89E2']}
-                style={{ flex: 1, borderRadius: 3, alignItems: 'center', alignContent: 'center', justifyContent: 'center', flexDirection: 'row', }} >
-                <Icon style={[styles.buttonBgText, { fontSize: 22, paddingRight: 5 }]} name={`calendar-plus`} type={'MaterialCommunityIcons'} />
-                <Text style={[styles.buttonBgText]}>{i18n.t('appointment.appointmentRequest')}</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
+        }
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+          <Icon 
+            name="vector-square" 
+            type='MaterialCommunityIcons' 
+            style={{ fontSize: fontSize + 4, color: textColor, marginRight: 10 }} />
+          <Text>{`${officeDetail.acreage_rent}m2`}</Text>
         </View>
+        <Divider style={{ marginVertical: 10 }} />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon 
+            name="floor-plan" 
+            type='MaterialCommunityIcons' 
+            style={{ fontSize: fontSize + 4, color: textColor, marginRight: 10 }} />
+          <Text>{capitalize(floorName)}</Text>
+        </View>
+        <Divider style={{ marginVertical: 10 }} />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon 
+            name="directions-fork" 
+            type='MaterialCommunityIcons' 
+            style={{ fontSize: fontSize + 4, color: textColor, marginRight: 10 }} />
+          <Text>{officeDetail[`direction_${locale}`]}</Text>
+        </View>
+        <Button transparent block onPress={this.props.onPress}>
+          <Text style={{ color: brandPrimary, fontSize: fontSize + 2 }}>{i18n.t('appointment.appointmentRequest')}</Text>
+        </Button>
       </View>
     )
   }
@@ -76,10 +69,22 @@ export default class TagOffice extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    // ...shadow,
+    ...shadow,
     backgroundColor: brandLight,
-    marginBottom: 10,
-    padding: 15
+    marginBottom: 15,
+    padding: 15,
+    paddingBottom: 5
+  },
+  title: {
+    fontSize: fontSize + 4,
+    fontWeight: '500',
+    marginBottom: 15,
+    textAlign: 'center'
+  },
+  noImage: {
+    height: 180,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   buttonBgText: {
     color: '#FFF',

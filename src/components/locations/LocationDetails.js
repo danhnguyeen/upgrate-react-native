@@ -43,7 +43,7 @@ const LocationDetails = (props) => {
                     style={{ fontSize, color: textLightColor }}
                   />
                 </View>
-                <Text style={{ width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${building.building_detail.address}, ${building.building_detail.district}`}</Text>
+                <Text style={{ width: DEVICE_WIDTH - 50 }} numberOfLines={1}>{`${building.building_detail[`address_${locale}`]}, ${building.building_detail[`district_${locale}`]}`}</Text>
               </View>
               <TouchableOpacity onPress={() => Linking.openURL(`tel:${phoneNumber}`)} style={styles.phoneContainer}>
                 <View style={styles.locationIcon}>

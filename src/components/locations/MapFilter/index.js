@@ -15,6 +15,7 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { platform } from '../../../config/variables';
+import i18n, { getCurrentLocale } from '../../../i18n';
 
 const CustomAnimation = {
   duration: 350,
@@ -33,7 +34,7 @@ class DropdownMenu extends Component {
   constructor(props, context) {
     super(props, context);
     let dataFilter = [];
-    dataFilter.push([{ district_name: 'Quận : Tất cả' }, ...this.props.districts]);
+    dataFilter.push([{ [`district_name_${getCurrentLocale()}`]: `${i18n.t('filter.district')} : ${i18n.t('filter.allData')}` }, ...this.props.districts]);
     let selectIndex = new Array(dataFilter.length);
     for (let i = 0; i < selectIndex.length; i++) {
       selectIndex[i] = 0;
@@ -55,11 +56,13 @@ class DropdownMenu extends Component {
 
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.districts.length !== this.props.districts.length) {
-      this.setState({ dataFilter: [[{ district_name: 'Quận : Tất cả' }, ...nextProps.districts]] })
+    if (nextProps.districts.length !== this.props.districts.length 
+      || nextProps.preferredLanguage !== this.props.preferredLanguage) {
+      this.setState({ dataFilter: [[{ [`district_name_${getCurrentLocale()}`]: `${i18n.t('filter.district')} : ${i18n.t('filter.allData')}` }, ...nextProps.districts]] })
     }
   }
   renderCheck(index, title) {
+    const locale = getCurrentLocale();
     let activityIndex = this.state.activityIndex;
     if (this.state.selectIndex[activityIndex] === index) {
       let checkImage = this.props.checkImage ? this.props.checkImage : this.defaultConfig.checkImage;
@@ -77,7 +80,7 @@ class DropdownMenu extends Component {
               this.props.optionTextStyle,
               { color: this.props.activityTintColor ? this.props.activityTintColor : this.defaultConfig.activityTintColor }
             ]}>
-            {title.district_name}
+            {title[`district_name_${locale}`]}
           </Text>
           <Image
             source={checkImage}
@@ -97,7 +100,7 @@ class DropdownMenu extends Component {
             styles.item_text_style,
             this.props.optionTextStyle,
             { color: this.props.tintColor ? this.props.tintColor : this.defaultConfig.tintColor }
-          ]}>{title.district_name}</Text>
+          ]}>{title[`district_name_${locale}`]}</Text>
         </View>
       );
     }
@@ -215,6 +218,7 @@ class DropdownMenu extends Component {
   }
 
   render() {
+    const locale = getCurrentLocale();
     return (
       <View style={{ flexDirection: 'column', flex: 1, paddingTop: 5, paddingHorizontal: 20 }}>
         <View style={{
@@ -243,7 +247,7 @@ class DropdownMenu extends Component {
                           (this.props.tintColor ? this.props.tintColor : this.defaultConfig.tintColor)
                       }
                     ]}>
-                    {rows[this.state.selectIndex[index]] ? rows[this.state.selectIndex[index]].district_name : ''}
+                    {rows[this.state.selectIndex[index]] ? rows[this.state.selectIndex[index]][`district_name_${locale}`] : ''}
                   </Text>
                 </View>
                 {this.renderDropDownArrow(index)}
@@ -281,6 +285,7 @@ const styles = StyleSheet.create({
   }
 });
 const mapStateToProps = state => ({
-  districts: state.buildings.buildingsDistricts
+  districts: state.buildings.buildingsDistricts,
+  preferredLanguage: state.translations.preferredLanguage,
 });
 export default connect(mapStateToProps, null)(DropdownMenu);

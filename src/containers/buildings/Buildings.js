@@ -68,10 +68,10 @@ class Buildings extends React.Component {
     const { district, rent_cost, acreage, direction } = this.state.filterRequired;
     const buildings = this.props.buildings.filter((item) => {
       if (district || rent_cost || acreage || direction) {
-        if (district && district.district_id > 0 && district.district_name !== item.district) { }
+        if (district && district.district_id > 0 && district.district_id !== item.district_id) { }
         else if (rent_cost && (rent_cost[0] > item.rent_cost || item.rent_cost > rent_cost[1])) { }
         else if (acreage && (acreage[0] > item.acreage_rent_array[0] || item.acreage_rent_array[item.acreage_rent_array.length - 1] > acreage[1])) { }
-        else if (direction && direction.direction_id > 0 && direction.direction_name !== item.direction) { }
+        else if (direction && direction.direction_id > 0 && direction.direction_id !== item.direction_id) { }
         else return item;
       }
       else return item;
@@ -97,7 +97,7 @@ class Buildings extends React.Component {
                 <TouchableOpacity
                   onPress={() => { this._clearFilterPress('district') }}
                   style={styles.button}>
-                  <Text style={[styles.buttonText]}>{district.district_name}</Text>
+                  <Text style={[styles.buttonText]}>{district[`district_name_${locale}`]}</Text>
                   <Icon style={styles.closeIcon} name='md-close' type="Ionicons" />
                 </TouchableOpacity>
               }
