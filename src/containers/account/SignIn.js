@@ -147,6 +147,7 @@ class SignIn extends Component {
   _onLoginSuccess = () => {
     this.setState({ isLogin: true });
     AsyncStorage.setItem('token', this.props.isAuth);
+    this.props.fetchNotificationCount(this.props.user.customer_id);
     this.updateNotificationToken();
     const dataProps = this.dataProps;
     const sub_routeName = this.routeNameProps ? this.routeNameProps : 'Account';
@@ -278,6 +279,7 @@ const mapDispatchToProps = dispatch => ({
   onAuth: (username, password) => dispatch(actions.auth(username, password)),
   onAuthWithFacebook: (token) => dispatch(actions.authWithFacebook(token)),
   onAuthWithPhone: (token) => dispatch(actions.authWithPhone(token)),
+  fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
   updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId))
 });
 

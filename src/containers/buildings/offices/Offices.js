@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, StyleSheet, Modal, ActivityIndicator } from 'react-native';
 import { Content, Icon, Text } from "native-base";
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 import * as actions from '../building-actions';
 import { Spinner } from '../../../components/common';
 import { isEmpty } from '../../../util/utility';
 import { TagOffice } from '../../../components/buildings';
-import { backgroundColor, brandPrimary, fontSize, brandLight } from '../../../config/variables';
+import { backgroundColor, brandPrimary, fontSize, brandLight, inverseTextColor, getStatusBarHeight } from '../../../config/variables';
 import OfficeFilter from './OfficeFilter';
 import i18n from '../../../i18n';
 
@@ -15,22 +16,35 @@ let filterData = {
   acreage_rent: [],
   direction: [],
   floor_name: [],
-}
+};
+
+const images = [{
+  // Simplest usage.
+  url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
+
+  // width: number
+  // height: number
+  // Optional, if you know the image size, you can set the optimization performance
+
+  // You can pass props to <Image />.
+  props: {
+    // headers: ...
+  }
+}]
 class Offices extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('building_name')
     }
   };
-  constructor(props) {
-    super(props)
-    this.state = {
-      officeList: [],
-      isFetching: true,
-      modalVisible: false,
-      filterRequired: {
-        acreage_rent: null,
-      },
+  state = {
+    officeList: [],
+    isFetching: true,
+    modalVisible: false,
+    isViewImage: false,
+    selectedImage: null,
+    filterRequired: {
+      acreage_rent: null,
     }
   }
   async componentDidMount() {
@@ -79,8 +93,11 @@ class Offices extends React.Component {
     filterRequired.acreage_rent = null
     this.setState({ filterRequired, officeList })
   }
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible })
+  setImageModalVisible = (selectedImage = null) => {
+    this.setState({
+      isViewImage: !this.state.isViewImage,
+      selectedImage
+    });
   }
   render() {
     const { filterRequired, filterData, isFetching, officeList } = this.state;
@@ -98,7 +115,28 @@ class Offices extends React.Component {
             filterRequired={{ ...filterRequired }}
           />
           : null}
-
+        {
+          this.state.isViewImage ?
+            <Modal visible={this.state.isViewImage}>
+              <TouchableOpacity
+                onPress={this.setImageModalVisible}
+                style={{ padding: 10, alignItems: 'center', position: 'absolute', top: getStatusBarHeight(), right: 15, zIndex: 1 }}>
+                <Icon
+                  name={"md-close"}
+                  style={{ color: inverseTextColor, fontSize: 30 }}
+                />
+              </TouchableOpacity>
+              <ImageViewer
+                enableSwipeDown
+                imageUrls={[{ url: this.state.selectedImage }]}
+                onCancel={this.setImageModalVisible}
+                renderIndicator={() => null}
+                loadingRender={() => <ActivityIndicator size="large" color={inverseTextColor} />}
+              />
+            </Modal>
+            :
+            null
+        }
         {(!isFetching && officeList) ?
           <Content style={{ backgroundColor }}>
             <View style={styles.filterContainer}>
@@ -126,8 +164,9 @@ class Offices extends React.Component {
                   item.building_id = building_id
                   item.building_name = building_name
                   return (
-                    <TagOffice 
+                    <TagOffice
                       key={item.office_id}
+                      viewImage={this.setImageModalVisible}
                       onPress={() => { this.props.navigation.navigate('ModalBooking', { dataProps: { officeDetail: item } }) }}
                       officeDetail={item} navigation={this.props.navigation} />
                   )

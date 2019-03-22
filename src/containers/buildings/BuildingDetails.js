@@ -99,9 +99,8 @@ class BuildingDetails extends React.Component {
               </View>
               <View style={styles.line}>
                 <Icon style={styles.icon} name='vector-square' type='MaterialCommunityIcons' />
-
                 {detailBuilding.acreage_rent_array && detailBuilding.acreage_rent_array.length > 0 ?
-                  <Text style={{ width: DEVICE_WIDTH - 50 }}>
+                  <Text style={{ width: DEVICE_WIDTH - 80 }}>
                     {detailBuilding.acreage_rent_array.join('-')}m2
                   </Text>
                   :

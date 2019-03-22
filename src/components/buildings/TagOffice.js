@@ -23,10 +23,12 @@ export default class TagOffice extends React.Component {
       <View style={styles.container}>
         <Text style={styles.title}>{officeDetail.office_name}</Text>
         {this.state.image_thumbnail_src ?
-          <Image style={{ width: '100%', height: 180 }} 
-            source={{ uri: officeDetail.image_src }}
-            onError={({ nativeEvent: { error } }) => { this.setState({ image_thumbnail_src: false }) }}
-          />
+          <TouchableOpacity onPress={() => this.props.viewImage(officeDetail.image_src)}>
+            <Image style={{ width: '100%', height: 180 }}
+              source={{ uri: officeDetail.image_src }}
+              onError={({ nativeEvent: { error } }) => { this.setState({ image_thumbnail_src: false }) }}
+            />
+          </TouchableOpacity>
           :
           <View style={styles.noImage}>
             <Icon
@@ -37,28 +39,29 @@ export default class TagOffice extends React.Component {
           </View>
         }
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-          <Icon 
-            name="vector-square" 
-            type='MaterialCommunityIcons' 
+          <Icon
+            name="vector-square"
+            type='MaterialCommunityIcons'
             style={{ fontSize: fontSize + 4, color: textColor, marginRight: 10 }} />
           <Text>{`${officeDetail.acreage_rent}m2`}</Text>
         </View>
-        <Divider style={{ marginVertical: 10 }} />
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon 
-            name="floor-plan" 
-            type='MaterialCommunityIcons' 
+        {/* <Divider style={{ marginVertical: 10 }} /> */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+          <Icon
+            name="floor-plan"
+            type='MaterialCommunityIcons'
             style={{ fontSize: fontSize + 4, color: textColor, marginRight: 10 }} />
           <Text>{capitalize(floorName)}</Text>
         </View>
-        <Divider style={{ marginVertical: 10 }} />
+        {/* <Divider style={{ marginVertical: 10 }} /> */}
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon 
-            name="directions-fork" 
-            type='MaterialCommunityIcons' 
+          <Icon
+            name="directions-fork"
+            type='MaterialCommunityIcons'
             style={{ fontSize: fontSize + 4, color: textColor, marginRight: 10 }} />
           <Text>{officeDetail[`direction_${locale}`]}</Text>
         </View>
+        <Divider style={{ marginTop: 10, marginHorizontal: 20 }} />
         <Button transparent block onPress={this.props.onPress}>
           <Text style={{ color: brandPrimary, fontSize: fontSize + 2 }}>{i18n.t('appointment.appointmentRequest')}</Text>
         </Button>
