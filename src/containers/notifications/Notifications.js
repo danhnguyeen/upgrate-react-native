@@ -166,7 +166,6 @@ class Notifications extends Component {
       type: 'delete',
       onPress: () => this.deleteHandler(item.notification_id)
     }];
-    console.log(item)
     return (
       <Swipeout
         right={swipeoutBtns}

@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>964306782642-psmpddve47e758mrp9aajg9etep2lu4l.apps.googleusercontent.com</string>
+	<string>816689009974-tluuu6ilnhtp7mrb9unb2unh3tkriggr.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.964306782642-psmpddve47e758mrp9aajg9etep2lu4l</string>
+	<string>com.googleusercontent.apps.816689009974-tluuu6ilnhtp7mrb9unb2unh3tkriggr</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBCMv4e1HlbTseCEzQOduRjYE-3vTj6Gx0</string>
+	<string>AIzaSyBi0oOyrA0gBQUUbK-vaQbihmGtKUwNRZo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>964306782642</string>
+	<string>816689009974</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>org.paxsky.PaxSky</string>
 	<key>PROJECT_ID</key>
-	<string>paxsky-f9bb2</string>
+	<string>paxsky-6f4d6</string>
 	<key>STORAGE_BUCKET</key>
-	<string>paxsky-f9bb2.appspot.com</string>
+	<string>paxsky-6f4d6.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:964306782642:ios:9d23cddc818ee2f5</string>
+	<string>1:816689009974:ios:9d23cddc818ee2f5</string>
 	<key>DATABASE_URL</key>
-	<string>https://paxsky-f9bb2.firebaseio.com</string>
+	<string>https://paxsky-6f4d6.firebaseio.com</string>
 </dict>
 </plist>

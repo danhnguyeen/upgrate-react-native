@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "964306782642",
-    "firebase_url": "https://paxsky-f9bb2.firebaseio.com",
-    "project_id": "paxsky-f9bb2",
-    "storage_bucket": "paxsky-f9bb2.appspot.com"
+    "project_number": "816689009974",
+    "firebase_url": "https://paxsky-6f4d6.firebaseio.com",
+    "project_id": "paxsky-6f4d6",
+    "storage_bucket": "paxsky-6f4d6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:964306782642:android:b7cb37f0f29c8597",
+        "mobilesdk_app_id": "1:816689009974:android:b7cb37f0f29c8597",
         "android_client_info": {
           "package_name": "com.paxsky"
         }
       },
       "oauth_client": [
         {
-          "client_id": "964306782642-id7sbo6dbuk51tkkbi12skn6m8q8nkaf.apps.googleusercontent.com",
+          "client_id": "816689009974-9c14obqt6vfruocu1ms6uq9l3skbcskf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC4QfAmTRcvF6UW30xlhmIfd1-VGoDbtMA"
+          "current_key": "AIzaSyCb2ohb9gzVWSaRKyAOeDuFZriKzptYOMM"
         }
       ],
       "services": {
