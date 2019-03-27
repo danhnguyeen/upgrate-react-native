@@ -33,7 +33,8 @@ export const updateNotificationToken = (customer_id, fire_base_token, fire_base_
         fire_base_device,
         locale: getCurrentLocale()
       };
-      await axios.post('notification/create-token', data);
+      const rest = await axios.post('notification/create-token', data);
+      console.log(rest);
       return Promise.resolve();
     } catch (err) {
       return Promise.reject(err);

@@ -3,8 +3,8 @@ import axios from 'axios';
 import i18n from "../i18n";
 
 const instance = axios.create({
-  baseURL: 'http://paxsky.amagumolabs.io/api/',
-  // baseURL: 'http://localhost/paxsky-back-office/public/api/',
+  // baseURL: 'http://paxsky.amagumolabs.io/api/',
+  baseURL: 'http://172.29.3.161/paxsky-back-office/public/api/',
   timeout: 15000,
   headers: {
     Accept: 'application/json',

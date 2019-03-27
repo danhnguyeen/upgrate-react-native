@@ -75,13 +75,14 @@ class PushNotification extends Component {
   }
   
   showLocalNotification(notif) {
-    console.log(notif)
     if (platform === 'android') {
       FCM.presentLocalNotification({
         body: notif.fcm.body,
         priority: "high",
         title: notif.fcm.title,
-        icon: 'ic_notif',
+        // large_icon: 'ic_notif',
+        icon: 'ic_trans',
+        color: brandPrimary,
         click_action: "fcm.ACTION.HELLO",
         channel: "paxsky_chanel",
         show_in_foreground: true, /* notification when app is in foreground (local & remote)*/

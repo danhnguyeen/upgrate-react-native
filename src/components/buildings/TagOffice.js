@@ -25,7 +25,8 @@ export default class TagOffice extends React.Component {
         {this.state.image_thumbnail_src ?
           <TouchableOpacity onPress={() => this.props.viewImage(officeDetail.image_src)}>
             <Image style={{ width: '100%', height: 180 }}
-              source={{ uri: officeDetail.image_src }}
+              source={{ uri: officeDetail.image_thumbnail_src }}
+              resizeMethod={'resize'}
               onError={({ nativeEvent: { error } }) => { this.setState({ image_thumbnail_src: false }) }}
             />
           </TouchableOpacity>

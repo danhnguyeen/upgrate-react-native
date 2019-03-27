@@ -72,7 +72,9 @@ export const getBuildingStructure = (building, locale) => {
   }
   if (building.floor_number > 0) {
     structure.push(`${building.floor_number} ${i18n.t('buildingDetail.floor')}${locale === 'en' && building.floor_number > 1 ? 's' : ''}`);
-    structure.push(`${building.floor_number} ${i18n.t('buildingDetail.terrace')}${locale === 'en' && building.floor_number > 1 ? 's' : ''}`);
+  }
+  if (building.rooftop_floor_number > 0) {
+    structure.push(`${building.rooftop_floor_number} ${i18n.t('buildingDetail.terrace')}${locale === 'en' && building.rooftop_floor_number > 1 ? 's' : ''}`);
   }
   return structure = structure.join(', ');
 }

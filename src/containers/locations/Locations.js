@@ -66,7 +66,7 @@ class Locations extends React.Component {
     let buildingList = this.props.buildings;
     if (district) {
       buildingList = buildingList.filter(building => {
-        return building.district === district.district_name;
+        return building.district_id === district.district_id;
       });
     }
     if (buildingList.length) {

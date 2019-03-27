@@ -40,7 +40,6 @@ export const fetchDistrictList = (provinceId = 4) => {
     try {
       let buildingsDistricts = []
       const data = await axios.get(`district?province_id=${provinceId}`);
-      console.log(data);
       data.sort((a, b) => {
         let newA = a.district_name_vi
         let newB = b.district_name_vi
