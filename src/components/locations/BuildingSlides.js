@@ -23,7 +23,7 @@ class BuildingSlides extends Component {
           <View style={styles.infoContainer}>
             <View>
               <Text style={styles.titleStyle}>{slide.sub_name}</Text>
-              <Text style={styles.subTitleStyle} numberOfLines={1}>{`${slide.building_detail[`address_${locale}`]}, ${slide.building_detail[`district_${locale}`]}`}</Text>
+              <Text style={styles.subTitleStyle} numberOfLines={2}>{`${slide.building_detail[`address_${locale}`]}, ${slide.building_detail[`district_${locale}`]}`}</Text>
             </View>
             <View>
               <Text style={{ width: 170 }} numberOfLines={2}>{structure ? structure : `${i18n.t('buildingDetail.structure')} : -- `}</Text>

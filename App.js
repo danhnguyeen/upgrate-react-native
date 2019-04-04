@@ -45,6 +45,11 @@ class App extends Component {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
       // if the App has come to the foreground, call refresh the promotion
       if (this.props.isAuth) {
+        this.props.findLastAppointmentDone(this.props.user.customer_id).then((result) => {
+          if (result.count > 0) {
+            NavigationService.navigate('Rating', { itemRating: result.appointment });
+          }
+        })
         this.props.fetchNotificationCount(this.props.user.customer_id);
         this.props.getUser(this.props.user.customer_id);
       }
