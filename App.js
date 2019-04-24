@@ -89,17 +89,17 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    preferredLanguage: state.translations.preferredLanguage,
+    // preferredLanguage: state.translations.preferredLanguage,
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLanguage: (preferredLanguage) => dispatch(actions.setLanguage(preferredLanguage)),
-    fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
-    findLastAppointmentDone: (customer_id) => dispatch(actions.findLastAppointmentDone(customer_id)),
-    updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId)),
-    getUser: (customer_id) => dispatch(actions.getProfile(customer_id))
+    // setLanguage: (preferredLanguage) => dispatch(actions.setLanguage(preferredLanguage)),
+    // fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
+    // findLastAppointmentDone: (customer_id) => dispatch(actions.findLastAppointmentDone(customer_id)),
+    // updateFCMToken: (customer_id, token, uniqueId) => dispatch(actions.updateNotificationToken(customer_id, token, uniqueId)),
+    // getUser: (customer_id) => dispatch(actions.getProfile(customer_id))
   }
 };
 

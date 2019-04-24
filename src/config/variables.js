@@ -1,65 +1,50 @@
 import { Platform, Dimensions, PixelRatio, StatusBar } from 'react-native';
 import { Header } from 'react-navigation';
 
-export const phoneNumber = '0911 07 22 99';
-
 export const DEVICE_HEIGTH = Dimensions.get('window').height;
 export const DEVICE_WIDTH = Dimensions.get('window').width;
-export const winW = percent => (DEVICE_WIDTH * percent) / 100;
-export const winH = percent => (DEVICE_HEIGTH * percent) / 100;
 export const platform = Platform.OS;
+// export const isIphoneX =
+//   platform === 'ios' && DEVICE_HEIGTH === 812 && DEVICE_WIDTH === 375;
 
 const dimen = Dimensions.get('window');
 export const isIphoneX = Platform.OS === 'ios' &&
-  !Platform.isPad &&
-  !Platform.isTVOS &&
-  ((dimen.height === 812 || dimen.width === 812) || (dimen.height === 896 || dimen.width === 896));
-
+      !Platform.isPad &&
+      !Platform.isTVOS &&
+      ((dimen.height === 812 || dimen.width === 812) || (dimen.height === 896 || dimen.width === 896));
 export function getStatusBarHeight(skipAndroid = false) {
   if (Platform.OS === 'ios') {
-    return isIphoneX ? 44 : 20;
+      return isIphoneX ? 44 : 20;
   }
   if (skipAndroid) {
-    return 0;
+      return 0;
   }
   return StatusBar.currentHeight;
 };
 export const navHeight = Header.HEIGHT + getStatusBarHeight() - 19;
-
 // Colors
-export const brandPrimary = '#2997d8'; //'#2997d8';
-// export const brandSecondary = '#2997d8'; //'#2997d8';
+export const brandPrimary = '#F5A623';
 export const brandInfo = '#5F9EE7';
-export const brandSuccess = '#59d742';
-export const brandDanger = '#b31919';
+export const brandSuccess = '#7ED321';
+export const brandDanger = '#D0021B';
 export const brandWarning = "#f7941e";
-export const backgroundColor = "#efeef4";
-export const brandLight = "#ffffff";
+export const brandDark = "#1C1D20";
+export const brandLight = "#212B34";
 export const brandLightOpacity50 = 'rgba(33, 43, 52, 0.5)';
 export const brandLightOpacity70 = 'rgba(28, 29, 32, 0.7)';
 export const lightBackground = '#fafbfc';
 export const statusBarColor = '#171e25';
-export const statusColors = {
-  orange: '#f05700',
-  red: '#b31919',
-  green: '#28871c',
-  greenBG: '#f3f9f2',
-  orange_yellow: '#f99e0',
-  yellow: '#debb3d',
-  heartColor: 'rgba(239,87,87,.9)',
-  grey: '#A9A9A9',
-};
 // Background Color
 
 // Shadow Color
 export const shadowColor = '#161616';
 // Font
-export const fontFamily = platform === 'ios' ? 'System' : 'Roboto-Regular';
+export const fontFamily = 'Roboto-Regular';
 export const fontFamilyBold = 'Roboto-Bold';
 
-let fontScal = 15;
+let fontScal = 14;
 if (PixelRatio.get() > 2) {
-  fontScal = 16;
+  fontScal = 15;
 }
 // if (PixelRatio.get() > 3) {
 //   fontScal = 18;
@@ -74,29 +59,31 @@ export const fontSizeH2 = fontSize * 2.4;
 export const fontSizeH3 = fontSize * 2;
 export const fontSizeH4 = fontSize * 1.5;
 // Text
-export const textColor = "#000";
-export const textDarkColor = "#000";
-export const textLightColor = "#666666";
-export const inverseTextColor = "#fff";
+export const textColor = "#fff";
+export const textDarkColor = "#686868";
+export const inverseTextColor = "#000";
 export const textH1 = { fontSize: fontSizeH1, fontFamily: fontFamilyBold };
 export const textH2 = { fontSize: fontSizeH2, fontFamily: fontFamilyBold };
 export const textH3 = { fontSize: fontSizeH3, fontFamily: fontFamilyBold };
 export const textH4 = { fontSize: fontSizeH4, fontFamily: fontFamilyBold };
 
 // Title
-export const titleFontSize = fontSize + 2;
-export const titleTextColor = "#0D3D74";
-export const shadow = {
-  elevation: 1,
-  shadowColor: '#1a1917',
-  shadowOpacity: 0.1,
-  shadowOffset: { width: 0, height: 2 },
-  shadowRadius: 5,
-  // marginBottom: 15
+export const titleFontSize = fontSize + 1;
+
+export const defaultTimeBooking = '11:00';
+
+export const toastOption = {
+  duration: 4000,
+  position: -49,
+  shadow: false,
+  animation: true,
+  hideOnPress: true,
+  // delay: 1000,
+  containerStyle: {
+    // paddingVertical: 1,
+    paddingTop: 4,
+    paddingBottom: 6,
+    width: DEVICE_WIDTH,
+    borderRadius: 0
+  }
 };
-// export const shadowProperties = {
-//   shadowColor: '#1a1917',
-//   shadowOpacity: 0.25,
-//   shadowOffset: { width: 0, height: 10 },
-//   shadowRadius: 10
-// }

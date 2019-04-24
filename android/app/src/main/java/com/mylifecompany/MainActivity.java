@@ -1,4 +1,4 @@
-package com.mylifecompany;
+package com.mylife_app;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

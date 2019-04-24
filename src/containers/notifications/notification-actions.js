@@ -1,5 +1,5 @@
 import * as actionTypes from './notification-action-types';
-import axios from '../../config/axios';
+import axios from '../../config/axios-mylife';
 import { getCurrentLocale } from '../../i18n';
 
 export const fetchNotificationCountSucess = (count) => ({

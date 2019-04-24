@@ -15,30 +15,8 @@ I18n.fallbacks = true;
 I18n.defaultLocale = 'vi_VN';
 I18n.translations = {
     vi_VN: vi,
-    en: en
+    en: en,
+    
 };
 
-export const setLocale = (translation) => {
-  switch (translation) {
-    case I18n.t('account.en'):
-      I18n.locale = 'en';
-      break;
-    default:
-      I18n.locale = 'vi_VN';
-  }
-};
-export const getCurrentLocale = (text = null) => {
-  let currentLocale
-  const translation = I18n.currentLocale();
-  switch (translation) {
-    case 'en':
-    case 'en-GB':
-    case 'en-US':
-      currentLocale = text? I18n.t('account.en') : 'en'
-      break;
-    default:
-      currentLocale = text ? I18n.t('account.vn') : 'vi'
-  }
-  return currentLocale
-}
 export default I18n;

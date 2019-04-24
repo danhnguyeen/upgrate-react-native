@@ -18,7 +18,7 @@ import i18n, { getCurrentLocale } from "../../i18n";
 import { Spinner } from '../../components/common';
 import { NotificationDetails } from '../../components/notifications';
 import { formatDateTime } from '../../util/utility';
-import axios from '../../config/axios';
+import axios from '../../config/axios-mylife';
 
 let _this = null;
 class Notifications extends Component {

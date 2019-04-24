@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "816689009974",
-    "firebase_url": "https://paxsky-6f4d6.firebaseio.com",
-    "project_id": "paxsky-6f4d6",
-    "storage_bucket": "paxsky-6f4d6.appspot.com"
+    "project_number": "343401632167",
+    "firebase_url": "https://mylifecompany-22a77.firebaseio.com",
+    "project_id": "mylifecompany-22a77",
+    "storage_bucket": "mylifecompany-22a77.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:816689009974:android:b7cb37f0f29c8597",
+        "mobilesdk_app_id": "1:343401632167:android:2bcb498d7d06a810",
         "android_client_info": {
-          "package_name": "com.paxsky"
+          "package_name": "com.mylife_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "816689009974-9c14obqt6vfruocu1ms6uq9l3skbcskf.apps.googleusercontent.com",
+          "client_id": "343401632167-vt8bsaqk1rr8qjibhtujstifi2vuuenl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCb2ohb9gzVWSaRKyAOeDuFZriKzptYOMM"
+          "current_key": "AIzaSyDAsfadVSdTXkXP0O2pnOziDLpuODcpCkE"
         }
       ],
       "services": {

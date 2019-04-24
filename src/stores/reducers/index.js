@@ -1,17 +1,19 @@
 import { combineReducers } from 'redux';
 
 // import { newsReducers } from '../../containers/news';
-import { AccountReducers } from '../../containers/account';
-import { buildingReducers } from '../../containers/buildings';
+import { authReducers } from '../../containers/Login';
+import { homeReducers } from '../../containers/Home';
 import { notificationReducers } from '../../containers/notifications';
 // import { appointmentReducers } from '../../containers/appointment';
 // import translationsReducers from '../../i18n/translations-reducers';
+import { bookingReducers } from '../../containers/BookTable';
 
 export default combineReducers({
+  bookingTable: bookingReducers,
   // translations: translationsReducers,
   // news: newsReducers,
-  auth: AccountReducers,
-  buildings: buildingReducers,
-  notifications: notificationReducers,
+  auth: authReducers,
+  homeState: homeReducers,
+  notificationState: notificationReducers,
   // appointments: appointmentReducers
 });
