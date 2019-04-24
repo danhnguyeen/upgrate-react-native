@@ -7,14 +7,14 @@ import './src/config/custom-props';
 import { store, persistor } from './src/stores';
 import App from './App';
 import { name as appName } from './app.json';
-import { brandPrimary } from './src/config/variables';
+import { brandLight } from './src/config/variables';
 
 class RootApp extends React.Component {
   render() {
     return (
       <Provider store={store}>
         <PersistGate
-          loading={<View style={{ flex: 1, backgroundColor: brandPrimary }}></View>}
+          loading={<View style={{ flex: 1, backgroundColor: brandLight }}></View>}
           persistor={persistor}>
           <App />
         </PersistGate>

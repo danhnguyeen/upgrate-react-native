@@ -20,7 +20,7 @@ class App extends Component {
     appState: AppState.currentState
   }
   async componentDidMount() {
-    this.props.setLanguage(this.props.preferredLanguage);
+    // this.props.setLanguage(this.props.preferredLanguage);
     SplashScreen.hide();
     FCM.requestPermissions({ badge: true, sound: true, alert: true });
     if (platform === 'android') {
@@ -90,8 +90,6 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     preferredLanguage: state.translations.preferredLanguage,
-    isAuth: state.auth.token,
-    user: state.auth.user
   }
 };
 

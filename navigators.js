@@ -3,13 +3,13 @@ import { createBottomTabNavigator, createAppContainer, createStackNavigator, cre
 import { Icon } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { Welcome } from './src/containers/welcome';
-import { News, NewsDetail } from './src/containers/news';
-import { Locations } from './src/containers/locations';
-import { Appointment, Rating } from './src/containers/appointment';
-import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook, Profile } from './src/containers/account';
-import { Buildings, BuildingDetails, Offices, Booking } from './src/containers/buildings';
-import { Notifications } from './src/containers/notifications';
+// import { Welcome } from './src/containers/welcome';
+// import { News, NewsDetail } from './src/containers/news';
+// import { Locations } from './src/containers/locations';
+// import { Appointment, Rating } from './src/containers/appointment';
+// import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook, Profile } from './src/containers/account';
+import { Buildings } from './src/containers/buildings';
+// import { Notifications } from './src/containers/notifications';
 import { NotificationIcon } from './src/components/notifications';
 import i18n from './src/i18n';
 
@@ -34,31 +34,34 @@ const headerOptions = {
   }
 };
 
-const HomeStack = createStackNavigator({
-  Welcome: {
-    screen: Welcome,
-    navigationOptions: {
-      ...headerOptions,
-      header: null
-    }
-  },
-  News: {
-    screen: News,
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('tabs.news')
-    }
-  }
-}, {
-    initialRouteName: 'Welcome',
-    navigationOptions: ({ screenProps }) => {
-      return {
-        ...headerOptions,
-        tabBarLabel: i18n.t('tabs.home', screenProps.language),
-        tabBarVisible: false
-      }
-    }
-  });
+// const HomeStack = createStackNavigator({
+//   Welcome: {
+//     screen: Welcome,
+//     navigationOptions: ({ navigation }) => {
+//       return {
+//         ...headerOptions,
+//         title: i18n.t('tabs.buildingList'),
+//         headerRight: <NotificationIcon navigation={navigation} />
+//       }
+//     }
+//   },
+//   News: {
+//     screen: News,
+//     navigationOptions: {
+//       ...headerOptions,
+//       title: i18n.t('tabs.news')
+//     }
+//   }
+// }, {
+//     initialRouteName: 'Welcome',
+//     navigationOptions: ({ screenProps }) => {
+//       return {
+//         ...headerOptions,
+//         tabBarLabel: i18n.t('tabs.home', screenProps.language),
+//         tabBarVisible: false
+//       }
+//     }
+//   });
 
 const BuildingStack = createStackNavigator({
   Buildings: {
@@ -70,21 +73,7 @@ const BuildingStack = createStackNavigator({
         headerRight: <NotificationIcon navigation={navigation} />
       }
     }
-  },
-  BuildingDetails: {
-    screen: BuildingDetails,
-    navigationOptions: {
-      ...headerOptions,
-      headerBackTitle: null,
-      header: null
-    }
-  },
-  Offices: {
-    screen: Offices,
-    navigationOptions: {
-      ...headerOptions
-    }
-  },
+  }
 }, {
     initialRouteName: 'Buildings',
     navigationOptions: ({ screenProps }) => {
@@ -95,122 +84,122 @@ const BuildingStack = createStackNavigator({
     }
   });
 
-const LocationStack = createStackNavigator({
-  Locations: {
-    screen: Locations,
-    navigationOptions: ({ navigation }) => {
-      return {
-        ...headerOptions,
-        title: i18n.t('tabs.locations'),
-        headerRight: <NotificationIcon navigation={navigation} />
-      }
-    }
-  }
-}, {
-    navigationOptions: ({ screenProps }) => {
-      return {
-        ...headerOptions,
-        tabBarLabel: i18n.t('tabs.locations', screenProps.language),
-      }
-    }
-  });
+// const LocationStack = createStackNavigator({
+//   Locations: {
+//     screen: Locations,
+//     navigationOptions: ({ navigation }) => {
+//       return {
+//         ...headerOptions,
+//         title: i18n.t('tabs.locations'),
+//         headerRight: <NotificationIcon navigation={navigation} />
+//       }
+//     }
+//   }
+// }, {
+//     navigationOptions: ({ screenProps }) => {
+//       return {
+//         ...headerOptions,
+//         tabBarLabel: i18n.t('tabs.locations', screenProps.language),
+//       }
+//     }
+//   });
 
-const AccountStack = createStackNavigator({
-  Account: {
-    screen: Account,
-    // navigationOptions: ({ navigation }) => {
-    //   return {
-    //     ...headerOptions,
-    //     title: i18n.t('tabs.account'),
-    //     headerRight: <NotificationIcon navigation={navigation} />
-    //   }
-    // }
-  },
-  Profile: {
-    screen: Profile,
-    // navigationOptions: ({ navigation }) => {
-    //   return {
-    //     ...headerOptions
-    //   }
-    // }
-  },
-  SignIn: {
-    screen: SignIn,
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('account.signIn')
-    }
-  },
-  SignUp: {
-    screen: SignUp,
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('account.signUp')
-    }
-  },
-  SignUpWithPhoneAndFacebook: {
-    screen: SignUpWithPhoneAndFacebook,
-    navigationOptions: {
-      ...headerOptions
-    }
-  }
-}, {
-    initialRouteName: 'Account',
-    navigationOptions: ({ screenProps }) => {
-      return {
-        ...headerOptions,
-        tabBarLabel: i18n.t('tabs.account', screenProps.language),
-      }
-    }
-  });
+// const AccountStack = createStackNavigator({
+//   Account: {
+//     screen: Account,
+//     // navigationOptions: ({ navigation }) => {
+//     //   return {
+//     //     ...headerOptions,
+//     //     title: i18n.t('tabs.account'),
+//     //     headerRight: <NotificationIcon navigation={navigation} />
+//     //   }
+//     // }
+//   },
+//   Profile: {
+//     screen: Profile,
+//     // navigationOptions: ({ navigation }) => {
+//     //   return {
+//     //     ...headerOptions
+//     //   }
+//     // }
+//   },
+//   SignIn: {
+//     screen: SignIn,
+//     navigationOptions: {
+//       ...headerOptions,
+//       title: i18n.t('account.signIn')
+//     }
+//   },
+//   SignUp: {
+//     screen: SignUp,
+//     navigationOptions: {
+//       ...headerOptions,
+//       title: i18n.t('account.signUp')
+//     }
+//   },
+//   SignUpWithPhoneAndFacebook: {
+//     screen: SignUpWithPhoneAndFacebook,
+//     navigationOptions: {
+//       ...headerOptions
+//     }
+//   }
+// }, {
+//     initialRouteName: 'Account',
+//     navigationOptions: ({ screenProps }) => {
+//       return {
+//         ...headerOptions,
+//         tabBarLabel: i18n.t('tabs.account', screenProps.language),
+//       }
+//     }
+//   });
 
-const AppointmentStack = createStackNavigator({
-  Appointment: {
-    screen: Appointment,
-    navigationOptions: ({ navigation }) => {
-      return {
-        ...headerOptions,
-        title: i18n.t('appointment.appointmentList'),
-        headerRight: <NotificationIcon navigation={navigation} />
-      }
-    }
-  }
-}, {
-    navigationOptions: ({ screenProps }) => {
-      return {
-        ...headerOptions,
-        tabBarLabel: i18n.t('tabs.appointment', screenProps.language),
-      }
-    }
-  });
+// const AppointmentStack = createStackNavigator({
+//   Appointment: {
+//     screen: Appointment,
+//     navigationOptions: ({ navigation }) => {
+//       return {
+//         ...headerOptions,
+//         title: i18n.t('appointment.appointmentList'),
+//         headerRight: <NotificationIcon navigation={navigation} />
+//       }
+//     }
+//   }
+// }, {
+//     navigationOptions: ({ screenProps }) => {
+//       return {
+//         ...headerOptions,
+//         tabBarLabel: i18n.t('tabs.appointment', screenProps.language),
+//       }
+//     }
+//   });
 
-const NotificationsStack = createStackNavigator({
-  Notifications: {
-    screen: Notifications,
-    navigationOptions: headerOptions
-  }
-});
-const ModalBookingStack = createStackNavigator({
-  ModalBooking: { screen: Booking, navigationOptions: headerOptions }
-});
-const ModalNewsStack = createStackNavigator({
-  ModalNews: { screen: NewsDetail, navigationOptions: headerOptions }
-});
-const RatingStack = createStackNavigator({
-  Rating: { 
-    screen: Rating, 
-    navigationOptions: {
-      ...headerOptions,
-      title: i18n.t('review.rating')
-    }
-  }
-});
+// const NotificationsStack = createStackNavigator({
+//   Notifications: {
+//     screen: Notifications,
+//     navigationOptions: headerOptions
+//   }
+// });
+// const ModalBookingStack = createStackNavigator({
+//   ModalBooking: { screen: Booking, navigationOptions: headerOptions }
+// });
+// const ModalNewsStack = createStackNavigator({
+//   ModalNews: { screen: NewsDetail, navigationOptions: headerOptions }
+// });
+// const RatingStack = createStackNavigator({
+//   Rating: { 
+//     screen: Rating, 
+//     navigationOptions: {
+//       ...headerOptions,
+//       title: i18n.t('review.rating')
+//     }
+//   }
+// });
 const MainNavigator = createBottomTabNavigator({
-  Home: HomeStack,
+  // Home: HomeStack,
   Buildings: BuildingStack,
-  Locations: LocationStack,
-  Appointment: AppointmentStack,
-  Account: AccountStack
+  // Locations: LocationStack,
+  // Appointment: AppointmentStack,
+  // Account: AccountStack
 }, {
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarOptions: {
@@ -243,15 +232,15 @@ const MainNavigator = createBottomTabNavigator({
         return <Icon name={iconName} style={{ color: tintColor, fontSize: iconSize }} type={iconType} />;
       }
     }),
-    initialRouteName: 'Home'
+    initialRouteName: 'Buildings'
   });
 
 const AppNavigator = createStackNavigator({
   Main: createSwitchNavigator({ MainNavigator }),
-  ModalNews: ModalNewsStack,
-  ModalBooking: ModalBookingStack,
-  Notifications: NotificationsStack,
-  Rating: RatingStack
+  // ModalNews: ModalNewsStack,
+  // ModalBooking: ModalBookingStack,
+  // Notifications: NotificationsStack,
+  // Rating: RatingStack
 }, {
     defaultNavigationOptions: { header: null },
     initialRouteName: 'Main'
