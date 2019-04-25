@@ -70,8 +70,6 @@
 	<string>Mylife Company muốn truy cập camera của bạn để quét mã QR Code hoặc chụp ảnh đại diện</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Mylife Company muốn truy cập vị trí của bạn để xác định vị trí và điều hướng trên bản đồ</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Mylife Company would like to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Mylife Company would like to access to your motion usage</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

@@ -9,7 +9,7 @@ import { Header } from './src/components/common';
 // import { News, NewsDetail } from './src/containers/news';
 // import { Locations } from './src/containers/locations';
 // import { Appointment, Rating } from './src/containers/appointment';
-// import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook, Profile } from './src/containers/account';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Brand from './src/containers/Brand/Brand';
 import { Login, ForgetPassword } from './src/containers/Login';
 import { BookingBrands, BookingBrandShops, BookTable } from "./src/containers/BookTable";
@@ -18,6 +18,7 @@ import { Home } from './src/containers/Home';
 import Location from "./src/containers/Location/Location";
 import { Account, Profile, Accumulation, Reward, AccountBooking, AccumulationDetails } from "./src/containers/Account";
 import { Notification } from './src/containers/Notification';
+import { QRCode, Review } from './src/containers/QRCode';
 
 import i18n from './src/i18n';
 import { brandPrimary,
@@ -29,6 +30,7 @@ import { brandPrimary,
 } from './src/config/variables';
 
 const headerOptions = {
+  headerBackTitle: null,
   headerTintColor: textColor,
   headerTitleStyle: {
     color: textColor
@@ -137,6 +139,16 @@ const LocationStack = createStackNavigator({
   }
 });
 
+const QRCodeStack = createStackNavigator({
+  QRCode: {
+    screen: QRCode,
+    navigationOptions: ({ navigation }) => ({
+      ...headerOptions,
+      headerTitle: <Header navigation={navigation} />
+    })
+  }
+});
+
 const AccountStack = createStackNavigator({
   Account: {
     screen: Account,
@@ -223,6 +235,13 @@ const NotificationsStack = createStackNavigator({
   }
 });
 
+const ReviewStack = createStackNavigator({
+  Review: {
+    screen: Review,
+    navigationOptions: headerOptions
+  }
+});
+
 // const ModalBookingStack = createStackNavigator({
 //   ModalBooking: { screen: Booking, navigationOptions: headerOptions }
 // });
@@ -239,11 +258,10 @@ const NotificationsStack = createStackNavigator({
 //   }
 // });
 const MainNavigator = createBottomTabNavigator({
-  // Home: HomeStack,
   Home: HomeStack,
   BookTable: BookingStack,
+  QRCode: QRCodeStack,
   Location: LocationStack,
-  // Appointment: AppointmentStack,
   Account: AccountStack
 }, {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -302,9 +320,8 @@ const AppNavigator = createStackNavigator({
   Main: createSwitchNavigator({ MainNavigator }),
   login: LoginStack,
   BookTable: BookingStack,
-  // ModalBooking: ModalBookingStack,
   notification: NotificationsStack,
-  // Rating: RatingStack
+  review: ReviewStack
 }, {
     defaultNavigationOptions: { header: null },
     initialRouteName: 'Main'

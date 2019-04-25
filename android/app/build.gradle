@@ -107,6 +107,7 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
         multiDexEnabled true
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     signingConfigs {
         release {
@@ -149,8 +150,9 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-photo-view')
-    compile project(':react-native-vector-icons')
+    implementation project(':react-native-camera')
+    implementation project(':react-native-photo-view')
+    implementation project(':react-native-vector-icons')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-device-info')
     implementation project(':react-native-picker')

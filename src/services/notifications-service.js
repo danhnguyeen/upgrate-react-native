@@ -16,8 +16,8 @@ class PushNotification extends Component {
   async componentDidMount() {
     //FCM.createNotificationChannel is mandatory for Android targeting >=8. Otherwise you won't see any notification
     FCM.createNotificationChannel({
-      id: 'paxsky_chanel',
-      name: 'PaxSky',
+      id: 'mylife_company_chanel',
+      name: 'Mylife Company',
       priority: 'high'
     });
     // await FCM.requestPermissions({ badge: true, sound: true, alert: true });
@@ -25,7 +25,7 @@ class PushNotification extends Component {
       // android
       if (notif) {
         if (notif.opened_from_tray && notif.from) {
-          NavigationService.navigate('Notifications');
+          NavigationService.navigate('Notification');
         }
       }
     });

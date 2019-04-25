@@ -124,6 +124,14 @@ PODS:
   - Protobuf (3.6.1)
   - React (0.57.8):
     - React/Core (= 0.57.8)
+  - react-native-camera (2.6.0):
+    - React
+    - react-native-camera/RCT (= 2.6.0)
+    - react-native-camera/RN (= 2.6.0)
+  - react-native-camera/RCT (2.6.0):
+    - React
+  - react-native-camera/RN (2.6.0):
+    - React
   - react-native-fast-image (5.2.0):
     - FLAnimatedImage
     - React
@@ -181,6 +189,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - ReactNativePermissions (1.1.1):
+    - React
   - RNAccountKit (1.0.1):
     - AccountKit
     - React
@@ -211,6 +221,7 @@ DEPENDENCIES:
   - Google-Maps-iOS-Utils
   - GoogleMaps
   - Picker (from `../node_modules/react-native-picker`)
+  - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-fast-image (from `../node_modules/react-native-fast-image`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -227,6 +238,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - ReactNativePermissions (from `../node_modules/react-native-permissions`)
   - RNAccountKit (from `../node_modules/react-native-facebook-account-kit/ios`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -267,6 +279,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-picker"
   React:
     :path: "../node_modules/react-native"
+  react-native-camera:
+    :path: "../node_modules/react-native-camera"
   react-native-fast-image:
     :path: "../node_modules/react-native-fast-image"
   react-native-google-maps:
@@ -275,6 +289,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  ReactNativePermissions:
+    :path: "../node_modules/react-native-permissions"
   RNAccountKit:
     :path: "../node_modules/react-native-facebook-account-kit/ios"
   RNDeviceInfo:
@@ -311,10 +327,12 @@ SPEC CHECKSUMS:
   Picker: 67a2566d9ff6b141d505d88b9177f905aaa5f1a6
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
+  react-native-camera: 9c50d7def800895e7991ccda6203929553ceec9c
   react-native-fast-image: 4170ad074e9de6c428fc4580ecbaacabf74901a6
   react-native-google-maps: b946d62e25dc66097921ed82520e45b0b081768a
   react-native-image-picker: f42de90075c5b1af53417af927631d909a1a746e
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
+  ReactNativePermissions: 9f2d9c45c98800795e6c2ed330e25d11a66a8169
   RNAccountKit: 3dd31fff73c90378ac89dc7611da0dc22b29f84b
   RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
   RNGestureHandler: 282af6ea58ed8483612365159c58a3ca5f55e7da
@@ -323,6 +341,6 @@ SPEC CHECKSUMS:
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: f5509b1e8f734944739431ce2fb66d1c93e8a0ed
+PODFILE CHECKSUM: 8790d1018298eb57096883ddb265289250d8d22a
 
 COCOAPODS: 1.5.3
