@@ -171,7 +171,7 @@ class SignUpWithPhone extends Component {
                 autoCapitalize="none"
                 value={
                   this.state.form.gender.value === 0 || this.state.form.gender.value === 1 ?
-                    capitalize((this.state.form.gender.value === 0 ? i18n.t('register.male') : i18n.t('register.female')))
+                    capitalize((this.state.form.gender.value === 0 ? i18n.t('register.female') : i18n.t('register.male')))
                     : ''
                 }
                 editable={false} />
@@ -179,7 +179,7 @@ class SignUpWithPhone extends Component {
             <ActionSheet
               ref={o => this.ActionSheet = o}
               title={i18n.t('register.yourGender')}
-              options={[i18n.t('register.male'), i18n.t('register.female'), i18n.t('register.other'), i18n.t('global.cancel')]}
+              options={[i18n.t('register.female'), i18n.t('register.male'), i18n.t('register.other'), i18n.t('global.cancel')]}
               cancelButtonIndex={3}
               destructiveButtonIndex={2}
               onPress={gender => this.inputChangeHandler(gender, 'gender')}

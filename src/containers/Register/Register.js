@@ -205,14 +205,6 @@ class Register extends Component {
     ];
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.props.navigation.goBack(null)} 
-          style={{ paddingHorizontal: 10, position: 'absolute', left: 10, top: 20, zIndex: 1 }}>
-          <Icon name={"ios-close"}
-            size={46}
-            color={textColor}
-            underlayColor='transparent'
-          />
-        </TouchableOpacity>
         <ScrollView scrollEnabled={false}>
           <Animated.View style={{
             opacity: 1,
@@ -303,7 +295,7 @@ class Register extends Component {
                           <TextInput
                             value={
                               this.state.form.gender.value === 0 || this.state.form.gender.value === 1 ?
-                                capitalize((this.state.form.gender.value === 0 ? i18n.t('register.male') : i18n.t('register.female')))
+                                capitalize((this.state.form.gender.value === 0 ? i18n.t('register.female') : i18n.t('register.male')))
                                 : ''
                             }
                             onTouchStart={() => this.showActionSheet()}
@@ -318,7 +310,7 @@ class Register extends Component {
                           <ActionSheet
                             ref={o => this.ActionSheet = o}
                             title={i18n.t('register.yourGender')}
-                            options={[i18n.t('register.male'), i18n.t('register.female'), i18n.t('register.other'), i18n.t('global.cancel')]}
+                            options={[i18n.t('register.female'), i18n.t('register.male'), i18n.t('register.other'), i18n.t('global.cancel')]}
                             cancelButtonIndex={3}
                             destructiveButtonIndex={2}
                             onPress={gender => this.inputChangeHandler(gender, 'gender')}

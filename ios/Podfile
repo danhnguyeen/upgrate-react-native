@@ -6,7 +6,7 @@ target 'MylifeCompany' do
   # use_frameworks!
   rn_maps_path = '../node_modules/react-native-maps'
   # Pods for MylifeCompany
-
+  project 'MylifeCompany.xcodeproj'
   # Your 'node_modules' directory is probably in the root of your project,
   # but if not, adjust the `:path` accordingly
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
@@ -35,9 +35,9 @@ target 'MylifeCompany' do
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
   # react-native-maps dependencies
   pod 'react-native-maps', path: rn_maps_path
-  # pod 'react-native-google-maps', path: rn_maps_path  # Unomment this line if you want to support GoogleMaps on iOS
-  # pod 'GoogleMaps'  # Uncomment this line if you want to support GoogleMaps on iOS
-  # pod 'Google-Maps-iOS-Utils' # Uncomment this line if you want to support GoogleMaps on iOS
+  pod 'react-native-google-maps', path: rn_maps_path  # Unomment this line if you want to support GoogleMaps on iOS
+  pod 'GoogleMaps'  # Uncomment this line if you want to support GoogleMaps on iOS
+  pod 'Google-Maps-iOS-Utils' # Uncomment this line if you want to support GoogleMaps on iOS
 
   # react-facebook-account-kit dependencies
   pod 'RNAccountKit', :path => '../node_modules/react-native-facebook-account-kit/ios'

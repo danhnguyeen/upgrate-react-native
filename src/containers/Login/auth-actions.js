@@ -54,7 +54,7 @@ const fetchCardSuccess = (cards) => ({
 export const fetchCard = () => {
   return async dispatch => {
     try {
-      const { result } = await axios.get('user/card');
+      const { result } = await axios.get('promotion/ListVIPCardType');
       dispatch(fetchCardSuccess(result));
       return Promise.resolve();
     } catch (err) {

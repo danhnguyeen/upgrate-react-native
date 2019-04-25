@@ -60,12 +60,12 @@ class Header extends Component {
             <Avatar
               size="small"
               rounded
-              icon={{ name: 'user', type: 'font-awesome' }}
+              icon={{ name: 'user', type: 'font-awesome', color: brandPrimary }}
               activeOpacity={0.7}
               containerStyle={styles.avatarStyle}
             />
-            <View style={{ justifyContent: 'center' }}>
-              <Text style={[styles.textStyle, { fontSize: titleFontSize }]}>{i18n.t('login.signIn')}</Text>
+            <View style={{ justifyContent: 'center', borderWidth: 1, borderColor: brandPrimary, borderRadius: 15 }}>
+              <Text style={[styles.textStyle, { paddingHorizontal: 20, paddingVertical: 4, color: brandPrimary }]}>{i18n.t('login.signIn')}</Text>
             </View>
           </TouchableOpacity>  
         }

@@ -156,16 +156,13 @@ class Login extends Component {
   onSubmitLogin = async () => {
     this.setState({ formTouched: true });
     const { formIsValid } = validateForm({ ...this.state.form });
-    console.log(formIsValid)
     if (formIsValid) {
       this.setState({ submiting: true });
       try {
         await this.props.onAuth(this.state.form.email.value, this.state.form.password.value);
-        console.log('loign success')
         this.setState({ submiting: false });
         this._onLoginSuccess();
       } catch (err) {
-        console.log(err)
         this.setState({ submiting: false });
         if (err.msg === 'incorrect_email_password') {
           err.msg = i18n.t('login.loginFailMsg');
@@ -175,7 +172,6 @@ class Login extends Component {
     }
   }
   _onLoginSuccess = () => {
-    console.log('success')
     AsyncStorage.setItem('token', this.props.isAuth);
     // const resetAction = StackActions.reset({
     //   index: 0,
@@ -273,14 +269,6 @@ class Login extends Component {
     }
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.props.navigation.goBack(null)} 
-          style={{ paddingHorizontal: 10, position: 'absolute', left: 10, top: 20, zIndex: 1 }}>
-          <Icon name={"ios-close"}
-            size={46}
-            color={textColor}
-            underlayColor='transparent'
-          />
-        </TouchableOpacity>
         <ScrollView scrollEnabled={false}>
           <Animated.View style={{
             opacity: 1,

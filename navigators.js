@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import Icon from "react-native-vector-icons/Ionicons";
 import LinearGradient from 'react-native-linear-gradient';
-import { YellowBox, View, StatusBar, NetInfo, Text, UIManager } from 'react-native';
+import { YellowBox, View, StatusBar, NetInfo, Text, UIManager, TouchableOpacity } from 'react-native';
 
 import { Header } from './src/components/common';
 // import { Welcome } from './src/containers/welcome';
@@ -10,7 +10,11 @@ import { Header } from './src/components/common';
 // import { Locations } from './src/containers/locations';
 // import { Appointment, Rating } from './src/containers/appointment';
 // import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook, Profile } from './src/containers/account';
+import Brand from './src/containers/Brand/Brand';
+import { Login, ForgetPassword } from './src/containers/Login';
+import { Register, SignUpWithPhone } from './src/containers/Register';
 import { Home } from './src/containers/Home';
+import Location from "./src/containers/Location/Location";
 import { Account, Profile, Accumulation, Reward, AccountBooking, AccumulationDetails } from "./src/containers/Account";
 // import { Notifications } from './src/containers/notifications';
 import { NotificationIcon } from './src/components/notifications';
@@ -34,34 +38,72 @@ const headerOptions = {
   }
 };
 
-// const HomeStack = createStackNavigator({
-//   Welcome: {
-//     screen: Welcome,
-//     navigationOptions: ({ navigation }) => {
-//       return {
-//         ...headerOptions,
-//         title: i18n.t('tabs.buildingList'),
-//         headerRight: <NotificationIcon navigation={navigation} />
-//       }
-//     }
-//   },
-//   News: {
-//     screen: News,
-//     navigationOptions: {
-//       ...headerOptions,
-//       title: i18n.t('tabs.news')
-//     }
-//   }
-// }, {
-//     initialRouteName: 'Welcome',
-//     navigationOptions: ({ screenProps }) => {
-//       return {
-//         ...headerOptions,
-//         tabBarLabel: i18n.t('tabs.home', screenProps.language),
-//         tabBarVisible: false
-//       }
-//     }
-//   });
+const LoginStack = createStackNavigator({
+  Login: {
+    screen: Login,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerBackTitle: null,
+      headerTitleStyle: {
+        color: textColor
+      },
+      headerStyle:{ 
+        backgroundColor: 'rgba(33, 43, 52, 0.9)', 
+      },
+      title: i18n.t('login.signIn'),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack(null)}
+          style={{ paddingHorizontal: 10, alignItems: 'center' }}>
+          <Icon
+            name={"ios-arrow-back"}
+            size={30}
+            color={textColor}
+            underlayColor='transparent'
+          />
+        </TouchableOpacity>
+      )
+    })
+  },
+  SignUp: {
+    screen: SignUpWithPhone,
+    navigationOptions: headerOptions
+  },
+  ForgetPassword: {
+    screen: ForgetPassword,
+    navigationOptions: headerOptions
+  },
+  Register: {
+    screen: Register,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerBackTitle: null,
+      headerTitleStyle: {
+        color: textColor
+      },
+      headerStyle:{ 
+        backgroundColor: 'rgba(33, 43, 52, 0.9)', 
+      },
+      title: i18n.t('login.signUp'),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack(null)}
+          style={{ paddingHorizontal: 10, alignItems: 'center' }}>
+          <Icon
+            name={"ios-arrow-back"}
+            size={30}
+            color={textColor}
+            underlayColor='transparent'
+          />
+        </TouchableOpacity>
+      )
+    })
+  }
+}, {
+    transitionConfig: (sceneProps) => ({
+      transitionSpec: {
+        duration: sceneProps.scene.route.routeName === 'Register' ? 0 : 260,
+      }
+    })
+  });
 
 const HomeStack = createStackNavigator({
   Home: {
@@ -70,6 +112,10 @@ const HomeStack = createStackNavigator({
       ...headerOptions,
       headerTitle: <Header navigation={navigation} />
     })
+  },
+  Brand: {
+    screen: Brand,
+    navigationOptions: headerOptions
   }
 }, {
     initialRouteName: 'Home',
@@ -80,26 +126,15 @@ const HomeStack = createStackNavigator({
       }
     }
   });
-
-// const LocationStack = createStackNavigator({
-//   Locations: {
-//     screen: Locations,
-//     navigationOptions: ({ navigation }) => {
-//       return {
-//         ...headerOptions,
-//         title: i18n.t('tabs.locations'),
-//         headerRight: <NotificationIcon navigation={navigation} />
-//       }
-//     }
-//   }
-// }, {
-//     navigationOptions: ({ screenProps }) => {
-//       return {
-//         ...headerOptions,
-//         tabBarLabel: i18n.t('tabs.locations', screenProps.language),
-//       }
-//     }
-//   });
+const LocationStack = createStackNavigator({
+  Locations: {
+    screen: Location,
+    navigationOptions: ({ navigation }) => ({
+      ...headerOptions,
+      headerTitle: <Header navigation={navigation} />
+    })
+  }
+});
 
 const AccountStack = createStackNavigator({
   Account: {
@@ -194,7 +229,7 @@ const AccountStack = createStackNavigator({
 const MainNavigator = createBottomTabNavigator({
   // Home: HomeStack,
   Home: HomeStack,
-  // Locations: LocationStack,
+  Location: LocationStack,
   // Appointment: AppointmentStack,
   Account: AccountStack
 }, {
@@ -252,6 +287,7 @@ const MainNavigator = createBottomTabNavigator({
 
 const AppNavigator = createStackNavigator({
   Main: createSwitchNavigator({ MainNavigator }),
+  login: LoginStack,
   // ModalNews: ModalNewsStack,
   // ModalBooking: ModalBookingStack,
   // Notifications: NotificationsStack,

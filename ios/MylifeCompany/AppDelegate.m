@@ -13,11 +13,13 @@
 #import "RNFIRMessaging.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
+#import <GoogleMaps/GoogleMaps.h>
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
+  [GMSServices provideAPIKey:@"AIzaSyD3Ul8mfQw9-_d8RDbAt7ByAUQ7vftAmko"];
 
   #ifdef DEBUG
     jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
