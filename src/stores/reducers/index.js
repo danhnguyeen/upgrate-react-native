@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import { authReducers } from '../../containers/Login';
 import { homeReducers } from '../../containers/Home';
 import appState from './appStateReducer';
-import { notificationReducers } from '../../containers/notifications';
+import { notificationReducers } from '../../containers/Notification';
 // import { appointmentReducers } from '../../containers/appointment';
 // import translationsReducers from '../../i18n/translations-reducers';
 import { bookingReducers } from '../../containers/BookTable';

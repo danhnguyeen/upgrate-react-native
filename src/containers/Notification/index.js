@@ -1,7 +1,7 @@
-import Notifications from './Notifications';
+import Notification from './Notification';
 import notificationReducers from './notification-reducers';
 
 export {
-  Notifications,
+  Notification,
   notificationReducers
 };

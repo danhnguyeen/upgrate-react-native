@@ -12,12 +12,13 @@ import { Header } from './src/components/common';
 // import { Account, SignIn, SignUp, SignUpWithPhoneAndFacebook, Profile } from './src/containers/account';
 import Brand from './src/containers/Brand/Brand';
 import { Login, ForgetPassword } from './src/containers/Login';
+import { BookingBrands, BookingBrandShops, BookTable } from "./src/containers/BookTable";
 import { Register, SignUpWithPhone } from './src/containers/Register';
 import { Home } from './src/containers/Home';
 import Location from "./src/containers/Location/Location";
 import { Account, Profile, Accumulation, Reward, AccountBooking, AccumulationDetails } from "./src/containers/Account";
-// import { Notifications } from './src/containers/notifications';
-import { NotificationIcon } from './src/components/notifications';
+import { Notification } from './src/containers/Notification';
+
 import i18n from './src/i18n';
 import { brandPrimary,
   brandLight,
@@ -185,32 +186,43 @@ const AccountStack = createStackNavigator({
     }
   });
 
-// const AppointmentStack = createStackNavigator({
-//   Appointment: {
-//     screen: Appointment,
-//     navigationOptions: ({ navigation }) => {
-//       return {
-//         ...headerOptions,
-//         title: i18n.t('appointment.appointmentList'),
-//         headerRight: <NotificationIcon navigation={navigation} />
-//       }
-//     }
-//   }
-// }, {
-//     navigationOptions: ({ screenProps }) => {
-//       return {
-//         ...headerOptions,
-//         tabBarLabel: i18n.t('tabs.appointment', screenProps.language),
-//       }
-//     }
-//   });
+const BookingStack = createStackNavigator({
+  BookingBrands: {
+    screen: BookingBrands,
+    navigationOptions: ({ navigation }) => ({
+      ...headerOptions,
+      headerTitle: <Header navigation={navigation} />
+    })
+  },
+  BookingBrandShops: {
+    screen: BookingBrandShops,
+    navigationOptions: headerOptions
+  },
+  Booking: {
+    screen: BookTable,
+    navigationOptions: {
+      ...headerOptions,
+      headerStyle: {
+        backgroundColor: brandLight,
+        borderBottomColor: brandLight,
+        elevation: 0,
+        shadowOpacity: 0,
+        borderBottomWidth: 0
+      }
+    }
+  }
+},
+{
+  initialRouteName: 'BookingBrands'
+});
 
-// const NotificationsStack = createStackNavigator({
-//   Notifications: {
-//     screen: Notifications,
-//     navigationOptions: headerOptions
-//   }
-// });
+const NotificationsStack = createStackNavigator({
+  Notification: {
+    screen: Notification,
+    navigationOptions: headerOptions
+  }
+});
+
 // const ModalBookingStack = createStackNavigator({
 //   ModalBooking: { screen: Booking, navigationOptions: headerOptions }
 // });
@@ -229,6 +241,7 @@ const AccountStack = createStackNavigator({
 const MainNavigator = createBottomTabNavigator({
   // Home: HomeStack,
   Home: HomeStack,
+  BookTable: BookingStack,
   Location: LocationStack,
   // Appointment: AppointmentStack,
   Account: AccountStack
@@ -288,9 +301,9 @@ const MainNavigator = createBottomTabNavigator({
 const AppNavigator = createStackNavigator({
   Main: createSwitchNavigator({ MainNavigator }),
   login: LoginStack,
-  // ModalNews: ModalNewsStack,
+  BookTable: BookingStack,
   // ModalBooking: ModalBookingStack,
-  // Notifications: NotificationsStack,
+  notification: NotificationsStack,
   // Rating: RatingStack
 }, {
     defaultNavigationOptions: { header: null },

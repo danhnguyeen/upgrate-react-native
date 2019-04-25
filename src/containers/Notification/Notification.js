@@ -1,36 +1,40 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, Alert } from 'react-native';
-import { connect } from 'react-redux';
-import { Icon } from 'native-base';
 import Swipeout from 'react-native-swipeout';
+import { connect } from 'react-redux';
+import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import * as actions from './notification-actions';
 import {
+  brandDark,
   brandLight,
+  brandPrimary,
   DEVICE_WIDTH,
+  fontFamily,
   fontSize,
   textColor,
-  inverseTextColor,
-  backgroundColor,
-  textLightColor
+  textDarkColor,
+  titleFontSize
 } from "../../config/variables";
-import i18n, { getCurrentLocale } from "../../i18n";
+import i18n from "../../i18n";
 import { Spinner } from '../../components/common';
-import { NotificationDetails } from '../../components/notifications';
+import { NotificationDetails } from '../../components/Notification';
 import { formatDateTime } from '../../util/utility';
 import axios from '../../config/axios-mylife';
 
 let _this = null;
-class Notifications extends Component {
+class Notification extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: i18n.t('tabs.notifications'),
+      title: i18n.t('tabs.notification'),
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.goBack(null)}
-          style={{ paddingHorizontal: 10, alignItems: 'center' }}>
+          style={{ paddingHorizontal: 20, alignItems: 'center' }}>
           <Icon
             name={"ios-arrow-back"}
-            style={{ color: inverseTextColor, fontSize: 34 }}
+            size={28}
+            color={textColor}
             underlayColor='transparent'
           />
         </TouchableOpacity>
@@ -40,7 +44,8 @@ class Notifications extends Component {
           style={{ paddingHorizontal: 20, alignItems: 'center' }}>
           <Icon
             name={"ios-done-all"}
-            style={{ color: inverseTextColor, fontSize: 44 }}
+            size={32}
+            color={textColor}
             underlayColor='transparent'
           />
         </TouchableOpacity>
@@ -55,12 +60,13 @@ class Notifications extends Component {
     selectedItem: null,
     totalPage: null,
     isPullRefresh: false,
-    scrollEnabled: true,
     notifications: []
   }
   componentDidMount() {
     _this = this;
-    this.getNotification();
+    if (this.props.isAuth) {
+      this.getNotification();
+    }
   }
   getNotification = async (isLoadMore, isPullRefresh = false) => {
     if (isLoadMore && this.state.page > this.state.totalPage) {
@@ -73,19 +79,18 @@ class Notifications extends Component {
     this.setState({ isPullRefresh, page: prevState.page + 1 });
     try {
       const params = {
-        customer_id: this.props.user.customer_id,
         page: prevState.page,
         pageSize: prevState.size
       };
-      const result = await axios.get('notification/notifications', { params });
+      const result = await axios.post('notification/getAll', params);
       this.setState({
-        // totalPage: result.Paging.totalPage,
-        notifications: isLoadMore ? [...this.state.notifications, ...result] : result,
+        totalPage: result.Paging.totalPage,
+        notifications: isLoadMore ? [...this.state.notifications, ...result.Notifications] : result.Notifications,
         isPullRefresh: false,
         firstLoading: false
       });
     } catch (error) {
-      this.setState({ isPullRefresh: false, firstLoading: false });
+      this.setState({ isPullRefresh: false });
     }
   }
   onSwipeOpen = (rowIndex) => {
@@ -96,24 +101,22 @@ class Notifications extends Component {
       this.setState({ rowIndex: null });
     }
   }
-  SwipeScrollEvent = (allowParentScroll) => {
-    if (this.state.scrollEnabled != allowParentScroll) {
-      this.setState({ scrollEnabled: allowParentScroll })
-    }
-  }
-  openModalHanlder = async (selectedItem) => {
+  openModalHanlder = async(selectedItem) => {
     this.setState({ selectedItem });
-    await axios.post('notification/update-read-notification', { notification_id: selectedItem.notification_id });
+    await axios.post('notification/markAsRead', { notificationId: selectedItem.Id });
   }
   closeModalHandler = () => {
     this.getNotification();
-    this.props.fetchNotificationCount(this.props.user.customer_id);
+    this.props.fetchNotificationCount();
     this.setState({ selectedItem: null });
   }
   markAllAsReadConfirm = () => {
+    if (!this.props.isAuth) {
+      return;
+    }
     Alert.alert(
       i18n.t('global.confirm'),
-      i18n.t('notifications.areYouSureWantToMarkAllAsRead'),
+      i18n.t('notification.areYouSureWantToMarkAllAsRead'),
       [
         { text: i18n.t('global.cancel'), style: 'cancel' },
         { text: i18n.t('global.ok'), onPress: this.markAllAsRead },
@@ -122,19 +125,15 @@ class Notifications extends Component {
     )
   }
   markAllAsRead = async () => {
-    try {
-      await axios.post('notification/mark-all-notification-as-read', { customer_id: this.props.user.customer_id });
-      this.getNotification();
-      await this.props.fetchNotificationCount(this.props.user.customer_id);
-    } catch (error) {
-      Alert.alert(i18n.t('global.error'), error.message);
-    }
+    await axios.post('notification/markReadAll');
+    this.getNotification();
+    await this.props.fetchNotificationCount();
   }
   markAsRead = async (id) => {
     this.setState({ rowIndex: null });
-    await axios.post('notification/update-read-notification', { notification_id: id });
+    await axios.post('notification/markAsRead', { notificationId: id });
     this.getNotification();
-    this.props.fetchNotificationCount(this.props.user.customer_id);
+    this.props.fetchNotificationCount();
   }
   deleteWithConfirm = async (id) => {
     Alert.alert(
@@ -147,49 +146,55 @@ class Notifications extends Component {
     )
   }
   deleteHandler = async (id) => {
-    await axios.post('notification/delete', { notification_id: id });
+    await axios.post('notification/delete', { notificationId: id });
     this.getNotification();
-    this.props.fetchNotificationCount(this.props.user.customer_id);
+    this.props.fetchNotificationCount();
     this.setState({ rowIndex: null, selectedItem: null });
   }
   renderItem = ({ item, index }) => {
     const swipeoutBtns = [{
       component: (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ color: inverseTextColor, textAlign: 'center' }}>{i18n.t('notifications.markAsRead')}</Text>
+          <Text style={{ textAlign: 'center' }}>{i18n.t('notification.markAsRead')}</Text>
         </View>
       ),
       type: 'primary',
-      onPress: () => this.markAsRead(item.notification_id)
+      onPress: () => this.markAsRead(item.Id)
     }, {
       text: i18n.t('global.delete'),
       type: 'delete',
-      onPress: () => this.deleteHandler(item.notification_id)
+      onPress: () => this.deleteHandler(item.Id)
     }];
     return (
       <Swipeout
         right={swipeoutBtns}
         style={[styles.swipeItem, { marginTop: index === 0 ? 10 : 0 }]}
         onOpen={() => (this.onSwipeOpen(index))}
-        scroll={this.SwipeScrollEvent}
         close={this.state.rowIndex !== index}
         onClose={() => (this.onSwipeClose(index))}
       >
         <TouchableOpacity style={styles.containerItem} onPress={() => this.openModalHanlder(item)}>
-          <Icon
-            name={item.is_read ? 'ios-mail-open' : 'ios-mail'}
-            style={{ paddingRight: 10, fontSize: 22, color: textLightColor, opacity: item.is_read ? 0.8 : 1 }}
-          />
-          <View style={{ flex: 1 }}>
-            <Text style={styles.textStyle}>{item[`title_${getCurrentLocale()}`]}</Text>
-            <Text style={styles.subtitle}>{item[`body_${getCurrentLocale()}`]}</Text>
-            <Text style={styles.subtitle}>{formatDateTime(item.created_at, 'DD-MM-YYYY HH:mm')}</Text>
+          <Ionicons
+            size={26}
+            name={item.LastSeen ? 'email-open-outline' : 'email-outline'}
+            style={{ paddingHorizontal: 10 }}
+            color={item.LastSeen ? textDarkColor : textColor} />
+          <View style={{ width: '80%' }}>
+            <Text style={styles.textStyle}>{item.Title}</Text>
+            <Text style={styles.subtitle}>{item.ShortDesc}</Text>
+            <Text style={styles.subtitle}>{formatDateTime(item.CreatedTime)}</Text>
           </View>
+          {!item.LastSeen ? (<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ backgroundColor: brandPrimary, borderRadius: 50, width: 10, height: 10 }} />
+          </View>) : null}
         </TouchableOpacity>
       </Swipeout>
     );
   };
   render() {
+    if (!this.props.isAuth) {
+      return (<View style={styles.container}></View>);
+    }
     const notifications = this.state.notifications || [];
     return (
       <View style={styles.container}>
@@ -206,9 +211,8 @@ class Notifications extends Component {
           :
           <FlatList
             onRefresh={this.getNotification}
-            scrollEnabled={this.state.scrollEnabled}
             refreshing={this.state.isPullRefresh}
-            keyExtractor={(item) => item.notification_id.toString()}
+            keyExtractor={(item) => item.Id.toString()}
             data={notifications}
             renderItem={this.renderItem}
             onEndReached={() => this.getNotification(true)}
@@ -225,38 +229,44 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor,
+    backgroundColor: brandDark,
     width: '100%',
   },
   swipeItem: {
     flexDirection: 'row',
-    width: DEVICE_WIDTH,
+    width: DEVICE_WIDTH - 30,
     backgroundColor: brandLight,
+    borderRadius: 5,
+    marginLeft: 15,
+    marginRight: 15,
     marginBottom: 10
   },
   containerItem: {
     flexDirection: 'row',
-    padding: 15,
-    width: DEVICE_WIDTH
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   textStyle: {
     color: textColor,
-    fontSize: fontSize + 1,
+    fontSize: titleFontSize,
   },
   subtitle: {
     fontSize: fontSize - 2,
     paddingTop: 5,
-    color: textLightColor
+    fontFamily,
+    color: textColor
   }
 });
 
 const mapStateToProps = state => ({
-  user: {}
+  isAuth: state.auth.token,
+  notifications: state.notificationState.notifications
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id))
+  fetchNotifications: (data) => dispatch(actions.fetchNotifications(data)),
+  fetchNotificationCount: () => dispatch(actions.fetchNotificationCount())
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
+export default connect(mapStateToProps, mapDispatchToProps)(Notification);
