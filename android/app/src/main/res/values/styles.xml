@@ -1,10 +1,20 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <!-- <item name="android:statusBarColor">@color/blue</item> -->
-        <item name="android:windowBackground">@color/blue</item>
+        <!-- <item name="android:windowIsTranslucent">true</item> -->
+        <item name="android:statusBarColor">@color/blue</item>
+        <item name="android:windowBackground">@color/primary_dark</item>
     </style>
-
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="android:statusBarColor">@color/blue</item>
+    </style>
+    <style name="LoginThemeYellow" parent="Theme.AccountKit">
+        <item name="com_accountkit_status_bar_color">#000000</item>
+        <item name="com_accountkit_primary_color">#F5A623</item>
+        <item name="com_accountkit_input_border_color">#F5A623</item>
+        <item name="com_accountkit_button_background_color">#F5A623</item>
+        <item name="com_accountkit_button_border_color">#F5A623</item>
+    </style>
 </resources>

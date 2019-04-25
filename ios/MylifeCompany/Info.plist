@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AccountKitClientToken</key>
-	<string>46a9f1dfa1dd879c752894bca133214f</string>
+	<string>c152449b54fe9afeb6fd72acb1d72c2c</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -27,17 +27,17 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ak276313173033941</string>
-				<string>fb276313173033941</string>
+				<string>ak290156418492392</string>
+				<string>fb290156418492392</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>0</string>
 	<key>FacebookAppID</key>
-	<string>276313173033941</string>
+	<string>290156418492392</string>
 	<key>FacebookDisplayName</key>
-	<string>MylifeCompany</string>
+	<string>Mylife Company</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -61,25 +61,25 @@
 		</dict>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your music</string>
+	<string>Mylife Company would like to access to your music</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your bluetooth</string>
+	<string>Mylife Company would like to access to your bluetooth</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your calendar</string>
+	<string>Mylife Company would like to access to your calendar</string>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your camera for your profile photo upload</string>
+	<string>Mylife Company muốn truy cập camera của bạn để quét mã QR Code hoặc chụp ảnh đại diện</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your location for maps direction</string>
+	<string>Mylife Company muốn truy cập vị trí của bạn để xác định vị trí và điều hướng trên bản đồ</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your microphone</string>
+	<string>Mylife Company would like to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your motion usage</string>
+	<string>Mylife Company would like to access to your motion usage</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery for your profile photo upload</string>
+	<string>Mylife Company muốn truy cập thư viện ảnh của bạn để đổi ảnh đại diện</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like access your photo gallery for your profile photo upload</string>
+	<string>Mylife Company muốn truy cập thư viện ảnh của bạn để đổi ảnh đại diện</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your speech recognition usage</string>
+	<string>Mylife Company would like to access to your speech recognition usage</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

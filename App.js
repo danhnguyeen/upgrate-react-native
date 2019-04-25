@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import AppContainer from './navigators';
 import PushNotification from './src/services/notifications-service';
 import NavigationService from './src/services/navigation-service';
-import { brandPrimary, platform } from './src/config/variables';
+import { statusBarColor, platform } from './src/config/variables';
 import * as actions from './src/stores/actions';
 import i18n from './src/i18n';
 
@@ -73,7 +73,7 @@ class App extends Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
-          backgroundColor={'#2079ae'}
+          backgroundColor={statusBarColor}
           barStyle="light-content"
         />
         <Root>
