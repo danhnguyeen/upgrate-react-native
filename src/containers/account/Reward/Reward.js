@@ -68,23 +68,25 @@ class Reward extends Component {
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.summaryContainer}>
             <ImageBackground source={RewardImg} style={styles.userInfo}>
-              {user.profilePicture ?
-                <FastImage
-                  source={{ uri: user.profilePicture }}
-                  style={[styles.avatarStyle, { width: 50, height: 50, borderRadius: 50 }]}
-                />
-                :
-                <Avatar
-                  size="medium"
-                  rounded
-                  icon={{ name: 'user', type: 'font-awesome' }}
-                  activeOpacity={0.7}
-                  containerStyle={styles.avatarStyle}
-                />
-              }
-              <View style={{ flex: 1 }}>
-                <Text style={styles.textName}>{user.username}</Text>
-                <Text>{currentLvl.name}</Text>
+              <View style={[styles.userInfo, { padding: 15 }]}>
+                {user.profilePicture ?
+                  <FastImage
+                    source={{ uri: user.profilePicture }}
+                    style={[styles.avatarStyle, { width: 50, height: 50, borderRadius: 50 }]}
+                  />
+                  :
+                  <Avatar
+                    size="medium"
+                    rounded
+                    icon={{ name: 'user', type: 'font-awesome' }}
+                    activeOpacity={0.7}
+                    containerStyle={styles.avatarStyle}
+                  />
+                }
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.textName}>{user.username}</Text>
+                  <Text>{currentLvl.name}</Text>
+                </View>
               </View>
             </ImageBackground>
             <View style={{ padding: 15 }}>
@@ -137,13 +139,13 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 15
   },
   userInfo: {
+    flex: 1,
     width: '100%',
     // width: DEVICE_WIDTH - 30,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    minHeight: 115,
-    padding: 15
+    minHeight: 115
   },
   avatarStyle: {
     marginRight: 10

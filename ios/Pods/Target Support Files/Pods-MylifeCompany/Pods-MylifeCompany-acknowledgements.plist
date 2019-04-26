@@ -1886,7 +1886,7 @@ SOFTWARE.
 
 </string>
 			<key>License</key>
-			<string>MIT AND Apache-2.0 AND BSD-3-Clause</string>
+			<string>MIT</string>
 			<key>Title</key>
 			<string>react-native-camera</string>
 			<key>Type</key>

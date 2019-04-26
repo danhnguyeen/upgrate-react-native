@@ -5068,11 +5068,12 @@ react-native-button@^2.3.0:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-camera@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-2.6.0.tgz#bf97b0fc68aa8732d815e9bbd92e63529f51d598"
-  integrity sha512-g0Hi4yhUg1yBsYbW9aLxVaX+rgl9sKrrDAGF6difiRTvwCUEqlID2DosLCQQPkLSniJHVa8gc+SwCegahU23aA==
+react-native-camera@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-1.3.1.tgz#d7c1a207bfc33b11c130762d6b494b4169562463"
+  integrity sha512-IFhU+7ax60eXnqqoTI0r6l/2AoZcYduBJ3tLKdDPue/1w6Fnfx5f2BEIU3hTNzjGX3v29vz+xZNKo0pwcrJmOA==
   dependencies:
+    lodash "^4.17.10"
     prop-types "^15.6.2"
 
 react-native-collapsible@1.3.0:
@@ -5251,10 +5252,10 @@ react-native-picker@^4.3.7:
   resolved "https://registry.yarnpkg.com/react-native-picker/-/react-native-picker-4.3.7.tgz#9842e8c62ff0d8b676e9514d9f9172413c0518a8"
   integrity sha1-mELoxi/w2LZ26VFNn5FyQTwFGKg=
 
-react-native-qrcode-scanner@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-qrcode-scanner/-/react-native-qrcode-scanner-1.1.2.tgz#5b6dfb4efd267a810bedb1f09b7c9ccb6d321e20"
-  integrity sha512-ID/s6za6N1m+V5dgzGZYr+rf9txuTYEnqqkowR8hujm9ddPRJEkXXGkoR6Y18WnpDGS7eDEt2BNPLXFkLLYhvQ==
+react-native-qrcode-scanner@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-qrcode-scanner/-/react-native-qrcode-scanner-1.1.0.tgz#6a2e88110e0c1def94690a4d52fc383634ed6e4c"
+  integrity sha512-Z0lm9vEVMnVrzlZUrlo29OvSmYSBmDdzRi4mjLsWbQ6uzxZE9aNL1wjxnO7KvBL9Q3HKji6mybj1+fdpUMbDxg==
   dependencies:
     prop-types "^15.5.10"
     react-native-permissions "^1.1.1"
