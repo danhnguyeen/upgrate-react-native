@@ -90,6 +90,7 @@ class QRCode extends Component {
     }
   }
   onScanSuccess = (data) => {
+    console.log(data);
     if (!data.reviews) {
       this.props.navigation.navigate('Review', { billData: data });
     } else {

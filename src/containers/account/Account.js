@@ -81,7 +81,9 @@ class Account extends Component {
             title={i18n.t('account.profile.title')}
             leftIcon={<Icon name="user" type='feather' color={textColor} size={fontSize + 6} />}
           />
-          : null}
+          : 
+          null
+        }
         <AccountItem onPress={() => this.gotoScreen('Reward')}
           title={i18n.t('account.mylifeRewards')}
           leftIcon={<Icon name="md-gift" type='ionicon' color={textColor} size={fontSize + 6} />}

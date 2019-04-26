@@ -82,7 +82,7 @@ class ProfileEdit extends Component {
             <FormInput
               value={
                 this.props.form.gender.value === 0 || this.props.form.gender.value === 1 ?
-                  capitalize((this.props.form.gender.value === 0 ? i18n.t('register.male') : i18n.t('register.female')))
+                  capitalize((this.props.form.gender.value === 0 ? i18n.t('register.female') : i18n.t('register.male')))
                   : ''
               }
               placeholder={i18n.t('register.gender')}
@@ -93,7 +93,7 @@ class ProfileEdit extends Component {
         <ActionSheet
           ref={o => this.ActionSheet = o}
           title={i18n.t('register.yourGender')}
-          options={[i18n.t('register.male'), i18n.t('register.female'), i18n.t('register.other'), i18n.t('global.cancel')]}
+          options={[i18n.t('register.female'), i18n.t('register.male'), i18n.t('register.other'), i18n.t('global.cancel')]}
           cancelButtonIndex={3}
           destructiveButtonIndex={2}
           onPress={gender => this.props.inputChangeHandler(gender, 'gender')}

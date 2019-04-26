@@ -12,8 +12,8 @@
 #import "RNSplashScreen.h"
 #import "RNFIRMessaging.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-
 #import <GoogleMaps/GoogleMaps.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>MylifeCompany</string>
+	<string>Mylife Company</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -68,6 +68,8 @@
 	<string>Mylife Company would like to access to your calendar</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Mylife Company muốn truy cập camera của bạn để quét mã QR Code hoặc chụp ảnh đại diện</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Mylife Company muốn truy cập vị trí của bạn để xác định vị trí và điều hướng trên bản đồ</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Mylife Company muốn truy cập vị trí của bạn để xác định vị trí và điều hướng trên bản đồ</string>
 	<key>NSMotionUsageDescription</key>

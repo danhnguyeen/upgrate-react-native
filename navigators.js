@@ -321,7 +321,7 @@ const AppNavigator = createStackNavigator({
   login: LoginStack,
   BookTable: BookingStack,
   notification: NotificationsStack,
-  review: ReviewStack
+  Review: ReviewStack
 }, {
     defaultNavigationOptions: { header: null },
     initialRouteName: 'Main'

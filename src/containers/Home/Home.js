@@ -36,19 +36,30 @@ class Home extends Component {
       this.props.navigation.setParams({ updatedTime: new Date() });
     });
     AppState.addEventListener('change', this._handleAppStateChange);
-    this.getUserProfile();
-    this.props.getNotificationCount();
-    this.updateNotificationToken();
+    if (this.props.isAuth) {
+      this.getUserProfile();
+      this.updateNotificationToken();
+      this.props.getNotificationCount();
+    }
   }
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
   }
+  componentWillReceiveProps(nextProps) {
+    // listen and call when the user singed in
+    if (nextProps.isAuth && !this.props.isAuth) {
+      this.getUserProfile();
+      this.updateNotificationToken();
+      this.props.getNotificationCount();
+    }
+  }
   _handleAppStateChange = (nextAppState) => {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      // this.getReview();
       // if the App has come to the foreground, call refresh the promotion
-      this.props.getNotificationCount();
-      this.getUserProfile();
+      if (this.props.isAuth) {
+        this.props.getNotificationCount();
+        this.getUserProfile();
+      }
       if (this.props.navigation.isFocused()) {
         this.props.fetchPromotions();
       }
@@ -69,6 +80,7 @@ class Home extends Component {
     const token = await FCM.getFCMToken().then(token => {
       return token;
     });
+    console.log(token)
     if (token) {
       const uniqueId = DeviceInfo.getUniqueID();
       const deviceName = DeviceInfo.getModel();
@@ -250,6 +262,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
+  isAuth: state.auth.token,
   restaurants: state.bookingTable.restaurants,
   promotions: state.homeState.promotions,
   news: state.homeState.news,

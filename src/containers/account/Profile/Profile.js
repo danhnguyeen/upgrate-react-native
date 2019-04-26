@@ -105,7 +105,6 @@ class Profile extends Component {
   onSubmit = async () => {
     this.setState({ formTouched: true });
     const { form, formIsValid } = validateForm({ ...this.state.form });
-
     if (formIsValid) {
       try {
         this.setState({ saving: true });

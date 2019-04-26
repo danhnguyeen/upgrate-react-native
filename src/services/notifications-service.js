@@ -23,7 +23,7 @@ class PushNotification extends Component {
     // await FCM.requestPermissions({ badge: true, sound: true, alert: true });
     FCM.getInitialNotification().then(notif => {
       // android
-      if (notif) {
+      if (notif && this.props.isAuth) {
         if (notif.opened_from_tray && notif.from) {
           NavigationService.navigate('Notification');
         }
@@ -31,21 +31,19 @@ class PushNotification extends Component {
     });
 
     this.notificationListner = FCM.on(FCMEvent.Notification, async (notif) => {
-      if(this.props.user) {
-        this.props.fetchAppointments(this.props.user.customer_id);
-        // open rating popup
-        this.props.findLastAppointmentDone(this.props.user.customer_id).then(result => {
-          if (result.count > 0) {
-            NavigationService.navigate('Rating', { itemRating: result.appointment });
-          }
+      this.props.fetchNotificationCount();
+      if (this.props.isAuth) {
+        this.props.getProfile().then((res) => {
+          // this.props.refreshHeader();
         });
-        this.props.fetchNotificationCount(this.props.user.customer_id);
       }
       // open from tray iOS
       if (notif.opened_from_tray) {
-        if ((platform === 'android' && notif.local_notification)
-          || notif.from || platform === 'ios') {
-          NavigationService.navigate('Notifications');
+        if (this.props.isAuth) {
+          if ((platform === 'android' && notif.local_notification)
+            || notif.from || platform === 'ios') {
+            NavigationService.navigate('Notification');
+          }
         }
         return;
       }
@@ -84,7 +82,7 @@ class PushNotification extends Component {
         icon: 'ic_trans',
         color: brandPrimary,
         click_action: "fcm.ACTION.HELLO",
-        channel: "paxsky_chanel",
+        channel: "mylife_company_chanel",
         show_in_foreground: true, /* notification when app is in foreground (local & remote)*/
       });
     }
@@ -106,16 +104,14 @@ class PushNotification extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.auth.token,
-    user: state.auth.user
+    isAuth: state.auth.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchNotificationCount: (customer_id) => dispatch(actions.fetchNotificationCount(customer_id)),
-    findLastAppointmentDone: (customer_id) => dispatch(actions.findLastAppointmentDone(customer_id)),
-    fetchAppointments: (customer_id) => dispatch(actions.fetchAppointments(customer_id))
+    fetchNotificationCount: () => dispatch(actions.fetchNotificationCount()),
+    getProfile: () => dispatch(actions.getProfile())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PushNotification);
